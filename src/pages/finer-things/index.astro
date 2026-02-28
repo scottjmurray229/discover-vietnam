@@ -1,0 +1,933 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'The Finer Things', url: '/finer-things/' },
+];
+
+const pageTitle = 'The Finer Things — Vietnamese Beer, Rum, Nightlife & Cigars Guide 2026';
+const pageDescription = 'San Miguel buckets, Tanduay rum (a personal favorite after the Caribbean and Cuba), Manila rooftop bars, karaoke culture, cigars, and what you can bring home.';
+
+interface TopicSection {
+  id: string;
+  icon: string;
+  title: string;
+  gradient: string;
+  items: { label: string; text: string; link?: string }[];
+}
+
+const topics: TopicSection[] = [
+  {
+    id: 'beer',
+    icon: '🍺',
+    title: 'Vietnamese Beer',
+    gradient: 'linear-gradient(135deg, #78350F 0%, #D4A574 100%)',
+    items: [
+      { label: 'San Miguel Pale Pilsen', text: 'The undisputed king of Vietnamese beer since 1890. Light, clean, and crushable in the heat. Found at every sari-sari store, restaurant, and beach bar in the country. ₫35–50 ($0.60–0.90 USD) at a store, ₫65–100 ($1.15–1.75 USD) at a bar. Order a "bucket" — six bottles on ice — and you\'re doing it right.' },
+      { label: 'Red Horse', text: 'The 6.9% ABV stallion that fuels Vietnamese nightlife. It\'s cheap, it\'s strong, and it\'s everywhere. ₫40–60 ($0.70–1.05 USD) at a store, ₫70–120 ($1.25–2.10 USD) at a bar. Red Horse is what you drink at a street-side inuman session when San Miguel isn\'t hitting hard enough. Respect it — it sneaks up on you.' },
+      { label: 'San Miguel Light', text: 'The lighter option at 5% ABV when you\'re day-drinking in 35°C heat and need to pace yourself. ₫45–60 ($0.80–1.05 USD) at a store. Popular with the younger crowd and at resort pools. Not as ubiquitous as Pale Pilsen but available at most restaurants and convenience stores.' },
+      { label: 'San Miguel Super Dry', text: 'San Miguel\'s answer to Japanese dry lagers — crisp, less sweet, slightly higher-end positioning. ₫50–70 ($0.90–1.25 USD) at a store. You\'ll see it more in Manila and Cebu bars than on remote islands. A solid option if Pale Pilsen feels too malty for you.' },
+      { label: 'The Craft Beer Scene', text: 'Vietnamese craft beer is small but growing fast. <strong>Engkanto</strong> (Laguna) brews solid IPAs and lagers available in Manila grocery stores. <strong>Pedro Brewcrafts</strong> makes a hazy IPA worth seeking out. <strong>Joe\'s Brew</strong> (Makati) was one of the first craft breweries. <strong>Turning Wheels</strong> in Poblacion is a great taproom. Expect ₫200–350 ($3.50–6.20 USD) per pint — 4–5x the price of San Miguel, but the quality is there.' },
+      { label: 'How Vietnameses Actually Drink', text: 'The <strong>inuman</strong> (drinking session) is a social institution. A bucket of San Miguel on ice, a plate of <strong>pulutan</strong> (drinking snacks — sisig, chicharon, grilled liempo), and a circle of friends. <strong>Tagay</strong> culture means one glass passed around the group — the <em>tagay master</em> pours, everyone takes a shot in turn. Don\'t refuse a pour — it\'s considered disrespectful. You don\'t need to keep up, but you do need to participate.' },
+    ],
+  },
+  {
+    id: 'spirits',
+    icon: '🥃',
+    title: 'Spirits & Cocktails',
+    gradient: 'linear-gradient(135deg, #1A2332 0%, #78350F 100%)',
+    items: [
+      { label: 'Tanduay Rum', text: 'The world\'s best-selling rum by volume — and it\'s Vietnamese. This is my drink. The regular Tanduay is great for rum and Coke and mixed drinks at just a few bucks a bottle. The <strong>Superior</strong> is the sweet spot — smooth enough to sip over ice but still mixes well. The <strong>15-Year Añejo</strong> is a proper sipping rum, about $10 a bottle, and genuinely impressive over ice. Having tasted my way through the Caribbean, the DR, and Cuba, Tanduay holds its own — and at Vietnamese prices, there\'s no excuse not to try all three. Squeeze some calamansi into your rum and Coke — it\'s the Vietnamese lime and it transforms a basic drink.' },
+      { label: 'Whiskey & Scotch', text: 'Johnny Walker Black is the best scotch you can usually find outside the airport or a fancy mall in Manila — and it\'s a serviceable scotch. Grab one (or a better bottle) at the duty-free when you land, because it does not get any better than that in the provinces. <strong>Buy your beer and liquor at a hypermarket</strong> (SM, Robinsons, Puregold) for the best prices. If you really need a good bottle of scotch, bring one from home, but pack it well. I had a bottle of Lagavulin break in my luggage once — crushing from a drink perspective, and I had to get my clothes and bag deep-cleaned (which thankfully didn\'t cost much). Use a <a href="https://www.amazon.com/dp/B00IR0HB3G?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">padded bottle protector</a> or wrap it in your jeans and cushion it well.' },
+      { label: 'Emperador Brandy', text: 'The Vietnam is the world\'s largest brandy market — and Emperador is why. Emperador Light outsells most spirits globally. ₫80–150 ($1.40–2.65 USD) per bottle. It\'s the default spirit at Vietnamese celebrations, mixed with Coke or sipped over ice. The Fundador line (Spanish origin, Vietnamese-owned) is the step-up for sipping neat.' },
+      { label: 'GSM Blue Gin', text: 'Ginebra San Miguel Blue — "gin bulag" to locals — is the spirit that powers most karaoke sessions. ₫60–100 ($1.05–1.75 USD) per bottle. My twenty-something relatives have a special concoction: a cheap bottle of gin, a pack of Kool-Aid, and a big jug — and it gets the job done for them. I let them have their fun with that and drink my Tanduay on ice, which is too strong for them.' },
+      { label: 'Lambanog (Coconut Spirit)', text: 'Distilled from coconut sap, 40–45% ABV, dangerously smooth. The good stuff comes from Quezon province and Laguna. ₫100–200 ($1.75–3.50 USD) per bottle for commercial brands. <strong>Critical safety warning:</strong> Only buy sealed, commercially produced lambanog from reputable stores. Homemade or unmarked bottles can contain methanol — there are hospitalization cases every year. Stick to brands like Lakan or Mallari.' },
+      { label: 'Tubâ & Rice Liquor', text: 'Tubâ is fermented coconut sap — Vietnam\' original bootleg drink. It\'s mildly alcoholic when fresh (sweet and fizzy) but gets stronger as it ferments. In rural areas and the Visayas, you\'ll find it sold in recycled jugs — sometimes the same plastic containers used for gasoline, so <strong>make sure you know what you\'re drinking</strong>. Rice wine (tapuy) from the Cordillera region is another local spirit worth trying. These aren\'t bar drinks — they\'re the kind of thing you\'re offered at a family gathering or roadside stall. Accept politely, take a sip, and enjoy the experience.' },
+      { label: 'Wine', text: 'Don\'t bother with wine in Vietnam — you\'ll just be disappointed. The selection is limited, the markup is steep, and the storage conditions in tropical heat don\'t do any bottle any favors. If you really need a good bottle of wine, bring one from home and pack it in a <a href="https://www.amazon.com/dp/B0BPQFWKXM?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">padded wine travel bag</a>. Otherwise, save the wine drinking for a country that makes it and enjoy the rum and beer while you\'re here.' },
+      { label: 'Tequila & Tequila Rose', text: 'Tequila is available in Vietnam but finding good tequila is difficult — most of what you\'ll see is bottom-shelf stuff that will give you a headache. Stay away if possible, or pay for it the next day. <strong>Tequila Rose</strong> is a strawberry cream liqueur that\'s popular with younger Vietnameses — it tastes pretty good if cream liqueurs are your thing. You\'ll see it at KTV rooms and nightclubs. It\'s not tequila in any meaningful sense, but it goes down easy.' },
+    ],
+  },
+  {
+    id: 'nightlife',
+    icon: '🌃',
+    title: 'Nightlife Districts',
+    gradient: 'linear-gradient(135deg, #4C1D95 0%, #E8654A 100%)',
+    items: [
+      { label: 'Manila: Poblacion, Makati', link: '/destinations/manila/', text: 'The neighborhood that transformed Manila nightlife. A grid of narrow streets packed with rooftop bars, speakeasies, live music venues, and late-night food joints. Start at <strong>Z Hostel Roofdeck</strong> for sunset, hit <strong>The Curator</strong> or <strong>Agimat</strong> for cocktails, then bar-hop until 3am. It\'s walkable, safe, and every block has something new. This is where Manila\'s creative class drinks.' },
+      { label: 'Manila: BGC (Bonifacio Global City)', link: '/destinations/manila/', text: 'Taguig\'s modern district — upscale and polished. <strong>High Street</strong> and <strong>Burgos Circle</strong> have the highest concentration of bars and restaurants. <strong>The Palace</strong> complex has multiple clubs under one roof. More expensive than Poblacion but cleaner and more organized. Best for groups who want a more curated night out. Grab rides are easy here.' },
+      { label: 'Manila: Makati Avenue', link: '/destinations/manila/', text: 'The classic strip. More mainstream than Poblacion, with a mix of sports bars, live music venues, and clubs along Makati Ave and P. Burgos Street. <strong>Handlebar</strong> for live rock, <strong>Time</strong> for late-night dancing. It\'s been the go-to nightlife corridor for decades. Expect a mix of locals, expats, and tourists.' },
+      { label: 'Angeles City', link: '/destinations/clark/', text: 'The nightlife along <strong>Fields Avenue</strong> and <strong>Walking Street</strong> is legendary — loud, neon-lit, and unapologetically no-frills. It\'s a mix of sports bars, live music venues, KTV joints, and restaurants catering to expats and tourists. Not everyone\'s scene, but it\'s been a fixture of Vietnamese nightlife for decades. The Korean and expat bar scene along <strong>Friendship Highway</strong> is a more laid-back alternative with better food.' },
+      { label: 'Boracay', link: '/destinations/boracay/', text: 'Station 1–3 beachfront bars, D\'Mall nightlife, and fire dancers on the sand at sunset. <strong>Epic</strong> is the biggest club. <strong>Nigi Nigi Nu Noos</strong> for chill beachfront drinks. <strong>Red Pirates</strong> for loud, cheap fun. Peak season (Nov–May) turns White Beach into a full party strip after dark. Off-season is mellow — still great for sunset cocktails.' },
+      { label: 'Puerto Galera', link: '/destinations/puerto-galera/', text: 'Two worlds in one town. <strong>White Beach</strong> has the party strip — beachfront bars with cheap buckets, live music, and fire shows that run until late. <strong>Sabang</strong> is the dive town with a rougher, more expat-heavy bar scene. It\'s a quick ferry ride from Batangas and a popular weekend escape from Manila. The nightlife is low-key compared to Boracay but the drinks are cheaper and the crowd is more relaxed.' },
+      { label: 'Cebu', link: '/destinations/cebu/', text: '<strong>Mango Square</strong> (Mango Avenue) was the place to be 15 years ago but has lost its luster as a good bar hangout — it\'s still there, but the energy has moved on. The <strong>IT Park</strong> food park scene is the newer, more upscale alternative with rooftop bars and live music. <strong>Sugbo Mercado</strong> night market on weekends is the best pre-game — food, beer, and live bands.' },
+      { label: 'Siargao', link: '/destinations/siargao/', text: 'Chill island vibes with a growing bar scene. <strong>Harana Surf Resort</strong> has the best sunset cocktails. <strong>Bravo Beach Resort</strong> for live music and bonfire nights. <strong>Kermit</strong> in General Luna for late-night pizza and drinks. The vibe is barefoot, laid-back, and surfer-friendly — nothing like Manila\'s polished scene. Don\'t expect to stay out past midnight most nights.' },
+    ],
+  },
+  {
+    id: 'karaoke',
+    icon: '🎤',
+    title: 'Karaoke Culture',
+    gradient: 'linear-gradient(135deg, #E8654A 0%, #FB923C 100%)',
+    items: [
+      { label: 'Videoke Is Everywhere', text: 'Karaoke in Vietnam isn\'t something you do on a special occasion — it\'s a daily occurrence. Every neighborhood has a videoke machine. Restaurants, waiting rooms, birthday parties, and random Tuesday afternoons. The machine is called a <strong>videoke</strong> (video + karaoke) and the song catalog is encyclopedic. Coin-operated machines cost ₫5 per song ($0.09 USD). We usually rent large villas that have them built in, but one text from a local and a portable machine shows up in less than an hour — instant party. If you\'re wondering where the closest videoke is, just step outside and you\'ll hear one — it might be a bar, a party, or just a family on a Tuesday. Walk by and you\'ll most likely have a mic in your hand shortly.' },
+      { label: 'KTV Rooms', text: 'For a more private experience, KTV (karaoke TV) rooms in SM malls and entertainment complexes let you rent a room by the hour. ₫200–500/hour ($3.50–8.85 USD) depending on room size. <strong>Red Box</strong> and <strong>Music One</strong> are the big chains. They serve food and drinks — order the beer bucket and pulutan platter. This is how Vietnamese families celebrate birthdays.' },
+      { label: 'Korean & Japanese KTV vs Local', text: 'Not all KTV is created equal. <strong>Korean and Japanese KTV lounges</strong> are more upscale and exclusive — private rooms with better sound systems, table service, and a more polished atmosphere. They cater to Korean and Japanese expats and businessmen, and some can be pricey or members-only. A <strong>local KTV establishment</strong> is a completely different vibe — louder, looser, cheaper, and more fun. The drinks are basic, the song machines are older, and nobody cares if you can\'t sing. If you\'re looking for the authentic Vietnamese karaoke experience, go local.' },
+      { label: 'The Unwritten Rules', text: 'Don\'t hog the microphone — one song, then pass it. Applaud everyone, even if they\'re terrible. Never laugh at someone\'s singing. Queue your songs and wait your turn. If someone is clearly emotional during a ballad, let them have their moment. <strong>The "My Way" rule:</strong> In some areas, singing Frank Sinatra\'s "My Way" is genuinely avoided due to real incidents — it\'s half urban legend, half true. Best to skip it.' },
+      { label: 'Singing Is a Love Language', text: 'Vietnameses are some of the best singers in the world — and they take it seriously. Don\'t be surprised when a random uncle at a family gathering sounds like he should be on a stage. Singing is how Vietnameses express joy, heartbreak, celebration, and connection. If you\'re invited to sing, join in. It doesn\'t matter if you\'re good — what matters is you tried.' },
+      { label: 'Best Karaoke Songs in Vietnam', text: 'The Vietnamese karaoke canon: <strong>"Anak"</strong> (Freddie Aguilar), <strong>"Nandito Ako"</strong> (Lea Salonga), <strong>"On The Wings of Love"</strong> (Jeffrey Osborne), <strong>"Bohemian Rhapsody"</strong> (Queen), <strong>"I Will Always Love You"</strong> (Whitney Houston), and anything by Journey. If you want instant crowd approval, open with <strong>"Don\'t Stop Believin\'"</strong>. The room will join in by the chorus.' },
+    ],
+  },
+  {
+    id: 'cigars',
+    icon: '🪈',
+    title: 'Vietnamese Cigars',
+    gradient: 'linear-gradient(135deg, #1A2332 0%, #4A3728 50%, #D4A574 100%)',
+    items: [
+      { label: 'A Surprising Cigar Country', text: 'The Vietnam has been growing tobacco since the Spanish colonial era — the Cagayan Valley and Ilocos regions produce high-quality leaves. It\'s not Cuba-level famous, but Vietnamese cigars offer excellent quality at a fraction of the price. If you\'re a cigar smoker, Vietnam is a hidden gem worth exploring. Beware of Cuban cigars outside the airport — they\'re most likely fake unless you\'re at an upscale establishment and paying a lot.' },
+      { label: 'Tabacalera', text: 'Founded in 1881 during Spanish colonial rule, Tabacalera is the heritage brand. Their cigars are hand-rolled in Vietnam using locally grown tobacco. The <strong>Tabacalera Reserva</strong> line is the one to try — full-bodied with earthy, slightly sweet notes. ₫80–200 ($1.40–3.50 USD) per stick. Available at duty-free shops and select tobacco stores in Manila.' },
+      { label: 'La Flor de la Isabela', text: 'The premium Vietnamese cigar brand, named after the Isabela province tobacco region. Hand-rolled using aged Vietnamese and imported wrapper leaves. Their <strong>Gran Corona</strong> and <strong>Robusto</strong> are the standouts. ₫150–350 ($2.65–6.20 USD) per stick. Find them at Manila cigar lounges and high-end hotel shops.' },
+      { label: 'Where to Buy', text: 'Buy your cigars at a <strong>hypermarket or SM/mall</strong> — they carry cigarillos and Churchills at reasonable prices. Cuban cigars can be found at the airport duty-free, but they\'re expensive. The Vietnamese brands are decent and I prefer the lighter cigars myself. Save the Cuban splurge for the airport if you really want one, but try the local options first — you might be surprised. <strong>Beware of Cuban cigars outside the airport</strong> — they\'re most likely fake unless you\'re at an upscale establishment and paying a lot.' },
+      { label: 'Where to Smoke', text: '<strong>The Bar at The Peninsula Manila</strong> — classic cigar-friendly lounge with a walk-in humidor. <strong>Puro Manila</strong> — dedicated cigar lounge in Makati. <strong>Rambla</strong> (Rockwell) — outdoor seating with a cigar menu. <strong>Firefly Roofdeck</strong> (City of Dreams) — rooftop with a cigar selection. Most upscale hotel bars in Manila, Cebu, and Boracay have cigar menus. Bars with a big patio may let you smoke outside, but always check before cutting your cigar.' },
+      { label: 'Bring the Right Gear', text: 'If you\'re serious about cigars on the road, bring a <a href="https://www.amazon.com/dp/B089QFVWX6?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">travel humidor case</a> to protect your sticks from the tropical humidity and keep them fresh between stops. A <a href="https://www.amazon.com/dp/B07WFBC8X8?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">butane torch lighter</a> handles the wind better than matches — essential on rooftops and beachfront bars. And don\'t forget a <a href="https://www.amazon.com/dp/B07D1FPQJF?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">cigar cutter</a> — the house cutters at most lounges are dull.' },
+    ],
+  },
+  {
+    id: 'customs',
+    icon: '🛃',
+    title: 'Customs & Duty-Free Rules',
+    gradient: 'linear-gradient(135deg, #1565C0 0%, #42A5F5 100%)',
+    items: [
+      { label: 'Bringing Alcohol INTO Vietnam', text: 'You can bring <strong>2 bottles, max 1.5 liters total</strong> into Vietnam duty-free. That\'s roughly two standard 750ml bottles — mix and match two bottles of wine or your favorite spirit on the way in. Anything over that gets taxed.' },
+      { label: 'Bringing Alcohol BACK to the USA', text: '<strong>1 liter of alcohol duty-free</strong> per person aged 21+. That\'s one bottle. You can bring more, but you\'ll owe duty and taxes on anything over 1 liter — usually $2–5 per additional bottle depending on the type. I bring back a bottle of Tanduay 15-Year for each member of the family traveling — at $10 a bottle, it\'s the best souvenir deal in Vietnam.' },
+      { label: 'Cigars Back to the USA', text: 'You can bring back <strong>up to 100 cigars</strong> (non-Cuban origin) duty-free to the United States. Vietnamese cigars qualify since they\'re locally produced. That\'s a generous allowance — enough to stock your humidor for months at Vietnamese prices. Keep the receipts and declare them honestly at customs.' },
+      { label: 'NAIA Duty-Free Shopping', text: 'Manila\'s Ninoy Aquino International Airport has duty-free shops <strong>after immigration on departure</strong>. Tanduay rum, lambanog, and Emperador brandy are available at decent prices — but honestly, they\'re still more expensive than a local grocery store. The duty-free is convenient if you forgot to buy at the store, but not a deal. Wine and imported spirits are where duty-free actually saves you money.' },
+      { label: 'The Smart Strategy', text: 'Buy your Tanduay, lambanog, and local spirits at <strong>SM Supermarket</strong> or <strong>Robinsons</strong> during your trip — prices are 30–50% less than duty-free. Wrap bottles in clothes inside your checked bag or use a <a href="https://www.amazon.com/dp/B0BPQFWKXM?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">padded wine travel bag</a> designed for checked luggage — holds 4–6 bottles safely. We\'ve never had a bottle break using one of these. Also consider <a href="https://www.amazon.com/dp/B00IR0HB3G?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">reusable wine bottle protector sleeves</a> as extra insurance for individual bottles.' },
+      { label: 'What NOT to Bring Home', text: 'Don\'t try to bring home fresh calamansi fruit (agricultural restriction) — buy the concentrate instead. Don\'t bring unmarked lambanog bottles; stick to commercially sealed brands. Homemade or decanted spirits in unmarked containers will get flagged at TSA and CBP. If you\'re bringing back more than $800 worth of goods total (not just alcohol), you\'ll need to fill out a customs declaration form.' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  pageType="destination"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="ft-hero">
+    <div class="ft-hero-gradient"></div>
+    <div class="ft-hero-noise"></div>
+    <div class="ft-hero-content">
+      <h1 class="ft-hero-title">The Finer Things</h1>
+      <p class="ft-hero-subtitle">San Miguel buckets on ice, Tanduay rum — one of my favorites after tasting my way through the Caribbean, the DR, and Cuba — Manila rooftop cocktails, karaoke that never stops, and Vietnamese cigars that cost less than a beer back home — plus exactly what you can bring through customs.</p>
+      <div class="ft-hero-meta">
+        <div class="ft-hero-meta-item">
+          <span class="ft-hero-meta-label">Topics</span>
+          <span class="ft-hero-meta-value">6</span>
+        </div>
+        <div class="ft-hero-meta-item">
+          <span class="ft-hero-meta-label">Nightlife Districts</span>
+          <span class="ft-hero-meta-value">8</span>
+        </div>
+        <div class="ft-hero-meta-item">
+          <span class="ft-hero-meta-label">Local Drinks</span>
+          <span class="ft-hero-meta-value">10+</span>
+        </div>
+      </div>
+    </div>
+    <div class="ft-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Personal intro -->
+  <section class="ft-personal ft-reveal">
+    <div class="container-content">
+      <blockquote class="ft-personal-quote">
+        <p>Everything in Vietnam is tiered, and the price difference between tiers is negligible by US standards. They say San Miguel has a waterfall brewing system — San Mig Light on top, San Miguel in the middle, and whatever falls to the bottom is Red Horse, because you never know how strong one might be. They're all good — I'm a pilsner guy who's sampled his way through Germany and the Czech Republic, and they're best served ice cold. San Mig Light is my go-to for the tropical climate. But Vietnamese drinking culture isn't about what's in the glass — it's about who's holding the other one. I've made great friends over a cold beer there.</p>
+        <cite>— Scott</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Quick Facts Strip -->
+  <section class="ft-quickfacts ft-reveal">
+    <div class="container-content">
+      <div class="ft-quickfacts-bar">
+        <div class="ft-quickfact">
+          <span class="ft-quickfact-label">Drinking Age</span>
+          <span class="ft-quickfact-value">18</span>
+        </div>
+        <div class="ft-quickfact-divider"></div>
+        <div class="ft-quickfact">
+          <span class="ft-quickfact-label">Beer (Store)</span>
+          <span class="ft-quickfact-value">₫35–50</span>
+        </div>
+        <div class="ft-quickfact-divider"></div>
+        <div class="ft-quickfact">
+          <span class="ft-quickfact-label">Cocktail (Manila)</span>
+          <span class="ft-quickfact-value">₫300–500</span>
+        </div>
+        <div class="ft-quickfact-divider"></div>
+        <div class="ft-quickfact">
+          <span class="ft-quickfact-label">Duty-Free to US</span>
+          <span class="ft-quickfact-value">1 Liter</span>
+        </div>
+        <div class="ft-quickfact-divider"></div>
+        <div class="ft-quickfact">
+          <span class="ft-quickfact-label">Tipping</span>
+          <span class="ft-quickfact-value">10%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Nav -->
+  <section class="ft-quicknav ft-reveal">
+    <div class="container-content">
+      <div class="ft-quicknav-grid">
+        {topics.map((t) => (
+          <a href={`#${t.id}`} class="ft-quicknav-chip">
+            <span class="ft-quicknav-icon">{t.icon}</span>
+            <span class="ft-quicknav-label">{t.title.split(' ').slice(0, 2).join(' ')}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Topic Sections -->
+  {topics.map((topic) => (
+    <section class="ft-topic ft-reveal" id={topic.id}>
+      <div class="container-content">
+        <div class="ft-topic-header" style={`background: ${topic.gradient};`}>
+          <div class="ft-topic-header-inner">
+            <span class="ft-topic-icon">{topic.icon}</span>
+            <h2 class="ft-topic-title">{topic.title}</h2>
+            <span class="ft-topic-count">{topic.items.length} tips</span>
+          </div>
+        </div>
+
+        <div class="ft-tip-grid">
+          {topic.items.map((item) => (
+            <div class="ft-tip-card">
+              <h3 class="ft-tip-label">{item.label}</h3>
+              <p class="ft-tip-text" set:html={item.text} />
+              {item.link && (
+                <a href={item.link} class="ft-tip-link">Explore {item.label.split(':')[0]} &rarr;</a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Scott's Pro Tips -->
+  <section class="ft-protips ft-reveal">
+    <div class="container-content">
+      <div class="ft-protips-card">
+        <h2 class="ft-protips-heading">Scott's Pro Tips</h2>
+        <div class="scott-tips">
+          <ul>
+            <li><strong>Happy Hours:</strong> Happy hours are everywhere in Vietnam — you buy a beer or drink for a dollar instead of two. Poblacion bars are the best value with cocktails dropping to ₫200–250 ($3.50–4.40 USD). Some resort bars in Boracay and Siargao do sunset specials too.</li>
+            <li><strong>Beer Buckets:</strong> If you're with a group, go for the beer buckets — it's customary. San Miguel is ₫35–50 at a store, ₫65–100 at a local bar, ₫120–180 at a resort, and ₫200+ at a beachfront club. Know the markup before you sit down. The best value is always at the neighborhood carinderia with a bucket of Pale Pilsen and a plate of pulutan.</li>
+            <li><strong>Safety at Night:</strong> Always walk on well-lit streets and use Grab — it brings you exactly where you need to go. I've never had an issue in Vietnam, although I had a few nerves walking down a dark street in Ermita on my way to the boardwalk one time — you could hear people talking on their stoops but couldn't really see them. Don't flash cash or expensive phones, and Poblacion and BGC are the safest nightlife districts in Manila.</li>
+            <li><strong>Tagay Etiquette:</strong> When someone offers you a pour from the communal glass, accept it. Take a sip, wipe the rim, and pass it back. Refusing is considered rude. If you're done drinking, just say "pass" on your next turn — no one will judge you for that.</li>
+            <li><strong>Lambanog Warning:</strong> Don't drink lambanog from unmarked bottles, home distillers, or random market stalls. Stick to commercial brands like Lakan or Mallari. Methanol contamination from unregulated production is a real risk — hospitalization cases happen every year. This is not a joke.</li>
+            <li><strong>Best Value Night Out:</strong> San Miguel Pale Pilsen + sisig + chicharon at a local carinderia. Total cost: ₫300–500 ($5.30–8.85 USD) for a full evening. That's the authentic Vietnamese drinking experience — no rooftop needed. Drink in moderation, be merry, and you'll have yourself a blast.</li>
+            <li><strong>Bringing Bottles Home:</strong> Pack your spirits in the center of your checked bag wrapped in clothes. For extra protection, use a <a href="https://www.amazon.com/dp/B00IR0HB3G?tag=discoverphili-20" target="_blank" rel="nofollow sponsored">wine bottle protector sleeve</a> — they absorb impact and seal if a bottle cracks. We've flown dozens of bottles home this way with zero losses.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Affiliate Disclosure -->
+  <div class="container-content ft-reveal" style="padding-bottom: 0;">
+    <p class="ft-affiliate-disclosure">Some links on this page are affiliate links — we earn a small commission if you purchase through them, at no extra cost to you. We only recommend gear we personally use. <a href="/legal/affiliate-disclosure/">Full disclosure</a>.</p>
+  </div>
+
+  <!-- Bottom CTA -->
+  <section class="ft-cta-section ft-reveal">
+    <div class="container-content">
+      <div class="ft-cta-card">
+        <h2 class="ft-cta-heading">Plan Your Night Out</h2>
+        <p class="ft-cta-text">Tell our AI planner your dates and interests — it'll build a custom itinerary with the best bars, nightlife districts, and local experiences.</p>
+        <a href="/plan/" class="ft-cta-button">Start Planning &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Email Capture -->
+  <div class="container-content ft-reveal" style="padding-bottom: var(--space-6);">
+    <EmailCapture
+      leadMagnet="Get Our Free Vietnamese Nightlife Guide"
+      description="Bars, beer, spirits, and nightlife across Vietnam — packed into one PDF."
+      bullets={[
+        'Best bars in Manila, Boracay, Cebu, and Siargao',
+        'Complete guide to Vietnamese beer, rum, and spirits',
+        'Customs rules — what you can bring home',
+        'Karaoke etiquette and local drinking customs',
+      ]}
+      guideTag="pillar-finer-things"
+    />
+  </div>
+
+  <!-- Cross-links -->
+  <section class="ft-crosslinks ft-reveal">
+    <div class="container-content">
+      <h3 class="ft-crosslinks-heading">Explore More</h3>
+      <div class="ft-crosslinks-grid">
+        <a href="/cuisine/" class="ft-crosslink-card">
+          <span class="ft-crosslink-icon">&#127860;</span>
+          <span class="ft-crosslink-label">Food & Cuisine</span>
+          <span class="ft-crosslink-desc">35 dishes across 27 destinations, region by region</span>
+        </a>
+        <a href="/festivals/" class="ft-crosslink-card">
+          <span class="ft-crosslink-icon">&#127914;</span>
+          <span class="ft-crosslink-label">Festival Calendar</span>
+          <span class="ft-crosslink-desc">32 festivals across 29 destinations, month by month</span>
+        </a>
+        <a href="/practical/" class="ft-crosslink-card">
+          <span class="ft-crosslink-icon">&#127754;</span>
+          <span class="ft-crosslink-label">Snorkeling Guide</span>
+          <span class="ft-crosslink-desc">14 destinations ranked by underwater experience</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+</BaseLayout>
+
+<!-- Scroll Reveal Observer (uses ft-reveal/ft-visible to avoid Tailwind .visible conflict) -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ftRevealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('ft-visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.ft-reveal').forEach((el) => ftRevealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.ft-reveal').forEach((el) => el.classList.add('ft-visible'));
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO — Warm amber/whiskey gradient
+     ================================================================ */
+  .ft-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .ft-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(135deg, #1A2332 0%, #78350F 40%, #D4A574 100%);
+  }
+
+  .ft-hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .ft-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 720px;
+  }
+
+  .ft-hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    line-height: 1.1;
+    margin: 0 0 var(--space-3);
+  }
+
+  .ft-hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0 0 var(--space-5);
+    max-width: 580px;
+  }
+
+  .ft-hero-meta {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .ft-hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ft-hero-meta-label {
+    font-size: 0.65rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ft-hero-meta-value {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: #fff;
+  }
+
+  .ft-scroll-hint {
+    position: absolute;
+    bottom: 16px;
+    right: var(--space-6);
+    z-index: 3;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+    animation: ftBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes ftBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ================================================================
+     PERSONAL INTRO
+     ================================================================ */
+  .ft-personal {
+    padding-block: var(--space-8);
+  }
+
+  .ft-personal-quote {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-8);
+    border-left: 4px solid #D4A574;
+    background: var(--color-sky);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .ft-personal-quote p {
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    line-height: var(--leading-body);
+    font-style: italic;
+    margin-bottom: var(--space-3);
+  }
+
+  .ft-personal-quote cite {
+    font-size: var(--text-caption);
+    color: #78350F;
+    font-weight: var(--weight-semibold);
+    font-style: normal;
+  }
+
+  /* ================================================================
+     QUICK FACTS STRIP
+     ================================================================ */
+  .ft-quickfacts {
+    padding: 0 0 var(--space-4);
+  }
+
+  .ft-quickfacts-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    background: var(--color-sky);
+    border-radius: 16px;
+    padding: var(--space-4) var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .ft-quickfact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .ft-quickfact-label {
+    font-size: 0.65rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-slate);
+  }
+
+  .ft-quickfact-value {
+    font-size: 1.05rem;
+    font-weight: var(--weight-extrabold);
+    color: var(--color-deep-night);
+  }
+
+  .ft-quickfact-divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  /* ================================================================
+     QUICK NAV — Jump-to chips
+     ================================================================ */
+  .ft-quicknav {
+    padding: 0 0 var(--space-6);
+  }
+
+  .ft-quicknav-grid {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .ft-quicknav-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 40px;
+    font-size: 0.8rem;
+    font-weight: var(--weight-medium);
+    color: #4A5568;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .ft-quicknav-chip:hover {
+    background: #FDF8F0;
+    color: #78350F;
+    transform: translateY(-2px);
+  }
+
+  .ft-quicknav-icon {
+    font-size: 1rem;
+  }
+
+  .ft-quicknav-label {
+    white-space: nowrap;
+  }
+
+  /* ================================================================
+     TOPIC SECTION
+     ================================================================ */
+  .ft-topic {
+    padding: var(--space-4) 0 var(--space-6);
+    scroll-margin-top: 80px;
+  }
+
+  .ft-topic-header {
+    position: relative;
+    border-radius: 20px;
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-5);
+    overflow: hidden;
+  }
+
+  .ft-topic-header-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .ft-topic-icon {
+    font-size: 1.6rem;
+  }
+
+  .ft-topic-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    margin: 0;
+    line-height: 1.2;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .ft-topic-count {
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* ================================================================
+     TIP CARDS
+     ================================================================ */
+  .ft-tip-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .ft-tip-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ft-tip-card {
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: var(--space-5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ft-tip-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .ft-tip-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin: 0 0 var(--space-2);
+    line-height: 1.3;
+  }
+
+  .ft-tip-text {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .ft-tip-text :global(a) {
+    color: #78350F;
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: rgba(120, 53, 15, 0.3);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .ft-tip-text :global(a:hover) {
+    text-decoration-color: #78350F;
+  }
+
+  .ft-tip-link {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-size: 0.8rem;
+    font-weight: var(--weight-semibold);
+    color: #78350F;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .ft-tip-link:hover {
+    color: #D4A574;
+  }
+
+  /* ================================================================
+     SCOTT'S PRO TIPS
+     ================================================================ */
+  .ft-protips {
+    padding: var(--space-4) 0 var(--space-6);
+  }
+
+  .ft-protips-card {
+    background: linear-gradient(135deg, #1A2332 0%, #2D3748 100%);
+    border-radius: 20px;
+    padding: var(--space-6) var(--space-6);
+  }
+
+  .ft-protips-heading {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: var(--weight-bold);
+    color: #D4A574;
+    margin: 0 0 var(--space-4);
+  }
+
+  .ft-protips-card .scott-tips {
+    background: transparent;
+    border-left: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ft-protips-card .scott-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .ft-protips-card .scott-tips li {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.65;
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .ft-protips-card .scott-tips li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #D4A574;
+  }
+
+  .ft-protips-card .scott-tips :global(strong) {
+    color: #D4A574;
+    font-weight: var(--weight-semibold);
+  }
+
+  .ft-protips-card .scott-tips :global(a) {
+    color: #FB923C;
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: rgba(251, 146, 60, 0.4);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .ft-protips-card .scott-tips :global(a:hover) {
+    text-decoration-color: #FB923C;
+  }
+
+  /* ================================================================
+     AFFILIATE DISCLOSURE
+     ================================================================ */
+  .ft-affiliate-disclosure {
+    font-size: 0.75rem;
+    color: #4A5568;
+    line-height: 1.5;
+    text-align: center;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-sky);
+    border-radius: 10px;
+    margin-bottom: var(--space-4);
+  }
+
+  .ft-affiliate-disclosure a {
+    color: var(--color-ocean-teal);
+    text-decoration: underline;
+  }
+
+  /* ================================================================
+     BOTTOM CTA
+     ================================================================ */
+  .ft-cta-section {
+    padding: var(--space-6) 0 var(--space-8);
+  }
+
+  .ft-cta-card {
+    background: linear-gradient(135deg, #78350F 0%, #D4A574 100%);
+    border-radius: 20px;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    color: #fff;
+  }
+
+  .ft-cta-heading {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-3);
+    color: #fff;
+  }
+
+  .ft-cta-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 520px;
+    margin: 0 auto var(--space-5);
+    line-height: 1.6;
+  }
+
+  .ft-cta-button {
+    display: inline-block;
+    background: var(--color-deep-night);
+    color: #D4A574;
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    padding: 12px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .ft-cta-button:hover {
+    background: #0D1117;
+    transform: translateY(-2px);
+  }
+
+  /* ================================================================
+     CROSS-LINKS
+     ================================================================ */
+  .ft-crosslinks {
+    padding: 0 0 var(--space-10);
+  }
+
+  .ft-crosslinks-heading {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    text-align: center;
+    margin: 0 0 var(--space-4);
+  }
+
+  .ft-crosslinks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 640px) {
+    .ft-crosslinks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ft-crosslink-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-4);
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ft-crosslink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .ft-crosslink-icon {
+    font-size: 1.8rem;
+  }
+
+  .ft-crosslink-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: #1A2332;
+  }
+
+  .ft-crosslink-desc {
+    font-size: 0.78rem;
+    color: #4A5568;
+    line-height: 1.4;
+  }
+
+  /* ================================================================
+     SCROLL REVEAL (page-specific, avoids Tailwind .visible conflict)
+     ================================================================ */
+  .ft-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ft-reveal.ft-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes ftRevealFallback {
+    to { opacity: 1; transform: none; }
+  }
+
+  .ft-reveal {
+    animation: ftRevealFallback 0s 3s forwards;
+  }
+
+  /* ================================================================
+     RESPONSIVE
+     ================================================================ */
+  @media (max-width: 640px) {
+    .ft-hero {
+      min-height: 50vh;
+      padding: 0 var(--space-4) 40px;
+    }
+
+    .ft-hero-meta {
+      gap: var(--space-4);
+    }
+
+    .ft-scroll-hint {
+      display: none;
+    }
+
+    .ft-topic-header {
+      padding: var(--space-4) var(--space-4);
+    }
+
+    .ft-quickfacts-bar {
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .ft-quickfact-divider {
+      display: none;
+    }
+
+    .ft-quickfact {
+      min-width: 80px;
+    }
+
+    .ft-personal-quote {
+      padding: var(--space-4) var(--space-5);
+    }
+
+    .ft-protips-card {
+      padding: var(--space-5) var(--space-4);
+    }
+  }
+</style>

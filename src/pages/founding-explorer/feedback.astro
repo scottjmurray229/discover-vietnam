@@ -1,0 +1,1079 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Post-Trip Feedback"
+  description="Share your experience as a Founding Explorer. Your feedback directly shapes the Trip Companion for future travelers."
+>
+
+<style is:inline>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+</style>
+
+<style>
+  :root {
+    --fe-bg: #FFFBF5;
+    --fe-primary: #0D7377;
+    --fe-primary-dark: #085E56;
+    --fe-accent: #F97316;
+    --fe-navy: #1E293B;
+  }
+
+  .fe-page {
+    background: var(--fe-bg);
+    font-family: 'Outfit', sans-serif;
+    color: var(--fe-navy);
+    line-height: 1.6;
+  }
+
+  .fe-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* ── Header ── */
+  .fe-fb-header {
+    text-align: center;
+    padding: 4rem 0 2rem;
+  }
+
+  .fe-fb-header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--fe-navy);
+    line-height: 1.2;
+    margin: 0 0 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .fe-fb-header h1 {
+      font-size: 2.5rem;
+    }
+  }
+
+  .fe-fb-header p {
+    font-size: 1.0625rem;
+    color: #475569;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* ── Form sections ── */
+  .fe-fb-form {
+    padding-bottom: 4rem;
+  }
+
+  .fe-fb-section {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+
+  @media (min-width: 640px) {
+    .fe-fb-section {
+      padding: 2.5rem;
+    }
+  }
+
+  .fe-fb-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem;
+    color: var(--fe-primary);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #E2E8F0;
+  }
+
+  .fe-fb-question {
+    margin-bottom: 1.75rem;
+  }
+
+  .fe-fb-question:last-child {
+    margin-bottom: 0;
+  }
+
+  .fe-fb-label {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: 0.625rem;
+    color: var(--fe-navy);
+  }
+
+  .fe-fb-label .fe-optional {
+    font-weight: 400;
+    color: #94A3B8;
+  }
+
+  /* ── Star rating ── */
+  .fe-stars {
+    display: flex;
+    gap: 0.375rem;
+  }
+
+  .fe-star {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #CBD5E1;
+    transition: color 0.15s, transform 0.15s;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .fe-star:hover,
+  .fe-star.hovered {
+    color: #FBBF24;
+    transform: scale(1.15);
+  }
+
+  .fe-star.selected {
+    color: #F59E0B;
+  }
+
+  .fe-star-text {
+    font-size: 0.8125rem;
+    color: #64748B;
+    margin-top: 0.375rem;
+    min-height: 1.25em;
+  }
+
+  /* ── Scale labels ── */
+  .fe-scale {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .fe-scale-option {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .fe-scale-option input {
+    display: none;
+  }
+
+  .fe-scale-option label {
+    display: block;
+    padding: 0.625rem 0.25rem;
+    border: 1.5px solid #CBD5E1;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: background 0.2s, border-color 0.2s;
+    color: #475569;
+  }
+
+  .fe-scale-option:first-child label {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .fe-scale-option:last-child label {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .fe-scale-option + .fe-scale-option label {
+    border-left: none;
+  }
+
+  .fe-scale-option input:checked + label {
+    background: var(--fe-primary);
+    border-color: var(--fe-primary);
+    color: #fff;
+  }
+
+  /* ── Radio / checkbox shared ── */
+  .fe-fb-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fe-fb-radio-label,
+  .fe-fb-check-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    padding: 0.375rem 0;
+  }
+
+  .fe-fb-radio-label input,
+  .fe-fb-check-label input {
+    accent-color: var(--fe-primary);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ── Checkbox grid ── */
+  .fe-fb-check-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+
+  @media (min-width: 480px) {
+    .fe-fb-check-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* ── Top 3 section ── */
+  .fe-fb-top3-wrap {
+    display: none;
+  }
+
+  .fe-fb-top3-wrap.visible {
+    display: block;
+  }
+
+  .fe-fb-top3-hint {
+    font-size: 0.8125rem;
+    color: #64748B;
+    margin-bottom: 0.625rem;
+  }
+
+  .fe-fb-top3-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+
+  @media (min-width: 480px) {
+    .fe-fb-top3-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fe-fb-top3-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .fe-fb-top3-label input {
+    accent-color: var(--fe-accent);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .fe-fb-top3-label.checked {
+    border-color: var(--fe-accent);
+    background: #FFF7ED;
+  }
+
+  .fe-fb-top3-label.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ── Textarea ── */
+  .fe-fb-textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--fe-navy);
+    resize: vertical;
+    min-height: 80px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+
+  .fe-fb-textarea:focus {
+    outline: none;
+    border-color: var(--fe-primary);
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  /* ── Contribution cards ── */
+  .fe-fb-contrib-intro {
+    font-size: 0.9375rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .fe-fb-contrib-card {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background: #FAFAFA;
+    position: relative;
+  }
+
+  .fe-fb-contrib-card .fe-fb-question {
+    margin-bottom: 1.25rem;
+  }
+
+  .fe-fb-contrib-num {
+    font-family: 'Fraunces', serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--fe-primary);
+    margin-bottom: 1rem;
+  }
+
+  .fe-fb-contrib-remove {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #94A3B8;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+
+  .fe-fb-contrib-remove:hover {
+    color: #EF4444;
+  }
+
+  .fe-fb-select,
+  .fe-fb-file-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--fe-navy);
+    background: #fff;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+
+  .fe-fb-select:focus {
+    outline: none;
+    border-color: var(--fe-primary);
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  .fe-fb-file-input {
+    padding: 0.5rem 0.875rem;
+    cursor: pointer;
+  }
+
+  .fe-fb-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: none;
+    border: 1.5px dashed #CBD5E1;
+    border-radius: 8px;
+    padding: 0.625rem 1.25rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--fe-primary);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .fe-fb-add-btn:hover {
+    border-color: var(--fe-primary);
+    background: #F0FDFA;
+  }
+
+  .fe-fb-consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #475569;
+    cursor: pointer;
+  }
+
+  .fe-fb-consent-label input {
+    accent-color: var(--fe-primary);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .fe-fb-other-dest {
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  .fe-fb-other-dest.visible {
+    display: block;
+  }
+
+  /* ── Testimonial toggle ── */
+  .fe-fb-toggle-row {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .fe-fb-toggle-btn {
+    padding: 0.5rem 1.25rem;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .fe-fb-toggle-btn.active {
+    background: var(--fe-primary);
+    border-color: var(--fe-primary);
+    color: #fff;
+  }
+
+  .fe-fb-testimonial-fields {
+    display: none;
+    margin-top: 1.25rem;
+  }
+
+  .fe-fb-testimonial-fields.visible {
+    display: block;
+  }
+
+  /* ── Submit ── */
+  .fe-fb-submit {
+    display: block;
+    width: 100%;
+    background: var(--fe-accent);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    margin-top: 0.5rem;
+  }
+
+  .fe-fb-submit:hover {
+    background: #EA580C;
+    transform: translateY(-1px);
+  }
+
+  /* ── Thank-you state ── */
+  .fe-fb-thanks {
+    display: none;
+    text-align: center;
+    padding: 4rem 1.5rem;
+    animation: fe-fade-in 0.5s ease-out;
+  }
+
+  .fe-fb-thanks.visible {
+    display: block;
+  }
+
+  @keyframes fe-fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fe-fb-thanks-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .fe-fb-thanks h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--fe-primary);
+    margin: 0 0 1rem;
+  }
+
+  .fe-fb-thanks p {
+    font-size: 1rem;
+    color: #475569;
+    max-width: 480px;
+    margin: 0 auto 0.75rem;
+  }
+
+  .fe-fb-thanks .fe-fb-discount {
+    display: inline-block;
+    background: #F0FDFA;
+    border: 2px solid var(--fe-primary);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--fe-primary);
+  }
+</style>
+
+<div class="fe-page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="fe-fb-header fe-container">
+    <h1>Welcome back!<br />How'd it go?</h1>
+    <p>Your honest feedback helps us make the Companion better for the next person heading over. This takes about 5 minutes — and unlocks your lifetime Founding Explorer discount.</p>
+  </header>
+
+  <!-- ═══ FEEDBACK FORM ═══ -->
+  <div class="fe-container fe-fb-form" id="fe-fb-form-wrap">
+    <form id="fe-fb-form" novalidate>
+
+      <!-- Section 1: Overall Experience -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">Overall Experience</h2>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">How would you rate your overall trip?</span>
+          <div class="fe-stars" id="fe-trip-stars">
+            <button type="button" class="fe-star" data-value="1">&#9733;</button>
+            <button type="button" class="fe-star" data-value="2">&#9733;</button>
+            <button type="button" class="fe-star" data-value="3">&#9733;</button>
+            <button type="button" class="fe-star" data-value="4">&#9733;</button>
+            <button type="button" class="fe-star" data-value="5">&#9733;</button>
+          </div>
+          <div class="fe-star-text" id="fe-trip-stars-text"></div>
+          <input type="hidden" name="tripRating" id="fe-trip-rating" />
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">How useful was the Trip Companion?</span>
+          <div class="fe-scale">
+            <div class="fe-scale-option">
+              <input type="radio" name="companionUsefulness" value="1" id="cu-1" />
+              <label for="cu-1">1 — Not useful</label>
+            </div>
+            <div class="fe-scale-option">
+              <input type="radio" name="companionUsefulness" value="2" id="cu-2" />
+              <label for="cu-2">2</label>
+            </div>
+            <div class="fe-scale-option">
+              <input type="radio" name="companionUsefulness" value="3" id="cu-3" />
+              <label for="cu-3">3</label>
+            </div>
+            <div class="fe-scale-option">
+              <input type="radio" name="companionUsefulness" value="4" id="cu-4" />
+              <label for="cu-4">4</label>
+            </div>
+            <div class="fe-scale-option">
+              <input type="radio" name="companionUsefulness" value="5" id="cu-5" />
+              <label for="cu-5">5 — Essential</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">How often did you use the companion offline?</span>
+          <div class="fe-fb-radio-group">
+            <label class="fe-fb-radio-label"><input type="radio" name="offlineUsage" value="Constantly — most of my usage was offline" /> Constantly — most of my usage was offline</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="offlineUsage" value="Frequently — used it offline several times" /> Frequently — used it offline several times</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="offlineUsage" value="Occasionally — a few times when I had no signal" /> Occasionally — a few times when I had no signal</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="offlineUsage" value="Never — I always had internet access" /> Never — I always had internet access</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Feature Usage -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">Feature Usage</h2>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">Which features did you use?</span>
+          <div class="fe-fb-check-grid" id="fe-features-used">
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Destination guides" /> Destination guides</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Restaurant recommendations" /> Restaurant recommendations</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Directions and maps" /> Directions and maps</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Offline access" /> Offline access</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Local SIM/connectivity tips" /> Local SIM/connectivity tips</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Packing lists" /> Packing lists</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Budget tracker" /> Budget tracker</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Phrase book" /> Phrase book</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Emergency info" /> Emergency info</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Cultural tips" /> Cultural tips</label>
+            <label class="fe-fb-check-label"><input type="checkbox" name="featuresUsed" value="Itinerary planner" /> Itinerary planner</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Top 3 Features -->
+      <div class="fe-fb-section fe-fb-top3-wrap" id="fe-top3-section">
+        <h2 class="fe-fb-section-title">Most Valuable Features</h2>
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">Which 3 features were most valuable to you?</span>
+          <div class="fe-fb-top3-hint">Select up to 3 from the features you used.</div>
+          <div class="fe-fb-top3-grid" id="fe-top3-grid">
+            <!-- Populated dynamically from checked features -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Directions & Content Quality -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">Directions & Content Quality</h2>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">How accurate were the directions?</span>
+          <div class="fe-fb-radio-group">
+            <label class="fe-fb-radio-label"><input type="radio" name="directionsAccuracy" value="Spot on — got me where I needed to go" /> Spot on — got me where I needed to go</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="directionsAccuracy" value="Mostly accurate — minor issues" /> Mostly accurate — minor issues</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="directionsAccuracy" value="Hit or miss — some were wrong" /> Hit or miss — some were wrong</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="directionsAccuracy" value="Did not use directions" /> Did not use directions</label>
+          </div>
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">Any specific issues with directions or places we listed? <span class="fe-optional">(optional)</span></span>
+          <textarea class="fe-fb-textarea" name="directionIssues" rows="3" placeholder="e.g., The route to X was outdated, Y restaurant has moved..."></textarea>
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">How were the restaurant recommendations and local tips? <span class="fe-optional">(optional)</span></span>
+          <textarea class="fe-fb-textarea" name="restaurantFeedback" rows="3" placeholder="Did our picks match your taste? Anything we should add or remove?"></textarea>
+        </div>
+      </div>
+
+      <!-- Section 5: What's Missing -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">What's Missing</h2>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">Was there a feature you wished the companion had? <span class="fe-optional">(optional)</span></span>
+          <textarea class="fe-fb-textarea" name="wishedFeature" rows="3" placeholder="Anything you reached for and it wasn't there..."></textarea>
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">What was your biggest frustration? <span class="fe-optional">(optional)</span></span>
+          <textarea class="fe-fb-textarea" name="biggestFrustration" rows="3" placeholder="Be honest — this is the most useful feedback you can give us."></textarea>
+        </div>
+      </div>
+
+      <!-- Section 6: Pricing & Recommendation -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">Pricing & Recommendation</h2>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">How likely are you to recommend the Trip Companion to a friend traveling to Vietnam?</span>
+          <div class="fe-fb-radio-group">
+            <label class="fe-fb-radio-label"><input type="radio" name="recommendation" value="Definitely would" /> Definitely would</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="recommendation" value="Probably would" /> Probably would</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="recommendation" value="Maybe" /> Maybe</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="recommendation" value="Probably not" /> Probably not</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="recommendation" value="Definitely not" /> Definitely not</label>
+          </div>
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">What would you pay for the Trip Companion (per trip)?</span>
+          <div class="fe-fb-radio-group">
+            <label class="fe-fb-radio-label"><input type="radio" name="willingnessToPay" value="$0 — only if it's free" /> $0 — only if it's free</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="willingnessToPay" value="$1–$3" /> $1–$3</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="willingnessToPay" value="$4–$6" /> $4–$6</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="willingnessToPay" value="$7–$9" /> $7–$9</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="willingnessToPay" value="$10–$14" /> $10–$14</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="willingnessToPay" value="$15+" /> $15+</label>
+          </div>
+        </div>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">Would you be interested in an annual pass (all destinations, unlimited trips)?</span>
+          <div class="fe-fb-radio-group">
+            <label class="fe-fb-radio-label"><input type="radio" name="annualPass" value="Yes" /> Yes</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="annualPass" value="Maybe" /> Maybe</label>
+            <label class="fe-fb-radio-label"><input type="radio" name="annualPass" value="No" /> No</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 7: Share What You Discovered -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">Discover anything other travelers should know?</h2>
+        <p class="fe-fb-contrib-intro">
+          Even small things help — an updated fare, a restaurant find, a photo of a beach. If we use your contribution on the site, you get lifetime free access to the Trip Companion for all your future trips.
+        </p>
+        <p class="fe-fb-contrib-intro" style="margin-top:-0.5rem;">
+          Been before? Notice anything that changed since your last visit? Updated fares, new restaurants, closed businesses, new routes? These updates are incredibly valuable — you're the only ones who'd notice.
+        </p>
+
+        <div id="fe-contrib-cards">
+          <!-- First contribution card (always visible) -->
+          <div class="fe-fb-contrib-card" data-contrib-index="0">
+            <div class="fe-fb-contrib-num">Contribution 1</div>
+            <div class="fe-fb-question">
+              <span class="fe-fb-label">What kind of thing is this?</span>
+              <select class="fe-fb-select" name="contrib-type-0">
+                <option value="">Select one...</option>
+                <option value="Photo">Photo</option>
+                <option value="Updated Direction or Fare">Updated Direction or Fare</option>
+                <option value="Restaurant or Food Spot">Restaurant or Food Spot</option>
+                <option value="Tip or Warning">Tip or Warning</option>
+                <option value="Video Clip">Video Clip</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="fe-fb-question">
+              <span class="fe-fb-label">Where?</span>
+              <select class="fe-fb-select fe-contrib-dest" name="contrib-dest-0">
+                <option value="">Select destination...</option>
+                <option value="Cebu">Cebu</option>
+                <option value="Bohol">Bohol</option>
+                <option value="Siquijor">Siquijor</option>
+                <option value="Palawan">Palawan</option>
+                <option value="El Nido">El Nido</option>
+                <option value="Coron">Coron</option>
+                <option value="Boracay">Boracay</option>
+                <option value="Siargao">Siargao</option>
+                <option value="Dumaguete">Dumaguete</option>
+                <option value="Manila">Manila</option>
+                <option value="Clark / Angeles">Clark / Angeles</option>
+                <option value="Camiguin">Camiguin</option>
+                <option value="Batanes">Batanes</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="fe-fb-other-dest">
+                <input type="text" class="fe-fb-textarea" style="min-height:auto;padding:0.625rem 0.875rem;" name="contrib-dest-other-0" placeholder="Where was this?" />
+              </div>
+            </div>
+            <div class="fe-fb-question">
+              <span class="fe-fb-label">What should travelers know?</span>
+              <textarea class="fe-fb-textarea" name="contrib-content-0" rows="3" placeholder="e.g., The Ceres bus to Moalboal is &#8369;280 now, not &#8369;250. Leaves from South Bus Terminal every 30 min."></textarea>
+            </div>
+            <div class="fe-fb-question">
+              <span class="fe-fb-label">Photo or video <span class="fe-optional">(optional)</span></span>
+              <input type="file" class="fe-fb-file-input" name="contrib-file-0" accept="image/*,video/*" />
+            </div>
+            <label class="fe-fb-consent-label">
+              <input type="checkbox" name="contrib-consent-0" value="yes" />
+              I'm happy for Discover Vietnam to use this on the site with my first name
+            </label>
+          </div>
+        </div>
+
+        <button type="button" class="fe-fb-add-btn" id="fe-add-contrib">+ Add another</button>
+      </div>
+
+      <!-- Section 8: Testimonial -->
+      <div class="fe-fb-section">
+        <h2 class="fe-fb-section-title">Testimonial (Optional)</h2>
+
+        <div class="fe-fb-question">
+          <span class="fe-fb-label">Would you be willing to share a short testimonial?</span>
+          <div class="fe-fb-toggle-row">
+            <button type="button" class="fe-fb-toggle-btn" id="fe-test-yes" data-value="Yes">Yes</button>
+            <button type="button" class="fe-fb-toggle-btn" id="fe-test-no" data-value="No">No, thanks</button>
+          </div>
+          <input type="hidden" name="testimonialWilling" id="fe-test-val" value="" />
+        </div>
+
+        <div class="fe-fb-testimonial-fields" id="fe-test-fields">
+          <div class="fe-fb-question">
+            <span class="fe-fb-label">Your testimonial</span>
+            <textarea class="fe-fb-textarea" name="testimonialText" rows="4" placeholder="e.g., Did the Companion help you get around your partner's province? Did the offline mode save you when signal dropped? Did your family notice you weren't lost for once?"></textarea>
+          </div>
+          <div class="fe-fb-question">
+            <span class="fe-fb-label">How can we use your name?</span>
+            <div class="fe-fb-radio-group">
+              <label class="fe-fb-radio-label"><input type="radio" name="namePermission" value="Full name" /> Use my full name</label>
+              <label class="fe-fb-radio-label"><input type="radio" name="namePermission" value="First name and initial" /> First name and last initial only</label>
+              <label class="fe-fb-radio-label"><input type="radio" name="namePermission" value="Anonymous" /> Keep me anonymous</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="fe-fb-submit">Submit Feedback</button>
+    </form>
+  </div>
+
+  <!-- ═══ THANK-YOU STATE ═══ -->
+  <div class="fe-container">
+    <div class="fe-fb-thanks" id="fe-fb-thanks">
+      <div class="fe-fb-thanks-icon">🙏</div>
+      <h2>Thank you, Explorer!</h2>
+      <p>Your feedback is already helping us build a better Trip Companion. Every answer you gave goes directly to Scott Murray — no middleman, no black hole.</p>
+      <div class="fe-fb-discount">
+        Your lifetime 30% Founding Explorer discount is on its way to your inbox.
+      </div>
+      <p>Know someone heading to Vietnam? Share the Founding Explorer program — we still have spots left.</p>
+      <p><a href="/founding-explorer/" style="color: var(--fe-primary); font-weight: 600;">Share the Founding Explorer page &rarr;</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── Star rating ──
+  const starLabels = ['', 'Rough trip', 'Below expectations', 'Good overall', 'Great experience', 'Trip of a lifetime'];
+
+  function initStars(containerId, hiddenId, textId) {
+    const container = document.getElementById(containerId);
+    const hidden = document.getElementById(hiddenId);
+    const text = document.getElementById(textId);
+    if (!container) return;
+
+    const stars = container.querySelectorAll('.fe-star');
+    let selected = 0;
+
+    stars.forEach(star => {
+      star.addEventListener('mouseenter', () => {
+        const val = parseInt(star.dataset.value);
+        stars.forEach(s => {
+          s.classList.toggle('hovered', parseInt(s.dataset.value) <= val);
+        });
+        if (text) text.textContent = starLabels[val] || '';
+      });
+
+      star.addEventListener('mouseleave', () => {
+        stars.forEach(s => s.classList.remove('hovered'));
+        if (text) text.textContent = selected ? starLabels[selected] : '';
+      });
+
+      star.addEventListener('click', () => {
+        selected = parseInt(star.dataset.value);
+        if (hidden) hidden.value = String(selected);
+        stars.forEach(s => {
+          s.classList.toggle('selected', parseInt(s.dataset.value) <= selected);
+        });
+        if (text) text.textContent = starLabels[selected] || '';
+      });
+    });
+  }
+
+  initStars('fe-trip-stars', 'fe-trip-rating', 'fe-trip-stars-text');
+
+  // ── Feature usage → Top 3 ──
+  const featuresGrid = document.getElementById('fe-features-used');
+  const top3Section = document.getElementById('fe-top3-section');
+  const top3Grid = document.getElementById('fe-top3-grid');
+
+  function updateTop3() {
+    if (!featuresGrid || !top3Section || !top3Grid) return;
+
+    const checked = Array.from(featuresGrid.querySelectorAll('input:checked')).map(cb => cb.value);
+
+    if (checked.length === 0) {
+      top3Section.classList.remove('visible');
+      top3Grid.innerHTML = '';
+      return;
+    }
+
+    top3Section.classList.add('visible');
+
+    // Preserve previously selected top-3 values
+    const prevSelected = Array.from(top3Grid.querySelectorAll('input:checked')).map(cb => cb.value);
+
+    top3Grid.innerHTML = checked.map(feat => {
+      const isChecked = prevSelected.includes(feat) ? 'checked' : '';
+      return `
+        <label class="fe-fb-top3-label ${isChecked ? 'checked' : ''}">
+          <input type="checkbox" name="topFeatures" value="${feat}" ${isChecked} />
+          ${feat}
+        </label>
+      `;
+    }).join('');
+
+    enforceMax3();
+    attachTop3Listeners();
+  }
+
+  function enforceMax3() {
+    if (!top3Grid) return;
+    const boxes = top3Grid.querySelectorAll('input');
+    const checkedCount = top3Grid.querySelectorAll('input:checked').length;
+
+    boxes.forEach(cb => {
+      const label = cb.closest('.fe-fb-top3-label');
+      if (!label) return;
+      if (checkedCount >= 3 && !cb.checked) {
+        label.classList.add('disabled');
+        cb.disabled = true;
+      } else {
+        label.classList.remove('disabled');
+        cb.disabled = false;
+      }
+      label.classList.toggle('checked', cb.checked);
+    });
+  }
+
+  function attachTop3Listeners() {
+    if (!top3Grid) return;
+    top3Grid.querySelectorAll('input').forEach(cb => {
+      cb.addEventListener('change', enforceMax3);
+    });
+  }
+
+  featuresGrid?.addEventListener('change', updateTop3);
+
+  // ── Testimonial toggle ──
+  const testYes = document.getElementById('fe-test-yes');
+  const testNo = document.getElementById('fe-test-no');
+  const testVal = document.getElementById('fe-test-val');
+  const testFields = document.getElementById('fe-test-fields');
+
+  function setTestimonialToggle(value) {
+    if (testVal) testVal.value = value;
+    testYes?.classList.toggle('active', value === 'Yes');
+    testNo?.classList.toggle('active', value === 'No');
+    testFields?.classList.toggle('visible', value === 'Yes');
+  }
+
+  testYes?.addEventListener('click', () => setTestimonialToggle('Yes'));
+  testNo?.addEventListener('click', () => setTestimonialToggle('No'));
+
+  // ── Contribution cards ──
+  const contribContainer = document.getElementById('fe-contrib-cards');
+  const addContribBtn = document.getElementById('fe-add-contrib');
+  let contribCount = 1;
+
+  // "Other" destination toggle for contribution cards
+  function attachContribDestListener(card) {
+    const select = card.querySelector('.fe-contrib-dest');
+    const otherWrap = card.querySelector('.fe-fb-other-dest');
+    if (!select || !otherWrap) return;
+    select.addEventListener('change', () => {
+      otherWrap.classList.toggle('visible', select.value === 'Other');
+    });
+  }
+
+  // Init first card
+  const firstCard = contribContainer?.querySelector('.fe-fb-contrib-card');
+  if (firstCard) attachContribDestListener(firstCard);
+
+  addContribBtn?.addEventListener('click', () => {
+    const i = contribCount;
+    contribCount++;
+    const card = document.createElement('div');
+    card.className = 'fe-fb-contrib-card';
+    card.dataset.contribIndex = String(i);
+    card.innerHTML = `
+      <button type="button" class="fe-fb-contrib-remove" title="Remove">&times;</button>
+      <div class="fe-fb-contrib-num">Contribution ${i + 1}</div>
+      <div class="fe-fb-question">
+        <span class="fe-fb-label">What kind of thing is this?</span>
+        <select class="fe-fb-select" name="contrib-type-${i}">
+          <option value="">Select one...</option>
+          <option value="Photo">Photo</option>
+          <option value="Updated Direction or Fare">Updated Direction or Fare</option>
+          <option value="Restaurant or Food Spot">Restaurant or Food Spot</option>
+          <option value="Tip or Warning">Tip or Warning</option>
+          <option value="Video Clip">Video Clip</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="fe-fb-question">
+        <span class="fe-fb-label">Where?</span>
+        <select class="fe-fb-select fe-contrib-dest" name="contrib-dest-${i}">
+          <option value="">Select destination...</option>
+          <option value="Cebu">Cebu</option>
+          <option value="Bohol">Bohol</option>
+          <option value="Siquijor">Siquijor</option>
+          <option value="Palawan">Palawan</option>
+          <option value="El Nido">El Nido</option>
+          <option value="Coron">Coron</option>
+          <option value="Boracay">Boracay</option>
+          <option value="Siargao">Siargao</option>
+          <option value="Dumaguete">Dumaguete</option>
+          <option value="Manila">Manila</option>
+          <option value="Clark / Angeles">Clark / Angeles</option>
+          <option value="Camiguin">Camiguin</option>
+          <option value="Batanes">Batanes</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="fe-fb-other-dest">
+          <input type="text" class="fe-fb-textarea" style="min-height:auto;padding:0.625rem 0.875rem;" name="contrib-dest-other-${i}" placeholder="Where was this?" />
+        </div>
+      </div>
+      <div class="fe-fb-question">
+        <span class="fe-fb-label">What should travelers know?</span>
+        <textarea class="fe-fb-textarea" name="contrib-content-${i}" rows="3" placeholder="e.g., Found an amazing carinderia near the port — 80 dongs for a huge plate of chicken adobo."></textarea>
+      </div>
+      <div class="fe-fb-question">
+        <span class="fe-fb-label">Photo or video <span class="fe-optional">(optional)</span></span>
+        <input type="file" class="fe-fb-file-input" name="contrib-file-${i}" accept="image/*,video/*" />
+      </div>
+      <label class="fe-fb-consent-label">
+        <input type="checkbox" name="contrib-consent-${i}" value="yes" />
+        I'm happy for Discover Vietnam to use this on the site with my first name
+      </label>
+    `;
+    contribContainer?.appendChild(card);
+    attachContribDestListener(card);
+
+    // Remove button
+    card.querySelector('.fe-fb-contrib-remove')?.addEventListener('click', () => {
+      card.remove();
+      renumberContribs();
+    });
+  });
+
+  function renumberContribs() {
+    contribContainer?.querySelectorAll('.fe-fb-contrib-card').forEach((card, idx) => {
+      const numEl = card.querySelector('.fe-fb-contrib-num');
+      if (numEl) numEl.textContent = `Contribution ${idx + 1}`;
+    });
+  }
+
+  // ── Form submit ──
+  const fbForm = document.getElementById('fe-fb-form');
+
+  fbForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(fbForm);
+    const data = Object.fromEntries(formData);
+
+    // Collect multi-value fields
+    data.featuresUsed = Array.from(featuresGrid?.querySelectorAll('input:checked') || []).map(cb => cb.value);
+    data.topFeatures = Array.from(top3Grid?.querySelectorAll('input:checked') || []).map(cb => cb.value);
+
+    // Collect contributions
+    const contribCards = contribContainer?.querySelectorAll('.fe-fb-contrib-card') || [];
+    data.contributions = Array.from(contribCards).map(card => {
+      const idx = card.dataset.contribIndex;
+      const fileInput = card.querySelector(`input[name="contrib-file-${idx}"]`);
+      const file = fileInput?.files?.[0];
+      return {
+        type: formData.get(`contrib-type-${idx}`) || '',
+        destination: formData.get(`contrib-dest-${idx}`) || '',
+        destinationOther: formData.get(`contrib-dest-other-${idx}`) || '',
+        content: formData.get(`contrib-content-${idx}`) || '',
+        consent: formData.get(`contrib-consent-${idx}`) === 'yes',
+        file: file ? { name: file.name, size: file.size, type: file.type } : null,
+      };
+    }).filter(c => c.type || c.content);
+
+    // Show thank-you state
+    const formWrap = document.getElementById('fe-fb-form-wrap');
+    const thanks = document.getElementById('fe-fb-thanks');
+    if (formWrap) formWrap.style.display = 'none';
+    if (thanks) {
+      thanks.classList.add('visible');
+      thanks.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+</script>
+
+</BaseLayout>

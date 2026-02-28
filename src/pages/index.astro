@@ -1,0 +1,1382 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import EmailCapture from '../components/EmailCapture.astro';
+import FTCDisclosure from '../components/FTCDisclosure.astro';
+import { destinationVideoMap } from '../data/destination-videos';
+import scottImg from '../images/scott-murray.jpg';
+
+const destinations = await getCollection('destinations');
+const allDests = destinations;
+
+// Blog posts — latest 3 non-draft
+const allBlogPosts = await getCollection('blog', (entry) => {
+  return !entry.data.draft;
+});
+const latestPosts = allBlogPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()).slice(0, 3);
+
+// Video map for destination cards — shared data file
+const videoMap = destinationVideoMap;
+
+// Create a map for quick destination lookups
+const destMap = new Map(allDests.map(d => [String(d.slug || d.id), d]));
+
+// Map lat/lng coordinates for all destinations
+const geoMarkers: { slug: string; label: string; lat: number; lng: number }[] = [
+  { slug: 'hanoi', label: 'Hanoi', lat: 21.0285, lng: 105.8542 },
+  { slug: 'ha-long-bay', label: 'Ha Long Bay', lat: 20.9101, lng: 107.1839 },
+  { slug: 'sapa', label: 'Sapa', lat: 22.3364, lng: 103.8438 },
+  { slug: 'ninh-binh', label: 'Ninh Binh', lat: 20.2506, lng: 105.9745 },
+  { slug: 'hue', label: 'Hue', lat: 16.4637, lng: 107.5909 },
+  { slug: 'da-nang', label: 'Da Nang', lat: 16.0544, lng: 108.2022 },
+  { slug: 'hoi-an', label: 'Hoi An', lat: 15.8801, lng: 108.338 },
+  { slug: 'nha-trang', label: 'Nha Trang', lat: 12.2388, lng: 109.1967 },
+  { slug: 'dalat', label: 'Dalat', lat: 11.9404, lng: 108.4583 },
+  { slug: 'mui-ne', label: 'Mui Ne', lat: 10.9333, lng: 108.2833 },
+  { slug: 'ho-chi-minh-city', label: 'Ho Chi Minh City', lat: 10.8231, lng: 106.6297 },
+  { slug: 'can-tho', label: 'Can Tho', lat: 10.0452, lng: 105.7469 },
+  { slug: 'phu-quoc', label: 'Phu Quoc', lat: 10.2899, lng: 103.9840 },
+];
+
+// Build enriched marker data for map
+const gmapMarkers = geoMarkers.map(m => {
+  const dest = destMap.get(m.slug);
+  return {
+    slug: m.slug, label: m.label, lat: m.lat, lng: m.lng,
+    hasVideo: !!dest?.data.heroVideo,
+    region: dest?.data.region || 'north',
+    url: `/destinations/${m.slug}/`,
+    status: dest?.data.heroVideo ? 'Guide Available' : 'Guide Coming Soon',
+  };
+});
+// Show all destinations that exist in the collection
+const featuredSlugs = ['hanoi', 'ho-chi-minh-city', 'da-nang', 'hoi-an', 'hue', 'ha-long-bay', 'sapa', 'nha-trang', 'phu-quoc', 'dalat', 'ninh-binh', 'mui-ne', 'can-tho'];
+
+// Content pillar links
+const pillarLinks = [
+  { icon: '🏯', label: 'History & Heritage', desc: 'Temples, citadels & war sites', url: '/history/' },
+  { icon: '🎉', label: 'Festivals', desc: 'Celebrations & events', url: '/festivals/' },
+  { icon: '🍜', label: 'Food & Cuisine', desc: 'Pho, banh mi & street food', url: '/cuisine/' },
+  { icon: '🏖️', label: 'Beaches & Islands', desc: 'Coastal escapes', url: '/practical/' },
+  { icon: '🍺', label: 'The Finer Things', desc: 'Bars, coffee & nightlife', url: '/finer-things/' },
+  { icon: '🗺️', label: 'AI Trip Planner', desc: 'Build your itinerary', url: '/plan/' },
+];
+---
+<BaseLayout
+  title="Discover Vietnam — Travel Guides by Scott Murray"
+  description="Your comprehensive guide to Vietnam — from Hanoi's Old Quarter to the Mekong Delta. Honest recommendations, real prices, and local tips."
+>
+  <!-- ============================================================
+       HERO — 100vh cinematic with video background
+       ============================================================ -->
+  <header class="hp-hero">
+    <video
+      class="hp-hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    >
+      <source src="/videos/destinations/boracay-hero-full.mp4" type="video/mp4" />
+    </video>
+    <div class="hp-hero-gradient" />
+    <div class="hp-hero-overlay" />
+    <div class="hp-hero-noise" />
+
+    <div class="hp-hero-content">
+      <h1 class="hp-hero-title">Vietnam Through My Eyes</h1>
+      <p class="hp-hero-subtitle">I'm Scott Murray — an American travel planner who fell in love with Vietnam's chaos, cuisine, and kindness. These are the cities I keep coming back to, the pho I actually eat, and the prices I actually paid.</p>
+      <div class="hp-hero-actions">
+        <a href="#map" class="hp-btn hp-btn--primary">Explore the Map</a>
+        <a href="/plan/" class="hp-btn hp-btn--secondary">Plan Your Trip</a>
+      </div>
+    </div>
+
+    <div class="hp-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- ============================================================
+       TRUST BAR — Stats strip
+       ============================================================ -->
+  <section class="hp-trust-bar">
+    <div class="container-content">
+      <div class="hp-trust-stats">
+        <a href="/about/scott/" class="hp-trust-person hp-trust-link">
+          <Image src={scottImg} alt="Scott Murray" class="hp-trust-avatar" width={48} height={48} format="webp" loading="eager" />
+          <div class="hp-trust-person-info">
+            <div class="hp-trust-person-stats">
+              <div class="hp-trust-stat">
+                <span class="hp-trust-number">2018</span>
+                <span class="hp-trust-label">First Visit</span>
+              </div>
+              <div class="hp-trust-stat">
+                <span class="hp-trust-number">5+</span>
+                <span class="hp-trust-label">Return Trips</span>
+              </div>
+              <div class="hp-trust-stat">
+                <span class="hp-trust-number">13</span>
+                <span class="hp-trust-label">Destinations</span>
+              </div>
+            </div>
+            <p class="hp-trust-quote">"Vietnam rewards the curious — every alley hides a story and a bowl of something incredible."</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PLAN YOUR ROUTE — Interactive Vietnam map
+       ============================================================ -->
+  <section class="hp-immersive-header">
+    <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #091e2f 0%, #0c3547 35%, #0D7377 65%, #091e2f 100%);" />
+    <div class="hp-immersive-content">
+      <h2 class="hp-immersive-title">Plan Your Route</h2>
+      <p class="hp-immersive-text">Click any island to explore. Use our AI trip planner to build a custom itinerary with real prices, transport options, and local tips.</p>
+      <a href="/plan/" class="hp-btn hp-btn--primary hp-btn--header">Plan Your Trip with AI &#10141;</a>
+    </div>
+  </section>
+
+  <section class="hp-map" id="map">
+    <div class="container-content">
+      <div class="hp-map-layout">
+
+        <!-- VIETNAM MAP -->
+        <div class="hp-map-container" id="hpMapContainer">
+          <div class="hp-map-tooltip" id="hpMapTooltip">
+            <div class="hp-map-tooltip-name" id="hpTooltipName"></div>
+            <div class="hp-map-tooltip-region" id="hpTooltipRegion"></div>
+            <div class="hp-map-tooltip-status" id="hpTooltipStatus"></div>
+          </div>
+          <div id="hpLeafletMap"></div>
+          <div class="hp-map-legend">
+            <div class="hp-map-legend-item"><div class="hp-map-legend-dot hp-has-video"></div>Guide available</div>
+            <div class="hp-map-legend-item"><div class="hp-map-legend-dot hp-coming-soon"></div>Coming soon</div>
+          </div>
+        </div>
+
+        <!-- REGION CARDS -->
+        <div class="hp-region-cards">
+          <div class="hp-region-card" data-region="north">
+            <div class="hp-region-card-header"><div class="hp-region-card-name">Northern Vietnam</div><div class="hp-region-card-count">4 destinations</div></div>
+            <p class="hp-region-card-desc">Ancient capital, misty mountains, and dramatic karst landscapes. Hanoi's street food alone is worth the flight.</p>
+            <div class="hp-region-tags">
+              <a class="hp-dest-chip" href="/destinations/hanoi/">Hanoi</a>
+              <a class="hp-dest-chip" href="/destinations/ha-long-bay/">Ha Long Bay</a>
+              <a class="hp-dest-chip" href="/destinations/sapa/">Sapa</a>
+              <a class="hp-dest-chip" href="/destinations/ninh-binh/">Ninh Binh</a>
+            </div>
+          </div>
+          <div class="hp-region-card" data-region="central">
+            <div class="hp-region-card-header"><div class="hp-region-card-name">Central Vietnam</div><div class="hp-region-card-count">3 destinations</div></div>
+            <p class="hp-region-card-desc">Imperial citadels, lantern-lit ancient towns, and golden beaches. The cultural heart of Vietnam.</p>
+            <div class="hp-region-tags">
+              <a class="hp-dest-chip" href="/destinations/hue/">Hue</a>
+              <a class="hp-dest-chip" href="/destinations/da-nang/">Da Nang</a>
+              <a class="hp-dest-chip" href="/destinations/hoi-an/">Hoi An</a>
+            </div>
+          </div>
+          <div class="hp-region-card" data-region="south">
+            <div class="hp-region-card-header"><div class="hp-region-card-name">Southern Vietnam</div><div class="hp-region-card-count">6 destinations</div></div>
+            <p class="hp-region-card-desc">Buzzing megacity, floating markets, highland retreats, and island beaches. Where Vietnam's energy is most electric.</p>
+            <div class="hp-region-tags">
+              <a class="hp-dest-chip" href="/destinations/ho-chi-minh-city/">Ho Chi Minh City</a>
+              <a class="hp-dest-chip" href="/destinations/nha-trang/">Nha Trang</a>
+              <a class="hp-dest-chip" href="/destinations/dalat/">Dalat</a>
+              <a class="hp-dest-chip" href="/destinations/phu-quoc/">Phu Quoc</a>
+              <a class="hp-dest-chip" href="/destinations/mui-ne/">Mui Ne</a>
+              <a class="hp-dest-chip" href="/destinations/can-tho/">Can Tho</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-map-cta">
+        <a href="/plan/" class="hp-btn hp-btn--primary">Plan Your Trip with AI &#10141;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       IN-DEPTH GUIDES — Destination grid
+       ============================================================ -->
+  <section class="hp-immersive-header">
+    <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #0D7377 35%, #0E7490 65%, #1A2332 100%);" />
+    <div class="hp-immersive-content">
+      <h2 class="hp-immersive-title">In-Depth Guides</h2>
+      <p class="hp-immersive-text">Every price verified. Every restaurant visited. Every tip from personal experience.</p>
+    </div>
+  </section>
+
+  <section class="hp-destinations reveal">
+    <div class="container-content">
+      <div class="hp-dest-grid">
+        {featuredSlugs.map((slug) => {
+          const dest = allDests.find(d => d.slug === slug || d.id === slug);
+          if (!dest) return null;
+          const { title, tagline, region, budgetPerDay } = dest.data;
+          const gradientVar = `var(--gradient-${title.toLowerCase()}, var(--gradient-homepage))`;
+          const videoSrc = videoMap[slug] || '';
+          const posterSrc = videoSrc ? videoSrc.replace('/destinations/', '/destinations/posters/').replace('.mp4', '.jpg') : '';
+          return (
+            <a href={`/destinations/${dest.slug || dest.id}/`} class="hp-dest-card">
+              <div class="hp-dest-card-bg" style={`background: ${gradientVar};`}>
+                {videoSrc && (
+                  <video class="hp-dest-card-video" muted loop playsinline preload="none" poster={posterSrc} data-src={videoSrc}>
+                  </video>
+                )}
+              </div>
+              <div class="hp-dest-card-body">
+                <span class="hp-dest-card-region">{region}</span>
+                <h3 class="hp-dest-card-title">{title}</h3>
+                {tagline && <p class="hp-dest-card-tagline">{tagline}</p>}
+                {budgetPerDay && (
+                  <p class="hp-dest-card-budget">From ${budgetPerDay.backpacker}/day</p>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LATEST FROM THE BLOG
+       ============================================================ -->
+  {latestPosts.length > 0 && (
+    <section class="hp-immersive-header">
+      <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #1A2332 0%, #2C5F2D 35%, #0D7377 65%, #1A2332 100%);" />
+      <div class="hp-immersive-content">
+        <h2 class="hp-immersive-title">Latest from the Blog</h2>
+        <p class="hp-immersive-text">Stories, tips, and travel memories from 23 years of Vietnam adventures.</p>
+      </div>
+    </section>
+
+    <section class="hp-blog reveal">
+      <div class="container-content">
+        <div class="hp-blog-grid">
+          {latestPosts.map((post) => (
+            <a class="hp-blog-card" href={`/blog/${post.slug || post.id}/`}>
+              <div class="hp-blog-card-img" style={`background: var(--gradient-homepage);`}>
+                {post.data.heroVideo && (
+                  <video class="hp-blog-card-video" muted loop playsinline preload="none" data-src={post.data.heroVideo}></video>
+                )}
+                {post.data.heroImage && !post.data.heroVideo && (
+                  <img src={post.data.heroImage} alt={post.data.title} loading="lazy" />
+                )}
+                {post.data.category && (
+                  <span class="hp-blog-card-category">{post.data.category}</span>
+                )}
+              </div>
+              <div class="hp-blog-card-body">
+                <h3 class="hp-blog-card-title">{post.data.title}</h3>
+                <p class="hp-blog-card-desc">{post.data.description}</p>
+                <div class="hp-blog-card-meta">
+                  <span>{post.data.author || 'Scott'}</span>
+                  <span>&middot;</span>
+                  <span>{new Date(post.data.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="hp-blog-cta">
+          <a href="/blog/" class="hp-blog-cta-link">View All Posts &rarr;</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ============================================================
+       WHAT MAKES THIS DIFFERENT — Proof cards
+       ============================================================ -->
+  <section class="hp-immersive-header">
+    <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #1A2332 0%, #2d3748 35%, #1a3a3c 65%, #1A2332 100%);" />
+    <div class="hp-immersive-content">
+      <h2 class="hp-immersive-title">What Makes This Different</h2>
+      <p class="hp-immersive-text">No press trips. No sponsored stays. Just years of personal experience across Vietnam.</p>
+    </div>
+  </section>
+
+  <section class="hp-proof reveal">
+    <div class="container-content">
+      <div class="hp-proof-grid">
+        <div class="hp-proof-card">
+          <h3 class="hp-proof-headline">Real Prices</h3>
+          <p class="hp-proof-subhead">"Every price is one I paid"</p>
+          <p class="hp-proof-detail">40,000 VND pho on Hanoi's Lo Duc street. 150,000 VND banh mi in Hoi An. I verify every number on-site.</p>
+        </div>
+        <div class="hp-proof-card">
+          <h3 class="hp-proof-headline">Repeat Visitor</h3>
+          <p class="hp-proof-subhead">"I keep coming back for the food alone"</p>
+          <p class="hp-proof-detail">Five trips and counting. Each visit reveals new neighborhoods, better pho shops, and reasons to extend the ticket. This isn't research — it's an obsession.</p>
+        </div>
+        <div class="hp-proof-card">
+          <h3 class="hp-proof-headline">No Sponsored Content</h3>
+          <p class="hp-proof-subhead">"I don't take press trips"</p>
+          <p class="hp-proof-detail">No hotel comps, no tourism board deals. I pay full price and tell you what I actually think.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       YOUR GUIDES — Scott Murray (E-E-A-T)
+       ============================================================ -->
+  <section class="hp-immersive-header">
+    <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0D7377 40%, #14B8A6 70%, #064E3B 100%);" />
+    <div class="hp-immersive-content">
+      <h2 class="hp-immersive-title">Your Guide</h2>
+      <p class="hp-immersive-text">An American travel planner with a notebook full of pho shops and motorbike routes across Vietnam.</p>
+    </div>
+  </section>
+
+  <section class="hp-guides reveal">
+    <div class="container-content">
+      <p class="hp-guides-intro">Most Vietnam travel advice comes from bloggers who spent two weeks on the backpacker trail. I've been exploring Vietnam since 2018 — from the motorbike-clogged lanes of Hanoi's Old Quarter to the floating markets of the Mekong Delta. Every price, every restaurant, every tip comes from personal experience.</p>
+      <div class="hp-guides-grid">
+        <a class="hp-guide-card" href="/about/scott/">
+          <Image src={scottImg} alt="Scott Murray" class="hp-guide-avatar" width={72} height={72} format="webp" loading="lazy" />
+          <h3>Scott Murray</h3>
+          <p class="hp-guide-stat">5+ trips since 2018</p>
+          <p class="hp-guide-role">Routes, Budget & Practical Tips</p>
+          <p class="hp-guide-bio">Train schedules, budget breakdowns, and the practical details that make or break a Vietnam trip.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPLORE — Content pillar cross-links
+       ============================================================ -->
+  <section class="hp-immersive-header">
+    <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #1a1035 0%, #4C1D95 35%, #3730A3 65%, #1A2332 100%);" />
+    <div class="hp-immersive-content">
+      <h2 class="hp-immersive-title">Explore by Interest</h2>
+      <p class="hp-immersive-text">Heritage trails, festival calendars, regional food guides, and coastal escapes across Vietnam.</p>
+    </div>
+  </section>
+
+  <section class="hp-pillars reveal">
+    <div class="container-content">
+      <div class="hp-pillars-grid">
+        {pillarLinks.map((pillar) => (
+          <a class="hp-pillar-card" href={pillar.url}>
+            <span class="hp-pillar-icon">{pillar.icon}</span>
+            <span class="hp-pillar-label">{pillar.label}</span>
+            <span class="hp-pillar-desc">{pillar.desc}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EMAIL CAPTURE
+       ============================================================ -->
+  <section class="hp-immersive-header">
+    <div class="hp-immersive-gradient" style="background: linear-gradient(160deg, #78350F 0%, #B45309 35%, #D97706 65%, #1A2332 100%);" />
+    <div class="hp-immersive-content">
+      <h2 class="hp-immersive-title">Start Planning</h2>
+      <p class="hp-immersive-text">Get our free Vietnam travel checklist — ferry routes, packing lists, and budget tips we wish we'd had on trip one.</p>
+    </div>
+  </section>
+
+  <section class="hp-email reveal">
+    <div class="container-content">
+      <EmailCapture leadMagnet="Free Vietnam Travel Checklist" />
+    </div>
+  </section>
+
+  <!-- FTC Disclosure -->
+  <div class="container-content">
+    <FTCDisclosure placement="inline" />
+  </div>
+</BaseLayout>
+
+<!-- Scroll Reveal Observer -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<!-- Play video on hover/touch, pause on leave -->
+<script>
+  document.querySelectorAll('.hp-dest-card, .hp-blog-card').forEach((card) => {
+    const video = card.querySelector('.hp-dest-card-video, .hp-blog-card-video') as HTMLVideoElement | null;
+    if (!video) return;
+
+    function startVideo() {
+      if (!video!.getAttribute('src') && video!.dataset.src) {
+        video!.src = video!.dataset.src;
+      }
+      video!.play().catch(() => {});
+    }
+
+    card.addEventListener('mouseenter', startVideo);
+    card.addEventListener('touchstart', startVideo, { passive: true });
+    card.addEventListener('mouseleave', () => { video!.pause(); });
+  });
+</script>
+
+<!-- Leaflet Map -->
+<script is:inline define:vars={{ markers: gmapMarkers }}>
+  // Load Leaflet CSS
+  if (!document.getElementById('leaflet-css')) {
+    var lnk = document.createElement('link');
+    lnk.id = 'leaflet-css';
+    lnk.rel = 'stylesheet';
+    lnk.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+    document.head.appendChild(lnk);
+  }
+
+  function initHpMap() {
+    var mapEl = document.getElementById('hpLeafletMap');
+    if (!mapEl || typeof L === 'undefined') return;
+
+    var map = L.map(mapEl, {
+      center: [16.0, 106.5],
+      zoom: 6,
+      scrollWheelZoom: false,
+      minZoom: 5,
+      maxZoom: 12,
+      maxBounds: [[8, 100], [24, 112]],
+      zoomControl: false,
+      attributionControl: false,
+    });
+
+    L.control.attribution({ prefix: false }).addTo(map);
+
+    L.control.zoom({ position: 'topright' }).addTo(map);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '\u00a9 <a href="https://www.openstreetmap.org/copyright">OSM</a> \u00a9 <a href="https://carto.com/">CARTO</a>',
+      maxZoom: 19,
+    }).addTo(map);
+
+    function makeCircle(color, size, stroke, strokeWidth) {
+      return L.divIcon({
+        className: '',
+        html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:' + strokeWidth + 'px solid ' + stroke + ';box-shadow:0 0 6px rgba(0,0,0,0.3);cursor:pointer;"></div>',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+      });
+    }
+
+    var tooltip = document.getElementById('hpMapTooltip');
+    var tooltipName = document.getElementById('hpTooltipName');
+    var tooltipRegion = document.getElementById('hpTooltipRegion');
+    var tooltipStatus = document.getElementById('hpTooltipStatus');
+    var container = document.getElementById('hpMapContainer');
+    var allMarkers = [];
+
+    markers.forEach(function(m) {
+      var icon = makeCircle(
+        m.hasVideo ? '#E8654A' : '#888888',
+        m.hasVideo ? 14 : 10,
+        m.hasVideo ? '#ffffff' : '#555555',
+        m.hasVideo ? 2 : 1
+      );
+      var marker = L.marker([m.lat, m.lng], { icon: icon, title: m.label }).addTo(map);
+
+      marker.on('mouseover', function(e) {
+        if (tooltipName) tooltipName.textContent = m.label;
+        if (tooltipRegion) tooltipRegion.textContent = m.region;
+        if (tooltipStatus) {
+          tooltipStatus.textContent = m.status;
+          tooltipStatus.className = 'hp-map-tooltip-status ' +
+            (m.hasVideo ? 'hp-status-video' : 'hp-status-coming');
+        }
+        if (tooltip) tooltip.classList.add('hp-tooltip-visible');
+        if (container && tooltip) {
+          var rect = container.getBoundingClientRect();
+          var pt = e.containerPoint;
+          tooltip.style.left = (pt.x + 12) + 'px';
+          tooltip.style.top = (pt.y - 10) + 'px';
+        }
+      });
+
+      marker.on('mouseout', function() {
+        if (tooltip) tooltip.classList.remove('hp-tooltip-visible');
+      });
+
+      marker.on('click', function() {
+        window.location.href = m.url;
+      });
+
+      marker._region = m.region;
+      marker._slug = m.slug;
+      marker._data = m;
+      allMarkers.push(marker);
+    });
+
+    // Region card interaction
+    var regionBounds = {
+      north: [[20, 103], [23.5, 108]],
+      central: [[13, 105], [20, 110]],
+      south: [[8.5, 104], [13, 110]],
+    };
+
+    function resetMarkers() {
+      allMarkers.forEach(function(mk) {
+        var d = mk._data;
+        mk.setIcon(makeCircle(
+          d.hasVideo ? '#E8654A' : '#888888',
+          d.hasVideo ? 14 : 10,
+          d.hasVideo ? '#ffffff' : '#555555',
+          d.hasVideo ? 2 : 1
+        ));
+      });
+    }
+
+    document.querySelectorAll('.hp-region-card').forEach(function(card) {
+      card.addEventListener('mouseenter', function() {
+        var r = card.dataset.region || '';
+        allMarkers.forEach(function(mk) {
+          var inRegion = mk._region === r;
+          if (inRegion) {
+            mk.setIcon(makeCircle(
+              mk._data.hasVideo ? '#E8654A' : '#ffffff',
+              mk._data.hasVideo ? 20 : 16,
+              '#0D7377',
+              3
+            ));
+          }
+        });
+      });
+
+      card.addEventListener('mouseleave', function() { resetMarkers(); });
+
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('a')) return;
+        var r = card.dataset.region || '';
+        var b = regionBounds[r];
+        if (b) map.fitBounds(b, { padding: [10, 10] });
+      });
+    });
+  }
+
+  // Load Leaflet JS
+  if (typeof L !== 'undefined') {
+    initHpMap();
+  } else {
+    var lscript = document.createElement('script');
+    lscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    lscript.onload = initHpMap;
+    document.head.appendChild(lscript);
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO — 100vh cinematic with video background
+     ================================================================ */
+  .hp-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 var(--space-6) 80px;
+    overflow: hidden;
+  }
+
+  .hp-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .hp-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .hp-hero-overlay {
+    display: none;
+  }
+
+  .hp-hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hp-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hp-hero-title {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: var(--weight-extrabold);
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-4);
+    max-width: 700px;
+  }
+
+  .hp-hero-subtitle {
+    font-size: var(--text-body);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 50ch;
+    line-height: var(--leading-body);
+    margin-bottom: var(--space-8);
+  }
+
+  .hp-hero-actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .hp-btn {
+    padding: var(--space-3) var(--space-6);
+    border-radius: 8px;
+    font-size: var(--text-button);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .hp-btn:active { transform: scale(0.97); }
+
+  .hp-btn--primary {
+    background: var(--color-ocean-teal);
+    color: white;
+  }
+
+  .hp-btn--primary:hover {
+    background: var(--color-link-hover);
+    color: white;
+  }
+
+  .hp-btn--secondary {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .hp-btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.22);
+    color: white;
+  }
+
+  .hp-scroll-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.7rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+    animation: scrollPulse 2s infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      opacity: 0.6;
+      transform: translateX(-50%) translateY(4px);
+    }
+  }
+
+  /* ================================================================
+     IMMERSIVE SECTION HEADERS
+     ================================================================ */
+  .hp-immersive-header {
+    position: relative;
+    min-height: 35vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+  }
+
+  .hp-immersive-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hp-immersive-content {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .hp-immersive-title {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: white;
+    margin-bottom: var(--space-3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hp-immersive-text {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    opacity: 0.9;
+    max-width: 50ch;
+    margin-inline: auto;
+    color: white;
+  }
+
+  /* ================================================================
+     DESTINATION GRID — Cards with video thumbnails
+     ================================================================ */
+  .hp-destinations {
+    padding-block: var(--space-12);
+  }
+
+  .hp-dest-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .hp-dest-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 1024px) {
+    .hp-dest-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .hp-dest-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 240px;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hp-dest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    color: white;
+  }
+
+  .hp-dest-card-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .hp-dest-card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hp-dest-card:hover .hp-dest-card-video {
+    transform: scale(1.06);
+  }
+
+  .hp-dest-card-body {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-5);
+    width: 100%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+  }
+
+  .hp-dest-card-region {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    font-weight: var(--weight-semibold);
+  }
+
+  .hp-dest-card-title {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: white;
+    margin-bottom: var(--space-1);
+  }
+
+  .hp-dest-card-tagline {
+    font-size: var(--text-caption);
+    opacity: 0.8;
+    max-width: 100%;
+  }
+
+  .hp-dest-card-budget {
+    font-size: 12px;
+    opacity: 0.55;
+    margin-top: var(--space-1);
+  }
+
+  /* ================================================================
+     BLOG — Latest posts grid
+     ================================================================ */
+  .hp-blog {
+    padding-block: var(--space-12);
+  }
+
+  .hp-blog-grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .hp-blog-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .hp-blog-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: var(--color-heading);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hp-blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    color: var(--color-heading);
+  }
+
+  .hp-blog-card-img {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .hp-blog-card-img img,
+  .hp-blog-card-img video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .hp-blog-card:hover .hp-blog-card-img img,
+  .hp-blog-card:hover .hp-blog-card-img video {
+    transform: scale(1.05);
+  }
+
+  .hp-blog-card-category {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 11px;
+    font-weight: var(--weight-semibold);
+    text-transform: capitalize;
+    letter-spacing: 0.03em;
+  }
+
+  .hp-blog-card-body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .hp-blog-card-title {
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-heading);
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+  }
+
+  .hp-blog-card-desc {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    line-height: var(--leading-body);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .hp-blog-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--color-slate);
+    opacity: 0.6;
+    margin-top: var(--space-3);
+  }
+
+  .hp-blog-cta {
+    text-align: center;
+    margin-top: var(--space-8);
+  }
+
+  .hp-blog-cta-link {
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .hp-blog-cta-link:hover {
+    color: var(--color-link-hover);
+  }
+
+  /* ================================================================
+     CONTENT PILLAR CROSS-LINKS
+     ================================================================ */
+  .hp-pillars {
+    padding-block: var(--space-12);
+  }
+
+  .hp-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .hp-pillar-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-6) var(--space-4);
+    border-radius: 16px;
+    background: var(--color-white);
+    border: 1px solid var(--color-sand);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hp-pillar-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-ocean-teal);
+    color: inherit;
+  }
+
+  .hp-pillar-icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .hp-pillar-label {
+    font-weight: var(--weight-semibold);
+    font-size: 0.9rem;
+    color: var(--color-heading);
+    margin-bottom: 2px;
+  }
+
+  .hp-pillar-desc {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+  }
+
+  /* ================================================================
+     YOUR GUIDES — Scott Murray
+     ================================================================ */
+  .hp-guides {
+    padding-block: var(--space-12);
+  }
+
+  .hp-guides-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .hp-guides-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .hp-guide-card {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: var(--space-8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hp-guide-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    color: inherit;
+  }
+
+  .hp-guide-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto var(--space-4);
+  }
+
+  .hp-guide-card h3 {
+    font-size: var(--text-h3);
+    margin-bottom: var(--space-1);
+  }
+
+  .hp-guide-role {
+    font-size: var(--text-caption);
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-3);
+  }
+
+  .hp-guide-bio {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    line-height: var(--leading-body);
+  }
+
+  /* ================================================================
+     EMAIL SECTION
+     ================================================================ */
+  .hp-email {
+    padding-block: var(--space-12);
+  }
+
+  /* ================================================================
+     EXPLORE BY REGION — Interactive map
+     ================================================================ */
+  .hp-map {
+    padding-block: var(--space-12);
+  }
+
+  .hp-map-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .hp-map-container {
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 40% 30%, #0c3547 0%, #091e2f 40%, #060f1a 100%);
+    padding: 28px 20px 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .hp-map-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 300px at 30% 70%, rgba(13, 115, 119, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 200px at 70% 20%, rgba(13, 115, 119, 0.06) 0%, transparent 70%);
+    animation: hpOceanShimmer 8s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes hpOceanShimmer { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+  .hp-map-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle 1px at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 100%),
+      radial-gradient(circle 1px at 60% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 100%),
+      radial-gradient(circle 1px at 40% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  #hpLeafletMap { width: 100%; height: 700px; border-radius: 12px; position: relative; z-index: 1; }
+
+  .hp-map-legend { display: flex; justify-content: center; gap: 20px; margin-top: var(--space-4); flex-wrap: wrap; position: relative; z-index: 1; }
+  .hp-map-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.45); }
+  .hp-map-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .hp-map-legend-dot.hp-has-video { background: var(--color-warm-coral); box-shadow: 0 0 6px rgba(232, 101, 74, 0.5); }
+  .hp-map-legend-dot.hp-coming-soon { background: rgba(255, 255, 255, 0.3); }
+
+  .hp-map-tooltip { position: absolute; background: rgba(26, 35, 50, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 14px; pointer-events: none; opacity: 0; transform: translateY(4px); transition: opacity 0.2s ease, transform 0.2s ease; z-index: 50; min-width: 140px; white-space: nowrap; }
+  .hp-map-tooltip.hp-tooltip-visible { opacity: 1; transform: translateY(0); }
+  .hp-map-tooltip-name { font-size: 0.9rem; font-weight: var(--weight-bold); color: white; margin-bottom: 2px; }
+  .hp-map-tooltip-region { font-size: 0.65rem; color: rgba(255, 255, 255, 0.45); font-weight: var(--weight-medium); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .hp-map-tooltip-status { font-size: 0.72rem; font-weight: var(--weight-medium); }
+  .hp-map-tooltip-status.hp-status-video { color: var(--color-warm-coral); }
+  .hp-map-tooltip-status.hp-status-coming { color: rgba(255, 255, 255, 0.4); }
+
+  /* Region cards */
+  .hp-region-cards { display: flex; flex-direction: column; gap: 14px; }
+  .hp-region-card { background: var(--color-white); border-radius: 16px; padding: 20px; border: 2px solid transparent; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+  .hp-region-card:hover { border-color: var(--color-ocean-teal); box-shadow: 0 4px 24px rgba(26, 35, 50, 0.08); }
+  .hp-region-card.hp-card-active { border-color: var(--color-ocean-teal); box-shadow: 0 12px 48px rgba(26, 35, 50, 0.14); }
+  .hp-region-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-2); }
+  .hp-region-card-name { font-size: 1.1rem; font-weight: var(--weight-bold); color: var(--color-heading); }
+  .hp-region-card-count { font-size: 0.7rem; font-weight: var(--weight-semibold); color: var(--color-ocean-teal); background: var(--color-sky); padding: 3px 10px; border-radius: 100px; }
+  .hp-region-card-desc { font-size: 0.8rem; color: var(--color-slate); line-height: 1.55; font-weight: 300; margin-bottom: var(--space-3); }
+  .hp-region-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hp-dest-chip { font-size: 0.72rem; font-weight: var(--weight-medium); padding: 4px 10px; border-radius: 100px; background: var(--color-sand); color: var(--color-heading); text-decoration: none; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; }
+  .hp-dest-chip:hover { background: var(--color-ocean-teal); color: white; }
+  .hp-chip-video::after { content: ' \1F3A5'; font-size: 0.6rem; }
+
+  .hp-map-cta { text-align: center; margin-top: var(--space-8); }
+
+  @media (max-width: 900px) {
+    .hp-map-layout { grid-template-columns: 1fr; }
+    .hp-map-container { max-width: 480px; margin: 0 auto; }
+    #hpLeafletMap { height: 500px; }
+  }
+
+  /* ================================================================
+     TRUST BAR — Stats strip
+     ================================================================ */
+  .hp-trust-bar {
+    background: var(--color-sky);
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .hp-trust-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .hp-trust-stat {
+    text-align: center;
+  }
+
+  .hp-trust-person {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .hp-trust-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .hp-trust-person-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .hp-trust-person-stats {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .hp-trust-quote {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 641px) {
+    .hp-trust-person .hp-trust-stat {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hp-trust-stats {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .hp-trust-person {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+    }
+
+    .hp-trust-person-info {
+      align-items: center;
+    }
+
+    .hp-trust-person .hp-trust-stat {
+      text-align: center;
+    }
+
+    .hp-trust-person-stats {
+      justify-content: center;
+    }
+
+    .hp-trust-quote {
+      text-align: center;
+    }
+
+    .hp-trust-number {
+      font-size: 1.25rem;
+    }
+  }
+
+  .hp-trust-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+
+  .hp-trust-link:hover {
+    transform: translateY(-2px);
+    color: inherit;
+  }
+
+  .hp-trust-link:hover .hp-trust-number {
+    color: var(--color-link-hover);
+  }
+
+  .hp-trust-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: var(--weight-extrabold);
+    color: var(--color-ocean-teal);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .hp-trust-label {
+    font-size: 0.75rem;
+    color: var(--color-slate);
+    font-weight: var(--weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ================================================================
+     PROOF CARDS — What Makes This Different
+     ================================================================ */
+  .hp-proof {
+    padding-block: var(--space-12);
+  }
+
+  .hp-proof-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .hp-proof-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .hp-proof-card {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: var(--space-8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--color-ocean-teal);
+  }
+
+  .hp-proof-headline {
+    font-size: var(--text-h3);
+    margin-bottom: var(--space-2);
+  }
+
+  .hp-proof-subhead {
+    font-size: var(--text-caption);
+    font-style: italic;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-3);
+  }
+
+  .hp-proof-detail {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    line-height: var(--leading-body);
+  }
+
+  /* ================================================================
+     GUIDES — Intro paragraph & stat line
+     ================================================================ */
+  .hp-guides-intro {
+    max-width: 720px;
+    margin: 0 auto var(--space-8);
+    font-size: var(--text-body);
+    color: var(--color-slate);
+    line-height: var(--leading-body);
+    text-align: center;
+  }
+
+  .hp-guide-stat {
+    font-size: 0.75rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  /* Header CTA button in immersive headers */
+  .hp-btn--header {
+    margin-top: var(--space-4);
+  }
+</style>

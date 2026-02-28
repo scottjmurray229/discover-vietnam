@@ -1,0 +1,522 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import FTCDisclosure from '../../components/FTCDisclosure.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', (entry) => {
+  // Exclude translated files (tl/ subdirectory) from English listing, and exclude drafts
+  return !entry.id.startsWith('tl/') && !entry.data.draft;
+});
+const posts = allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const categories = ['all', 'destination', 'food', 'festival', 'practical', 'budget', 'culture'] as const;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+];
+---
+<BaseLayout
+  title="Blog — Vietnam Travel Stories & Guides"
+  description="Travel stories, practical guides, food adventures, and festival coverage from 20+ trips across the Vietnamese islands."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="blog-hero">
+    <video class="blog-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/blog/blog-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="blog-hero-gradient" />
+    <div class="blog-hero-overlay" />
+    <div class="blog-hero-content">
+      <h1 class="blog-hero-title">Stories from the Islands</h1>
+      <p class="blog-hero-subtitle">Travel stories, practical guides, and food adventures from 20+ trips across the Vietnamese archipelago.</p>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Personal caption -->
+  <section class="blog-caption reveal">
+    <div class="container-content">
+      <p class="blog-caption-text">These are our stories to you — from the places we've been, the food we've eaten, and the people who've shaped every trip. We'll keep them fresh, like the mangoes in Vietnam.</p>
+    </div>
+  </section>
+
+  <!-- Category Filters -->
+  <section class="blog-filters reveal">
+    <div class="container-content">
+      <div class="blog-filter-chips">
+        {categories.map((cat) => (
+          <button
+            class:list={['blog-chip', { 'blog-chip--active': cat === 'all' }]}
+            data-category={cat}
+          >
+            {cat === 'all' ? 'All Posts' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="blog-posts reveal">
+    <div class="container-content">
+      {posts.length > 0 ? (
+        <div class="blog-grid">
+          {posts.map((post) => {
+            const authorSlug = 'scott';
+            return (
+              <a class="blog-card" href={`/blog/${post.slug || post.id}/`} data-category={post.data.category || 'destination'}>
+                <div class="blog-card-img" style={`background: var(--gradient-homepage);`}>
+                  {post.data.heroVideo && (
+                    <video class="blog-card-video" muted loop playsinline preload="none" data-src={post.data.heroVideo}></video>
+                  )}
+                  {post.data.heroImage && !post.data.heroVideo && (
+                    <img src={post.data.heroImage} alt={post.data.title} loading="lazy" />
+                  )}
+                  {post.data.category && (
+                    <span class="blog-card-category">{post.data.category}</span>
+                  )}
+                </div>
+                <div class="blog-card-body">
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                  <div class="blog-card-meta">
+                    <span class="blog-card-author">{post.data.author || 'Scott'}</span>
+                    <span class="blog-card-date">{new Date(post.data.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}</span>
+                    {post.data.readingTime && <span class="blog-card-time">{post.data.readingTime} min read</span>}
+                  </div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="blog-empty">
+          <div class="blog-empty-icon">&#9998;</div>
+          <h2>Articles Coming Soon</h2>
+          <p>We're writing our first batch of in-depth Vietnam travel guides, food stories, and festival coverage. Sign up below to be the first to read them.</p>
+          <div class="blog-empty-topics">
+            <div class="blog-empty-topic">
+              <span class="blog-empty-topic-icon">&#127754;</span>
+              <span>Destination deep-dives</span>
+            </div>
+            <div class="blog-empty-topic">
+              <span class="blog-empty-topic-icon">&#127860;</span>
+              <span>Regional food guides</span>
+            </div>
+            <div class="blog-empty-topic">
+              <span class="blog-empty-topic-icon">&#127881;</span>
+              <span>Festival coverage</span>
+            </div>
+            <div class="blog-empty-topic">
+              <span class="blog-empty-topic-icon">&#128188;</span>
+              <span>Practical travel tips</span>
+            </div>
+          </div>
+          <a href="/plan/" class="blog-empty-cta">Plan a Trip Instead &#10141;</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Email Capture -->
+  <section class="blog-email reveal">
+    <div class="container-content">
+      <EmailCapture leadMagnet="Free Vietnam Travel Checklist" />
+    </div>
+  </section>
+
+  <!-- FTC Disclosure -->
+  <div class="container-content">
+    <FTCDisclosure placement="inline" />
+  </div>
+</BaseLayout>
+
+<!-- Category Filter Script -->
+<script>
+  document.querySelectorAll('.blog-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const category = (chip as HTMLElement).dataset.category;
+
+      // Update active chip
+      document.querySelectorAll('.blog-chip').forEach(c => c.classList.remove('blog-chip--active'));
+      chip.classList.add('blog-chip--active');
+
+      // Filter cards
+      document.querySelectorAll('.blog-card').forEach(card => {
+        const cardCat = (card as HTMLElement).dataset.category;
+        if (category === 'all' || cardCat === category) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<!-- Play video on hover/touch, pause on leave -->
+<script>
+  document.querySelectorAll('.blog-card').forEach((card) => {
+    const video = card.querySelector('.blog-card-video') as HTMLVideoElement | null;
+    if (!video) return;
+
+    function startVideo() {
+      if (!video!.getAttribute('src') && video!.dataset.src) {
+        video!.src = video!.dataset.src;
+      }
+      video!.play().catch(() => {});
+    }
+
+    card.addEventListener('mouseenter', startVideo);
+    card.addEventListener('touchstart', startVideo, { passive: true });
+    card.addEventListener('mouseleave', () => { video!.pause(); });
+  });
+</script>
+
+<!-- Scroll Reveal -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO
+     ================================================================ */
+  .blog-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .blog-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .blog-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .blog-hero-overlay {
+    display: none;
+  }
+
+  .blog-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .blog-hero-title {
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    font-weight: var(--weight-extrabold);
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-3);
+    opacity: 0;
+    animation: blogHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.35s;
+  }
+
+  .blog-hero-subtitle {
+    font-size: var(--text-body);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 50ch;
+    line-height: var(--leading-body);
+    opacity: 0;
+    animation: blogHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+  }
+
+  @keyframes blogHeroUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================================================================
+     PERSONAL CAPTION
+     ================================================================ */
+  .blog-caption {
+    padding-top: var(--space-6);
+  }
+
+  .blog-caption-text {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: var(--text-body);
+    color: var(--color-slate);
+    line-height: var(--leading-body);
+    font-style: italic;
+  }
+
+  /* ================================================================
+     CATEGORY FILTERS
+     ================================================================ */
+  .blog-filters {
+    padding-block: var(--space-8);
+  }
+
+  .blog-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+
+  .blog-chip {
+    font-size: 0.82rem;
+    font-weight: var(--weight-medium);
+    padding: 8px 18px;
+    border-radius: 100px;
+    background: var(--color-white);
+    color: var(--color-slate);
+    border: 1px solid var(--color-sand);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+    min-height: 40px;
+  }
+
+  .blog-chip:hover {
+    border-color: var(--color-ocean-teal);
+    color: var(--color-ocean-teal);
+  }
+
+  .blog-chip--active {
+    background: var(--color-ocean-teal);
+    color: white;
+    border-color: var(--color-ocean-teal);
+  }
+
+  .blog-chip--active:hover {
+    color: white;
+  }
+
+  /* ================================================================
+     POSTS GRID
+     ================================================================ */
+  .blog-posts {
+    padding-bottom: var(--space-12);
+  }
+
+  .blog-grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .blog-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .blog-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    color: inherit;
+  }
+
+  .blog-card-img {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-3);
+  }
+
+  .blog-card-img img,
+  .blog-card-img video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-card:hover .blog-card-img img,
+  .blog-card:hover .blog-card-img video {
+    transform: scale(1.06);
+  }
+
+  .blog-card-category {
+    position: relative;
+    z-index: 1;
+    font-size: 0.68rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: white;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .blog-card-body {
+    padding: var(--space-5);
+  }
+
+  .blog-card-body h3 {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-heading);
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+  }
+
+  .blog-card-body p {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    line-height: 1.6;
+    margin-bottom: var(--space-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.75rem;
+    color: var(--color-slate);
+    opacity: 0.7;
+  }
+
+  .blog-card-author { font-weight: var(--weight-semibold); }
+  .blog-card-meta span + span::before { content: '\00B7'; margin-right: var(--space-3); }
+
+  /* ================================================================
+     EMPTY STATE
+     ================================================================ */
+  .blog-empty {
+    text-align: center;
+    padding: var(--space-16) var(--space-6);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .blog-empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+    opacity: 0.4;
+  }
+
+  .blog-empty h2 {
+    font-size: var(--text-h2);
+    margin-bottom: var(--space-3);
+  }
+
+  .blog-empty > p {
+    font-size: var(--text-body);
+    color: var(--color-slate);
+    line-height: var(--leading-body);
+    margin-bottom: var(--space-8);
+  }
+
+  .blog-empty-topics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .blog-empty-topic {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-white);
+    border-radius: 12px;
+    border: 1px solid var(--color-sand);
+    font-size: 0.85rem;
+    color: var(--color-heading);
+    font-weight: var(--weight-medium);
+  }
+
+  .blog-empty-topic-icon { font-size: 1.1rem; }
+
+  .blog-empty-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--space-3) var(--space-6);
+    border-radius: 8px;
+    background: var(--color-ocean-teal);
+    color: white;
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-button);
+    text-decoration: none;
+    min-height: 48px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .blog-empty-cta:hover {
+    background: var(--color-link-hover);
+    color: white;
+  }
+
+  .blog-empty-cta:active { transform: scale(0.97); }
+
+  @media (max-width: 480px) {
+    .blog-empty-topics { grid-template-columns: 1fr; }
+  }
+
+  /* ================================================================
+     EMAIL
+     ================================================================ */
+  .blog-email {
+    padding-block: var(--space-12);
+  }
+</style>

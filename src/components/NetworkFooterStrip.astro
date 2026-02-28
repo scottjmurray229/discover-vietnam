@@ -1,0 +1,153 @@
+---
+import { NETWORK_SITES, NETWORK_REGIONS, CURRENT_SITE_ID, getHub, getSitesByRegion } from '../data/network-sites';
+
+const hub = getHub();
+---
+
+<section class="network-strip" aria-label="Discover More Travel Network">
+  <div class="container-content strip-inner">
+    <div class="strip-header">
+      <span class="strip-label">Part of the</span>
+      <a href={hub.url} class="strip-brand" target="_blank" rel="noopener">Discover More Travel Network</a>
+    </div>
+
+    <div class="strip-regions">
+      {NETWORK_REGIONS.map((region) => {
+        const sites = getSitesByRegion(region.id);
+        return (
+          <div class="strip-region">
+            <span class="strip-region-label">{region.label}</span>
+            <div class="strip-sites">
+              {sites.map((site) => (
+                <a
+                  href={site.url}
+                  class:list={['strip-site', { 'strip-site--current': site.id === CURRENT_SITE_ID }]}
+                  target={site.id === CURRENT_SITE_ID ? undefined : '_blank'}
+                  rel={site.id === CURRENT_SITE_ID ? undefined : 'noopener'}
+                  aria-current={site.id === CURRENT_SITE_ID ? 'page' : undefined}
+                >
+                  <span class="strip-flag">{site.flag}</span>
+                  <span>{site.shortName}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <a href="/network/" class="strip-view-all">View all network sites</a>
+  </div>
+</section>
+
+<style>
+  .network-strip {
+    background: #151C28;
+    color: rgba(255, 255, 255, 0.6);
+    padding-block: var(--space-8);
+  }
+
+  .strip-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .strip-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .strip-label {
+    font-size: 13px;
+  }
+
+  .strip-brand {
+    font-size: 13px;
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .strip-brand:hover {
+    color: #14B8A6;
+  }
+
+  .strip-regions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 720px;
+  }
+
+  @media (min-width: 768px) {
+    .strip-regions {
+      flex-direction: row;
+      gap: var(--space-8);
+      justify-content: center;
+    }
+  }
+
+  .strip-region {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .strip-region-label {
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .strip-sites {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+
+  .strip-site {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .strip-site:hover {
+    color: white;
+  }
+
+  .strip-site--current {
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+  }
+
+  .strip-flag {
+    font-size: 13px;
+  }
+
+  .strip-view-all {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 1px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .strip-view-all:hover {
+    color: var(--color-ocean-teal);
+    border-color: var(--color-ocean-teal);
+  }
+</style>

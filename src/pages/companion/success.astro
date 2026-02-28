@@ -1,0 +1,180 @@
+---
+import '../../styles/companion.css';
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Companion Ready! | Discover Vietnam</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body style="margin:0; background:#F7F7F8; font-family:'Outfit',system-ui,-apple-system,sans-serif;">
+  <div id="success-app" style="width:100%; max-width:430px; margin:0 auto; min-height:100vh; padding:40px 16px;">
+
+    <!-- Loading state -->
+    <div id="state-loading" style="text-align:center; padding-top:20vh;">
+      <div style="width:80px; height:80px; border-radius:24px; background:linear-gradient(135deg,#0D7377,#064E56); display:flex; align-items:center; justify-content:center; font-size:40px; margin:0 auto 24px; animation:pulse 2s ease-in-out infinite;">
+        🔓
+      </div>
+      <div style="font-size:20px; font-weight:800; color:#1A2332; margin-bottom:8px;">
+        Verifying your purchase...
+      </div>
+      <div id="retry-text" style="font-size:14px; color:#6B7280; margin-bottom:32px;">
+        This usually takes just a moment
+      </div>
+      <div style="width:200px; height:4px; background:#E8E8EC; border-radius:2px; margin:0 auto; overflow:hidden;">
+        <div style="width:60%; height:100%; background:linear-gradient(90deg,#0D7377,#14B8A6); border-radius:2px; animation:progress 2s ease-in-out infinite;"></div>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div id="state-success" style="display:none;">
+      <div style="background:linear-gradient(135deg,#2D8A4E,#1a7a3a); border-radius:24px; padding:32px 24px; color:#fff; text-align:center; margin-bottom:24px;">
+        <div style="font-size:56px; margin-bottom:12px;">🎉</div>
+        <div style="font-size:26px; font-weight:800; margin-bottom:8px;">Companion Ready!</div>
+        <div id="trip-stats" style="font-size:15px; opacity:0.85; line-height:1.5;">
+          Your Trip Companion is ready to explore.<br />Loading trip details...
+        </div>
+      </div>
+
+      <div style="background:#fff; border-radius:18px; padding:20px; margin-bottom:16px; border:1.5px solid #E8E8EC;">
+        <div style="font-size:14px; font-weight:800; color:#1A2332; margin-bottom:12px;">What's included:</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:#4A5568;">
+            <span style="font-size:18px;">🧭</span> Real local directions for every activity
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:#4A5568;">
+            <span style="font-size:18px;">✏️</span> Editable itinerary — reorder, add, remove
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:#4A5568;">
+            <span style="font-size:18px;">👥</span> Share with your travel group (up to 8)
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:#4A5568;">
+            <span style="font-size:18px;">📶</span> Works completely offline
+          </div>
+        </div>
+      </div>
+
+      <a id="app-link" href="/companion/app/" style="display:block; width:100%; padding:18px; border-radius:14px; border:none; background:linear-gradient(135deg,#0D7377,#064E56); color:#fff; font-size:18px; font-weight:800; cursor:pointer; text-align:center; text-decoration:none; box-shadow:0 4px 16px rgba(13,115,119,0.4); box-sizing:border-box;">
+        Open My Trip Companion →
+      </a>
+
+      <div style="text-align:center; margin-top:12px; font-size:13px; color:#6B7280;">
+        A receipt has been sent to <strong id="email-display"></strong>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div id="state-error" style="display:none; text-align:center; padding-top:20vh;">
+      <div style="font-size:56px; margin-bottom:16px;">😔</div>
+      <div style="font-size:20px; font-weight:800; color:#1A2332; margin-bottom:8px;">
+        Something went wrong
+      </div>
+      <div style="font-size:14px; color:#6B7280; margin-bottom:24px; line-height:1.5;">
+        We couldn't verify your purchase. This might be temporary — please try again or contact us.
+      </div>
+      <a href="/companion/start/" style="display:inline-block; padding:14px 28px; border-radius:12px; background:#0D7377; color:#fff; font-size:15px; font-weight:700; text-decoration:none;">
+        Back to Trip Companion
+      </a>
+    </div>
+  </div>
+
+  <style>
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes progress {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(60%); }
+      100% { transform: translateX(200%); }
+    }
+  </style>
+
+  <script>
+    async function verifyPurchase() {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('session_id');
+
+      if (!sessionId) {
+        showError();
+        return;
+      }
+
+      const maxRetries = 10;
+      const retryDelay = 2000;
+
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          const res = await fetch(`/api/verify-purchase?session_id=${encodeURIComponent(sessionId)}`);
+          const data = await res.json();
+
+          if (data.success && data.token) {
+            // Store in localStorage
+            localStorage.setItem('companion_token', data.token);
+            localStorage.setItem('companion_trip_id', data.tripId);
+            localStorage.setItem('companion_email', data.email);
+            showSuccess(data.email);
+            return;
+          }
+
+          if (data.pending) {
+            const retryEl = document.getElementById('retry-text');
+            if (retryEl) {
+              retryEl.textContent = `Waiting for confirmation... (attempt ${attempt}/${maxRetries})`;
+            }
+            await new Promise(r => setTimeout(r, retryDelay));
+            continue;
+          }
+
+          showError();
+          return;
+        } catch {
+          if (attempt === maxRetries) {
+            showError();
+            return;
+          }
+          await new Promise(r => setTimeout(r, retryDelay));
+        }
+      }
+
+      showError();
+    }
+
+    function showSuccess(email: string) {
+      document.getElementById('state-loading')!.style.display = 'none';
+      document.getElementById('state-success')!.style.display = 'block';
+      const emailEl = document.getElementById('email-display');
+      if (emailEl) emailEl.textContent = email;
+
+      // Populate real trip stats from localStorage
+      try {
+        const stored = localStorage.getItem('companion_generated_itinerary');
+        if (stored) {
+          const trip = JSON.parse(stored);
+          if (trip && Array.isArray(trip.days)) {
+            const days = trip.days.length;
+            const destinations = new Set(trip.days.map((d: any) => d.location)).size;
+            const activities = trip.days.reduce((sum: number, d: any) => sum + (d.items?.length || 0), 0);
+            const statsEl = document.getElementById('trip-stats');
+            if (statsEl) {
+              statsEl.innerHTML = `Your Trip Companion is ready to explore.<br />${days} days · ${destinations} destination${destinations !== 1 ? 's' : ''} · ${activities} activities enriched.`;
+            }
+          }
+        }
+      } catch { /* ignore parse errors */ }
+    }
+
+    function showError() {
+      document.getElementById('state-loading')!.style.display = 'none';
+      document.getElementById('state-error')!.style.display = 'block';
+    }
+
+    verifyPurchase();
+  </script>
+</body>
+</html>

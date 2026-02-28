@@ -1,0 +1,175 @@
+{
+  "destinations": {
+    "hanoi": {
+      "title": "Hanoi",
+      "tagline": "The Heart of Vietnam",
+      "region": "north",
+      "bestMonths": ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"],
+      "budgetPerDay": { "backpacker": 25, "midRange": 60, "luxury": 150 },
+      "gettingThere": "Fly to Noi Bai International Airport (HAN) — major hub with direct flights from most Asian cities and many international routes.",
+      "highlights": ["Old Quarter walking tours", "Ho Chi Minh Mausoleum", "Temple of Literature", "Street food tours", "Water puppet theatre", "Train Street", "Hoan Kiem Lake", "Dong Xuan Market"],
+      "essentials": {
+        "gettingAround": "Grab for rides. Walking in Old Quarter. Motorbike rental 150,000-200,000 VND/day.",
+        "airport": "Noi Bai International (HAN)",
+        "trainConnections": ["Ho Chi Minh City (Reunification Express, 30-34 hr)", "Sapa (overnight, 8 hr)", "Da Nang (14-17 hr)"],
+        "language": "Vietnamese, English in tourist areas"
+      }
+    },
+    "ho-chi-minh-city": {
+      "title": "Ho Chi Minh City",
+      "tagline": "The Energy Capital of Vietnam",
+      "region": "south",
+      "bestMonths": ["Dec", "Jan", "Feb", "Mar", "Apr"],
+      "budgetPerDay": { "backpacker": 25, "midRange": 70, "luxury": 180 },
+      "gettingThere": "Fly to Tan Son Nhat International Airport (SGN) — Vietnam's busiest airport with extensive international connections.",
+      "highlights": ["Cu Chi Tunnels", "War Remnants Museum", "Ben Thanh Market", "Notre-Dame Cathedral", "Bui Vien Walking Street", "Saigon River cruise"],
+      "essentials": {
+        "gettingAround": "Grab is king. Motorbike rental 150,000-200,000 VND/day. Metro Line 1 now operational.",
+        "airport": "Tan Son Nhat International (SGN)",
+        "trainConnections": ["Hanoi (Reunification Express, 30-34 hr)", "Nha Trang (7-9 hr)", "Da Nang (15-18 hr)"],
+        "language": "Vietnamese, English widely spoken"
+      }
+    },
+    "da-nang": {
+      "title": "Da Nang",
+      "tagline": "Vietnam's Most Liveable City",
+      "region": "central",
+      "bestMonths": ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+      "budgetPerDay": { "backpacker": 25, "midRange": 60, "luxury": 140 },
+      "gettingThere": "Fly to Da Nang International Airport (DAD) — 3 km from city center, with domestic and international flights.",
+      "highlights": ["Ba Na Hills & Golden Bridge", "Marble Mountains", "My Khe Beach", "Dragon Bridge fire show", "Son Tra Peninsula", "Han Market"],
+      "essentials": {
+        "gettingAround": "Grab for city. Motorbike rental 120,000-150,000 VND/day. Easy day trips to Hoi An (30 min).",
+        "airport": "Da Nang International (DAD)",
+        "trainConnections": ["Hanoi (14-17 hr)", "Ho Chi Minh City (15-18 hr)", "Hue (2.5 hr)"],
+        "language": "Vietnamese, English in tourist areas"
+      }
+    },
+    "hoi-an": {
+      "title": "Hoi An",
+      "tagline": "The Ancient Town of Lanterns",
+      "region": "central",
+      "bestMonths": ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+      "budgetPerDay": { "backpacker": 20, "midRange": 55, "luxury": 130 },
+      "gettingThere": "Fly to Da Nang (DAD), then 30-minute drive or shuttle to Hoi An. Regular buses and taxis available.",
+      "highlights": ["Ancient Town lantern walk", "Custom tailoring", "Cooking classes", "Tra Que Herb Village", "An Bang Beach", "Japanese Covered Bridge", "Cua Dai Beach"],
+      "essentials": {
+        "gettingAround": "Bicycle rental 30,000 VND/day (the best way). Walking in Ancient Town. Motorbike for day trips.",
+        "airport": "Da Nang International (DAD) — 30 min away",
+        "trainConnections": [],
+        "language": "Vietnamese, English widely spoken in town"
+      }
+    },
+    "hue": {
+      "title": "Hue",
+      "tagline": "The Imperial City",
+      "region": "central",
+      "bestMonths": ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      "budgetPerDay": { "backpacker": 20, "midRange": 50, "luxury": 120 },
+      "gettingThere": "Fly to Phu Bai International Airport (HUI) or train from Da Nang (2.5 hours on the scenic Hai Van Pass route).",
+      "highlights": ["Imperial Citadel", "Thien Mu Pagoda", "Royal Tombs", "Perfume River boat cruise", "Dong Ba Market", "Bun bo Hue origin restaurants"],
+      "essentials": {
+        "gettingAround": "Bicycle or motorbike rental. Grab available. Boat trips on Perfume River.",
+        "airport": "Phu Bai International (HUI)",
+        "trainConnections": ["Da Nang (2.5 hr)", "Hanoi (12-14 hr)", "Ho Chi Minh City (18-22 hr)"],
+        "language": "Vietnamese, English in tourist areas"
+      }
+    },
+    "ha-long-bay": {
+      "title": "Ha Long Bay",
+      "tagline": "UNESCO World Heritage Wonder",
+      "region": "north",
+      "bestMonths": ["Oct", "Nov", "Mar", "Apr", "May", "Jun"],
+      "budgetPerDay": { "backpacker": 40, "midRange": 100, "luxury": 300 },
+      "gettingThere": "4-hour drive from Hanoi, or 2-hour drive to Cat Ba Island. Most visitors book overnight junk boat cruises from Hanoi.",
+      "highlights": ["Overnight junk boat cruise", "Kayaking through limestone karsts", "Sung Sot Cave", "Ti Top Island", "Floating fishing villages", "Cat Ba Island"],
+      "essentials": {
+        "gettingAround": "Tour boats are the main transport. Kayaks provided on cruises. Cat Ba Island has motorbike rental.",
+        "airport": "Van Don International (VDO) or Noi Bai (HAN) + transfer",
+        "trainConnections": [],
+        "language": "Vietnamese, English on tour boats"
+      }
+    },
+    "sapa": {
+      "title": "Sapa",
+      "tagline": "Rice Terraces in the Clouds",
+      "region": "north",
+      "bestMonths": ["Sep", "Oct", "Nov", "Mar", "Apr", "May"],
+      "budgetPerDay": { "backpacker": 20, "midRange": 50, "luxury": 120 },
+      "gettingThere": "Overnight train from Hanoi to Lao Cai (8 hours), then 1-hour drive to Sapa. Or direct bus from Hanoi (5-6 hours).",
+      "highlights": ["Rice terrace trekking", "Fansipan Summit cable car", "Hmong village homestays", "Love Waterfall", "Sapa Market", "Cat Cat Village"],
+      "essentials": {
+        "gettingAround": "Walking and trekking with local guides. Motorbike rental available. Cable car to Fansipan.",
+        "airport": "Noi Bai (HAN) + overnight train or bus",
+        "trainConnections": ["Hanoi-Lao Cai overnight train (8 hr)"],
+        "language": "Vietnamese, Hmong, English with guides"
+      }
+    },
+    "nha-trang": {
+      "title": "Nha Trang",
+      "tagline": "Vietnam's Beach Capital",
+      "region": "south",
+      "bestMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+      "budgetPerDay": { "backpacker": 25, "midRange": 60, "luxury": 150 },
+      "gettingThere": "Fly to Cam Ranh International Airport (CXR), 30 km from Nha Trang center. Domestic flights from Hanoi and HCMC.",
+      "highlights": ["Nha Trang Beach", "Vinpearl Land", "Po Nagar Cham Towers", "Island hopping boat tours", "Mud baths", "Dam Market"],
+      "essentials": {
+        "gettingAround": "Grab for city. Motorbike rental 120,000-150,000 VND/day. Boat tours for islands.",
+        "airport": "Cam Ranh International (CXR)",
+        "trainConnections": ["Ho Chi Minh City (7-9 hr)", "Da Nang (10 hr)", "Hanoi (25+ hr)"],
+        "language": "Vietnamese, Russian (large Russian tourist community), English"
+      }
+    },
+    "phu-quoc": {
+      "title": "Phu Quoc",
+      "tagline": "Vietnam's Island Paradise",
+      "region": "south",
+      "bestMonths": ["Nov", "Dec", "Jan", "Feb", "Mar", "Apr"],
+      "budgetPerDay": { "backpacker": 30, "midRange": 70, "luxury": 200 },
+      "gettingThere": "Fly to Phu Quoc International Airport (PQC) — direct flights from Hanoi, HCMC, and some international routes.",
+      "highlights": ["Sao Beach", "Phu Quoc Night Market", "Vinpearl Safari", "Sunset at Long Beach", "Snorkeling An Thoi Islands", "Fish sauce factories", "Hon Thom cable car"],
+      "essentials": {
+        "gettingAround": "Motorbike rental 150,000-200,000 VND/day (essential). Grab limited. Boat tours for islands.",
+        "airport": "Phu Quoc International (PQC)",
+        "trainConnections": [],
+        "language": "Vietnamese, English in resorts"
+      }
+    },
+    "dalat": {
+      "title": "Dalat",
+      "tagline": "The City of Eternal Spring",
+      "region": "south",
+      "bestMonths": ["Nov", "Dec", "Jan", "Feb", "Mar"],
+      "budgetPerDay": { "backpacker": 20, "midRange": 50, "luxury": 120 },
+      "gettingThere": "Fly to Lien Khuong Airport (DLI) or bus from Ho Chi Minh City (6-7 hours through scenic highlands).",
+      "highlights": ["Coffee farm tours", "Canyoning adventures", "Crazy House", "Xuan Huong Lake", "Dalat Night Market", "Datanla Waterfall", "Valley of Love"],
+      "essentials": {
+        "gettingAround": "Motorbike rental 120,000-150,000 VND/day. Grab available. Walking in town center.",
+        "airport": "Lien Khuong (DLI)",
+        "trainConnections": [],
+        "language": "Vietnamese, English in tourist areas"
+      }
+    }
+  },
+  "connections": {
+    "hanoi-halong": { "mode": "bus/van", "duration": "3.5-4 hours", "operator": "Various tour companies", "cost": "200,000-400,000 VND (~$8-16)" },
+    "hanoi-sapa": { "mode": "train/bus", "duration": "8 hr train or 5-6 hr bus", "operator": "Vietnam Railways / Sapa Express", "cost": "500,000-1,200,000 VND (~$20-48)" },
+    "hanoi-danang": { "mode": "flight/train", "duration": "1.5 hr flight or 14-17 hr train", "operator": "Vietnam Airlines / VietJet", "cost": "800,000-2,000,000 VND (~$32-80)" },
+    "hanoi-hcmc": { "mode": "flight/train", "duration": "2 hr flight or 30-34 hr train", "operator": "Vietnam Airlines / VietJet / Bamboo", "cost": "1,000,000-3,000,000 VND (~$40-120)" },
+    "danang-hoian": { "mode": "bus/taxi", "duration": "30-45 min", "operator": "Local bus or Grab", "cost": "30,000-300,000 VND (~$1-12)" },
+    "danang-hue": { "mode": "train/bus", "duration": "2.5-3 hr", "operator": "Vietnam Railways", "cost": "150,000-400,000 VND (~$6-16)" },
+    "hcmc-phuquoc": { "mode": "flight", "duration": "1 hour", "operator": "Vietnam Airlines / VietJet", "cost": "600,000-1,500,000 VND (~$24-60)" },
+    "hcmc-dalat": { "mode": "bus/flight", "duration": "6-7 hr bus or 45 min flight", "operator": "Phuong Trang / VietJet", "cost": "250,000-1,200,000 VND (~$10-48)" },
+    "hcmc-nhatrang": { "mode": "flight/train", "duration": "1 hr flight or 7-9 hr train", "operator": "Vietnam Airlines / VietJet", "cost": "500,000-1,500,000 VND (~$20-60)" },
+    "hcmc-cantho": { "mode": "bus", "duration": "3.5-4 hours", "operator": "Phuong Trang", "cost": "150,000-250,000 VND (~$6-10)" },
+    "nhatrang-dalat": { "mode": "bus", "duration": "3-4 hours", "operator": "Local bus", "cost": "150,000-250,000 VND (~$6-10)" }
+  },
+  "travelTips": {
+    "currency": "Vietnamese Dong (VND). $1 USD ~ 25,000 VND.",
+    "visaFree": "Citizens of 13 countries get 45-day visa-free entry. E-visa available for all nationalities (90 days, $25).",
+    "bestOverallMonths": "October to April (dry season varies by region). Peak: December-March.",
+    "rainySeasons": "North: May-September. Central: September-December. South: May-November.",
+    "simCard": "Viettel, Mobifone, or Vinaphone SIM at any airport. 100,000-200,000 VND for 30 days with data.",
+    "grab": "Grab works in Hanoi, HCMC, Da Nang, Nha Trang, and most major cities."
+  }
+}

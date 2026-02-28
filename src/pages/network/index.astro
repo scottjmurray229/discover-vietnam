@@ -1,0 +1,455 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NETWORK_SITES, NETWORK_REGIONS, CURRENT_SITE_ID, getHub, getSitesByRegion } from '../../data/network-sites';
+
+const hub = getHub();
+const liveSites = NETWORK_SITES.filter((s) => s.status === 'live');
+const allSpokes = NETWORK_SITES.filter((s) => s.region !== 'hub');
+---
+
+<BaseLayout
+  title="Our Network"
+  description="Discover More Travel is a network of 14 immersive travel guides across Southeast Asia, East Asia, and the Americas."
+  pageType="homepage"
+>
+  <!-- Hero -->
+  <section class="network-hero">
+    <div class="container-content hero-inner">
+      <span class="hero-badge">Our Network</span>
+      <h1 class="hero-title">Discover More Travel</h1>
+      <p class="hero-subtitle">
+        One network, 14 destinations, 3 continents. Immersive travel guides built by travelers who live what they write.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="network-stats">
+    <div class="container-content stats-inner">
+      <div class="stat">
+        <span class="stat-number">14</span>
+        <span class="stat-label">Destinations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">10</span>
+        <span class="stat-label">Countries</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Continents</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">{liveSites.length}</span>
+        <span class="stat-label">Live Now</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hub card -->
+  <section class="network-hub-section">
+    <div class="container-content">
+      <div class="hub-card">
+        <span class="hub-flag">{hub.flag}</span>
+        <div class="hub-info">
+          <h2 class="hub-name">{hub.name}</h2>
+          <p class="hub-domain">{hub.domain}</p>
+          <p class="hub-tagline">{hub.tagline}</p>
+        </div>
+        <a href={hub.url} class="hub-cta" target="_blank" rel="noopener">Visit Hub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Region sections -->
+  {NETWORK_REGIONS.map((region) => {
+    const sites = getSitesByRegion(region.id);
+    return (
+      <section class="network-region reveal">
+        <div class="container-content">
+          <h2 class="region-heading">{region.label}</h2>
+          <div class="region-grid">
+            {sites.map((site) => (
+              <a
+                href={site.url}
+                class:list={['site-card', { 'site-card--current': site.id === CURRENT_SITE_ID }]}
+                target={site.id === CURRENT_SITE_ID ? undefined : '_blank'}
+                rel={site.id === CURRENT_SITE_ID ? undefined : 'noopener'}
+              >
+                <div class="site-card-top">
+                  <span class="site-flag">{site.flag}</span>
+                  <span class:list={['site-status', site.status === 'live' ? 'site-status--live' : 'site-status--soon']}>
+                    {site.status === 'live' ? 'Live' : 'Coming Soon'}
+                  </span>
+                </div>
+                <h3 class="site-name">{site.name}</h3>
+                <p class="site-domain">{site.domain}</p>
+                <p class="site-tagline">{site.tagline}</p>
+                {site.id === CURRENT_SITE_ID && (
+                  <span class="site-current-badge">You are here</span>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <!-- CTA -->
+  <section class="network-cta">
+    <div class="container-content cta-inner">
+      <h2 class="cta-heading">Start Exploring</h2>
+      <p class="cta-text">Discover Vietnam is the flagship of the Discover More Travel network. Dive into 43 destination guides with video, local tips, and real prices.</p>
+      <div class="cta-buttons">
+        <a href="/destinations/" class="cta-btn cta-btn--primary">Browse Destinations</a>
+        <a href={hub.url} class="cta-btn cta-btn--secondary" target="_blank" rel="noopener">Visit the Hub</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  if (reveals.length && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    reveals.forEach((el) => obs.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add('revealed'));
+  }
+</script>
+
+<style>
+  /* Hero */
+  .network-hero {
+    background: linear-gradient(135deg, #0D7377, #095456, #0E4D5C);
+    color: white;
+    padding: var(--space-16) 0 var(--space-12);
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 14px;
+    border-radius: 9999px;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 50ch;
+    margin: 0 auto;
+  }
+
+  /* Stats */
+  .network-stats {
+    background: var(--color-sky);
+    padding: var(--space-8) 0;
+  }
+
+  .stats-inner {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 80px;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--color-ocean-teal);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-slate);
+  }
+
+  /* Hub card */
+  .network-hub-section {
+    padding: var(--space-10) 0;
+  }
+
+  .hub-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-8);
+    background: var(--color-sand);
+    border: 2px solid var(--color-warm-gold);
+    border-radius: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hub-flag {
+    font-size: 2.5rem;
+  }
+
+  .hub-info {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .hub-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-heading);
+    margin-bottom: 2px;
+  }
+
+  .hub-domain {
+    font-size: 13px;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-medium);
+    margin-bottom: var(--space-2);
+  }
+
+  .hub-tagline {
+    font-size: 14px;
+    color: var(--color-slate);
+  }
+
+  .hub-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 24px;
+    background: var(--color-ocean-teal);
+    color: white;
+    font-size: 14px;
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    border-radius: 9999px;
+    transition: background 0.2s ease;
+  }
+
+  .hub-cta:hover {
+    background: var(--color-ocean-teal-dark, #095456);
+  }
+
+  /* Region sections */
+  .network-region {
+    padding: var(--space-8) 0;
+  }
+
+  .region-heading {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-heading);
+    margin-bottom: var(--space-6);
+  }
+
+  .region-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .region-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .region-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .site-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-sand-dark, #EBE4D8);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+  }
+
+  .site-card:hover {
+    border-color: var(--color-ocean-teal);
+    box-shadow: 0 4px 16px rgba(13, 115, 119, 0.1);
+  }
+
+  .site-card--current {
+    border-color: var(--color-ocean-teal);
+    background: rgba(13, 115, 119, 0.03);
+  }
+
+  .site-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-flag {
+    font-size: 1.75rem;
+  }
+
+  .site-status {
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+
+  .site-status--live {
+    background: rgba(56, 161, 105, 0.12);
+    color: #38A169;
+  }
+
+  .site-status--soon {
+    background: rgba(212, 165, 116, 0.15);
+    color: #B8860B;
+  }
+
+  .site-name {
+    font-size: 1rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-heading);
+  }
+
+  .site-domain {
+    font-size: 12px;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-medium);
+  }
+
+  .site-tagline {
+    font-size: 13px;
+    color: var(--color-slate);
+    line-height: 1.5;
+  }
+
+  .site-current-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ocean-teal);
+    margin-top: var(--space-1);
+  }
+
+  /* CTA section */
+  .network-cta {
+    background: linear-gradient(135deg, #0D7377, #095456);
+    color: white;
+    padding: var(--space-12) 0;
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .cta-heading {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-text {
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-6);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn {
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    border-radius: 9999px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .cta-btn--primary {
+    background: white;
+    color: var(--color-ocean-teal);
+  }
+
+  .cta-btn--primary:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .cta-btn--secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .cta-btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

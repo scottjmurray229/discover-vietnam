@@ -1,0 +1,1028 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Be a Founding Explorer"
+  description="We're asking 100 friends and family to test the Trip Companion before we launch. Free access, honest feedback. That's the deal."
+  pageType="homepage"
+>
+
+<style is:inline>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+</style>
+
+<style>
+  /* ── Founding Explorer tokens ── */
+  :root {
+    --fe-bg: #FFFBF5;
+    --fe-primary: #0D7377;
+    --fe-primary-dark: #085E56;
+    --fe-accent: #F97316;
+    --fe-navy: #1E293B;
+  }
+
+  /* ── Page wrapper ── */
+  .fe-page {
+    background: var(--fe-bg);
+    font-family: 'Outfit', sans-serif;
+    color: var(--fe-navy);
+    line-height: 1.6;
+  }
+
+  .fe-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  .fe-section {
+    padding: 4rem 0;
+  }
+
+  .fe-section + .fe-section {
+    padding-top: 0;
+  }
+
+  /* ── Typography ── */
+  .fe-headline {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--fe-navy);
+    line-height: 1.15;
+  }
+
+  .fe-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--fe-navy);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Hero ── */
+  .fe-hero {
+    text-align: center;
+    padding: 5rem 0 3rem;
+  }
+
+  .fe-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--fe-primary), var(--fe-primary-dark));
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.375rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .fe-hero .fe-headline {
+    font-size: 2.25rem;
+    margin: 0 0 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .fe-hero .fe-headline {
+      font-size: 3rem;
+    }
+  }
+
+  .fe-hero-sub {
+    font-size: 1.125rem;
+    color: #475569;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  /* Progress bar */
+  .fe-progress-wrap {
+    max-width: 400px;
+    margin: 0 auto 2rem;
+  }
+
+  .fe-progress-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--fe-primary);
+  }
+
+  .fe-progress-bar {
+    height: 10px;
+    background: #E2E8F0;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .fe-progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--fe-primary), var(--fe-accent));
+    border-radius: 100px;
+    animation: fe-fill-bar 1.5s ease-out 0.5s forwards;
+  }
+
+  @keyframes fe-fill-bar {
+    to { width: 67%; }
+  }
+
+  .fe-cta-btn {
+    display: inline-block;
+    background: var(--fe-accent);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .fe-cta-btn:hover {
+    background: #EA580C;
+    transform: translateY(-1px);
+  }
+
+  /* ── Cards grid ── */
+  .fe-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .fe-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fe-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: box-shadow 0.2s;
+  }
+
+  .fe-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .fe-card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .fe-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
+
+  .fe-card p {
+    font-size: 0.9375rem;
+    color: #64748B;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── Steps ── */
+  .fe-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: fe-step;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .fe-step {
+    counter-increment: fe-step;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.25rem 0;
+  }
+
+  .fe-step + .fe-step {
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .fe-step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--fe-primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .fe-step h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  .fe-step p {
+    font-size: 0.9375rem;
+    color: #64748B;
+    margin: 0;
+  }
+
+  .fe-share-find {
+    max-width: 640px;
+    margin: 1.5rem auto 0;
+    font-size: 0.9375rem;
+    color: #475569;
+    line-height: 1.65;
+    background: #F0FDFA;
+    border-left: 3px solid var(--fe-primary);
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ── Social proof ── */
+  .fe-destinations-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .fe-dest-badge {
+    background: var(--fe-primary);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    padding: 0.375rem 0.875rem;
+    border-radius: 100px;
+  }
+
+  .fe-testimonial-placeholder {
+    background: #fff;
+    border: 2px dashed #CBD5E1;
+    border-radius: 12px;
+    padding: 2.5rem;
+    text-align: center;
+    color: #94A3B8;
+    font-style: italic;
+  }
+
+  /* ── FAQ ── */
+  .fe-faq-list {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .fe-faq-item {
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .fe-faq-item summary {
+    font-family: 'Fraunces', serif;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    padding: 1.125rem 0;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .fe-faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fe-faq-item summary::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--fe-primary);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+
+  .fe-faq-item[open] summary::after {
+    content: '\2212';
+  }
+
+  .fe-faq-answer {
+    padding: 0 0 1.25rem;
+    font-size: 0.9375rem;
+    color: #64748B;
+    line-height: 1.6;
+  }
+
+  /* ── Form ── */
+  .fe-form-section {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.5rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  @media (min-width: 640px) {
+    .fe-form-section {
+      padding: 3rem 2.5rem;
+    }
+  }
+
+  .fe-form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .fe-form-row--half {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fe-field label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    color: var(--fe-navy);
+  }
+
+  .fe-field label .fe-required {
+    color: #EF4444;
+    margin-left: 2px;
+  }
+
+  .fe-field input[type="text"],
+  .fe-field input[type="email"],
+  .fe-field input[type="date"],
+  .fe-field textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--fe-navy);
+    background: #fff;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+
+  .fe-field input:focus,
+  .fe-field textarea:focus {
+    outline: none;
+    border-color: var(--fe-primary);
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  .fe-field textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .fe-field-error {
+    display: none;
+    font-size: 0.8125rem;
+    color: #EF4444;
+    margin-top: 0.25rem;
+  }
+
+  .fe-field.has-error input,
+  .fe-field.has-error textarea {
+    border-color: #EF4444;
+  }
+
+  .fe-field.has-error .fe-field-error {
+    display: block;
+  }
+
+  .fe-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+
+  .fe-fieldset legend {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.625rem;
+    color: var(--fe-navy);
+  }
+
+  .fe-fieldset legend .fe-required {
+    color: #EF4444;
+    margin-left: 2px;
+  }
+
+  /* Checkbox grid */
+  .fe-checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 480px) {
+    .fe-checkbox-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fe-checkbox-label,
+  .fe-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    padding: 0.375rem 0;
+  }
+
+  .fe-checkbox-label input,
+  .fe-radio-label input {
+    accent-color: var(--fe-primary);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .fe-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .fe-other-text {
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  .fe-other-text.visible {
+    display: block;
+  }
+
+  /* Submit */
+  .fe-submit-btn {
+    display: block;
+    width: 100%;
+    background: var(--fe-accent);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    margin-top: 2rem;
+  }
+
+  .fe-submit-btn:hover {
+    background: #EA580C;
+    transform: translateY(-1px);
+  }
+
+  /* ── Success state ── */
+  .fe-success {
+    display: none;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    animation: fe-fade-in 0.5s ease-out;
+  }
+
+  .fe-success.visible {
+    display: block;
+  }
+
+  @keyframes fe-fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fe-success-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .fe-success h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    color: var(--fe-primary);
+  }
+
+  .fe-success .fe-countdown {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--fe-accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .fe-success-steps {
+    text-align: left;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    background: #F0FDFA;
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .fe-success-steps h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+
+  .fe-success-steps ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .fe-success-steps li {
+    font-size: 0.9375rem;
+    color: #475569;
+    padding: 0.25rem 0;
+  }
+
+  .fe-share-prompt {
+    font-size: 0.9375rem;
+    color: #64748B;
+    margin-top: 1.5rem;
+  }
+
+  /* ── Scroll reveal ── */
+  .fe-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .fe-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<div class="fe-page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="fe-hero fe-container">
+    <div class="fe-badge">Friends & Family Beta</div>
+    <h1 class="fe-headline">Finally Planning That Vietnam Trip? We Built Something for You.</h1>
+    <p class="fe-hero-sub">
+      Whether you're heading home to visit family, finally taking that trip your partner's been planning, or helping a friend navigate their first time — this is the offline travel companion we wish we'd had. We're asking 100 people to test it before launch. Free access, honest feedback. That's the deal.
+    </p>
+    <div class="fe-progress-wrap">
+      <div class="fe-progress-label">67 of 100 spots remaining</div>
+      <div class="fe-progress-bar">
+        <div class="fe-progress-fill"></div>
+      </div>
+    </div>
+    <a href="#survey" class="fe-cta-btn" id="fe-cta">Sign Up &darr;</a>
+  </section>
+
+  <!-- ═══ WHAT YOU GET ═══ -->
+  <section class="fe-section fe-container fe-reveal">
+    <h2 class="fe-section-title">What You Get</h2>
+    <div class="fe-cards">
+      <div class="fe-card">
+        <div class="fe-card-icon">📱</div>
+        <h3>Everything Offline, One Screen</h3>
+        <p>Directions, restaurant picks, current prices, cultural tips — organized in one place instead of scattered across Viber messages from tita. Works when Smart or Globe signal drops.</p>
+      </div>
+      <div class="fe-card">
+        <div class="fe-card-icon">📍</div>
+        <h3>Beyond the Places You Already Know</h3>
+        <p>Your family knows their province. The Companion fills the gaps — reliable directions to places they've never been either, updated fares, and honest restaurant picks across 40+ destinations.</p>
+      </div>
+      <div class="fe-card">
+        <div class="fe-card-icon">💬</div>
+        <h3>Direct Line to Us</h3>
+        <p>Questions, suggestions, things that are wrong — just reply to any email. You're helping us build this, so we want to hear everything. It goes straight to Scott Murray.</p>
+      </div>
+      <div class="fe-card">
+        <div class="fe-card-icon">⭐</div>
+        <h3>Lifetime Discount When We Launch</h3>
+        <p>Founding Explorers get a permanent discount on all future Trip Companion access. You helped us build it — you shouldn't have to pay full price for it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WHAT WE ASK ═══ -->
+  <section class="fe-section fe-container fe-reveal">
+    <h2 class="fe-section-title">Here's the Deal</h2>
+    <ol class="fe-steps">
+      <li class="fe-step">
+        <div class="fe-step-num">1</div>
+        <div>
+          <h3>Tell Us Where You're Headed</h3>
+          <p>Quick form below — where you're going, when you leave. Takes 90 seconds. We use it to set up your Companion with the right destinations.</p>
+        </div>
+      </li>
+      <li class="fe-step">
+        <div class="fe-step-num">2</div>
+        <div>
+          <h3>Use It on Your Trip</h3>
+          <p>Check directions, find restaurants, look up prices — whatever's useful. No special tasks. Just use it like you normally would.</p>
+        </div>
+      </li>
+      <li class="fe-step">
+        <div class="fe-step-num">3</div>
+        <div>
+          <h3>Tell Us What Worked (and What Didn't)</h3>
+          <p>When you're back, a 5-minute feedback form. What was helpful, what was wrong, what's missing. Your answers shape what the next person gets.</p>
+        </div>
+      </li>
+      <li class="fe-step">
+        <div class="fe-step-num">4</div>
+        <div>
+          <h3>Share a Testimonial If You're Up for It</h3>
+          <p>Totally optional. But a sentence or two from someone who actually used it helps more than anything we could write ourselves.</p>
+        </div>
+      </li>
+    </ol>
+    <p class="fe-share-find">And if you discover something along the way — a fare that changed, a restaurant that blew your mind, a tip you wish you'd known — share it in your post-trip survey. We'll add it to the site with your name, and you'll get lifetime free access to the Trip Companion as our thank-you.</p>
+  </section>
+
+  <!-- ═══ SOCIAL PROOF ═══ -->
+  <section class="fe-section fe-container fe-reveal">
+    <h2 class="fe-section-title">Destinations We Cover</h2>
+    <div class="fe-destinations-row">
+      <span class="fe-dest-badge">Cebu</span>
+      <span class="fe-dest-badge">Bohol</span>
+      <span class="fe-dest-badge">Siquijor</span>
+      <span class="fe-dest-badge">Palawan</span>
+      <span class="fe-dest-badge">El Nido</span>
+      <span class="fe-dest-badge">Boracay</span>
+      <span class="fe-dest-badge">Siargao</span>
+      <span class="fe-dest-badge">Dumaguete</span>
+      <span class="fe-dest-badge">Coron</span>
+      <span class="fe-dest-badge">Camiguin</span>
+    </div>
+    <div class="fe-testimonial-placeholder">
+      Testimonials coming soon from our first Founding Explorers
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="fe-section fe-container fe-reveal">
+    <h2 class="fe-section-title">Frequently Asked Questions</h2>
+    <div class="fe-faq-list">
+      <details class="fe-faq-item">
+        <summary>Is it really free?</summary>
+        <div class="fe-faq-answer">Yes. Full access, no cost. The Trip Companion is free for everyone through June 30, 2026. Starting July 1, 2026, it will be $7.99 per trip. As a Founding Explorer you get a lifetime discount on future access.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>I've been to Vietnam many times — is this still useful for me?</summary>
+        <div class="fe-faq-answer">Absolutely. Even if you know your partner's home province like the back of your hand, the Companion covers 40+ destinations with current prices, updated directions, and offline access. It's especially useful when you're exploring beyond the places you already know — or when your family sends you on errands in an unfamiliar city.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>My partner is Vietnamese — can't they just guide me?</summary>
+        <div class="fe-faq-answer">They absolutely will! But the Companion is for the times they're not with you — when they're catching up with family and you're exploring on your own, or when you need directions to somewhere they've never been either. Think of it as backup, not replacement.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>What exactly is a PWA?</summary>
+        <div class="fe-faq-answer">A Progressive Web App — it works like a regular app on your phone but you install it from your browser instead of an app store. Just visit the link we send you, tap "Add to Home Screen," and it's ready. No app store download, no storage bloat. Works offline once you've saved your destinations.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>What if my trip dates change?</summary>
+        <div class="fe-faq-answer">No problem. Just reply to any of our emails with your updated dates and we'll adjust. Your spot is secured regardless of when you travel.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>I'm Vietnamese and I live in Vietnam — should I sign up?</summary>
+        <div class="fe-faq-answer">If you're planning to travel to destinations outside your home area, definitely! The Companion is great for exploring provinces you don't know yet. If you'd rather contribute local knowledge about YOUR area, we'd love that too — ask us about our Local Explorer program.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>Can my travel partner sign up too?</summary>
+        <div class="fe-faq-answer">We'd love that — we need each person's own feedback to improve the product. Send them this page and they can grab their own spot while they last.</div>
+      </details>
+      <details class="fe-faq-item">
+        <summary>How much time does the feedback take?</summary>
+        <div class="fe-faq-answer">The signup form below takes about 90 seconds. The post-trip feedback takes about 5 minutes. That's roughly 7 minutes total. We kept it short.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ═══ SURVEY 1 ═══ -->
+  <section class="fe-section fe-container fe-reveal" id="survey">
+    <h2 class="fe-section-title">Quick Setup — Tell Us About Your Trip</h2>
+
+    <div class="fe-form-section" id="fe-form-wrap">
+      <form id="fe-survey-form" novalidate>
+
+        <!-- Name -->
+        <div class="fe-form-row fe-form-row--half">
+          <div class="fe-field">
+            <label for="fe-fname">First Name <span class="fe-required">*</span></label>
+            <input type="text" id="fe-fname" name="firstName" required autocomplete="given-name" />
+            <div class="fe-field-error">Please enter your first name.</div>
+          </div>
+          <div class="fe-field">
+            <label for="fe-lname">Last Name <span class="fe-required">*</span></label>
+            <input type="text" id="fe-lname" name="lastName" required autocomplete="family-name" />
+            <div class="fe-field-error">Please enter your last name.</div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="fe-form-row">
+          <div class="fe-field">
+            <label for="fe-email">Email <span class="fe-required">*</span></label>
+            <input type="email" id="fe-email" name="email" required autocomplete="email" />
+            <div class="fe-field-error">Please enter a valid email address.</div>
+          </div>
+        </div>
+
+        <!-- Trip dates -->
+        <div class="fe-form-row fe-form-row--half">
+          <div class="fe-field">
+            <label for="fe-depart">Departure Date <span class="fe-required">*</span></label>
+            <input type="date" id="fe-depart" name="departureDate" required />
+            <div class="fe-field-error">Please select your departure date.</div>
+          </div>
+          <div class="fe-field">
+            <label for="fe-return">Return Date</label>
+            <input type="date" id="fe-return" name="returnDate" />
+          </div>
+        </div>
+
+        <!-- Destinations -->
+        <fieldset class="fe-fieldset">
+          <legend>Which destinations are you visiting? <span class="fe-required">*</span></legend>
+          <div class="fe-checkbox-grid" id="fe-destinations">
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Cebu" /> Cebu</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Bohol" /> Bohol</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Siquijor" /> Siquijor</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Palawan" /> Palawan</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="El Nido" /> El Nido</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Coron" /> Coron</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Boracay" /> Boracay</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Siargao" /> Siargao</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Dumaguete" /> Dumaguete</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Manila" /> Manila</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Clark / Angeles" /> Clark / Angeles</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Camiguin" /> Camiguin</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Batanes" /> Batanes</label>
+            <label class="fe-checkbox-label"><input type="checkbox" name="destinations" value="Other" id="fe-dest-other-cb" /> Other</label>
+          </div>
+          <div class="fe-other-text" id="fe-dest-other-wrap">
+            <input type="text" id="fe-dest-other" name="destinationsOther" placeholder="Where else are you headed?" />
+          </div>
+          <div class="fe-field-error" id="fe-dest-error">Please select at least one destination.</div>
+        </fieldset>
+
+        <!-- Planning method -->
+        <fieldset class="fe-fieldset">
+          <legend>How do you usually plan trips? <span class="fe-required">*</span></legend>
+          <div class="fe-radio-group">
+            <label class="fe-radio-label"><input type="radio" name="planningMethod" value="Travel agency" required /> Travel agency</label>
+            <label class="fe-radio-label"><input type="radio" name="planningMethod" value="Guidebooks and blogs" /> Guidebooks and blogs</label>
+            <label class="fe-radio-label"><input type="radio" name="planningMethod" value="Social media" /> Social media (TikTok, Instagram, YouTube)</label>
+            <label class="fe-radio-label"><input type="radio" name="planningMethod" value="Friends and family" /> Friends and family recommendations</label>
+            <label class="fe-radio-label"><input type="radio" name="planningMethod" value="Winging it" /> Winging it</label>
+          </div>
+          <div class="fe-field-error" id="fe-planning-error">Please select an option.</div>
+        </fieldset>
+
+        <!-- Traveling with -->
+        <fieldset class="fe-fieldset">
+          <legend>Who are you traveling with? <span class="fe-required">*</span></legend>
+          <div class="fe-radio-group">
+            <label class="fe-radio-label"><input type="radio" name="travelingWith" value="Solo" required /> Solo</label>
+            <label class="fe-radio-label"><input type="radio" name="travelingWith" value="Partner / spouse" /> Partner / spouse</label>
+            <label class="fe-radio-label"><input type="radio" name="travelingWith" value="Family with kids" /> Family with kids</label>
+            <label class="fe-radio-label"><input type="radio" name="travelingWith" value="Friends" /> Friends</label>
+            <label class="fe-radio-label"><input type="radio" name="travelingWith" value="Group tour" /> Group tour</label>
+          </div>
+          <div class="fe-field-error" id="fe-traveling-error">Please select an option.</div>
+        </fieldset>
+
+        <!-- First trip -->
+        <fieldset class="fe-fieldset">
+          <legend>Is this your first trip to Vietnam? <span class="fe-required">*</span></legend>
+          <div class="fe-radio-group">
+            <label class="fe-radio-label"><input type="radio" name="firstTrip" value="Yes" required id="fe-first-yes" /> Yes</label>
+            <label class="fe-radio-label"><input type="radio" name="firstTrip" value="No" id="fe-first-no" /> No</label>
+          </div>
+          <div class="fe-field-error" id="fe-firsttrip-error">Please select an option.</div>
+        </fieldset>
+
+        <!-- Areas you know (shown only if returning visitor) -->
+        <div class="fe-form-row" id="fe-know-areas-wrap" style="display:none;">
+          <div class="fe-field">
+            <label for="fe-know-areas">Which areas do you already know well? <span style="font-weight:400;color:#94A3B8;">(optional)</span></label>
+            <input type="text" id="fe-know-areas" name="knownAreas" placeholder="e.g., Southern Vietnam, Cebu City, Tagaytay..." />
+          </div>
+        </div>
+
+        <!-- How heard -->
+        <fieldset class="fe-fieldset">
+          <legend>How did you hear about us? <span class="fe-required">*</span></legend>
+          <div class="fe-radio-group">
+            <label class="fe-radio-label"><input type="radio" name="howHeard" value="Scott told me" required /> Scott told me</label>
+            <label class="fe-radio-label"><input type="radio" name="howHeard" value="Friend or family member" /> Friend or family member</label>
+            <label class="fe-radio-label"><input type="radio" name="howHeard" value="Viber or Messenger group" /> Viber or Messenger group</label>
+            <label class="fe-radio-label"><input type="radio" name="howHeard" value="Social media" /> Social media</label>
+            <label class="fe-radio-label"><input type="radio" name="howHeard" value="Google search" /> Google search</label>
+            <label class="fe-radio-label"><input type="radio" name="howHeard" value="Other" /> Other</label>
+          </div>
+          <div class="fe-field-error" id="fe-howheard-error">Please select an option.</div>
+        </fieldset>
+
+        <!-- Trickiest part -->
+        <div class="fe-form-row">
+          <div class="fe-field">
+            <label for="fe-worry">What's the trickiest part of planning this trip? <span style="font-weight:400;color:#94A3B8;">(optional)</span></label>
+            <textarea id="fe-worry" name="biggestWorry" rows="3" placeholder="Could be anything — coordinating with family, figuring out inter-island transport, navigating somewhere your partner's never been either..."></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="fe-submit-btn">Sign Me Up &rarr;</button>
+      </form>
+    </div>
+
+    <!-- Success state -->
+    <div class="fe-success" id="fe-success">
+      <div class="fe-success-icon">🎉</div>
+      <h2 id="fe-success-heading">Welcome to the Founding Explorers!</h2>
+      <div class="fe-countdown" id="fe-countdown"></div>
+      <div class="fe-success-steps">
+        <h3>What happens next</h3>
+        <ol>
+          <li>Check your inbox for a welcome email from Scott Murray</li>
+          <li>Two weeks before your trip, we'll send setup instructions</li>
+          <li>Install the Companion and download your destinations for offline use</li>
+          <li>You're all set — everything works even when signal drops</li>
+        </ol>
+      </div>
+      <p class="fe-share-prompt">
+        Know someone else heading to Vietnam? Send them this page — we still have spots.
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ── Smooth scroll CTA ──
+  document.getElementById('fe-cta')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('survey')?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // ── "Other" destination toggle ──
+  const otherCb = document.getElementById('fe-dest-other-cb');
+  const otherWrap = document.getElementById('fe-dest-other-wrap');
+  otherCb?.addEventListener('change', () => {
+    otherWrap?.classList.toggle('visible', otherCb.checked);
+    if (!otherCb.checked) {
+      const otherInput = document.getElementById('fe-dest-other');
+      if (otherInput) otherInput.value = '';
+    }
+  });
+
+  // ── "First trip" → "Areas you know" toggle ──
+  const firstYes = document.getElementById('fe-first-yes');
+  const firstNo = document.getElementById('fe-first-no');
+  const knowAreasWrap = document.getElementById('fe-know-areas-wrap');
+  [firstYes, firstNo].forEach(radio => {
+    radio?.addEventListener('change', () => {
+      if (knowAreasWrap) knowAreasWrap.style.display = firstNo?.checked ? '' : 'none';
+    });
+  });
+
+  // ── Form validation & submit ──
+  const form = document.getElementById('fe-survey-form');
+
+  function clearErrors() {
+    form?.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+    form?.querySelectorAll('.fe-field-error').forEach(el => el.style.display = 'none');
+  }
+
+  function showError(fieldEl, errorEl) {
+    if (fieldEl) fieldEl.classList.add('has-error');
+    if (errorEl) errorEl.style.display = 'block';
+  }
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearErrors();
+    let valid = true;
+
+    // Required text/email/date fields
+    ['fe-fname', 'fe-lname', 'fe-email', 'fe-depart'].forEach(id => {
+      const input = document.getElementById(id);
+      if (!input) return;
+      const field = input.closest('.fe-field');
+      const error = field?.querySelector('.fe-field-error');
+      if (!input.value.trim() || (input.type === 'email' && !input.value.includes('@'))) {
+        showError(field, error);
+        valid = false;
+      }
+    });
+
+    // Destinations (at least one checked)
+    const destChecked = form.querySelectorAll('input[name="destinations"]:checked');
+    if (destChecked.length === 0) {
+      const destError = document.getElementById('fe-dest-error');
+      if (destError) destError.style.display = 'block';
+      valid = false;
+    }
+
+    // Required radio groups
+    const radioGroups = [
+      { name: 'planningMethod', errorId: 'fe-planning-error' },
+      { name: 'travelingWith', errorId: 'fe-traveling-error' },
+      { name: 'firstTrip', errorId: 'fe-firsttrip-error' },
+      { name: 'howHeard', errorId: 'fe-howheard-error' },
+    ];
+
+    radioGroups.forEach(({ name, errorId }) => {
+      const checked = form.querySelector(`input[name="${name}"]:checked`);
+      if (!checked) {
+        const errorEl = document.getElementById(errorId);
+        if (errorEl) errorEl.style.display = 'block';
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      const firstError = form.querySelector('.has-error, .fe-field-error[style*="block"]');
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Collect data
+    const data = Object.fromEntries(new FormData(form));
+    data.destinations = Array.from(destChecked).map(cb => cb.value);
+    // Show success state
+    const formWrap = document.getElementById('fe-form-wrap');
+    const success = document.getElementById('fe-success');
+    if (formWrap) formWrap.style.display = 'none';
+    if (success) {
+      success.classList.add('visible');
+
+      // Personalize heading
+      const heading = document.getElementById('fe-success-heading');
+      const firstName = (data.firstName || '').trim();
+      if (heading && firstName) {
+        heading.textContent = `Welcome to the Founding Explorers, ${firstName}!`;
+      }
+
+      // Trip countdown
+      const countdown = document.getElementById('fe-countdown');
+      const depart = data.departureDate;
+      if (countdown && depart) {
+        const diff = Math.ceil((new Date(depart).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+        if (diff > 0) {
+          countdown.textContent = `Your trip is ${diff} day${diff !== 1 ? 's' : ''} away!`;
+        } else {
+          countdown.textContent = 'Your adventure awaits!';
+        }
+      }
+
+      success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  // ── Scroll reveal ──
+  const revealEls = document.querySelectorAll('.fe-reveal');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('visible'));
+  }
+</script>
+
+</BaseLayout>

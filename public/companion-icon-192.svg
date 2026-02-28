@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="40" fill="#064E56"/>
+  <text x="96" y="110" font-size="90" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-weight="800">DP</text>
+  <text x="96" y="155" font-size="28" text-anchor="middle" fill="#14B8A6" font-family="system-ui, sans-serif" font-weight="600">TRIP</text>
+</svg>

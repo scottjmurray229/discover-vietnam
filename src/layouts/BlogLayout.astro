@@ -1,0 +1,604 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import FTCDisclosure from '../components/FTCDisclosure.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+    pubDate: Date;
+    heroImage?: string;
+    heroVideo?: string;
+    author?: string;
+    tags?: string[];
+    category?: string;
+    relatedDestinations?: string[];
+    readingTime?: number;
+  };
+  locale?: 'en' | 'tl';
+}
+
+const { frontmatter, locale } = Astro.props;
+
+const authorName = frontmatter.author || 'Scott';
+const authorSlug = 'scott';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: frontmatter.title, url: Astro.url.pathname },
+];
+
+const pubDateFormatted = new Date(frontmatter.pubDate).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description || `${frontmatter.title} — Discover Vietnam Blog`}
+  pageType="blog"
+  schemaData={frontmatter}
+  breadcrumbs={breadcrumbs}
+  locale={locale}
+>
+  <!-- Hero -->
+  <header class="blg-hero">
+    {frontmatter.heroVideo && (
+      <video class="blg-hero-video" autoplay muted loop playsinline preload="metadata">
+        <source src={frontmatter.heroVideo} type="video/mp4" />
+      </video>
+    )}
+    {frontmatter.heroImage && !frontmatter.heroVideo && (
+      <img class="blg-hero-img" src={frontmatter.heroImage} alt={frontmatter.title} />
+    )}
+    <div class="blg-hero-gradient" />
+    <div class="blg-hero-overlay" />
+    <div class="blg-hero-content">
+      <h1 class="blg-hero-title">{frontmatter.title}</h1>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Byline -->
+  <div class="container-content">
+    <div class="blg-byline reveal">
+      <div class={`blg-byline-avatar blg-byline-avatar--${authorSlug}`}>
+        {authorName.charAt(0)}
+      </div>
+      <div class="blg-byline-info">
+        <div class="blg-byline-name">
+          <a href={`/about/${authorSlug}/`}>{authorName} Murray</a>
+        </div>
+        <div class="blg-byline-meta">
+          <time datetime={new Date(frontmatter.pubDate).toISOString()}>{pubDateFormatted}</time>
+          {frontmatter.readingTime && <span>{frontmatter.readingTime} min read</span>}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article Content -->
+  <article class="container-content container-prose blg-content">
+    <slot />
+  </article>
+
+  <!-- Tags -->
+  {frontmatter.tags && frontmatter.tags.length > 0 && (
+    <div class="container-content container-prose">
+      <div class="blg-tags reveal">
+        {frontmatter.tags.map((tag: string) => (
+          <span class="blg-tag">{tag}</span>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Email Capture -->
+  <section class="blg-email reveal">
+    <div class="container-content">
+      <EmailCapture leadMagnet="Get More Vietnam Travel Stories" />
+    </div>
+  </section>
+
+  <!-- FTC Disclosure -->
+  <div class="container-content">
+    <FTCDisclosure placement="inline" />
+  </div>
+</BaseLayout>
+
+<!-- Scroll Reveal -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO
+     ================================================================ */
+  .blg-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .blg-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(160deg, #1a1035 0%, #0D7377 40%, #064E3B 70%, #1A2332 100%);
+    opacity: 0.9;
+  }
+
+  .blg-hero-img ~ .blg-hero-gradient {
+    opacity: 0.6;
+  }
+
+  .blg-hero-video ~ .blg-hero-gradient {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+    opacity: 1;
+  }
+
+  .blg-hero-video ~ .blg-hero-gradient ~ .blg-hero-overlay {
+    background: none;
+  }
+
+  .blg-hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      radial-gradient(ellipse 600px 400px at 20% 80%, rgba(232, 101, 74, 0.1), transparent),
+      radial-gradient(ellipse 500px 600px at 80% 20%, rgba(13, 115, 119, 0.12), transparent);
+    pointer-events: none;
+  }
+
+  .blg-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .blg-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .blg-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .blg-hero-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: var(--weight-extrabold);
+    color: white;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+  }
+
+  /* ================================================================
+     BYLINE
+     ================================================================ */
+  .blg-byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-sand);
+  }
+
+  .blg-byline-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--weight-bold);
+    font-size: 0.85rem;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .blg-byline-avatar--scott { background: var(--color-ocean-teal); }
+  .blg-byline-avatar--jenice { background: var(--color-warm-coral); }
+
+  .blg-byline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .blg-byline-name {
+    font-weight: var(--weight-semibold);
+    font-size: 0.95rem;
+  }
+
+  .blg-byline-name a {
+    color: var(--color-ocean-teal);
+    text-decoration: none;
+  }
+
+  .blg-byline-name a:hover { text-decoration: underline; }
+
+  .blg-byline-meta {
+    display: flex;
+    gap: var(--space-3);
+    font-size: 0.82rem;
+    color: var(--color-slate);
+  }
+
+  .blg-byline-meta span + span::before,
+  .blg-byline-meta time + span::before {
+    content: '\00B7';
+    margin-right: var(--space-3);
+  }
+
+  /* ================================================================
+     CONTENT — Rich article styling for markdown
+     ================================================================ */
+  .blg-content {
+    padding-block: var(--space-10);
+    overflow: visible;
+  }
+
+  /* Intro paragraph — first p gets special treatment */
+  .blg-content :global(> p:first-child) {
+    font-size: 1.15rem;
+    color: var(--color-slate);
+    line-height: 1.85;
+    margin-bottom: var(--space-7);
+  }
+
+  .blg-content :global(> p:first-child em) {
+    color: var(--color-warm-coral);
+    font-style: italic;
+  }
+
+  /* Body paragraphs */
+  .blg-content :global(p) {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: var(--space-5);
+  }
+
+  .blg-content :global(strong) {
+    font-weight: var(--weight-semibold);
+    color: var(--color-heading);
+  }
+
+  /* H2 with coral accent line */
+  .blg-content :global(h2) {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 1.65rem);
+    font-weight: 600;
+    color: var(--color-heading);
+    margin: var(--space-12) 0 var(--space-5);
+    padding-top: var(--space-3);
+    line-height: 1.3;
+    position: relative;
+  }
+
+  .blg-content :global(h2)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-warm-coral), rgba(232, 101, 74, 0.4));
+    border-radius: 2px;
+  }
+
+  .blg-content :global(h3) {
+    font-size: 1.15rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-heading);
+    margin: var(--space-8) 0 var(--space-3);
+    line-height: 1.35;
+  }
+
+  /* Styled horizontal rules */
+  .blg-content :global(hr) {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-warm-coral), transparent);
+    margin: var(--space-10) 0;
+    opacity: 0.5;
+  }
+
+  /* Links */
+  .blg-content :global(a) {
+    color: var(--color-ocean-teal);
+    text-decoration: underline;
+    text-decoration-color: rgba(13, 115, 119, 0.3);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .blg-content :global(a:hover) {
+    text-decoration-color: var(--color-ocean-teal);
+  }
+
+  /* Blockquotes */
+  .blg-content :global(blockquote) {
+    background: linear-gradient(135deg, var(--color-sand) 0%, rgba(232, 101, 74, 0.06) 100%);
+    border-left: 4px solid var(--color-warm-coral);
+    padding: var(--space-6) var(--space-7);
+    margin: var(--space-8) 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--color-heading);
+    line-height: 1.6;
+  }
+
+  .blg-content :global(blockquote p) {
+    margin-bottom: 0;
+    font-size: inherit;
+  }
+
+  .blg-content :global(blockquote p + p) {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-style: normal;
+    color: var(--color-slate);
+    margin-top: var(--space-2);
+  }
+
+  /* Lists */
+  .blg-content :global(ul),
+  .blg-content :global(ol) {
+    margin: var(--space-4) 0 var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .blg-content :global(li) {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: var(--space-2);
+  }
+
+  /* ================================================================
+     TAGALOG CALLOUT — used as <div class="tagalog-callout"> in markdown
+     ================================================================ */
+  .blg-content :global(.tagalog-callout) {
+    background: linear-gradient(135deg, var(--color-sand) 0%, rgba(232, 101, 74, 0.08) 100%);
+    border-left: 4px solid var(--color-warm-coral);
+    padding: var(--space-6) var(--space-7);
+    margin: var(--space-8) 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--color-heading);
+  }
+
+  .blg-content :global(.tagalog-callout .translation) {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-style: normal;
+    color: var(--color-slate);
+    margin-top: var(--space-2);
+    font-weight: var(--weight-regular);
+  }
+
+  /* ================================================================
+     DISCLAIMER BLOCK
+     ================================================================ */
+  .blg-content :global(.disclaimer) {
+    background: rgba(13, 115, 119, 0.06);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-5);
+    font-size: 0.88rem;
+    color: var(--color-slate);
+    margin: var(--space-6) 0 var(--space-8);
+    line-height: 1.6;
+  }
+
+  .blg-content :global(.disclaimer strong) {
+    color: var(--color-heading);
+  }
+
+  /* ================================================================
+     SERIES BOX — end-of-post sign-off
+     ================================================================ */
+  .blg-content :global(.series-box) {
+    background: white;
+    border: 1px solid var(--color-sand-dark);
+    border-radius: var(--radius-md);
+    padding: var(--space-7) var(--space-8);
+    margin: var(--space-10) 0 var(--space-5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  .blg-content :global(.series-box p) {
+    font-size: 0.95rem;
+    color: var(--color-slate);
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  .blg-content :global(.series-box .sign-off) {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--color-heading);
+    font-style: italic;
+    margin-top: var(--space-3);
+  }
+
+  /* ================================================================
+     IMMERSIVE BREAK — photo/video section between content
+     ================================================================ */
+  .blg-content :global(.immersive-break) {
+    position: relative;
+    margin: var(--space-12) calc(-1 * var(--space-6));
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .blg-content :global(.immersive-break img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .blg-content :global(.immersive-break video) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .blg-content :global(.immersive-break .ib-overlay) {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(26, 35, 50, 0.6), rgba(13, 115, 119, 0.4));
+    z-index: 1;
+  }
+
+  .blg-content :global(.immersive-break .ib-text) {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: var(--space-8) var(--space-6);
+    max-width: 560px;
+  }
+
+  .blg-content :global(.immersive-break .ib-text h3) {
+    font-family: var(--font-display);
+    color: white;
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    font-weight: 600;
+    margin: 0 0 var(--space-2);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .blg-content :global(.immersive-break .ib-text p) {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: 0;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Gradient-only immersive breaks (no image) */
+  .blg-content :global(.immersive-break.ib-gradient-teal) {
+    background: linear-gradient(135deg, #0E4D5C, #0D7377, #14B8A6);
+  }
+  .blg-content :global(.immersive-break.ib-gradient-coral) {
+    background: linear-gradient(135deg, #9D174D, #E8654A, #FB923C);
+  }
+  .blg-content :global(.immersive-break.ib-gradient-green) {
+    background: linear-gradient(135deg, #065F46, #059669, #34D399);
+  }
+  .blg-content :global(.immersive-break.ib-gradient-purple) {
+    background: linear-gradient(135deg, #4C1D95, #3730A3, #5B21B6);
+  }
+  .blg-content :global(.immersive-break.ib-gradient-gold) {
+    background: linear-gradient(135deg, #78350F, #B45309, #F59E0B);
+  }
+
+  /* ================================================================
+     NUMBERED HEADING — styled number badge
+     ================================================================ */
+  .blg-content :global(.numbered-heading) {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .blg-content :global(.heading-number) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--color-heading), var(--color-ocean-teal));
+    color: white;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    margin-top: 4px;
+    box-shadow: 0 3px 12px rgba(26, 35, 50, 0.2);
+  }
+
+  /* ================================================================
+     TAGS
+     ================================================================ */
+  .blg-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-sand);
+    margin-bottom: var(--space-8);
+  }
+
+  .blg-tag {
+    font-size: 0.75rem;
+    font-weight: var(--weight-medium);
+    padding: 4px 12px;
+    border-radius: 100px;
+    background: var(--color-sky);
+    color: var(--color-ocean-teal);
+  }
+
+  /* ================================================================
+     EMAIL
+     ================================================================ */
+  .blg-email {
+    padding-block: var(--space-12);
+  }
+</style>

@@ -1,0 +1,458 @@
+---
+interface Props {
+  leadMagnet?: string;
+  placement?: 'inline' | 'footer' | 'modal';
+  variant?: 'default' | 'compact';
+  region?: string;
+  description?: string;
+  bullets?: string[];
+  guideTag?: string;
+}
+
+const {
+  leadMagnet = 'Free Vietnam Travel Checklist',
+  placement = 'inline',
+  variant = 'default',
+  region,
+  description,
+  bullets,
+  guideTag,
+} = Astro.props;
+
+const heading = region
+  ? `Get Your Free ${region.charAt(0).toUpperCase() + region.slice(1)} Itinerary`
+  : leadMagnet;
+
+const isCompact = variant === 'compact';
+const hasGuideDetails = bullets && bullets.length > 0;
+---
+
+<aside
+  class:list={['email-capture', `email-capture--${placement}`, { 'email-capture--compact': isCompact }]}
+  aria-label="Newsletter signup"
+  data-guide-tag={guideTag}
+>
+  <div class="email-capture-inner">
+    {!isCompact && (
+      <div class="email-capture-header">
+        <h3 class="email-capture-heading">{heading}</h3>
+        <p class="email-capture-subtext">
+          {description || 'Real itineraries from our trips — with prices, transport details, and local tips. No spam, unsubscribe anytime.'}
+        </p>
+        {hasGuideDetails && (
+          <ul class="email-capture-bullets">
+            {bullets.map((b) => (
+              <li class="email-capture-bullet">{b}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
+    {isCompact && (
+      <p class="email-capture-heading email-capture-heading--compact">{heading}</p>
+    )}
+
+    <!-- State: subscribed + already requested this guide -->
+    <div class="email-capture-unlocked" style="display:none;">
+      <div class="email-capture-unlocked-check">&#10003;</div>
+      <p class="email-capture-unlocked-text">You're subscribed — this guide will be in your inbox.</p>
+      <p class="email-capture-unlocked-note">Check your email for all your travel guides.</p>
+    </div>
+
+    <!-- State: subscribed but haven't requested THIS guide yet -->
+    <div class="email-capture-newguide" style="display:none;">
+      <p class="email-capture-newguide-text">You're already subscribed. Want this guide too?</p>
+      <button type="button" class="email-capture-getguide">Send Me This Guide</button>
+    </div>
+
+    <!-- New visitor — email form -->
+    <form class="email-capture-form">
+      <div class="email-capture-fields">
+        <label for={`email-${placement}`} class="sr-only">Email address</label>
+        <input
+          id={`email-${placement}`}
+          type="email"
+          name="email_address"
+          placeholder="you@example.com"
+          required
+          autocomplete="email"
+          class="email-capture-input"
+        />
+        <button type="submit" class="email-capture-button">
+          {isCompact ? 'Subscribe' : 'Send Me the Guide'}
+        </button>
+      </div>
+
+      <label class="email-capture-consent">
+        <input type="checkbox" name="gdpr_consent" required />
+        <span>I agree to receive emails and accept the <a href="/legal/privacy/">privacy policy</a>.</span>
+      </label>
+
+      <p class="email-capture-error" aria-live="polite"></p>
+    </form>
+
+    <div class="email-capture-success" aria-live="polite">
+      <div class="email-capture-unlocked-check">&#10003;</div>
+      <p class="email-capture-success-text">You're in! We'll send your guide to your inbox shortly.</p>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .email-capture {
+    background-color: var(--color-sky);
+    border-radius: 16px;
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .email-capture--footer {
+    background-color: transparent;
+    border-radius: 0;
+    padding: var(--space-6) 0 0;
+  }
+
+  .email-capture--compact {
+    padding: var(--space-5) var(--space-5);
+  }
+
+  .email-capture-inner {
+    max-width: var(--content-sm);
+    margin-inline: auto;
+  }
+
+  .email-capture-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .email-capture-heading {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-heading);
+    margin-bottom: var(--space-2);
+  }
+
+  .email-capture-heading--compact {
+    text-align: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .email-capture-subtext {
+    font-size: var(--text-caption);
+    color: var(--color-body);
+    max-width: 45ch;
+    margin-inline: auto;
+  }
+
+  .email-capture-bullets {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-4) auto 0;
+    max-width: 380px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .email-capture-bullet {
+    font-size: 0.82rem;
+    color: var(--color-slate);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.45;
+  }
+
+  .email-capture-bullet::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-bold);
+  }
+
+  .email-capture-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .email-capture-fields {
+      flex-direction: row;
+    }
+  }
+
+  .email-capture-input {
+    flex: 1;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-sand);
+    border-radius: 8px;
+    font-size: var(--text-body);
+    font-family: inherit;
+    background: var(--color-white);
+    color: var(--color-heading);
+    min-height: 48px;
+  }
+
+  .email-capture-input::placeholder {
+    color: var(--color-slate);
+    opacity: 0.6;
+  }
+
+  .email-capture-input:focus {
+    outline: 2px solid var(--color-ocean-teal);
+    outline-offset: 2px;
+    border-color: var(--color-ocean-teal);
+  }
+
+  .email-capture-button {
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-ocean-teal);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    font-size: var(--text-button);
+    font-weight: var(--weight-semibold);
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 48px;
+    transition: background-color 0.2s ease;
+  }
+
+  .email-capture-button:hover {
+    background-color: var(--color-link-hover);
+  }
+
+  .email-capture-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    font-size: var(--text-caption);
+    color: var(--color-body);
+    cursor: pointer;
+  }
+
+  .email-capture-consent input[type='checkbox'] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--color-ocean-teal);
+  }
+
+  .email-capture-consent a {
+    color: var(--color-ocean-teal);
+  }
+
+  .email-capture-error {
+    margin-top: var(--space-2);
+    font-size: var(--text-caption);
+    color: #c53030;
+    display: none;
+  }
+
+  .email-capture-error.visible {
+    display: block;
+  }
+
+  .email-capture-success {
+    display: none;
+    text-align: center;
+    padding: var(--space-4) 0;
+  }
+
+  .email-capture-success.visible {
+    display: block;
+  }
+
+  .email-capture-success-text {
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+  }
+
+  .email-capture-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .email-capture-unlocked {
+    text-align: center;
+    padding: var(--space-4) 0;
+  }
+
+  .email-capture-unlocked-check {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-ocean-teal);
+    color: white;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-3);
+  }
+
+  .email-capture-unlocked-text {
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-heading);
+    margin-bottom: var(--space-2);
+  }
+
+  .email-capture-unlocked-note {
+    font-size: var(--text-caption);
+    color: var(--color-body);
+    opacity: 0.7;
+  }
+
+  .email-capture-newguide {
+    text-align: center;
+    padding: var(--space-2) 0;
+  }
+
+  .email-capture-newguide-text {
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    margin-bottom: var(--space-3);
+  }
+
+  .email-capture-getguide {
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-ocean-teal);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    font-size: var(--text-button);
+    font-weight: var(--weight-semibold);
+    font-family: inherit;
+    cursor: pointer;
+    min-height: 48px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .email-capture-getguide:hover {
+    background-color: var(--color-link-hover);
+    transform: translateY(-1px);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
+
+<script>
+  const isSubscriber = document.cookie.includes('dv_email=');
+
+  function getRequestedGuides(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('dp_guides') || '[]');
+    } catch { return []; }
+  }
+
+  function markGuideRequested(tag: string) {
+    const guides = getRequestedGuides();
+    if (!guides.includes(tag)) {
+      guides.push(tag);
+      localStorage.setItem('dp_guides', JSON.stringify(guides));
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('.email-capture').forEach((capture) => {
+    const form = capture.querySelector<HTMLFormElement>('.email-capture-form');
+    const unlockedEl = capture.querySelector<HTMLElement>('.email-capture-unlocked');
+    const newGuideEl = capture.querySelector<HTMLElement>('.email-capture-newguide');
+    const guideTag = capture.getAttribute('data-guide-tag') || '';
+    const headerEl = capture.querySelector<HTMLElement>('.email-capture-header');
+
+    if (isSubscriber && form) {
+      const alreadyRequested = getRequestedGuides().includes(guideTag);
+
+      if (alreadyRequested && unlockedEl) {
+        // Already requested this guide — show confirmation
+        form.style.display = 'none';
+        unlockedEl.style.display = '';
+      } else if (newGuideEl) {
+        // Subscribed but haven't requested this one — show "get guide" button
+        form.style.display = 'none';
+        newGuideEl.style.display = '';
+      }
+    }
+
+    // "Send Me This Guide" button (for returning subscribers)
+    const getGuideBtn = capture.querySelector<HTMLButtonElement>('.email-capture-getguide');
+    if (getGuideBtn) {
+      getGuideBtn.addEventListener('click', () => {
+        markGuideRequested(guideTag);
+        // Swap to confirmed state
+        if (newGuideEl) newGuideEl.style.display = 'none';
+        if (headerEl) headerEl.style.display = 'none';
+        if (unlockedEl) unlockedEl.style.display = '';
+      });
+    }
+
+    // Email form submission (for new visitors)
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+        const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        const errorEl = form.querySelector<HTMLElement>('.email-capture-error');
+        const successEl = capture.querySelector<HTMLElement>('.email-capture-success');
+
+        if (!input || !button) return;
+
+        const email = input.value.trim();
+        if (!email) return;
+
+        const slug = window.location.pathname.match(/\/destinations\/(.+?)\/?$/)?.[1];
+        const destinations = slug ? [slug] : [];
+
+        button.disabled = true;
+        const originalText = button.textContent;
+        button.textContent = 'Sending...';
+        errorEl?.classList.remove('visible');
+
+        try {
+          const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, destinations, guideTag }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            throw new Error(data.error || 'Something went wrong. Please try again.');
+          }
+
+          // Server sets signed cookie via Set-Cookie header; just mark guide locally
+          markGuideRequested(guideTag);
+
+          // Hide form, show success
+          form.style.display = 'none';
+          if (headerEl) headerEl.style.display = 'none';
+          successEl?.classList.add('visible');
+        } catch (err: any) {
+          if (errorEl) {
+            errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+            errorEl.classList.add('visible');
+          }
+          button.disabled = false;
+          button.textContent = originalText;
+        }
+      });
+    }
+  });
+</script>

@@ -1,0 +1,436 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import FTCDisclosure from '../../components/FTCDisclosure.astro';
+import { getCollection } from 'astro:content';
+import { destinationVideoMap } from '../../data/destination-videos';
+
+const allDests = await getCollection('destinations');
+
+// Group by region and sort alphabetically
+const regions: Record<string, typeof allDests> = { north: [], central: [], south: [] };
+allDests.forEach(d => {
+  if (regions[d.data.region]) regions[d.data.region].push(d);
+});
+Object.values(regions).forEach(arr => arr.sort((a, b) => a.data.title.localeCompare(b.data.title)));
+
+const videoMap = destinationVideoMap;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Destinations', url: '/destinations/' },
+];
+
+const regionMeta: Record<string, { label: string; desc: string; gradient: string }> = {
+  north: {
+    label: 'Northern Vietnam',
+    desc: 'Misty mountains, terraced rice paddies, and the chaotic charm of Hanoi. Ha Long Bay, Sapa, and Ninh Binh await.',
+    gradient: 'linear-gradient(135deg, #065F46, #059669, #34D399)',
+  },
+  central: {
+    label: 'Central Vietnam',
+    desc: 'Ancient imperial cities, pristine beaches, and the best food in the country. Hoi An, Hue, and Da Nang shine here.',
+    gradient: 'linear-gradient(135deg, #0E4D5C, #0D7377, #14B8A6)',
+  },
+  south: {
+    label: 'Southern Vietnam',
+    desc: 'Buzzing Saigon, tropical islands, floating markets, and the sprawling Mekong Delta. Where Vietnam feels most alive.',
+    gradient: 'linear-gradient(135deg, #78350F, #B45309, #F59E0B)',
+  },
+};
+---
+<BaseLayout
+  title="Destinations — Vietnam Travel Guides | Discover Vietnam"
+  description="In-depth travel guides to Vietnam's best destinations with real prices, local tips, and honest recommendations. Explore North, Central, and South Vietnam."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="dh-hero">
+    <video class="dh-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/destinations/el-nido-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="dh-hero-gradient" />
+    <div class="dh-hero-overlay" />
+    <div class="dh-hero-content">
+      <h1 class="dh-hero-title">Destinations</h1>
+      <p class="dh-hero-subtitle">In-depth guides with real prices, honest opinions, and perspectives no foreign travel writer can share.</p>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Destination Cards by Region -->
+  {(['north', 'central', 'south'] as const).map(regionKey => {
+    const dests = regions[regionKey];
+    const meta = regionMeta[regionKey];
+    if (!dests || dests.length === 0) return null;
+    return (
+      <section>
+        <div class="dh-region-header">
+          <div class="dh-region-gradient" style={`background: ${meta.gradient};`} />
+          <div class="dh-region-content">
+            <h2 class="dh-region-title">{meta.label}</h2>
+            <p class="dh-region-desc">{meta.desc}</p>
+          </div>
+        </div>
+
+        <div class="dh-cards reveal">
+          <div class="container-content">
+            <div class="dh-grid">
+              {dests.map(dest => {
+                const { title, tagline, region, budgetPerDay } = dest.data;
+                const slug = dest.slug || dest.id;
+                const gradientVar = `var(--gradient-${title.toLowerCase()}, var(--gradient-homepage))`;
+                const videoSrc = videoMap[slug] || '';
+                const posterSrc = videoSrc ? videoSrc.replace('/destinations/', '/destinations/posters/').replace('.mp4', '.jpg') : '';
+                return (
+                  <a href={`/destinations/${slug}/`} class="dh-card">
+                    <div class="dh-card-bg" style={`background: ${gradientVar};`}>
+                      {videoSrc && (
+                        <video class="dh-card-video" muted loop playsinline preload="none" poster={posterSrc} data-src={videoSrc}>
+                        </video>
+                      )}
+                    </div>
+                    <div class="dh-card-body">
+                      <span class="dh-card-region">{region}</span>
+                      <h3 class="dh-card-title">{title}</h3>
+                      {tagline && <p class="dh-card-tagline">{tagline}</p>}
+                      {budgetPerDay && (
+                        <p class="dh-card-budget">From ${budgetPerDay.backpacker}/day</p>
+                      )}
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <!-- Plan CTA -->
+  <section class="dh-cta reveal">
+    <div class="container-content">
+      <div class="dh-cta-card">
+        <h2>Don't see your destination?</h2>
+        <p>Our AI Trip Planner covers 19 destinations across Vietnam — even ones we haven't written full guides for yet.</p>
+        <a href="/plan/" class="dh-cta-btn">Plan Your Trip &#10141;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Email Capture -->
+  <section class="dh-email reveal">
+    <div class="container-content">
+      <EmailCapture leadMagnet="Get Notified When New Guides Drop" />
+    </div>
+  </section>
+
+  <!-- FTC Disclosure -->
+  <div class="container-content">
+    <FTCDisclosure placement="inline" />
+  </div>
+</BaseLayout>
+
+<!-- Scroll Reveal -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<!-- Play video on hover/touch, pause on leave -->
+<script>
+  document.querySelectorAll('.dh-card').forEach((card) => {
+    const video = card.querySelector('.dh-card-video') as HTMLVideoElement | null;
+    if (!video) return;
+
+    function startVideo() {
+      if (!video!.getAttribute('src') && video!.dataset.src) {
+        video!.src = video!.dataset.src;
+      }
+      video!.play().catch(() => {});
+    }
+
+    card.addEventListener('mouseenter', startVideo);
+    card.addEventListener('touchstart', startVideo, { passive: true });
+    card.addEventListener('mouseleave', () => { video!.pause(); });
+  });
+</script>
+
+<style>
+  /* ================================================================
+     HERO
+     ================================================================ */
+  .dh-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .dh-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .dh-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .dh-hero-overlay {
+    display: none;
+  }
+
+  .dh-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .dh-hero-title {
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    font-weight: var(--weight-extrabold);
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-3);
+    opacity: 0;
+    animation: dhHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.35s;
+  }
+
+  .dh-hero-subtitle {
+    font-size: var(--text-body);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 50ch;
+    line-height: var(--leading-body);
+    opacity: 0;
+    animation: dhHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+  }
+
+  @keyframes dhHeroUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================================================================
+     REGION HEADERS
+     ================================================================ */
+  .dh-region-header {
+    position: relative;
+    min-height: 25vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    background-color: #1a2332;
+  }
+
+  .dh-region-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dh-region-content {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .dh-region-title {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: white;
+    margin-bottom: var(--space-3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .dh-region-desc {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    opacity: 0.9;
+    max-width: 50ch;
+    margin-inline: auto;
+    color: white;
+  }
+
+  /* ================================================================
+     DESTINATION GRID
+     ================================================================ */
+  .dh-cards {
+    padding-block: var(--space-10);
+  }
+
+  .dh-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .dh-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 1024px) {
+    .dh-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .dh-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 260px;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dh-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    color: white;
+  }
+
+  .dh-card-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .dh-card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dh-card:hover .dh-card-video {
+    transform: scale(1.06);
+  }
+
+  .dh-card-body {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-5);
+    width: 100%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+  }
+
+  .dh-card-region {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    font-weight: var(--weight-semibold);
+  }
+
+  .dh-card-title {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: white;
+    margin-bottom: var(--space-1);
+  }
+
+  .dh-card-tagline {
+    font-size: var(--text-caption);
+    opacity: 0.8;
+  }
+
+  .dh-card-budget {
+    font-size: 12px;
+    opacity: 0.55;
+    margin-top: var(--space-1);
+  }
+
+  /* ================================================================
+     PLAN CTA
+     ================================================================ */
+  .dh-cta {
+    padding-block: var(--space-8);
+  }
+
+  .dh-cta-card {
+    text-align: center;
+    padding: var(--space-12) var(--space-8);
+    background: var(--color-deep-night);
+    border-radius: 24px;
+    color: white;
+  }
+
+  .dh-cta-card h2 {
+    color: white;
+    margin-bottom: var(--space-3);
+  }
+
+  .dh-cta-card p {
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 50ch;
+    margin: 0 auto var(--space-6);
+    line-height: var(--leading-body);
+  }
+
+  .dh-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--space-3) var(--space-8);
+    border-radius: 100px;
+    background: var(--color-warm-coral);
+    color: white;
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-button);
+    text-decoration: none;
+    min-height: 48px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dh-cta-btn:hover {
+    background: #D4553B;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232, 101, 74, 0.25);
+    color: white;
+  }
+
+  /* ================================================================
+     EMAIL
+     ================================================================ */
+  .dh-email {
+    padding-block: var(--space-12);
+  }
+</style>

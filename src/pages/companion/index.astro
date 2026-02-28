@@ -1,0 +1,1694 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import FAQ from '../../components/FAQ.astro';
+import '../../styles/companion.css';
+import scottImg from '../../images/scott-murray.jpg';
+
+
+const faqItems = [
+  {
+    question: 'What exactly is the Trip Companion?',
+    answer: 'It\'s an offline-capable web app built from your specific itinerary. We enrich every destination with real directions (not just Google Maps pins), local phrases, emergency contacts, budget tracking, and insider tips from our 20+ trips to Vietnam.',
+  },
+  {
+    question: 'How does it work offline?',
+    answer: 'After purchase, the companion downloads all content to your phone\'s browser cache. No app store needed — just add it to your home screen. Everything works without internet: directions, phrases, contacts, budget tracker. Perfect for ferries, remote islands, and areas with spotty signal.',
+  },
+  {
+    question: 'Can I share it with my travel group?',
+    answer: 'Yes! One purchase covers your entire group (up to 8 people). The host shares a link, companions join for free, and everyone gets the full companion with real-time sync when connected. Changes anyone makes are visible to the group.',
+  },
+  {
+    question: 'What if I already have an itinerary from a travel agent?',
+    answer: 'Perfect — just upload the PDF, paste the text, or even snap a photo of it. Our AI reads your existing plan, identifies your destinations, and enriches everything with local directions, insider tips, and practical info. Your original plan, supercharged.',
+  },
+  {
+    question: 'Is this a subscription?',
+    answer: 'No — and right now it\'s completely free through June 30, 2026. After that, it\'s a one-time purchase of $7.99. You keep your trip companion forever. No monthly fees, no app store, no recurring charges.',
+  },
+  {
+    question: 'What destinations do you cover?',
+    answer: 'We cover 13 destinations across Vietnam including Hanoi, Ho Chi Minh City, Da Nang, Hoi An, Ha Long Bay, Hue, Sapa, and more. Each destination has real directions, local restaurant picks, and insider tips from personal trips.',
+  },
+];
+
+const features = [
+  { icon: '🧭', title: 'Real Directions', description: 'Not Google Maps pins — actual "take the Ceres bus, tell the conductor Panagsama" directions from every destination.' },
+  { icon: '🌅', title: 'Sunrise & Sunset', description: 'Golden hour times with best viewpoints matched to your daily locations. Never miss a sunset.' },
+  { icon: '💰', title: 'Budget Tracker', description: 'Log expenses in VND or USD, see typical costs for your destinations, and convert currency — all offline.' },
+  { icon: '💬', title: 'Local Phrases', description: 'Vietnamese phrases tuned to your specific destinations, with pronunciation guides and cultural tips.' },
+  { icon: '👥', title: 'Group Sharing', description: 'One purchase, up to 8 travelers. Everyone gets the full companion with real-time sync.' },
+  { icon: '💵', title: 'Expense Splitter', description: 'Track shared costs, split bills, and settle up at the end of the trip. No more spreadsheets.' },
+  { icon: '🎒', title: 'Smart Packing List', description: 'Auto-generated from your activities — canyoneering adds water shoes, snorkeling adds reef-safe sunscreen.' },
+  { icon: '📞', title: 'Emergency Contacts', description: 'Hospitals, police, trusted local drivers and guides for your specific route. One tap to call.' },
+  { icon: '📶', title: 'Works Offline', description: 'Everything cached to your phone. No signal on the ferry? No problem. No app store needed.' },
+  { icon: '🛡️', title: 'Travel Insurance', description: 'We use SafetyWing for every trip. Get covered for medical, evacuation, and trip issues — sign up even after you\'ve left home.' },
+];
+
+const steps = [
+  { number: '1', title: 'Tell us your trip', description: 'Upload an itinerary, paste your plans, use our AI planner, or start from a proven template.' },
+  { number: '2', title: 'We enrich it', description: 'Our AI matches your destinations with insider directions, local phrases, emergency contacts, and budget info.' },
+  { number: '3', title: 'Travel with confidence', description: 'Download to your phone. Works offline. Share with your group. Everything you need, always available.' },
+];
+
+const testimonials = [
+  {
+    quote: 'We had zero signal on the sleeper bus to Sapa and the app had everything — directions, restaurant picks, even the right phrases. Felt like traveling with a local friend.',
+    author: 'Sarah & Mike',
+    trip: '7-day Vietnam trip',
+  },
+  {
+    quote: 'The real directions are a game changer. Instead of staring at a map pin, I knew exactly which bus to take and what to tell the driver. Saved us hours.',
+    author: 'James',
+    trip: '5-day North Vietnam',
+  },
+  {
+    quote: 'Shared the companion with our whole group of 6. Everyone had the same info, we tracked expenses together, and the packing list was spot on.',
+    author: 'Rachel & David',
+    trip: '10-day Full Vietnam',
+  },
+];
+
+---
+
+<BaseLayout
+  title="Trip Companion"
+  description="Turn any Vietnam itinerary into an offline trip companion with local directions, budget tracking, and insider tips. Free through June 30, 2026."
+>
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="cp-hero">
+    <div class="cp-hero-gradient"></div>
+    <div class="container-content cp-hero-content">
+      <!-- Founder endorsements — top bar -->
+      <div class="cp-founders-bar">
+        <div class="cp-founder cp-founder--scott">
+          <div class="cp-founder-avatar">
+            <Image src={scottImg} alt="Scott — co-founder" width={52} height={52} format="webp" />
+          </div>
+          <div class="cp-founder-bubble">
+            <p class="cp-founder-quote">"An offline app for those remote destinations, planes and ferries — brilliant!"</p>
+            <p class="cp-founder-name">— Scott, <a href="/about/scott/">co-founder</a></p>
+          </div>
+        </div>
+        <div class="cp-founder cp-founder--local">
+          <div class="cp-founder-bubble">
+            <p class="cp-founder-quote">"Every local tip I've gathered, in your pocket."</p>
+            <p class="cp-founder-name">&mdash; Scott, <a href="/about/scott/">founder</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-hero-text">
+        <p class="cp-hero-label">Discover Vietnam</p>
+        <h1 class="cp-hero-title">Your Trip. Your Companion.<br />Works Offline.</h1>
+        <p class="cp-hero-subtitle">
+          Turn any Vietnam itinerary into an offline trip companion with local directions, budget tracking, and insider tips from 20+ real trips.
+        </p>
+        <div class="cp-hero-ctas">
+          <a href="/companion/start/" class="cp-btn cp-btn--primary">Start Planning</a>
+          <a href="#features" class="cp-btn cp-btn--ghost">See What's Inside</a>
+        </div>
+      </div>
+      <div class="cp-hero-mockup">
+        <div class="cp-phone-frame">
+          <div class="cp-phone-screen">
+            <div class="cp-phone-header">
+              <span class="cp-phone-label">DISCOVER VIETNAM</span>
+              <span class="cp-phone-title">Northern Vietnam Explorer</span>
+              <span class="cp-phone-meta">7 days · 3 destinations · 14 activities</span>
+            </div>
+            <div class="cp-phone-items">
+              <div class="cp-phone-item">
+                <span class="cp-phone-item-icon">✈️</span>
+                <div>
+                  <span class="cp-phone-item-title">Arrive Noi Bai - Hanoi</span>
+                  <span class="cp-phone-item-tag">Directions included</span>
+                </div>
+              </div>
+              <div class="cp-phone-item">
+                <span class="cp-phone-item-icon">🐟</span>
+                <div>
+                  <span class="cp-phone-item-title">Sardine Run Snorkeling</span>
+                  <span class="cp-phone-item-tag">Directions + local tips</span>
+                </div>
+              </div>
+              <div class="cp-phone-item">
+                <span class="cp-phone-item-icon">🍽️</span>
+                <div>
+                  <span class="cp-phone-item-title">Dinner at Pleasure Point</span>
+                  <span class="cp-phone-item-tag">Local pick by Scott</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREENSHOTS CAROUSEL — Styled HTML Mockups
+       ============================================================ -->
+  <section class="cp-screenshots section-padding">
+    <div class="container-content">
+      <h2 class="cp-section-title reveal">See It in Action</h2>
+      <div class="cp-carousel">
+
+        <!-- 1. Day-by-Day Itinerary -->
+        <div class="cp-carousel-item">
+          <div class="cp-carousel-frame">
+            <div class="cp-mockup">
+              <div class="cp-mockup-status">
+                <span>9:41</span>
+                <span class="cp-mockup-icons">📶 🔋</span>
+              </div>
+              <div class="cp-mockup-header" style="background: var(--gradient-companion-hero);">
+                <span class="cp-mockup-label">DISCOVER VIETNAM</span>
+                <span class="cp-mockup-title">Northern Vietnam</span>
+                <span class="cp-mockup-sub">Day 1 of 7 · Hanoi</span>
+              </div>
+              <div class="cp-mockup-body">
+                <div class="cp-mockup-item">
+                  <span class="cp-mockup-time">8:00 AM</span>
+                  <div class="cp-mockup-row">
+                    <span class="cp-mockup-emoji">✈️</span>
+                    <div>
+                      <span class="cp-mockup-name">Arrive Noi Bai - Hanoi</span>
+                      <span class="cp-mockup-tag">Directions included</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-mockup-item">
+                  <span class="cp-mockup-time">10:30 AM</span>
+                  <div class="cp-mockup-row">
+                    <span class="cp-mockup-emoji">🏨</span>
+                    <div>
+                      <span class="cp-mockup-name">Check in · Quest Hotel</span>
+                      <span class="cp-mockup-tag">₫2,800/night</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-mockup-item">
+                  <span class="cp-mockup-time">12:00 PM</span>
+                  <div class="cp-mockup-row">
+                    <span class="cp-mockup-emoji">🍜</span>
+                    <div>
+                      <span class="cp-mockup-name">Lunch · Larsian BBQ</span>
+                      <span class="cp-mockup-tag">Scott's pick</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-mockup-item">
+                  <span class="cp-mockup-time">2:00 PM</span>
+                  <div class="cp-mockup-row">
+                    <span class="cp-mockup-emoji">⛪</span>
+                    <div>
+                      <span class="cp-mockup-name">Basilica del Santo Niño</span>
+                      <span class="cp-mockup-tag">Directions + tips</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-mockup-item">
+                  <span class="cp-mockup-time">6:30 PM</span>
+                  <div class="cp-mockup-row">
+                    <span class="cp-mockup-emoji">🍽️</span>
+                    <div>
+                      <span class="cp-mockup-name">Dinner · Casa Verde</span>
+                      <span class="cp-mockup-tag">₫350/person</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cp-mockup-tabs">
+                <span class="cp-mockup-tab cp-mockup-tab--active">🗓 Trip</span>
+                <span class="cp-mockup-tab">🗺 Map</span>
+                <span class="cp-mockup-tab">✏️ Edit</span>
+                <span class="cp-mockup-tab">🔧 Tools</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="cp-carousel-title">Day-by-Day Itinerary</h3>
+          <p class="cp-carousel-desc">Your complete trip with times, directions, and local tips for every stop.</p>
+        </div>
+
+        <!-- 2. Real Directions -->
+        <div class="cp-carousel-item">
+          <div class="cp-carousel-frame">
+            <div class="cp-mockup">
+              <div class="cp-mockup-status">
+                <span>9:41</span>
+                <span class="cp-mockup-icons">📶 🔋</span>
+              </div>
+              <div class="cp-mockup-header cp-mockup-header--teal">
+                <span class="cp-mockup-label">GETTING TO</span>
+                <span class="cp-mockup-title">Moalboal Beach</span>
+                <span class="cp-mockup-sub">From Hanoi · 4 hours</span>
+              </div>
+              <div class="cp-mockup-body">
+                <div class="cp-mockup-direction">
+                  <div class="cp-mockup-step-circle">1</div>
+                  <div>
+                    <span class="cp-mockup-dir-title">South Bus Terminal</span>
+                    <span class="cp-mockup-dir-detail">Take a taxi or Grab to Hanoi Station. Buy a ticket for the Reunification Express to Hue."</span>
+                  </div>
+                </div>
+                <div class="cp-mockup-direction">
+                  <div class="cp-mockup-step-circle">2</div>
+                  <div>
+                    <span class="cp-mockup-dir-title">Ceres Bus to Moalboal</span>
+                    <span class="cp-mockup-dir-detail">Look for the Ceres bus with "Bato via Barili" sign. Tell the conductor "Moalboal." ₫155, ~3 hrs.</span>
+                  </div>
+                </div>
+                <div class="cp-mockup-direction">
+                  <div class="cp-mockup-step-circle">3</div>
+                  <div>
+                    <span class="cp-mockup-dir-title">Tricycle to Panagsama</span>
+                    <span class="cp-mockup-dir-detail">At Moalboal town, take a tricycle to Panagsama Beach. ₫50 per person, 10 minutes.</span>
+                  </div>
+                </div>
+                <div class="cp-mockup-tip">
+                  <span class="cp-mockup-tip-icon">💡</span>
+                  <span class="cp-mockup-tip-text">Leave before 7 AM to avoid traffic through Naga.</span>
+                </div>
+              </div>
+              <div class="cp-mockup-tabs">
+                <span class="cp-mockup-tab cp-mockup-tab--active">🗓 Trip</span>
+                <span class="cp-mockup-tab">🗺 Map</span>
+                <span class="cp-mockup-tab">✏️ Edit</span>
+                <span class="cp-mockup-tab">🔧 Tools</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="cp-carousel-title">Real Directions</h3>
+          <p class="cp-carousel-desc">Step-by-step directions that actually work — bus names, landmarks, what to tell the driver.</p>
+        </div>
+
+        <!-- 3. Budget Tracker -->
+        <div class="cp-carousel-item">
+          <div class="cp-carousel-frame">
+            <div class="cp-mockup">
+              <div class="cp-mockup-status">
+                <span>9:41</span>
+                <span class="cp-mockup-icons">📶 🔋</span>
+              </div>
+              <div class="cp-mockup-header cp-mockup-header--gold">
+                <span class="cp-mockup-label">BUDGET TRACKER</span>
+                <span class="cp-mockup-title">Day 3 · Moalboal</span>
+                <span class="cp-mockup-sub">₫4,250 spent · $76 USD</span>
+              </div>
+              <div class="cp-mockup-body">
+                <div class="cp-mockup-budget-bar">
+                  <div class="cp-mockup-budget-fill" style="width: 58%"></div>
+                </div>
+                <div class="cp-mockup-budget-label">58% of daily budget</div>
+                <div class="cp-mockup-expense">
+                  <span class="cp-mockup-emoji">🏨</span>
+                  <div>
+                    <span class="cp-mockup-name">Chief Mau Resort</span>
+                    <span class="cp-mockup-tag">Accommodation</span>
+                  </div>
+                  <span class="cp-mockup-amount">₫1,800</span>
+                </div>
+                <div class="cp-mockup-expense">
+                  <span class="cp-mockup-emoji">🐟</span>
+                  <div>
+                    <span class="cp-mockup-name">Sardine Run Tour</span>
+                    <span class="cp-mockup-tag">Activity</span>
+                  </div>
+                  <span class="cp-mockup-amount">₫1,500</span>
+                </div>
+                <div class="cp-mockup-expense">
+                  <span class="cp-mockup-emoji">🍜</span>
+                  <div>
+                    <span class="cp-mockup-name">Lunch · Pleasure Point</span>
+                    <span class="cp-mockup-tag">Food</span>
+                  </div>
+                  <span class="cp-mockup-amount">₫650</span>
+                </div>
+                <div class="cp-mockup-expense">
+                  <span class="cp-mockup-emoji">🛺</span>
+                  <div>
+                    <span class="cp-mockup-name">Tricycle rides (×3)</span>
+                    <span class="cp-mockup-tag">Transport</span>
+                  </div>
+                  <span class="cp-mockup-amount">₫300</span>
+                </div>
+              </div>
+              <div class="cp-mockup-tabs">
+                <span class="cp-mockup-tab">🗓 Trip</span>
+                <span class="cp-mockup-tab">🗺 Map</span>
+                <span class="cp-mockup-tab">✏️ Edit</span>
+                <span class="cp-mockup-tab cp-mockup-tab--active">🔧 Tools</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="cp-carousel-title">Budget Tracker</h3>
+          <p class="cp-carousel-desc">Log expenses, see typical costs, convert PHP/USD — all offline.</p>
+        </div>
+
+        <!-- 4. Local Phrases -->
+        <div class="cp-carousel-item">
+          <div class="cp-carousel-frame">
+            <div class="cp-mockup">
+              <div class="cp-mockup-status">
+                <span>9:41</span>
+                <span class="cp-mockup-icons">📶 🔋</span>
+              </div>
+              <div class="cp-mockup-header cp-mockup-header--coral">
+                <span class="cp-mockup-label">LOCAL PHRASES</span>
+                <span class="cp-mockup-title">Vietnamese (Tiếng Việt)</span>
+                <span class="cp-mockup-sub">For your Vietnam destinations</span>
+              </div>
+              <div class="cp-mockup-body">
+                <div class="cp-mockup-phrase">
+                  <div class="cp-mockup-phrase-local">Maayong buntag!</div>
+                  <div class="cp-mockup-phrase-eng">Good morning!</div>
+                  <div class="cp-mockup-phrase-say">ma-AH-yong boon-TAG</div>
+                </div>
+                <div class="cp-mockup-phrase">
+                  <div class="cp-mockup-phrase-local">Pila ni?</div>
+                  <div class="cp-mockup-phrase-eng">How much is this?</div>
+                  <div class="cp-mockup-phrase-say">PEE-la nee</div>
+                </div>
+                <div class="cp-mockup-phrase">
+                  <div class="cp-mockup-phrase-local">Asa ang Panagsama?</div>
+                  <div class="cp-mockup-phrase-eng">Where is the Old Quarter?</div>
+                  <div class="cp-mockup-phrase-say">foh KOH ee DOW?</div>
+                </div>
+                <div class="cp-mockup-phrase">
+                  <div class="cp-mockup-phrase-local">Cảm ơn nhiều!</div>
+                  <div class="cp-mockup-phrase-eng">Thank you very much!</div>
+                  <div class="cp-mockup-phrase-say">kahm UHN nyew</div>
+                </div>
+              </div>
+              <div class="cp-mockup-tabs">
+                <span class="cp-mockup-tab">🗓 Trip</span>
+                <span class="cp-mockup-tab">🗺 Map</span>
+                <span class="cp-mockup-tab">✏️ Edit</span>
+                <span class="cp-mockup-tab cp-mockup-tab--active">🔧 Tools</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="cp-carousel-title">Local Phrases</h3>
+          <p class="cp-carousel-desc">Vietnamese phrases matched to your destinations with pronunciation and cultural tips.</p>
+        </div>
+
+        <!-- 5. Group Sharing -->
+        <div class="cp-carousel-item">
+          <div class="cp-carousel-frame">
+            <div class="cp-mockup">
+              <div class="cp-mockup-status">
+                <span>9:41</span>
+                <span class="cp-mockup-icons">📶 🔋</span>
+              </div>
+              <div class="cp-mockup-header cp-mockup-header--purple">
+                <span class="cp-mockup-label">GROUP TRIP</span>
+                <span class="cp-mockup-title">Vietnam Adventure</span>
+                <span class="cp-mockup-sub">6 travelers · Synced</span>
+              </div>
+              <div class="cp-mockup-body">
+                <div class="cp-mockup-group-members">
+                  <div class="cp-mockup-member">
+                    <span class="cp-mockup-avatar" style="background: var(--color-ocean-teal);">S</span>
+                    <div>
+                      <span class="cp-mockup-name">Scott</span>
+                      <span class="cp-mockup-tag">Host · Online</span>
+                    </div>
+                  </div>
+                  <div class="cp-mockup-member">
+                    <span class="cp-mockup-avatar" style="background: var(--color-warm-coral);">J</span>
+                    <div>
+                      <span class="cp-mockup-name">Scott</span>
+                      <span class="cp-mockup-tag">Online</span>
+                    </div>
+                  </div>
+                  <div class="cp-mockup-member">
+                    <span class="cp-mockup-avatar" style="background: #7C3AED;">M</span>
+                    <div>
+                      <span class="cp-mockup-name">Mike</span>
+                      <span class="cp-mockup-tag">Online</span>
+                    </div>
+                  </div>
+                  <div class="cp-mockup-member">
+                    <span class="cp-mockup-avatar" style="background: #D97706;">R</span>
+                    <div>
+                      <span class="cp-mockup-name">Rachel</span>
+                      <span class="cp-mockup-tag">Last seen 2h ago</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-mockup-group-stats">
+                  <div class="cp-mockup-stat">
+                    <span class="cp-mockup-stat-val">₫12,400</span>
+                    <span class="cp-mockup-stat-label">Group total</span>
+                  </div>
+                  <div class="cp-mockup-stat">
+                    <span class="cp-mockup-stat-val">₫2,067</span>
+                    <span class="cp-mockup-stat-label">Per person</span>
+                  </div>
+                </div>
+                <div class="cp-mockup-tip">
+                  <span class="cp-mockup-tip-icon">✅</span>
+                  <span class="cp-mockup-tip-text">All companions synced 3 min ago</span>
+                </div>
+              </div>
+              <div class="cp-mockup-tabs">
+                <span class="cp-mockup-tab">🗓 Trip</span>
+                <span class="cp-mockup-tab">🗺 Map</span>
+                <span class="cp-mockup-tab">✏️ Edit</span>
+                <span class="cp-mockup-tab cp-mockup-tab--active">🔧 Tools</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="cp-carousel-title">Group Sharing</h3>
+          <p class="cp-carousel-desc">Share with up to 8 travelers. Everyone syncs when connected.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURES GRID
+       ============================================================ -->
+  <section id="features" class="cp-features section-padding">
+    <div class="container-content">
+      <h2 class="cp-section-title reveal">Everything You Need, Offline</h2>
+      <p class="cp-section-subtitle reveal">
+        Each feature is built from real travel experience — not generic travel app features.
+      </p>
+      <div class="cp-features-grid">
+        {features.map((f, i) => (
+          <div class="cp-feature-card reveal" style={`animation-delay: ${i * 0.05}s`}>
+            <span class="cp-feature-icon">{f.icon}</span>
+            <h3 class="cp-feature-title">{f.title}</h3>
+            <p class="cp-feature-desc">{f.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HOW IT WORKS
+       ============================================================ -->
+  <section class="cp-how section-padding">
+    <div class="container-content">
+      <h2 class="cp-section-title reveal">How It Works</h2>
+      <div class="cp-steps">
+        {steps.map((s, i) => (
+          <div class="cp-step reveal" style={`animation-delay: ${i * 0.1}s`}>
+            <div class="cp-step-number">{s.number}</div>
+            <div class="cp-step-content">
+              <h3 class="cp-step-title">{s.title}</h3>
+              <p class="cp-step-desc">{s.description}</p>
+            </div>
+            {i < steps.length - 1 && <div class="cp-step-connector" aria-hidden="true"></div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRICING
+       ============================================================ -->
+  <section class="cp-pricing section-padding">
+    <div class="container-content">
+      <div class="cp-pricing-card reveal">
+        <p class="cp-pricing-free-badge">Free Through June 30, 2026</p>
+        <h2 class="cp-pricing-price"><s class="cp-pricing-old">$7.99</s> Free</h2>
+        <p class="cp-pricing-tagline">One Trip, Yours Forever</p>
+        <ul class="cp-pricing-features">
+          <li>Full offline trip companion for your itinerary</li>
+          <li>Real directions, local phrases, insider tips</li>
+          <li>Budget tracker and expense splitter</li>
+          <li>Smart packing list and emergency contacts</li>
+          <li>Share with up to 8 travel companions for free</li>
+          <li>Real-time sync when connected</li>
+        </ul>
+        <a href="/companion/start/" class="cp-btn cp-btn--coral cp-btn--full">Start Planning Your Trip</a>
+        <p class="cp-pricing-note">Free during launch. $7.99 starting July 1, 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOUNDING EXPLORER CTA
+       ============================================================ -->
+  <section class="cp-fe-cta section-padding">
+    <div class="container-content">
+      <div class="cp-fe-card reveal">
+        <p class="cp-fe-badge">Launch Offer</p>
+        <h2 class="cp-fe-title">Free Through June 30, 2026</h2>
+        <p class="cp-fe-text">
+          We're giving the Trip Companion away free during our launch period. Use it on your trip, tell us what works and what doesn't. After June 30, it'll be $7.99.
+        </p>
+        <a href="/companion/start/" class="cp-btn cp-btn--primary">Get Started Free</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOCIAL PROOF
+       ============================================================ -->
+  <section class="cp-testimonials section-padding">
+    <div class="container-content">
+      <h2 class="cp-section-title reveal">Travelers Love It</h2>
+      <div class="cp-testimonials-grid">
+        {testimonials.map((t, i) => (
+          <div class="cp-testimonial reveal" style={`animation-delay: ${i * 0.1}s`}>
+            <p class="cp-testimonial-quote">"{t.quote}"</p>
+            <div class="cp-testimonial-author">
+              <strong>{t.author}</strong>
+              <span>{t.trip}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FAQ
+       ============================================================ -->
+  <FAQ items={faqItems} />
+
+  <!-- ============================================================
+       FINAL CTA
+       ============================================================ -->
+  <section class="cp-final-cta">
+    <div class="cp-final-cta-gradient"></div>
+    <div class="container-content cp-final-cta-content">
+      <h2 class="cp-final-cta-title reveal">Ready to Travel Like a Local?</h2>
+      <p class="cp-final-cta-text reveal">
+        Build your trip companion in minutes. Travel with confidence, even offline.
+      </p>
+      <a href="/companion/start/" class="cp-btn cp-btn--primary cp-btn--lg reveal">Start Planning Your Trip</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<!-- Scroll Reveal Observer -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector((anchor as HTMLAnchorElement).getAttribute('href')!);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+<style>
+  /* ---- HERO ---- */
+  .cp-hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .cp-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-companion-hero);
+    z-index: 0;
+  }
+
+  .cp-hero-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-10);
+    align-items: center;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+
+  @media (min-width: 1024px) {
+    .cp-hero-content {
+      grid-template-columns: 1fr 1fr;
+      padding-top: var(--space-20);
+      padding-bottom: var(--space-20);
+    }
+  }
+
+  .cp-hero-text {
+    color: white;
+  }
+
+  .cp-hero-label {
+    font-size: 0.6875rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: var(--space-3);
+    max-width: none;
+  }
+
+  .cp-hero-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: var(--weight-extrabold);
+    line-height: 1.1;
+    color: white;
+    margin-bottom: var(--space-4);
+  }
+
+  .cp-hero-subtitle {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    opacity: 0.85;
+    max-width: 48ch;
+    margin-bottom: var(--space-8);
+  }
+
+  .cp-hero-ctas {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  /* ---- PHONE MOCKUP ---- */
+  .cp-hero-mockup {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cp-phone-frame {
+    width: 280px;
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .cp-phone-screen {
+    font-family: var(--font-sans);
+  }
+
+  .cp-phone-header {
+    background: var(--gradient-companion-hero);
+    padding: 20px 18px 16px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cp-phone-label {
+    font-size: 0.625rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .cp-phone-title {
+    font-size: 1.125rem;
+    font-weight: var(--weight-extrabold);
+    line-height: 1.2;
+  }
+
+  .cp-phone-meta {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  .cp-phone-items {
+    padding: 12px 16px 16px;
+  }
+
+  .cp-phone-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .cp-phone-item:last-child {
+    border-bottom: none;
+  }
+
+  .cp-phone-item-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .cp-phone-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .cp-phone-item-title {
+    font-size: 0.8125rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+  }
+
+  .cp-phone-item-tag {
+    font-size: 0.6875rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+  }
+
+  /* ---- FOUNDERS BAR (top of hero) ---- */
+  .cp-founders-bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .cp-founders-bar {
+      flex-direction: row;
+      gap: var(--space-4);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .cp-founders-bar {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .cp-founder {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .cp-founder-avatar {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  .cp-founder-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .cp-founder-bubble {
+    position: relative;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    padding: 10px 14px;
+    max-width: 280px;
+  }
+
+  /* Arrow pointing left (toward Scott's avatar) */
+  .cp-founder--scott .cp-founder-bubble::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 14px;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transform: rotate(45deg);
+  }
+
+  /* Arrow pointing right (toward Scott's avatar) */
+  .cp-founder--jenice .cp-founder-bubble::after {
+    content: '';
+    position: absolute;
+    right: -7px;
+    top: 14px;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    transform: rotate(45deg);
+  }
+
+  .cp-founder-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: white;
+    opacity: 0.95;
+    margin-bottom: 4px;
+    max-width: none;
+  }
+
+  .cp-founder-name {
+    font-size: 0.6875rem;
+    font-weight: var(--weight-semibold);
+    color: rgba(255, 255, 255, 0.6);
+    max-width: none;
+  }
+
+  .cp-founder-name a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .cp-founder-name a:hover {
+    color: white;
+    text-decoration-color: white;
+  }
+
+  /* On very small screens, hide bubbles and show just avatars */
+  @media (max-width: 480px) {
+    .cp-founder-bubble {
+      display: none;
+    }
+    .cp-founders-bar {
+      flex-direction: row;
+      gap: var(--space-3);
+    }
+  }
+
+  /* ---- BUTTONS ---- */
+  .cp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-size: var(--text-button);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    min-height: 48px;
+  }
+
+  .cp-btn--primary {
+    background: var(--color-warm-coral);
+    color: white;
+    box-shadow: 0 4px 16px rgba(232, 101, 74, 0.35);
+  }
+
+  .cp-btn--primary:hover {
+    background: #D4553B;
+    color: white;
+    box-shadow: 0 6px 20px rgba(232, 101, 74, 0.45);
+    transform: translateY(-1px);
+  }
+
+  .cp-btn--coral {
+    background: var(--gradient-companion-cta);
+    color: white;
+    box-shadow: 0 4px 16px rgba(232, 101, 74, 0.35);
+  }
+
+  .cp-btn--coral:hover {
+    color: white;
+    box-shadow: 0 6px 20px rgba(232, 101, 74, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .cp-btn--ghost {
+    background: transparent;
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .cp-btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .cp-btn--full {
+    width: 100%;
+  }
+
+  .cp-btn--lg {
+    padding: 16px 36px;
+    font-size: 1.0625rem;
+  }
+
+  /* ---- SECTION TITLES ---- */
+  .cp-section-title {
+    text-align: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .cp-section-subtitle {
+    text-align: center;
+    color: var(--color-slate);
+    max-width: 56ch;
+    margin-inline: auto;
+    margin-bottom: var(--space-10);
+  }
+
+  /* ---- SCREENSHOTS CAROUSEL ---- */
+  .cp-carousel {
+    display: flex;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-4);
+    scrollbar-width: none;
+  }
+
+  .cp-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cp-carousel-item {
+    flex: 0 0 230px;
+    scroll-snap-align: start;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .cp-carousel-item {
+      flex: 0 0 250px;
+    }
+  }
+
+  .cp-carousel-frame {
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: var(--space-3);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    border: 3px solid #222;
+  }
+
+  .cp-carousel-title {
+    font-size: 0.9375rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .cp-carousel-desc {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+
+  /* ---- PHONE MOCKUP SCREENS ---- */
+  .cp-mockup {
+    display: flex;
+    flex-direction: column;
+    background: #f7f7f8;
+    font-family: var(--font-sans);
+  }
+
+  .cp-mockup-status {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 14px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: #333;
+    background: #fff;
+  }
+
+  .cp-mockup-icons {
+    font-size: 0.5rem;
+    letter-spacing: 2px;
+  }
+
+  .cp-mockup-header {
+    padding: 14px 16px 12px;
+    color: white;
+    background: var(--gradient-companion-hero);
+  }
+
+  .cp-mockup-header--teal {
+    background: linear-gradient(135deg, #0E4D5C, #0D7377, #14B8A6);
+  }
+
+  .cp-mockup-header--gold {
+    background: linear-gradient(135deg, #78350F, #B45309, #F59E0B);
+  }
+
+  .cp-mockup-header--coral {
+    background: linear-gradient(135deg, #9D174D, #E8654A, #FB923C);
+  }
+
+  .cp-mockup-header--purple {
+    background: linear-gradient(135deg, #4C1D95, #7C3AED, #A78BFA);
+  }
+
+  .cp-mockup-label {
+    display: block;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+
+  .cp-mockup-title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .cp-mockup-sub {
+    display: block;
+    font-size: 0.65rem;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  .cp-mockup-body {
+    padding: 10px 14px;
+    flex: 1;
+  }
+
+  /* Itinerary items */
+  .cp-mockup-item {
+    padding: 7px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .cp-mockup-item:last-child {
+    border-bottom: none;
+  }
+
+  .cp-mockup-time {
+    display: block;
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: var(--color-ocean-teal);
+    margin-bottom: 3px;
+  }
+
+  .cp-mockup-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cp-mockup-emoji {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .cp-mockup-row > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .cp-mockup-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #1a2332;
+  }
+
+  .cp-mockup-tag {
+    font-size: 0.575rem;
+    font-weight: 600;
+    color: var(--color-ocean-teal);
+  }
+
+  /* Direction steps */
+  .cp-mockup-direction {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .cp-mockup-direction:last-of-type {
+    border-bottom: none;
+  }
+
+  .cp-mockup-step-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-ocean-teal);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .cp-mockup-dir-title {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #1a2332;
+    margin-bottom: 2px;
+  }
+
+  .cp-mockup-dir-detail {
+    display: block;
+    font-size: 0.575rem;
+    color: #4a5568;
+    line-height: 1.4;
+  }
+
+  /* Tip callout */
+  .cp-mockup-tip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #FEF3C7;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 8px;
+  }
+
+  .cp-mockup-tip-icon {
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .cp-mockup-tip-text {
+    font-size: 0.575rem;
+    color: #92400E;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Budget tracker */
+  .cp-mockup-budget-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: #e5e7eb;
+    margin-bottom: 4px;
+  }
+
+  .cp-mockup-budget-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--color-ocean-teal), #14B8A6);
+  }
+
+  .cp-mockup-budget-label {
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: var(--color-ocean-teal);
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  .cp-mockup-expense {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .cp-mockup-expense:last-of-type {
+    border-bottom: none;
+  }
+
+  .cp-mockup-expense > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+  }
+
+  .cp-mockup-amount {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #1a2332;
+    flex-shrink: 0;
+  }
+
+  /* Phrases */
+  .cp-mockup-phrase {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .cp-mockup-phrase:last-of-type {
+    border-bottom: none;
+  }
+
+  .cp-mockup-phrase-local {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #1a2332;
+    margin-bottom: 1px;
+  }
+
+  .cp-mockup-phrase-eng {
+    font-size: 0.625rem;
+    color: #4a5568;
+    margin-bottom: 2px;
+  }
+
+  .cp-mockup-phrase-say {
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: var(--color-warm-coral);
+    font-style: italic;
+  }
+
+  /* Group members */
+  .cp-mockup-member {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .cp-mockup-member:last-of-type {
+    border-bottom: none;
+  }
+
+  .cp-mockup-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .cp-mockup-member > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .cp-mockup-group-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #eee;
+  }
+
+  .cp-mockup-stat {
+    flex: 1;
+    text-align: center;
+  }
+
+  .cp-mockup-stat-val {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #1a2332;
+  }
+
+  .cp-mockup-stat-label {
+    display: block;
+    font-size: 0.5rem;
+    color: #4a5568;
+    font-weight: 600;
+  }
+
+  /* Tab bar */
+  .cp-mockup-tabs {
+    display: flex;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 8px 4px 10px;
+  }
+
+  .cp-mockup-tab {
+    flex: 1;
+    text-align: center;
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: #9ca3af;
+  }
+
+  .cp-mockup-tab--active {
+    color: var(--color-ocean-teal);
+  }
+
+  /* ---- FEATURES GRID ---- */
+  .cp-features {
+    background: var(--color-white);
+  }
+
+  .cp-features-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .cp-features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .cp-features-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .cp-feature-card {
+    background: var(--color-sand);
+    border-radius: 16px;
+    padding: var(--space-6);
+  }
+
+  .cp-feature-icon {
+    font-size: 1.75rem;
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+
+  .cp-feature-title {
+    font-size: 1rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .cp-feature-desc {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    line-height: 1.5;
+  }
+
+  /* ---- HOW IT WORKS ---- */
+  .cp-how {
+    background: var(--color-sand);
+  }
+
+  .cp-steps {
+    max-width: 800px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .cp-steps {
+      flex-direction: row;
+      gap: var(--space-8);
+    }
+  }
+
+  .cp-step {
+    flex: 1;
+    position: relative;
+    text-align: center;
+  }
+
+  .cp-step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-ocean-teal);
+    color: white;
+    font-size: 1.25rem;
+    font-weight: var(--weight-extrabold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-4);
+  }
+
+  .cp-step-title {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .cp-step-desc {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    line-height: 1.5;
+    max-width: 28ch;
+    margin-inline: auto;
+  }
+
+  .cp-step-connector {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .cp-step-connector {
+      display: block;
+      position: absolute;
+      top: 24px;
+      left: calc(50% + 32px);
+      width: calc(100% - 64px);
+      height: 2px;
+      background: var(--color-ocean-teal);
+      opacity: 0.2;
+    }
+  }
+
+  /* ---- PRICING ---- */
+  .cp-pricing {
+    background: var(--color-white);
+  }
+
+  .cp-pricing-card {
+    max-width: 480px;
+    margin-inline: auto;
+    text-align: center;
+    background: var(--color-sand);
+    border-radius: 24px;
+    padding: var(--space-10) var(--space-8);
+  }
+
+  .cp-pricing-free-badge {
+    display: inline-block;
+    background: #38A169;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: var(--space-3);
+    max-width: none;
+  }
+
+  .cp-pricing-price {
+    font-size: 3rem;
+    font-weight: var(--weight-extrabold);
+    color: var(--color-deep-night);
+    margin-bottom: var(--space-1);
+  }
+
+  .cp-pricing-old {
+    font-size: 1.5rem;
+    color: var(--color-slate);
+    opacity: 0.5;
+    text-decoration: line-through;
+    font-weight: var(--weight-semibold);
+    margin-right: var(--space-2);
+  }
+
+  .cp-pricing-tagline {
+    font-size: 1.125rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-slate);
+    margin-bottom: var(--space-8);
+    max-width: none;
+  }
+
+  .cp-pricing-features {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .cp-pricing-features li {
+    font-size: var(--text-body);
+    color: var(--color-slate);
+    padding-left: var(--space-6);
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .cp-pricing-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-bold);
+  }
+
+  .cp-pricing-note {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    margin-top: var(--space-4);
+    max-width: none;
+  }
+
+  /* ---- FOUNDING EXPLORER CTA ---- */
+  .cp-fe-cta {
+    background: var(--color-sand);
+  }
+
+  .cp-fe-card {
+    max-width: 600px;
+    margin-inline: auto;
+    text-align: center;
+    background: #FFFBF5;
+    border: 2px solid var(--color-ocean-teal);
+    border-radius: 24px;
+    padding: var(--space-10) var(--space-8);
+  }
+
+  .cp-fe-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-ocean-teal), #085E56);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: var(--space-4);
+    max-width: none;
+  }
+
+  .cp-fe-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--color-deep-night);
+    margin-bottom: var(--space-3);
+  }
+
+  .cp-fe-text {
+    font-size: var(--text-body);
+    color: var(--color-slate);
+    line-height: 1.6;
+    max-width: 48ch;
+    margin-inline: auto;
+    margin-bottom: var(--space-6);
+  }
+
+  /* ---- TESTIMONIALS ---- */
+  .cp-testimonials {
+    background: var(--color-sand);
+  }
+
+  .cp-testimonials-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .cp-testimonials-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .cp-testimonial {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: var(--space-6);
+  }
+
+  .cp-testimonial-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--color-deep-night);
+    margin-bottom: var(--space-4);
+  }
+
+  .cp-testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cp-testimonial-author strong {
+    font-size: var(--text-caption);
+    color: var(--color-ocean-teal);
+  }
+
+  .cp-testimonial-author span {
+    font-size: 0.75rem;
+    color: var(--color-slate);
+  }
+
+  /* ---- FINAL CTA ---- */
+  .cp-final-cta {
+    position: relative;
+    padding: var(--space-16) 0;
+    overflow: hidden;
+  }
+
+  .cp-final-cta-gradient {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-companion-hero);
+  }
+
+  .cp-final-cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+  }
+
+  .cp-final-cta-title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    color: white;
+    margin-bottom: var(--space-4);
+  }
+
+  .cp-final-cta-text {
+    font-size: 1.0625rem;
+    opacity: 0.85;
+    max-width: 48ch;
+    margin-inline: auto;
+    margin-bottom: var(--space-8);
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+// CookieConsent — Astro island with client-side JS
+// No analytics scripts load until user consents
+---
+
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Cookie consent" hidden>
+  <div class="cookie-banner-inner">
+    <p class="cookie-banner-text">
+      We use cookies to improve your experience and analyze site traffic. No tracking until you say so.
+      <a href="/legal/privacy/">Privacy Policy</a>
+    </p>
+    <div class="cookie-banner-actions">
+      <button class="cookie-btn cookie-btn--decline" id="cookie-decline" type="button">Decline</button>
+      <button class="cookie-btn cookie-btn--accept" id="cookie-accept" type="button">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const COOKIE_KEY = 'dp_cookie_consent';
+
+  function getConsent(): string | null {
+    return localStorage.getItem(COOKIE_KEY);
+  }
+
+  function setConsent(value: 'accepted' | 'declined') {
+    localStorage.setItem(COOKIE_KEY, value);
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.hidden = true;
+  }
+
+  function showBanner() {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.hidden = false;
+  }
+
+  function loadAnalytics() {
+    // GA4 Measurement ID — paste your ID here to enable analytics
+    const GA4_ID = 'G-FMCBFTZZ35';
+
+    if (!GA4_ID) return; // No ID configured — analytics disabled
+
+    // Inject gtag.js
+    const script = document.createElement('script');
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    // Initialize dataLayer and gtag
+    script.onload = () => {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      function gtag(...args: any[]) { (window as any).dataLayer.push(args); }
+      gtag('js', new Date());
+      gtag('config', GA4_ID);
+    };
+  }
+
+  // Check existing consent state
+  const existingConsent = getConsent();
+
+  if (existingConsent === 'accepted') {
+    // User already consented — load analytics immediately
+    loadAnalytics();
+  } else if (!existingConsent) {
+    // No consent recorded — show the banner
+    showBanner();
+  }
+  // If 'declined', do nothing — no banner, no analytics
+
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    setConsent('accepted');
+    hideBanner();
+    loadAnalytics();
+  });
+
+  document.getElementById('cookie-decline')?.addEventListener('click', () => {
+    setConsent('declined');
+    hideBanner();
+  });
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--color-deep-night);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--space-4) var(--space-4);
+    padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (min-width: 768px) {
+    .cookie-banner {
+      padding: var(--space-4) var(--space-6);
+    }
+  }
+
+  .cookie-banner-inner {
+    max-width: var(--content-lg);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    .cookie-banner-inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-6);
+    }
+  }
+
+  .cookie-banner-text {
+    font-size: var(--text-caption);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+    max-width: 60ch;
+  }
+
+  .cookie-banner-text a {
+    color: var(--color-ocean-teal);
+  }
+
+  .cookie-banner-actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+
+  .cookie-btn {
+    padding: var(--space-2) var(--space-5);
+    border-radius: 8px;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    min-height: 44px;
+    transition: background-color 0.2s ease;
+  }
+
+  .cookie-btn--decline {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .cookie-btn--decline:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .cookie-btn--accept {
+    background: var(--color-ocean-teal);
+    color: white;
+  }
+
+  .cookie-btn--accept:hover {
+    background: var(--color-link-hover);
+  }
+</style>

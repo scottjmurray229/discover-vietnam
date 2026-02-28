@@ -1,0 +1,67 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.framework.id": "astro",
+  "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.content.publicFolder": "public",
+  "frontMatter.content.pageFolders": [
+{
+      "title": "blog",
+      "path": "[[workspace]]/src/content/blog",
+      "contentTypes": ["blog"]
+    },
+    {
+      "title": "destinations",
+      "path": "[[workspace]]/src/content/destinations",
+      "contentTypes": ["destination"]
+    }
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "blog",
+      "pageBundle": false,
+      "previewPath": "blog",
+      "filePrefix": null,
+      "clearEmpty": true,
+      "fields": [
+        { "title": "Title", "name": "title", "type": "string", "single": true },
+        { "title": "Description", "name": "description", "type": "string" },
+        { "title": "Publishing date", "name": "pubDate", "type": "datetime", "default": "{{now}}", "isPublishDate": true },
+        { "title": "Hero image", "name": "heroImage", "type": "image", "isPreviewImage": true },
+        { "title": "Author", "name": "author", "type": "string", "default": "Scott" },
+        { "title": "Tags", "name": "tags", "type": "tags" },
+        { "title": "Category", "name": "category", "type": "choice", "choices": ["destination","food","festival","practical","budget"] },
+        { "title": "Related destinations", "name": "relatedDestinations", "type": "tags" },
+        { "title": "Reading time (minutes)", "name": "readingTime", "type": "number" },
+        { "title": "Draft", "name": "draft", "type": "draft" }
+      ]
+    },
+    {
+      "name": "destination",
+      "pageBundle": false,
+      "previewPath": "destinations",
+      "filePrefix": null,
+      "clearEmpty": true,
+      "fields": [
+        { "title": "Title", "name": "title", "type": "string", "single": true },
+        { "title": "Description", "name": "description", "type": "string" },
+        { "title": "Hero video URL", "name": "heroVideo", "type": "string" },
+        { "title": "Hero image", "name": "heroImage", "type": "image", "isPreviewImage": true },
+        { "title": "Tagline", "name": "tagline", "type": "string" },
+        { "title": "Region", "name": "region", "type": "choice", "choices": ["visayas","luzon","mindanao"] },
+        { "title": "Best months", "name": "bestMonths", "type": "tags" },
+        { "title": "Budget per day (USD)", "name": "budgetPerDay", "type": "fields", "fields": [
+          { "title": "Backpacker", "name": "backpacker", "type": "number" },
+          { "title": "Mid-range", "name": "midRange", "type": "number" },
+          { "title": "Luxury", "name": "luxury", "type": "number" }
+        ]},
+        { "title": "Getting there", "name": "gettingThere", "type": "string" },
+        { "title": "Highlights", "name": "highlights", "type": "list" },
+        { "title": "Gradient colors", "name": "gradientColors", "type": "string" },
+        { "title": "Related destinations", "name": "relatedDestinations", "type": "tags" },
+        { "title": "Last verified", "name": "lastVerified", "type": "datetime" },
+        { "title": "Content status", "name": "contentStatus", "type": "choice", "choices": ["draft","review","published","needs-update"] },
+        { "title": "Draft", "name": "draft", "type": "draft" }
+      ]
+    }
+  ]
+}

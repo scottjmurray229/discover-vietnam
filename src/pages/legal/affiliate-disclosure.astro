@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Affiliate Disclosure', url: '/legal/affiliate-disclosure/' },
+];
+
+const lastUpdated = '2026-02-08';
+---
+<BaseLayout
+  title="Affiliate Disclosure"
+  description="FTC-compliant affiliate disclosure for Discover Vietnam — how we earn money and how it affects our recommendations."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="container-content section-padding">
+    <Breadcrumb items={breadcrumbs} />
+    <article class="legal-content container-prose">
+      <h1>Affiliate Disclosure</h1>
+      <p class="legal-updated">Last updated: {lastUpdated}</p>
+
+      <h2>How We Earn Money</h2>
+      <p>Discover Vietnam contains affiliate links to hotels, tours, transport services, and travel products. When you click these links and make a purchase or booking, we may receive a small commission at no additional cost to you.</p>
+
+      <h2>What This Means for You</h2>
+      <ul>
+        <li>You pay the <strong>same price</strong> whether you use our affiliate links or go directly — there's no markup.</li>
+        <li>Affiliate relationships <strong>never influence our recommendations</strong>. We only recommend places we've personally visited and services we've actually used.</li>
+        <li>If we had a bad experience somewhere, we'll say so — even if they offer an affiliate program.</li>
+      </ul>
+
+      <h2>Our Partners</h2>
+      <p>We may earn commissions from the following types of partners:</p>
+      <ul>
+        <li><strong>Accommodation</strong> — hotel and resort booking platforms</li>
+        <li><strong>Tours & Activities</strong> — guided tour and activity booking services</li>
+        <li><strong>Transport</strong> — flight and ferry booking platforms</li>
+        <li><strong>Travel Gear</strong> — equipment and gear retailers</li>
+      </ul>
+
+      <h2>Why We Use Affiliate Links</h2>
+      <p>Creating detailed, honest travel guides takes significant time and money — from the flights and ferries to get there, to the hours spent researching and writing. Affiliate commissions help us keep creating free content without resorting to intrusive advertising or paywalls.</p>
+
+      <h2>Our Promise</h2>
+      <p>Every recommendation on this site comes from real experience. Scott Murray have personally visited, stayed at, or eaten at every place we recommend. If we haven't been there ourselves, we won't link to it.</p>
+
+      <h2>FTC Compliance</h2>
+      <p>This disclosure is provided in accordance with the Federal Trade Commission's guidelines on endorsements and testimonials (16 CFR Part 255).</p>
+
+      <h2>Questions?</h2>
+      <p>If you have questions about our affiliate relationships, contact us at hello@discovervietnam.info.</p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal-content h2 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .legal-content p,
+  .legal-content li {
+    line-height: var(--leading-body);
+    margin-bottom: var(--space-3);
+  }
+
+  .legal-content ul {
+    padding-left: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  .legal-updated {
+    font-size: var(--text-caption);
+    color: var(--color-slate);
+    margin-bottom: var(--space-8);
+  }
+</style>

@@ -1,0 +1,1660 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import QuickFacts from '../components/QuickFacts.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import FAQ from '../components/FAQ.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import FTCDisclosure from '../components/FTCDisclosure.astro';
+import CompleteTripFooter from '../components/CompleteTripFooter.astro';
+import { existsSync } from 'node:fs';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+    heroVideo?: string;
+    heroImage?: string;
+    tagline?: string;
+    region: string;
+    bestMonths?: string[];
+    budgetPerDay?: {
+      backpacker: number;
+      midRange: number;
+      luxury: number;
+    };
+    gettingThere?: string;
+    essentials?: { icon: string; label: string; value: string }[];
+    highlights?: (string | { title: string; image?: string; videoSrc?: string; icon?: string })[];
+    gradientColors?: string;
+    relatedDestinations?: (string | { slug: string; videoSrc?: string; hook?: string })[];
+    faqItems?: { question: string; answer: string }[];
+    affiliatePicks?: { name: string; type: 'hotel' | 'restaurant' | 'tour' | 'activity'; price: string; priceNote?: string; personalNote: string; affiliateUrl?: string; badge?: string }[];
+    videoBreaks?: {
+      id: string;
+      videoSrc?: string;
+      fallbackGradient?: string;
+      title?: string;
+      text?: string;
+      quote?: string;
+      quoteAuthor?: string;
+    }[];
+  };
+  locale?: 'en' | 'tl';
+}
+
+const { frontmatter, locale } = Astro.props;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Destinations', url: '/destinations/' },
+  { name: frontmatter.title, url: Astro.url.pathname },
+];
+
+// Region display name
+const regionName = frontmatter.region.charAt(0).toUpperCase() + frontmatter.region.slice(1);
+
+// Look up related destination data for the "Continue the Journey" section
+const allDestinations = await getCollection('destinations');
+const relatedData = (frontmatter.relatedDestinations || [])
+  .map(item => {
+    const isObject = typeof item === 'object';
+    const slug = isObject ? item.slug : item;
+    const entry = allDestinations.find(d => (d.slug || d.id) === slug);
+    if (!entry) return null;
+
+    // Video: prefer manually specified, then preview video, then hero video
+    let videoSrc = isObject ? (item.videoSrc || '') : '';
+    if (!videoSrc) {
+      const previewPath = `public/videos/destinations/${slug}-preview.mp4`;
+      if (existsSync(previewPath)) {
+        videoSrc = `/videos/destinations/${slug}-preview.mp4`;
+      } else if (entry.data.heroVideo) {
+        videoSrc = entry.data.heroVideo as string;
+      }
+    }
+
+    // Hook: prefer manually specified, then empty (template will fall back to tagline)
+    const hook = isObject && item.hook ? item.hook : '';
+
+    // Related destination's own region
+    const relRegion = entry.data.region
+      ? (entry.data.region as string).charAt(0).toUpperCase() + (entry.data.region as string).slice(1)
+      : '';
+
+    // Highlights for tag pills (first 3)
+    const highlights = (entry.data.highlights || []).slice(0, 3).map((h: any) =>
+      typeof h === 'string' ? h : h.title
+    );
+
+    // Budget display
+    const budget = entry.data.budgetPerDay
+      ? `$${entry.data.budgetPerDay.backpacker}–$${entry.data.budgetPerDay.luxury}/day`
+      : '';
+
+    return {
+      slug: entry.slug || entry.id,
+      title: entry.data.title,
+      tagline: entry.data.tagline || '',
+      hook,
+      videoSrc,
+      gradientVar: `var(--gradient-${entry.slug || entry.id}, var(--gradient-homepage))`,
+      region: relRegion,
+      highlights,
+      budget,
+    };
+  })
+  .filter(Boolean);
+
+// Budget display text
+const budgetText = frontmatter.budgetPerDay
+  ? `$${frontmatter.budgetPerDay.backpacker}–$${frontmatter.budgetPerDay.luxury}/day`
+  : '';
+
+// Derive destination slug from the URL pathname for guideTag (e.g., /destinations/siquijor/ -> siquijor)
+const destSlug = Astro.url.pathname.replace(/^\/destinations\//, '').replace(/\/$/, '') || frontmatter.title.toLowerCase().replace(/\s+/g, '-');
+
+// Content pillar links for cross-linking section
+const pillarLinks = [
+  { icon: '🤿', label: 'Snorkeling', desc: 'Best snorkeling spots', url: '/practical/' },
+  { icon: '🎉', label: 'Festivals', desc: 'Celebrations & events', url: '/festivals/' },
+  { icon: '🍴', label: 'Food & Cuisine', desc: `${regionName} food guide`, url: '/cuisine/' },
+  { icon: '🏛️', label: 'WWII Heritage', desc: 'Historical sites', url: '/history/' },
+];
+
+// Gradient CSS variable name based on title (first word, lowercased)
+const gradientKey = frontmatter.title.toLowerCase().split(/[^a-z0-9]/)[0];
+const gradientVar = `var(--gradient-${gradientKey}, var(--gradient-homepage))`;
+---
+<BaseLayout
+  title={`${frontmatter.title} Travel Guide 2026`}
+  description={frontmatter.description || `Travel guide to ${frontmatter.title}, Vietnam`}
+  pageType="destination"
+  schemaData={frontmatter}
+  faqItems={frontmatter.faqItems}
+  breadcrumbs={breadcrumbs}
+  locale={locale}
+>
+  <!-- Hero Section — 100vh cinematic -->
+  <header class="dest-hero">
+    {frontmatter.heroVideo ? (
+      <video
+        class="dest-hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster={frontmatter.heroImage || undefined}
+      >
+        <source src={frontmatter.heroVideo} type="video/mp4" />
+      </video>
+    ) : null}
+    <div
+      class="dest-hero-gradient"
+      style={`background: ${gradientVar};`}
+    />
+    <div class="dest-hero-overlay"></div>
+    <div class="dest-hero-noise"></div>
+
+    <div class="dest-hero-content">
+      <h1 class="dest-hero-title">{frontmatter.title}</h1>
+
+      <div class="dest-hero-meta">
+        <div class="dest-hero-meta-item">
+          <span class="dest-hero-meta-label">Region</span>
+          <span class="dest-hero-meta-value">{regionName}</span>
+        </div>
+        {frontmatter.bestMonths && frontmatter.bestMonths.length > 0 && (
+          <div class="dest-hero-meta-item">
+            <span class="dest-hero-meta-label">Best Time</span>
+            <span class="dest-hero-meta-value">{frontmatter.bestMonths.slice(0, 3).join(', ')}</span>
+          </div>
+        )}
+        {frontmatter.budgetPerDay && (
+          <div class="dest-hero-meta-item">
+            <span class="dest-hero-meta-label">Budget / Day</span>
+            <span class="dest-hero-meta-value">{budgetText}</span>
+          </div>
+        )}
+        {frontmatter.gettingThere && (
+          <div class="dest-hero-meta-item">
+            <span class="dest-hero-meta-label">Getting There</span>
+            <span class="dest-hero-meta-value">{frontmatter.gettingThere.split('.')[0]}</span>
+          </div>
+        )}
+      </div>
+
+      <a href={`/plan/?dest=${destSlug}`} class="dest-hero-cta">Plan Your {frontmatter.title} Trip &rarr;</a>
+    </div>
+
+    <div class="dest-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- Quick Facts Bar -->
+  {frontmatter.budgetPerDay && (
+    <QuickFacts
+      region={frontmatter.region}
+      bestMonths={frontmatter.bestMonths}
+      budgetPerDay={frontmatter.budgetPerDay}
+      gettingThere={frontmatter.gettingThere}
+    />
+  )}
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Byline -->
+  <div class="container-content">
+    <div class="dest-byline reveal">
+      <div class="dest-byline-avatars">
+        <div class="dest-byline-avatar dest-byline-avatar--scott">S</div>
+      </div>
+      <div class="dest-byline-info">
+        <div class="dest-byline-names">
+          <a href="/about/scott/">Scott Murray</a>
+        </div>
+        <div class="dest-byline-date">Exploring Vietnam since 2018</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content (from Markdown body) -->
+  <article class="container-content container-prose dest-content">
+    <slot />
+  </article>
+
+  <!-- Inline Affiliate Picks Data (for client-side injection) -->
+  {frontmatter.affiliatePicks && frontmatter.affiliatePicks.length > 0 && (
+    <script type="application/json" id="inlinePicksData" set:html={JSON.stringify(
+      frontmatter.affiliatePicks
+        .filter((p: any) => p.affiliateUrl && p.affiliateUrl !== '#')
+        .map((p: any) => ({ name: p.name, type: p.type, price: p.price, personalNote: p.personalNote, affiliateUrl: p.affiliateUrl, badge: p.badge }))
+    )} />
+  )}
+
+  <!-- Essentials Box -->
+  {frontmatter.essentials && frontmatter.essentials.length > 0 && (
+    <div class="container-content container-prose">
+      <div class="dest-essentials reveal">
+        <h2>Quick-Reference Essentials</h2>
+        <div class="dest-essentials-grid">
+          {frontmatter.essentials.map((item: { icon: string; label: string; value: string }) => (
+            <div class="dest-essentials-item">
+              <div class="dest-essentials-icon">{item.icon}</div>
+              <div>
+                <div class="dest-essentials-label">{item.label}</div>
+                <div class="dest-essentials-value">{item.value}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+
+  <!-- Before You Go — Travel Insurance -->
+  <div class="container-content container-prose">
+    <div class="dest-before-you-go reveal">
+      <div class="dest-byg-header">
+        <span class="dest-byg-icon">🛡️</span>
+        <h3 class="dest-byg-title">Before You Go: Travel Insurance</h3>
+      </div>
+      <p class="dest-byg-text">A medevac flight from a remote Vietnamese island can cost $10,000+. We use <a href="https://safetywing.com/?referenceID=24858745&utm_source=24858745&utm_medium=Ambassador" target="_blank" rel="noopener sponsored">SafetyWing</a> for every trip — it's affordable, covers medical and evacuation, and you can sign up even after you've left home.</p>
+      <p class="dest-byg-quote">"We've thankfully never had to file a claim, but having it is peace of mind every time we board that plane." — Scott</p>
+      <a class="dest-byg-btn" href="https://safetywing.com/?referenceID=24858745&utm_source=24858745&utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Check SafetyWing Rates →</a>
+      <p class="dest-byg-disclosure">Affiliate link — we earn a commission at no extra cost to you. <a href="/legal/affiliate-disclosure/">Full disclosure</a>.</p>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  {frontmatter.faqItems && frontmatter.faqItems.length > 0 && (
+    <FAQ items={frontmatter.faqItems} />
+  )}
+
+  <!-- Related Destinations -->
+  {relatedData.length > 0 && (
+    <section class="dest-related">
+      <div class="dest-related-inner">
+        <h2>Continue the Journey</h2>
+        <p class="dest-related-subtitle">Travelers who love {frontmatter.title} also visit these destinations</p>
+        <div class="dest-related-grid">
+          {relatedData.map((dest: any) => (
+            <a class="dest-related-card reveal" href={`/destinations/${dest.slug}/`}>
+              <div class="dest-related-card-img" style={`background: ${dest.gradientVar};`}>
+                {dest.videoSrc && (
+                  <video
+                    class="dest-related-card-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                  >
+                    <source src={dest.videoSrc} type="video/mp4" />
+                  </video>
+                )}
+                <span class="dest-related-card-region">{dest.region}</span>
+              </div>
+              <div class="dest-related-card-body">
+                <h3>{dest.title}</h3>
+                <p>{dest.hook || dest.tagline || 'Discover this destination'}</p>
+                {dest.highlights.length > 0 && (
+                  <div class="dest-related-highlights">
+                    {dest.highlights.map((h: string) => (
+                      <span class="dest-related-tag">{h}</span>
+                    ))}
+                  </div>
+                )}
+                {dest.budget && (
+                  <div class="dest-related-budget">{dest.budget}</div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Email Capture -->
+  <div class="container-content dest-email-section">
+    <EmailCapture
+      leadMagnet={`Get Our Free ${frontmatter.title} Travel Guide`}
+      description={`Everything you need to plan your ${frontmatter.title} trip — packed into one PDF.`}
+      bullets={[
+        'Day-by-day itinerary with prices',
+        'Best hotels and restaurants (budget to splurge)',
+        'Getting there, getting around, and money tips',
+        'Local phrases and cultural etiquette',
+      ]}
+      guideTag={`destination-${destSlug}`}
+    />
+  </div>
+
+  <!-- Affiliate Picks — Book Your Trip -->
+  {frontmatter.affiliatePicks && frontmatter.affiliatePicks.length > 0 && (
+    <CompleteTripFooter
+      destination={frontmatter.title}
+      picks={frontmatter.affiliatePicks}
+    />
+  )}
+
+  <!-- Explore More Guides — Content Pillar Cross-Links -->
+  <section class="dest-pillars reveal">
+    <div class="container-content">
+      <h2>Explore More Vietnam Guides</h2>
+      <div class="dest-pillars-grid">
+        {pillarLinks.map((pillar) => (
+          <a class="dest-pillar-card" href={pillar.url}>
+            <span class="dest-pillar-icon">{pillar.icon}</span>
+            <span class="dest-pillar-label">{pillar.label}</span>
+            <span class="dest-pillar-desc">{pillar.desc}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FTC Disclosure -->
+  <div class="container-content">
+    <FTCDisclosure placement="inline" />
+  </div>
+</BaseLayout>
+
+<!-- Scroll Reveal Observer -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    // Show all reveal elements immediately for reduced-motion users
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<!-- Table of Contents -->
+<script>
+  (function() {
+    const content = document.querySelector('.dest-content');
+    if (!content) return;
+
+    const h2s = content.querySelectorAll('h2');
+    if (h2s.length < 2) return; // Not enough headings to warrant a TOC
+
+    // Ensure each H2 has an id for anchor linking
+    h2s.forEach((h2, i) => {
+      if (!h2.id) {
+        h2.id = 'section-' + (h2.textContent || '').trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '')
+          || ('section-' + i);
+      }
+    });
+
+    // Detect reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Build TOC item HTML
+    function buildItems() {
+      let html = '';
+      h2s.forEach((h2) => {
+        const text = (h2.textContent || '').trim();
+        html += '<a class="toc-link" href="#' + h2.id + '" data-target="' + h2.id + '">' + text + '</a>';
+      });
+      return html;
+    }
+
+    // ===== DESKTOP SIDEBAR (768px+) =====
+    const sidebar = document.createElement('nav');
+    sidebar.className = 'toc-sidebar';
+    sidebar.setAttribute('aria-label', 'Table of contents');
+    sidebar.innerHTML =
+      '<button class="toc-sidebar-toggle" aria-expanded="true" aria-label="Toggle table of contents">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>' +
+      '</button>' +
+      '<div class="toc-sidebar-panel">' +
+        '<div class="toc-sidebar-title">On This Page</div>' +
+        '<div class="toc-sidebar-links">' + buildItems() + '</div>' +
+      '</div>';
+    document.body.appendChild(sidebar);
+
+    const toggleBtn = sidebar.querySelector('.toc-sidebar-toggle') as HTMLButtonElement;
+    const panel = sidebar.querySelector('.toc-sidebar-panel') as HTMLElement;
+    let sidebarCollapsed = false;
+
+    toggleBtn.addEventListener('click', () => {
+      sidebarCollapsed = !sidebarCollapsed;
+      sidebar.classList.toggle('toc-sidebar--collapsed', sidebarCollapsed);
+      toggleBtn.setAttribute('aria-expanded', String(!sidebarCollapsed));
+    });
+
+    // Show/hide desktop sidebar based on scroll position
+    function updateSidebarVisibility() {
+      const contentTop = content.getBoundingClientRect().top + window.scrollY;
+      const scrollY = window.scrollY;
+      // Show after user scrolls past hero+quickfacts (i.e., content area is approaching)
+      if (scrollY > contentTop - 200) {
+        sidebar.classList.add('toc-sidebar--visible');
+      } else {
+        sidebar.classList.remove('toc-sidebar--visible');
+      }
+    }
+
+    // ===== MOBILE FLOATING BUTTON + PANEL =====
+    const mobileWrap = document.createElement('div');
+    mobileWrap.className = 'toc-mobile';
+    mobileWrap.innerHTML =
+      '<button class="toc-mobile-btn" aria-expanded="false" aria-label="Jump to section">' +
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>' +
+      '</button>' +
+      '<div class="toc-mobile-overlay" hidden></div>' +
+      '<div class="toc-mobile-panel" hidden>' +
+        '<div class="toc-mobile-panel-header">' +
+          '<span class="toc-mobile-panel-title">Jump to Section</span>' +
+          '<button class="toc-mobile-close" aria-label="Close">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
+          '</button>' +
+        '</div>' +
+        '<div class="toc-mobile-links">' + buildItems() + '</div>' +
+      '</div>';
+    document.body.appendChild(mobileWrap);
+
+    const mobileBtn = mobileWrap.querySelector('.toc-mobile-btn') as HTMLButtonElement;
+    const mobilePanel = mobileWrap.querySelector('.toc-mobile-panel') as HTMLElement;
+    const mobileOverlay = mobileWrap.querySelector('.toc-mobile-overlay') as HTMLElement;
+    const mobileClose = mobileWrap.querySelector('.toc-mobile-close') as HTMLButtonElement;
+
+    function openMobilePanel() {
+      mobilePanel.hidden = false;
+      mobileOverlay.hidden = false;
+      mobileBtn.setAttribute('aria-expanded', 'true');
+      // Small delay for transition
+      requestAnimationFrame(() => {
+        mobilePanel.classList.add('toc-mobile-panel--open');
+        mobileOverlay.classList.add('toc-mobile-overlay--open');
+      });
+    }
+
+    function closeMobilePanel() {
+      mobilePanel.classList.remove('toc-mobile-panel--open');
+      mobileOverlay.classList.remove('toc-mobile-overlay--open');
+      mobileBtn.setAttribute('aria-expanded', 'false');
+      setTimeout(() => {
+        mobilePanel.hidden = true;
+        mobileOverlay.hidden = true;
+      }, 300);
+    }
+
+    mobileBtn.addEventListener('click', openMobilePanel);
+    mobileClose.addEventListener('click', closeMobilePanel);
+    mobileOverlay.addEventListener('click', closeMobilePanel);
+
+    // Show/hide mobile button based on scroll (same logic as desktop)
+    function updateMobileVisibility() {
+      const contentTop = content.getBoundingClientRect().top + window.scrollY;
+      const scrollY = window.scrollY;
+      if (scrollY > contentTop - 200) {
+        mobileWrap.classList.add('toc-mobile--visible');
+      } else {
+        mobileWrap.classList.remove('toc-mobile--visible');
+      }
+    }
+
+    // ===== CLICK HANDLERS — smooth scroll =====
+    function handleLinkClick(e: Event) {
+      e.preventDefault();
+      const link = (e.target as HTMLElement).closest('.toc-link') as HTMLAnchorElement | null;
+      if (!link) return;
+      const targetId = link.getAttribute('data-target');
+      if (!targetId) return;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      // Close mobile panel if open
+      closeMobilePanel();
+
+      const behavior = prefersReducedMotion ? 'auto' : 'smooth';
+      target.scrollIntoView({ behavior: behavior as ScrollBehavior, block: 'start' });
+    }
+
+    sidebar.addEventListener('click', handleLinkClick);
+    mobileWrap.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('.toc-link')) {
+        handleLinkClick(e);
+      }
+    });
+
+    // ===== ACTIVE SECTION TRACKING (IntersectionObserver) =====
+    const allLinks = document.querySelectorAll('.toc-link');
+    const idToLinks = new Map<string, HTMLElement[]>();
+    allLinks.forEach((link) => {
+      const tid = link.getAttribute('data-target') || '';
+      if (!idToLinks.has(tid)) idToLinks.set(tid, []);
+      idToLinks.get(tid)!.push(link as HTMLElement);
+    });
+
+    let activeId = '';
+    function setActive(id: string) {
+      if (id === activeId) return;
+      activeId = id;
+      allLinks.forEach((link) => {
+        link.classList.toggle('toc-link--active', link.getAttribute('data-target') === id);
+      });
+    }
+
+    // Track which sections are visible; highlight the topmost one
+    const visibleSections = new Map<string, IntersectionObserverEntry>();
+    const tocObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (entry.isIntersecting) {
+            visibleSections.set(id, entry);
+          } else {
+            visibleSections.delete(id);
+          }
+        });
+        // Pick the topmost visible section
+        let topId = '';
+        let topY = Infinity;
+        visibleSections.forEach((entry, id) => {
+          const rect = entry.target.getBoundingClientRect();
+          if (rect.top < topY) {
+            topY = rect.top;
+            topId = id;
+          }
+        });
+        if (topId) setActive(topId);
+      },
+      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+    );
+
+    h2s.forEach((h2) => tocObserver.observe(h2));
+
+    // ===== SCROLL LISTENER (throttled) =====
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateSidebarVisibility();
+          updateMobileVisibility();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial check
+    updateSidebarVisibility();
+    updateMobileVisibility();
+  })();
+</script>
+
+<!-- Inline Affiliate Picks Injection -->
+<script>
+  (function() {
+    const dataEl = document.getElementById('inlinePicksData');
+    if (!dataEl) return;
+
+    let picks;
+    try { picks = JSON.parse(dataEl.textContent || '[]'); } catch { return; }
+    if (!picks.length) return;
+
+    const hotels = picks.filter((p: any) => p.type === 'hotel');
+    const restaurants = picks.filter((p: any) => p.type === 'restaurant');
+
+    const content = document.querySelector('.dest-content');
+    if (!content) return;
+
+    const h2s = content.querySelectorAll('h2');
+
+    function findSectionEnd(h2: Element): Element | null {
+      let node = h2.nextElementSibling;
+      while (node) {
+        if (node.tagName === 'H2' || node.classList.contains('immersive-break-inline')) return node;
+        node = node.nextElementSibling;
+      }
+      return null;
+    }
+
+    function buildCard(pick: any): string {
+      return `<a href="${pick.affiliateUrl}" target="_blank" rel="noopener sponsored" class="inline-pick-card">
+        <div class="inline-pick-info">
+          <div class="inline-pick-name">${pick.name}${pick.badge ? ` <span class="inline-pick-badge">${pick.badge}</span>` : ''}</div>
+          <div class="inline-pick-price">${pick.price}</div>
+          <div class="inline-pick-note">${pick.personalNote}</div>
+        </div>
+        <span class="inline-pick-cta">Book Now &rarr;</span>
+      </a>`;
+    }
+
+    function injectCallout(h2: Element, items: any[], heading: string, icon: string) {
+      if (items.length === 0) return;
+      const boundary = findSectionEnd(h2);
+      const container = document.createElement('div');
+      container.className = 'inline-picks-callout';
+      container.innerHTML = `
+        <div class="inline-picks-header">
+          <span class="inline-picks-icon">${icon}</span>
+          <span class="inline-picks-heading">${heading}</span>
+        </div>
+        <div class="inline-picks-grid">${items.slice(0, 3).map(buildCard).join('')}</div>
+        <p class="inline-picks-disclosure">Affiliate links — we earn a commission at no extra cost to you. <a href="/legal/affiliate-disclosure/">Full disclosure</a>.</p>
+      `;
+      if (boundary) {
+        boundary.parentNode!.insertBefore(container, boundary);
+      } else {
+        content!.appendChild(container);
+      }
+    }
+
+    h2s.forEach((h2) => {
+      const text = h2.textContent || '';
+      if (/stay/i.test(text)) injectCallout(h2, hotels, 'Book Your Stay', '🏨');
+      else if (/eat/i.test(text)) injectCallout(h2, restaurants, 'Where We Eat', '🍴');
+    });
+  })();
+</script>
+
+<style>
+  /* ================================================================
+     HERO — 100vh cinematic with multi-layer overlays
+     ================================================================ */
+  .dest-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 var(--space-6) 80px;
+    overflow: hidden;
+  }
+
+  .dest-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* Base gradient — full opacity when no video, dark scrim when video present */
+  .dest-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.9;
+  }
+
+  .dest-hero-video ~ .dest-hero-gradient {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%) !important;
+    opacity: 1;
+  }
+
+  /* Radial color accents (no-video fallback only) */
+  .dest-hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      radial-gradient(ellipse 800px 600px at 20% 80%, rgba(232, 101, 74, 0.12), transparent),
+      radial-gradient(ellipse 600px 800px at 80% 20%, rgba(13, 115, 119, 0.15), transparent);
+    pointer-events: none;
+  }
+
+  .dest-hero-video ~ .dest-hero-gradient ~ .dest-hero-overlay {
+    background: none;
+  }
+
+  /* Subtle noise texture */
+  .dest-hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .dest-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .dest-hero-title {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: var(--weight-extrabold);
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-4);
+    max-width: 700px;
+  }
+
+  /* Hero metadata items */
+  .dest-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dest-hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .dest-hero-meta-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-semibold);
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .dest-hero-meta-value {
+    font-size: 0.95rem;
+    font-weight: var(--weight-medium);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Plan a Trip CTA */
+  .dest-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.25rem;
+    padding: 12px 28px;
+    min-height: 44px;
+    background: var(--color-ocean-teal, #0D7377);
+    color: #fff;
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: var(--weight-semibold, 600);
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+    letter-spacing: 0.01em;
+  }
+  .dest-hero-cta:hover {
+    background: var(--color-ocean-teal-dark, #095456);
+    transform: translateY(-1px);
+  }
+  @media (max-width: 639px) {
+    .dest-hero-cta {
+      display: flex;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  /* Scroll hint — pulse animation */
+  .dest-scroll-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.7rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+    animation: scrollPulse 2s infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      opacity: 0.6;
+      transform: translateX(-50%) translateY(4px);
+    }
+  }
+
+  /* ================================================================
+     BYLINE — Overlapping avatar circles
+     ================================================================ */
+  .dest-byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-sand);
+  }
+
+  .dest-byline-avatars {
+    display: flex;
+  }
+
+  .dest-byline-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid var(--color-sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--weight-bold);
+    font-size: 0.85rem;
+    color: white;
+  }
+
+  .dest-byline-avatar--scott {
+    background: var(--color-ocean-teal);
+    z-index: 2;
+  }
+
+  .dest-byline-avatar--jenice {
+    background: var(--color-warm-coral);
+    margin-left: -12px;
+    z-index: 1;
+  }
+
+  .dest-byline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .dest-byline-names {
+    font-weight: var(--weight-semibold);
+    font-size: 0.95rem;
+    color: var(--color-heading);
+  }
+
+  .dest-byline-names a {
+    color: var(--color-ocean-teal);
+    text-decoration: none;
+  }
+
+  .dest-byline-names a:hover {
+    text-decoration: underline;
+  }
+
+  .dest-byline-date {
+    font-size: 0.82rem;
+    color: var(--color-slate);
+    font-weight: var(--weight-regular);
+  }
+
+  /* ================================================================
+     CONTENT
+     ================================================================ */
+  .dest-content {
+    padding-block: var(--space-10);
+    overflow: visible;
+  }
+
+  /* ================================================================
+     ESSENTIALS BOX — Dark rounded card
+     ================================================================ */
+  .dest-essentials {
+    background: var(--color-deep-night);
+    border-radius: 24px;
+    padding: var(--space-10) var(--space-8);
+    margin: var(--space-12) 0 0;
+    color: white;
+  }
+
+  .dest-essentials h2 {
+    color: white;
+    margin: 0 0 var(--space-6);
+    font-size: var(--text-h2);
+  }
+
+  .dest-essentials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .dest-essentials-item {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .dest-essentials-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .dest-essentials-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-semibold);
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .dest-essentials-value {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* ================================================================
+     RELATED DESTINATIONS
+     ================================================================ */
+  .dest-related {
+    padding: var(--space-16) var(--space-6);
+    background: var(--color-sand);
+  }
+
+  .dest-related-inner {
+    max-width: var(--content-lg);
+    margin: 0 auto;
+  }
+
+  .dest-related h2 {
+    text-align: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .dest-related-subtitle {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-slate);
+    margin-bottom: var(--space-10);
+    max-width: 100%;
+  }
+
+  .dest-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .dest-related-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .dest-related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .dest-related-card-img {
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dest-related-card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dest-related-card:hover .dest-related-card-video {
+    transform: scale(1.06);
+  }
+
+  .dest-related-card-region {
+    position: relative;
+    z-index: 1;
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .dest-related-card-body {
+    padding: var(--space-5);
+  }
+
+  .dest-related-card-body h3 {
+    font-size: 1.15rem;
+    color: var(--color-heading);
+    margin-bottom: var(--space-1);
+    font-weight: var(--weight-semibold);
+  }
+
+  .dest-related-card-body p {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    line-height: 1.5;
+  }
+
+  .dest-related-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: var(--space-2);
+  }
+
+  .dest-related-tag {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: var(--color-sky);
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
+  }
+
+  .dest-related-budget {
+    margin-top: var(--space-2);
+    font-size: 0.75rem;
+    color: var(--color-slate);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ================================================================
+     CONTENT PILLAR CROSS-LINKS
+     ================================================================ */
+  .dest-pillars {
+    padding-block: var(--space-12);
+  }
+
+  .dest-pillars h2 {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .dest-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .dest-pillar-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-6) var(--space-4);
+    border-radius: 16px;
+    background: var(--color-white);
+    border: 1px solid var(--color-sand);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dest-pillar-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-ocean-teal);
+  }
+
+  .dest-pillar-icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .dest-pillar-label {
+    font-weight: var(--weight-semibold);
+    font-size: 0.9rem;
+    color: var(--color-heading);
+    margin-bottom: 2px;
+  }
+
+  .dest-pillar-desc {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+  }
+
+  /* ================================================================
+     EMAIL SECTION
+     ================================================================ */
+  .dest-email-section {
+    padding-block: var(--space-12);
+  }
+
+  /* ================================================================
+     BEFORE YOU GO — Travel Insurance
+     ================================================================ */
+  .dest-before-you-go {
+    background: var(--color-sky);
+    border-radius: 20px;
+    padding: var(--space-8) var(--space-6);
+    margin: var(--space-10) 0 0;
+    border: 1px solid rgba(13, 115, 119, 0.12);
+  }
+
+  .dest-byg-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .dest-byg-icon {
+    font-size: 1.5rem;
+  }
+
+  .dest-byg-title {
+    font-size: 1.15rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-heading);
+    margin: 0;
+  }
+
+  .dest-byg-text {
+    font-size: 0.9rem;
+    color: var(--color-slate);
+    line-height: 1.65;
+    margin: 0 0 var(--space-3);
+  }
+
+  .dest-byg-text a {
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: rgba(13, 115, 119, 0.3);
+    text-underline-offset: 2px;
+  }
+
+  .dest-byg-text a:hover {
+    text-decoration-color: var(--color-ocean-teal);
+  }
+
+  .dest-byg-quote {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--color-slate);
+    line-height: 1.5;
+    padding: var(--space-3) var(--space-4);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    margin: 0 0 var(--space-4);
+  }
+
+  .dest-byg-btn {
+    display: inline-block;
+    background: var(--color-ocean-teal);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: var(--weight-semibold);
+    padding: 10px 22px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .dest-byg-btn:hover {
+    background: var(--color-ocean-teal-dark, #095456);
+    transform: translateY(-1px);
+    color: #fff;
+  }
+
+  .dest-byg-disclosure {
+    font-size: 0.72rem;
+    color: var(--color-slate);
+    margin: var(--space-3) 0 0;
+  }
+
+  .dest-byg-disclosure a {
+    color: var(--color-ocean-teal);
+    text-decoration: underline;
+  }
+
+  /* ================================================================
+     INLINE AFFILIATE PICKS — injected into body sections
+     ================================================================ */
+  :global(.inline-picks-callout) {
+    background: var(--color-sky, #E8F4F5);
+    border-left: 4px solid var(--color-ocean-teal, #0D7377);
+    border-radius: 0 16px 16px 0;
+    padding: var(--space-6, 24px);
+    margin: var(--space-8, 32px) 0;
+  }
+
+  :global(.inline-picks-header) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: var(--space-4, 16px);
+  }
+
+  :global(.inline-picks-icon) {
+    font-size: 1.2rem;
+  }
+
+  :global(.inline-picks-heading) {
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-heading, #1A2332);
+    letter-spacing: 0.01em;
+  }
+
+  :global(.inline-picks-grid) {
+    display: flex;
+    gap: var(--space-3, 12px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+
+  :global(.inline-pick-card) {
+    flex: 1 1 0;
+    min-width: 200px;
+    max-width: 280px;
+    background: white;
+    border-radius: 12px;
+    padding: var(--space-4, 16px);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  :global(.inline-pick-card:hover) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-ocean-teal, #0D7377);
+  }
+
+  :global(.inline-pick-name) {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-heading, #1A2332);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  :global(.inline-pick-badge) {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: var(--color-ocean-teal, #0D7377);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 9999px;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  :global(.inline-pick-price) {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-ocean-teal, #0D7377);
+    margin-bottom: 6px;
+  }
+
+  :global(.inline-pick-note) {
+    font-size: 0.78rem;
+    color: var(--color-slate, #4A5568);
+    line-height: 1.45;
+    margin-bottom: var(--space-3, 12px);
+  }
+
+  :global(.inline-pick-cta) {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-ocean-teal, #0D7377);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  :global(.inline-pick-card:hover .inline-pick-cta) {
+    color: var(--color-ocean-teal-dark, #095456);
+  }
+
+  :global(.inline-picks-disclosure) {
+    font-size: 0.68rem;
+    color: var(--color-slate, #4A5568);
+    margin-top: var(--space-3, 12px);
+    margin-bottom: 0;
+  }
+
+  :global(.inline-picks-disclosure a) {
+    color: var(--color-ocean-teal, #0D7377);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    :global(.inline-picks-grid) {
+      flex-direction: column;
+    }
+    :global(.inline-pick-card) {
+      max-width: 100%;
+    }
+  }
+
+  /* ================================================================
+     TABLE OF CONTENTS — Desktop Sidebar
+     ================================================================ */
+  :global(.toc-sidebar) {
+    position: fixed;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    max-height: calc(100vh - 120px);
+    font-family: var(--font-body, 'Outfit', sans-serif);
+  }
+
+  @media (min-width: 768px) {
+    :global(.toc-sidebar) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }
+
+  :global(.toc-sidebar--visible) {
+    opacity: 1;
+  }
+
+  :global(.toc-sidebar-toggle) {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-slate, #4A5568);
+    transition: background 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  :global(.toc-sidebar-toggle:hover) {
+    background: var(--color-ocean-teal, #0D7377);
+    color: #fff;
+  }
+
+  :global(.toc-sidebar-panel) {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: var(--space-4, 16px) var(--space-5, 20px);
+    margin-top: var(--space-2, 8px);
+    max-width: 260px;
+    min-width: 180px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  :global(.toc-sidebar--collapsed .toc-sidebar-panel) {
+    opacity: 0;
+    transform: translateX(12px);
+    pointer-events: none;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  :global(.toc-sidebar-title) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-slate, #4A5568);
+    margin-bottom: var(--space-3, 12px);
+    padding-bottom: var(--space-2, 8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  :global(.toc-sidebar-links) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  :global(.toc-sidebar-links .toc-link) {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--color-slate, #4A5568);
+    text-decoration: none;
+    padding: 5px 8px;
+    border-radius: 8px;
+    border-left: 2px solid transparent;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  :global(.toc-sidebar-links .toc-link:hover) {
+    background: rgba(13, 115, 119, 0.06);
+    color: var(--color-ocean-teal, #0D7377);
+  }
+
+  :global(.toc-sidebar-links .toc-link--active) {
+    color: var(--color-ocean-teal, #0D7377);
+    font-weight: 600;
+    border-left-color: var(--color-ocean-teal, #0D7377);
+    background: rgba(13, 115, 119, 0.06);
+  }
+
+  /* Narrower panel on medium screens to avoid content overlap */
+  @media (min-width: 768px) and (max-width: 1400px) {
+    :global(.toc-sidebar-panel) {
+      max-width: 200px;
+    }
+    :global(.toc-sidebar-links .toc-link) {
+      font-size: 0.78rem;
+    }
+  }
+
+  /* ================================================================
+     TABLE OF CONTENTS — Mobile Floating Button + Panel
+     ================================================================ */
+  :global(.toc-mobile) {
+    display: block;
+    position: fixed;
+    z-index: 45;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    font-family: var(--font-body, 'Outfit', sans-serif);
+  }
+
+  @media (min-width: 768px) {
+    :global(.toc-mobile) {
+      display: none;
+    }
+  }
+
+  :global(.toc-mobile--visible) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  :global(.toc-mobile-btn) {
+    width: 48px;
+    height: 48px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-ocean-teal, #0D7377);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  :global(.toc-mobile-btn:hover),
+  :global(.toc-mobile-btn:active) {
+    background: var(--color-ocean-teal-dark, #095456);
+    transform: scale(1.05);
+  }
+
+  :global(.toc-mobile-overlay) {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 35, 50, 0);
+    z-index: 44;
+    transition: background 0.3s ease;
+  }
+
+  :global(.toc-mobile-overlay--open) {
+    background: rgba(26, 35, 50, 0.4);
+  }
+
+  :global(.toc-mobile-panel) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 46;
+    background: #fff;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+    padding: var(--space-6, 24px);
+    padding-bottom: calc(var(--space-6, 24px) + env(safe-area-inset-bottom, 0px));
+    max-height: 70vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :global(.toc-mobile-panel--open) {
+    transform: translateY(0);
+  }
+
+  :global(.toc-mobile-panel-header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4, 16px);
+    padding-bottom: var(--space-3, 12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  :global(.toc-mobile-panel-title) {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-heading, #1A2332);
+  }
+
+  :global(.toc-mobile-close) {
+    width: 36px;
+    height: 36px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-sand, #F5F0E8);
+    color: var(--color-slate, #4A5568);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+
+  :global(.toc-mobile-close:hover) {
+    background: var(--color-sand-dark, #EBE4D8);
+  }
+
+  :global(.toc-mobile-links) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  :global(.toc-mobile-links .toc-link) {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--color-slate, #4A5568);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border-left: 3px solid transparent;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  :global(.toc-mobile-links .toc-link:hover),
+  :global(.toc-mobile-links .toc-link:active) {
+    background: rgba(13, 115, 119, 0.06);
+    color: var(--color-ocean-teal, #0D7377);
+  }
+
+  :global(.toc-mobile-links .toc-link--active) {
+    color: var(--color-ocean-teal, #0D7377);
+    font-weight: 600;
+    border-left-color: var(--color-ocean-teal, #0D7377);
+    background: rgba(13, 115, 119, 0.06);
+  }
+
+  /* Reduced motion — disable all TOC transitions */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.toc-sidebar),
+    :global(.toc-sidebar-panel),
+    :global(.toc-mobile),
+    :global(.toc-mobile-panel),
+    :global(.toc-mobile-overlay),
+    :global(.toc-mobile-btn),
+    :global(.toc-sidebar-toggle),
+    :global(.toc-sidebar-links .toc-link),
+    :global(.toc-mobile-links .toc-link) {
+      transition: none !important;
+    }
+  }
+</style>

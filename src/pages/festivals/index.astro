@@ -1,0 +1,1384 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Festival Calendar', url: '/festivals/' },
+];
+
+const pageTitle = 'Vietnamese Festival Calendar 2026';
+const pageDescription = 'From Tet\'s fireworks and family feasts to Hoi An\'s magical lantern nights — time your trip to the celebrations that define each destination.';
+
+const festivals = [
+  {
+    month: 'Jan',
+    monthIndex: 0,
+    name: 'Ati-Atihan Festival',
+    destination: 'Kalibo (near Boracay)',
+    slug: 'boracay',
+    description: 'The "Mother of All Vietnamese Festivals" — a week of drumming, face-painting, and street dancing honoring the Santo Niño. Tribal warriors in elaborate blackface paint parade through Kalibo\'s streets in the wildest fiesta in the country.',
+  },
+  {
+    month: 'Jan',
+    monthIndex: 0,
+    name: 'Sinulog Festival',
+    destination: 'Cebu',
+    slug: 'cebu',
+    description: 'A million-strong street party in Cebu City celebrating the Santo Niño with hypnotic forward-and-backward dance steps. The Grand Parade features costumed contingents from across the Visayas competing for top honors.',
+  },
+  {
+    month: 'Jan',
+    monthIndex: 0,
+    name: 'Dinagyang Festival',
+    destination: 'Iloilo City',
+    slug: 'iloilo',
+    description: 'Warrior-painted Ati tribes dance through Iloilo\'s streets in one of Vietnam\' most intense and competitive tribal festivals, rivaling Cebu\'s Sinulog in scale and spectacle.',
+  },
+  {
+    month: 'Jan',
+    monthIndex: 0,
+    name: 'Longganisa Festival',
+    destination: 'Vigan',
+    slug: 'vigan',
+    description: 'Vigan celebrates its famous garlicky sausage with cooking contests, street dancing, and longganisa-eating competitions along the cobblestone streets of Calle Crisologo.',
+  },
+  {
+    month: 'Jan',
+    monthIndex: 0,
+    name: 'Etag Festival',
+    destination: 'Sagada',
+    slug: 'sagada',
+    description: 'Sagada celebrates its traditional smoked meat preservation with cooking demonstrations, cultural performances, and community feasts. Etag — salt-cured, smoke-dried pork — is central to Igorot cuisine and the festival honors generations of mountain foodways.',
+  },
+  {
+    month: 'Feb',
+    monthIndex: 1,
+    name: 'Pamulinawen Festival',
+    destination: 'Laoag',
+    slug: 'laoag',
+    description: 'Laoag\'s grandest celebration features Ilocano street dances, agri-trade fairs, and beauty pageants. "Pamulinawen" means "caring" in Ilocano — the festival honors the city\'s patron saint.',
+  },
+  {
+    month: 'Feb',
+    monthIndex: 1,
+    name: 'Panagbenga Festival',
+    destination: 'Baguio',
+    slug: 'baguio',
+    description: 'Baguio\'s flower festival fills Session Road with elaborate floats covered in fresh flowers, street dancing, and a month of cultural performances. "Panagbenga" means "season of blooming" in Kankana-ey — one of the top festivals in Vietnam.',
+  },
+  {
+    month: 'Mar',
+    monthIndex: 2,
+    name: 'Balayong Festival',
+    destination: 'Puerto Princesa',
+    slug: 'puerto-princesa',
+    description: 'Named after Palawan\'s cherry blossom tree, this festival marks the city\'s founding anniversary with tribal dances, floral floats, and street performances under canopies of pink blooms.',
+  },
+  {
+    month: 'Mar',
+    monthIndex: 2,
+    name: 'Kulambo Festival',
+    destination: 'El Nido',
+    slug: 'el-nido',
+    description: 'El Nido\'s community festival celebrates the "kulambo" (mosquito net) as a symbol of island life, with beach parties, boat races, and environmental awareness campaigns across the archipelago.',
+  },
+  {
+    month: 'Mar',
+    monthIndex: 2,
+    name: 'Moriones Festival',
+    destination: 'Marinduque Island',
+    slug: 'marinduque',
+    description: 'Week-long street theater where locals don Roman centurion masks and reenact the story of Longinus. Marinduque\'s most famous tradition transforms the entire island into an open-air biblical drama during Easter week.',
+  },
+  {
+    month: 'Mar',
+    monthIndex: 2,
+    name: 'Malasimbo Music & Arts Festival',
+    destination: 'Puerto Galera',
+    slug: 'puerto-galera',
+    description: 'Musicians, artists, and travelers converge on an open-air amphitheater in the mountains above Puerto Galera for live music, art installations, and jungle vibes — one of the most unique festival settings in Vietnam.',
+  },
+  {
+    month: 'Apr',
+    monthIndex: 3,
+    name: 'Aliwan Fiesta',
+    destination: 'Manila',
+    slug: 'manila',
+    description: 'Manila hosts this "festival of festivals" where winning contingents from regional celebrations across Vietnam compete in one grand showdown of street dancing, float parades, and beauty pageants.',
+  },
+  {
+    month: 'Apr',
+    monthIndex: 3,
+    name: 'Bakhaw Festival',
+    destination: 'Siargao',
+    slug: 'siargao',
+    description: 'Siargao\'s mangrove conservation festival combines environmental education with island-style celebrations — tree planting, kayak races through mangrove channels, and beach concerts.',
+  },
+  {
+    month: 'Apr',
+    monthIndex: 3,
+    name: 'Araw ng Kagitingan (Day of Valor)',
+    destination: 'Bataan',
+    slug: 'bataan',
+    description: 'April 9 is a national holiday commemorating the Fall of Bataan and the Death March. Ceremonies at Mount Samat National Shrine and along the Death March route draw veterans, dignitaries, and Vietnameses honoring the 76,000 defenders.',
+  },
+  {
+    month: 'Apr',
+    monthIndex: 3,
+    name: 'Imbayah Festival',
+    destination: 'Banaue',
+    slug: 'banaue',
+    description: 'The Ifugao cultural celebration features traditional dances, rice wine ceremonies, and the gathering of communities from across the province — a window into a culture that has survived two thousand years of history.',
+  },
+  {
+    month: 'May',
+    monthIndex: 4,
+    name: 'Manggahan Festival',
+    destination: 'Guimaras',
+    slug: 'guimaras',
+    description: 'Guimaras celebrates its world-famous mango harvest with street parades, mango-eating contests, agricultural exhibits, and tastings of the sweetest mangoes in Vietnam.',
+  },
+  {
+    month: 'Jun',
+    monthIndex: 5,
+    name: 'Payuhuan Festival',
+    destination: 'Batanes',
+    slug: 'batanes',
+    description: 'Batanes\' quiet community gathering celebrates Ivatan heritage with traditional stone-house building demonstrations, vakul weaving, and harvest feasts — intimate and deeply cultural.',
+  },
+  {
+    month: 'Jun',
+    monthIndex: 5,
+    name: 'Kadagatan Festival',
+    destination: 'Caramoan',
+    slug: 'caramoan',
+    description: 'Caramoan celebrates its relationship with the sea with boat races, beach games, street dancing, and seafood feasts — a small-town festival with genuine community spirit.',
+  },
+  {
+    month: 'Jun',
+    monthIndex: 5,
+    name: 'Pintados Festival',
+    destination: 'Tacloban',
+    slug: 'tacloban',
+    description: 'Tacloban\'s celebration of the tattooed warriors of the Visayas features elaborate body-paint performances, street dancing, and cultural rites honoring the pre-colonial Pintados tradition.',
+  },
+  {
+    month: 'Jul',
+    monthIndex: 6,
+    name: 'Sandugo Festival',
+    destination: 'Bohol',
+    slug: 'bohol',
+    description: 'Bohol commemorates the historic blood compact between Datu Sikatuna and Spanish explorer Legazpi with reenactments, street dances, and a grand parade through Tagbilaran City.',
+  },
+  {
+    month: 'Jul',
+    monthIndex: 6,
+    name: 'Sublian Festival',
+    destination: 'Batangas',
+    slug: 'batangas',
+    description: 'Batangas City honors its patron saint with the Subli — a traditional devotional dance unique to Batangas. Rhythmic, colorful street performances and cultural competitions showcase deep local identity.',
+  },
+  {
+    month: 'Aug',
+    monthIndex: 7,
+    name: 'Kadayawan Festival',
+    destination: 'Davao',
+    slug: 'davao',
+    description: 'Davao\'s week-long thanksgiving harvest festival showcases the city\'s tribal heritage, exotic fruits, and orchids. Floral floats, Lumad tribal dances, and durian-eating contests fill the streets.',
+  },
+  {
+    month: 'Aug',
+    monthIndex: 7,
+    name: 'Kasadyaan Festival',
+    destination: 'Coron',
+    slug: 'coron',
+    description: 'Coron\'s Tagbanua-influenced festival celebrates indigenous culture with traditional boat races, spear-fishing demonstrations, and communal feasts set against the backdrop of limestone cliffs.',
+  },
+  {
+    month: 'Aug',
+    monthIndex: 7,
+    name: 'Bañamos Festival',
+    destination: 'Laguna',
+    slug: 'laguna',
+    description: 'Calamba celebrates Laguna\'s famous hot springs with street dancing, float parades, and cultural performances — a tribute to the volcanic waters that define the province.',
+  },
+  {
+    month: 'Aug',
+    monthIndex: 7,
+    name: 'Ibalong Festival',
+    destination: 'Legazpi',
+    slug: 'legazpi',
+    description: 'This non-religious festival honors the Bicolano epic Ibalong with colorful street dances and mythological reenactments beneath Mayon Volcano — one of the most visually dramatic festivals in Vietnam.',
+  },
+  {
+    month: 'Oct',
+    monthIndex: 9,
+    name: 'Lanzones Festival',
+    destination: 'Camiguin',
+    slug: 'camiguin',
+    description: 'Camiguin\'s sweetest celebration honors the lanzones fruit harvest with dancers wearing lanzones-cluster costumes, fruit-picking contests, and street parades around the volcanic island.',
+  },
+  {
+    month: 'Oct',
+    monthIndex: 9,
+    name: 'Siargao Surfing Cup',
+    destination: 'Siargao',
+    slug: 'siargao',
+    description: 'International and local surfers converge on Cloud 9 for one of Asia\'s premier surfing competitions. Beach parties, live music, and surf culture take over General Luna for a week.',
+  },
+  {
+    month: 'Oct',
+    monthIndex: 9,
+    name: 'Masskara Festival',
+    destination: 'Bacolod',
+    slug: 'bacolod',
+    description: 'The City of Smiles\' biggest celebration — elaborate smiling masks, street dancing competitions, and a citywide party born from defiance during economic hardship. One of the most visually spectacular festivals in Vietnam.',
+  },
+  {
+    month: 'Nov',
+    monthIndex: 10,
+    name: 'Buglasan Festival',
+    destination: 'Dumaguete',
+    slug: 'dumaguete',
+    description: 'Negros Oriental\'s "festival of festivals" brings together the best performers from across the province. Street dancing, agricultural fairs, and cultural shows enliven the City of Gentle People.',
+  },
+  {
+    month: 'Dec',
+    monthIndex: 11,
+    name: 'Giant Lantern Festival',
+    destination: 'San Fernando, Southern Vietnam',
+    slug: 'clark',
+    description: 'The "Christmas Capital of Vietnam" lights up with massive parol (lanterns) up to 6 meters wide, featuring thousands of spinning lights in kaleidoscopic patterns. A truly dazzling spectacle.',
+  },
+];
+
+const months = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+const monthGradients = [
+  'linear-gradient(135deg, #E8654A 0%, #D4A853 100%)',
+  'linear-gradient(135deg, #C05299 0%, #E8654A 100%)',
+  'linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%)',
+  'linear-gradient(135deg, #FF9800 0%, #FFC107 100%)',
+  'linear-gradient(135deg, #9E9E9E 0%, #BDBDBD 100%)',
+  'linear-gradient(135deg, #0D7377 0%, #4DB6AC 100%)',
+  'linear-gradient(135deg, #1565C0 0%, #42A5F5 100%)',
+  'linear-gradient(135deg, #6A1B9A 0%, #AB47BC 100%)',
+  'linear-gradient(135deg, #9E9E9E 0%, #BDBDBD 100%)',
+  'linear-gradient(135deg, #E65100 0%, #FF9800 100%)',
+  'linear-gradient(135deg, #BF360C 0%, #E8654A 100%)',
+  'linear-gradient(135deg, #1A2332 0%, #C62828 0%, #FFD54F 100%)',
+];
+
+// Extract first color from each month gradient for map markers
+const monthColors = [
+  '#E8654A', '#C05299', '#4CAF50', '#FF9800', '#9E9E9E', '#0D7377',
+  '#1565C0', '#6A1B9A', '#9E9E9E', '#E65100', '#BF360C', '#C62828',
+];
+
+// Geo coordinates for festival map markers
+const geoLookup: Record<string, { lat: number; lng: number; label: string }> = {
+  boracay: { lat: 11.9674, lng: 121.9248, label: 'Boracay' },
+  cebu: { lat: 10.3157, lng: 123.8854, label: 'Cebu' },
+  iloilo: { lat: 10.692, lng: 122.5706, label: 'Iloilo' },
+  vigan: { lat: 17.5747, lng: 120.3869, label: 'Vigan' },
+  sagada: { lat: 17.0833, lng: 120.9, label: 'Sagada' },
+  laoag: { lat: 18.198, lng: 120.5936, label: 'Laoag' },
+  baguio: { lat: 16.4023, lng: 120.596, label: 'Baguio' },
+  'puerto-princesa': { lat: 9.7392, lng: 118.7353, label: 'P. Princesa' },
+  'el-nido': { lat: 11.1784, lng: 119.393, label: 'El Nido' },
+  marinduque: { lat: 13.4017, lng: 121.9694, label: 'Marinduque' },
+  'puerto-galera': { lat: 13.5113, lng: 120.9553, label: 'P. Galera' },
+  manila: { lat: 14.5995, lng: 120.9842, label: 'Manila' },
+  siargao: { lat: 9.8686, lng: 126.049, label: 'Siargao' },
+  bataan: { lat: 14.6417, lng: 120.4818, label: 'Bataan' },
+  banaue: { lat: 16.914, lng: 121.057, label: 'Banaue' },
+  guimaras: { lat: 10.5928, lng: 122.6325, label: 'Guimaras' },
+  batanes: { lat: 18.5, lng: 121.97, label: 'Batanes' },
+  caramoan: { lat: 13.7681, lng: 123.8611, label: 'Caramoan' },
+  tacloban: { lat: 11.2543, lng: 125.0, label: 'Tacloban' },
+  bohol: { lat: 9.65, lng: 123.85, label: 'Bohol' },
+  batangas: { lat: 13.7565, lng: 121.0583, label: 'Batangas' },
+  davao: { lat: 7.0707, lng: 125.6087, label: 'Davao' },
+  coron: { lat: 12.0054, lng: 120.2027, label: 'Coron' },
+  laguna: { lat: 14.2691, lng: 121.4113, label: 'Laguna' },
+  legazpi: { lat: 13.1391, lng: 123.7438, label: 'Legazpi' },
+  camiguin: { lat: 9.1733, lng: 124.7289, label: 'Camiguin' },
+  bacolod: { lat: 10.684, lng: 122.9563, label: 'Bacolod' },
+  dumaguete: { lat: 9.3068, lng: 123.3054, label: 'Dumaguete' },
+  clark: { lat: 15.186, lng: 120.5464, label: 'Clark' },
+};
+
+// Build map markers — group festivals by slug (one marker per location)
+const festBySlug = new Map<string, typeof festivals>();
+festivals.forEach(f => {
+  const arr = festBySlug.get(f.slug) || [];
+  arr.push(f);
+  festBySlug.set(f.slug, arr);
+});
+
+const festMapMarkers = Array.from(festBySlug.entries())
+  .map(([slug, fests]) => {
+    const geo = geoLookup[slug];
+    if (!geo) return null;
+    return {
+      lat: geo.lat,
+      lng: geo.lng,
+      label: geo.label,
+      slug,
+      color: monthColors[fests[0].monthIndex],
+      url: `/destinations/${slug}/`,
+      festivals: fests.map(f => ({
+        name: f.name,
+        month: f.month,
+        destination: f.destination,
+      })),
+    };
+  })
+  .filter(Boolean);
+
+// Video lookup for festival cards — prefer preview (smallest), then break-1, then hero
+const festCardVideos: Record<string, string> = {};
+// Destinations with preview videos
+['bohol','dumaguete','cebu','boracay','coron','el-nido','siargao','siquijor','bacolod','camiguin','caramoan','davao','donsol','iloilo','legazpi','malapascua','manila','puerto-princesa','sagada','tagaytay','vigan','laoag']
+  .forEach(s => festCardVideos[s] = `/videos/destinations/${s}-preview.mp4`);
+// Destinations with break clips but no preview
+['baguio','bataan','banaue','guimaras','batanes','batangas','clark']
+  .forEach(s => festCardVideos[s] = `/videos/destinations/${s}-break-1.mp4`);
+// Destinations with hero only
+['marinduque','puerto-galera','tacloban','laguna']
+  .forEach(s => festCardVideos[s] = `/videos/destinations/${s}-hero.mp4`);
+
+// Fallback cycle for any slug not in lookup
+const fallbackVideos = Object.values(festCardVideos);
+
+// 10 generic festival clips — cycle 3x across 32 events
+const festGenericClips = Array.from({ length: 10 }, (_, i) => `/videos/pillar/festival-card-${i + 1}.mp4`);
+
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  pageType="destination"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="fest-hero">
+    <video class="fest-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/pillar/festivals-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="fest-hero-gradient"></div>
+    <div class="fest-hero-noise"></div>
+
+    <div class="fest-hero-content">
+      <h1 class="fest-hero-title">Vietnamese Festival Calendar 2026</h1>
+      <p class="fest-hero-subtitle">From Sinulog's million-strong street dances to Batanes' quiet community gatherings — time your trip to the celebrations that define each destination.</p>
+      <div class="fest-hero-meta">
+        <div class="fest-hero-meta-item">
+          <span class="fest-hero-meta-label">Festivals</span>
+          <span class="fest-hero-meta-value">32</span>
+        </div>
+        <div class="fest-hero-meta-item">
+          <span class="fest-hero-meta-label">Destinations</span>
+          <span class="fest-hero-meta-value">29</span>
+        </div>
+        <div class="fest-hero-meta-item">
+          <span class="fest-hero-meta-label">Season</span>
+          <span class="fest-hero-meta-value">Year-Round</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fest-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Personal intro -->
+  <section class="fest-personal reveal">
+    <div class="container-content">
+      <blockquote class="fest-personal-quote">
+        <p>Vietnam loves a celebration &mdash; and they've built an entire culture around proving it. There are festivals for harvests, ancestors, historical events, and things that don't need a reason at all. From the explosive energy of Tet to the lantern-lit beauty of Mid-Autumn Festival, there's always something happening somewhere. It's part of what makes Vietnam feel so alive, and I try to plan around at least one every trip.</p>
+        <cite>&mdash; Scott</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- View Toggle -->
+  <div class="container-content" style="padding-top: var(--space-2); padding-bottom: var(--space-4);">
+    <div class="fest-view-toggle">
+      <button class="fest-toggle-btn active" id="festBtnCalendar">Calendar</button>
+      <button class="fest-toggle-btn" id="festBtnMap">Map</button>
+    </div>
+  </div>
+
+  <!-- Calendar Grid -->
+  <div id="festCalendarView">
+  <section class="fest-calendar reveal">
+    <div class="container-content">
+      <h2 class="fest-section-heading">Festivals by Month</h2>
+      <p class="fest-section-sub">Click any festival to explore its destination. Hover for a preview.</p>
+
+      <div class="fest-month-grid">
+        {months.map((monthName, i) => {
+          const monthFestivals = festivals.filter(f => f.monthIndex === i);
+          return (
+            <div class="fest-month-card reveal">
+              <div class="fest-month-header">
+                <span class="fest-month-name">{monthName}</span>
+                {monthFestivals.length > 0 && (
+                  <span class="fest-month-count">{monthFestivals.length}</span>
+                )}
+              </div>
+              <div class="fest-month-body">
+                {monthFestivals.length > 0 ? (
+                  monthFestivals.map((fest) => {
+                    const idx = festivals.indexOf(fest);
+                    const destVideo = festCardVideos[fest.slug] || fallbackVideos[idx % fallbackVideos.length];
+                    const festVideo = festGenericClips[idx % festGenericClips.length];
+                    return (
+                    <a href={`/destinations/${fest.slug}/`} class="fest-entry">
+                      <div class="fest-entry-media" style={`background: ${monthGradients[i]};`}>
+                        <video class="fest-card-video fest-vid-dest" muted loop playsinline preload="none" data-src={destVideo}></video>
+                        <video class="fest-card-video fest-vid-fest" muted loop playsinline preload="none" data-src={festVideo} style="opacity:0;"></video>
+                        <div class="fest-card-scrim"></div>
+                        <div class="fest-entry-media-label">{fest.month}</div>
+                      </div>
+                      <div class="fest-entry-info">
+                        <div class="fest-entry-name">{fest.name}</div>
+                        <div class="fest-entry-destination">{fest.destination}</div>
+                      </div>
+                      <div class="fest-entry-overlay">
+                        <p class="fest-entry-desc">{fest.description}</p>
+                        <span class="fest-entry-cta">Explore {fest.destination} &rarr;</span>
+                      </div>
+                    </a>
+                  );})
+                ) : (
+                  <div class="fest-month-empty">No major festivals</div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /festCalendarView -->
+
+  <!-- Map View (hidden by default) -->
+  <div id="festMapView" style="display:none;">
+    <section style="padding: var(--space-4) 0 var(--space-8);">
+      <div class="container-content">
+        <div class="fest-map-container" id="festMapContainer">
+          <div class="fest-map-tooltip" id="festMapTooltip">
+            <div class="fest-map-tooltip-name" id="festTooltipName"></div>
+            <div class="fest-map-tooltip-fests" id="festTooltipFests"></div>
+          </div>
+          <div id="festLeafletMap"></div>
+          <div class="fest-map-legend">
+            <div class="fest-map-legend-item"><div class="fest-map-legend-dot" style="background:var(--color-warm-coral);"></div>Festival location</div>
+            <div class="fest-map-legend-note">Colored by month &middot; Click to explore destination</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bottom CTA -->
+  <section class="fest-cta-section reveal">
+    <div class="container-content">
+      <div class="fest-cta-card">
+        <h2 class="fest-cta-heading">Plan Your Festival Trip</h2>
+        <p class="fest-cta-text">Let our AI travel planner build a custom itinerary around the festivals you want to see — with flights, hotels, and day-by-day schedules.</p>
+        <a href="/plan/" class="fest-cta-button">Start Planning &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQ items={[
+    { question: "What are the biggest festivals in Vietnam?", answer: "Sinulog (Cebu, January), Ati-Atihan (Aklan, January), and Dinagyang (Iloilo, January) are the 'Big Three' — massive street dance festivals honoring the Santo Niño. MassKara (Bacolod, October) and Panagbenga (Baguio, February) draw huge crowds. Moriones (Marinduque, Holy Week) is the most dramatic. Each attracts hundreds of thousands of visitors." },
+    { question: "When is Sinulog Festival in Cebu?", answer: "Sinulog is held on the third Sunday of January, with a week of celebrations leading up to the grand parade. The main event features street dancing from early morning through the afternoon along the major roads of Cebu City. Book accommodation 2-3 months ahead — Cebu fills up completely during Sinulog week." },
+    { question: "How do I plan a trip around a Vietnamese festival?", answer: "Pick your festival, then book accommodation 2-3 months early (prices double during major festivals). Arrive 2-3 days before the main event — the lead-up street parties and rehearsals are often more fun than the grand parade. Use our AI Trip Planner at /plan/ to build a festival-centered itinerary with hotel and transport bookings." },
+    { question: "Are Vietnamese festivals safe for tourists?", answer: "Vietnamese festivals are very safe and locals are welcoming to foreign visitors. The main risks are pickpockets in dense crowds and sunburn from long outdoor exposure. Keep valuables in a front pocket or neck pouch, stay hydrated, and wear sunscreen. Police presence is heavy during major festivals." },
+    { question: "What should I wear to a festival in Vietnam?", answer: "Lightweight, breathable clothing — it's hot and you'll be in crowds for hours. Comfortable closed-toe shoes for dancing and walking on streets. Avoid expensive jewelry or accessories. Bring a small waterproof bag for your phone (water-throwing is common at some festivals). Sunglasses, hat, and reef-safe sunscreen are essential." },
+    { question: "Which Vietnamese festivals happen in January?", answer: "January is peak festival season. Sinulog (Cebu), Ati-Atihan (Kalibo, Aklan), and Dinagyang (Iloilo) all happen in the third or fourth week. These three Santo Niño festivals are the country's biggest and most energetic celebrations, featuring elaborate costumes, street dancing, and all-night parties." },
+  ]} />
+
+  <!-- Email Capture -->
+  <div class="container-content reveal" style="padding-bottom: var(--space-6);">
+    <EmailCapture
+      leadMagnet="Get Our Free Festival Trip Planner"
+      description="A month-by-month PDF guide to Vietnamese festivals — with travel logistics, accommodation tips, and what to expect at each celebration."
+      bullets={[
+        'All 32 festivals with exact dates and locations',
+        'How to get there and where to stay for each event',
+        'Insider tips — best viewing spots, what to wear, what to bring',
+        'Suggested multi-festival itineraries',
+      ]}
+      guideTag="pillar-festivals"
+    />
+  </div>
+
+  <!-- Cross-links -->
+  <section class="fest-crosslinks reveal">
+    <div class="container-content">
+      <h3 class="fest-crosslinks-heading">Explore More</h3>
+      <div class="fest-crosslinks-grid">
+        <a href="/practical/" class="fest-crosslink-card">
+          <span class="fest-crosslink-icon">&#127754;</span>
+          <span class="fest-crosslink-label">Snorkeling Guide</span>
+          <span class="fest-crosslink-desc">14 destinations ranked by what you'll see in the water</span>
+        </a>
+        <a href="/destinations/" class="fest-crosslink-card">
+          <span class="fest-crosslink-icon">&#127965;</span>
+          <span class="fest-crosslink-label">All Destinations</span>
+          <span class="fest-crosslink-desc">Every island we've explored with honest reviews</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!-- Scroll Reveal Observer -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<!-- Festival card video lazy-load + dual-video cycling -->
+<script>
+  const festMediaEls = document.querySelectorAll('.fest-entry-media');
+  const festSwapTimers = new Map<Element, number>();
+
+  function festLoadAndPlay(video: HTMLVideoElement) {
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
+    }
+    video.play().catch(() => {});
+  }
+
+  function festStartCycle(media: Element) {
+    const dest = media.querySelector<HTMLVideoElement>('.fest-vid-dest');
+    const fest = media.querySelector<HTMLVideoElement>('.fest-vid-fest');
+    if (!dest || !fest) return;
+
+    festLoadAndPlay(dest);
+    festLoadAndPlay(fest);
+
+    // Start with dest visible, swap every 6 seconds
+    let showingDest = true;
+    const timer = window.setInterval(() => {
+      showingDest = !showingDest;
+      dest.style.opacity = showingDest ? '1' : '0';
+      fest.style.opacity = showingDest ? '0' : '1';
+    }, 6000);
+    festSwapTimers.set(media, timer);
+  }
+
+  function festStopCycle(media: Element) {
+    const timer = festSwapTimers.get(media);
+    if (timer) {
+      clearInterval(timer);
+      festSwapTimers.delete(media);
+    }
+    media.querySelectorAll<HTMLVideoElement>('.fest-card-video').forEach(v => v.pause());
+  }
+
+  const festObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          festStartCycle(entry.target);
+        } else {
+          festStopCycle(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2, rootMargin: '100px' }
+  );
+  festMediaEls.forEach((el) => festObserver.observe(el));
+</script>
+
+<!-- View Toggle Logic -->
+<script>
+  const festBtnCalendar = document.getElementById('festBtnCalendar');
+  const festBtnMap = document.getElementById('festBtnMap');
+  const festCalendarView = document.getElementById('festCalendarView');
+  const festMapView = document.getElementById('festMapView');
+
+  function festShowCalendar() {
+    festCalendarView!.style.display = '';
+    festMapView!.style.display = 'none';
+    festBtnCalendar!.classList.add('active');
+    festBtnMap!.classList.remove('active');
+  }
+
+  function festShowMap() {
+    festCalendarView!.style.display = 'none';
+    festMapView!.style.display = '';
+    festBtnCalendar!.classList.remove('active');
+    festBtnMap!.classList.add('active');
+    if (window.festMap) {
+      window.festMap.invalidateSize();
+    }
+  }
+
+  festBtnCalendar?.addEventListener('click', festShowCalendar);
+  festBtnMap?.addEventListener('click', festShowMap);
+</script>
+
+<!-- Leaflet Map for Festivals -->
+<script is:inline define:vars={{ markers: festMapMarkers }}>
+  // Load Leaflet CSS
+  if (!document.getElementById('leaflet-css')) {
+    var lnk = document.createElement('link');
+    lnk.id = 'leaflet-css';
+    lnk.rel = 'stylesheet';
+    lnk.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+    document.head.appendChild(lnk);
+  }
+
+  function initFestMap() {
+    var mapEl = document.getElementById('festLeafletMap');
+    if (!mapEl || typeof L === 'undefined') return;
+
+    var map = L.map(mapEl, {
+      center: [12.0, 122.5],
+      zoom: 6,
+      scrollWheelZoom: false,
+      minZoom: 5,
+      maxZoom: 12,
+      maxBounds: [[4, 115], [22, 130]],
+      zoomControl: false,
+      attributionControl: false,
+    });
+
+    window.festMap = map;
+
+    L.control.attribution({ prefix: false }).addTo(map);
+    L.control.zoom({ position: 'topright' }).addTo(map);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '\u00a9 <a href="https://www.openstreetmap.org/copyright">OSM</a> \u00a9 <a href="https://carto.com/">CARTO</a>',
+      maxZoom: 19,
+    }).addTo(map);
+
+    function makeCircle(color, size, stroke) {
+      return L.divIcon({
+        className: '',
+        html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:2px solid ' + stroke + ';box-shadow:0 0 6px rgba(0,0,0,0.3);cursor:pointer;"></div>',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+      });
+    }
+
+    var tooltip = document.getElementById('festMapTooltip');
+    var tooltipName = document.getElementById('festTooltipName');
+    var tooltipFests = document.getElementById('festTooltipFests');
+    var container = document.getElementById('festMapContainer');
+
+    markers.forEach(function(m) {
+      var size = m.festivals.length > 1 ? 18 : 14;
+      var icon = makeCircle(m.color, size, '#ffffff');
+      var marker = L.marker([m.lat, m.lng], { icon: icon, title: m.label }).addTo(map);
+
+      marker.on('mouseover', function(e) {
+        if (tooltipName) tooltipName.textContent = m.label;
+        if (tooltipFests) {
+          tooltipFests.innerHTML = m.festivals.map(function(f) {
+            return '<div class="fest-map-tooltip-fest"><span class="fest-map-tooltip-month">' + f.month + '</span> ' + f.name + '</div>';
+          }).join('');
+        }
+        if (tooltip) tooltip.classList.add('fest-tooltip-visible');
+        if (container && tooltip) {
+          var pt = e.containerPoint;
+          tooltip.style.left = (pt.x + 12) + 'px';
+          tooltip.style.top = (pt.y - 10) + 'px';
+        }
+      });
+
+      marker.on('mouseout', function() {
+        if (tooltip) tooltip.classList.remove('fest-tooltip-visible');
+      });
+
+      marker.on('click', function() {
+        window.location.href = m.url;
+      });
+    });
+  }
+
+  // Load Leaflet JS
+  if (typeof L !== 'undefined') {
+    initFestMap();
+  } else {
+    var lscript = document.createElement('script');
+    lscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    lscript.onload = initFestMap;
+    document.head.appendChild(lscript);
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO — Festival gradient (warm coral → gold → deep night)
+     ================================================================ */
+  .fest-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .fest-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .fest-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .fest-hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .fest-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 720px;
+  }
+
+  .fest-hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    line-height: 1.1;
+    margin: 0 0 var(--space-3);
+  }
+
+  .fest-hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0 0 var(--space-5);
+    max-width: 580px;
+  }
+
+  .fest-hero-meta {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .fest-hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .fest-hero-meta-label {
+    font-size: 0.65rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .fest-hero-meta-value {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: #fff;
+  }
+
+  .fest-scroll-hint {
+    position: absolute;
+    bottom: 16px;
+    right: var(--space-6);
+    z-index: 3;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+    animation: festBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes festBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ================================================================
+     CALENDAR GRID
+     ================================================================ */
+  .fest-calendar {
+    padding: var(--space-10) 0 var(--space-8);
+  }
+
+  .fest-section-heading {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin: 0 0 var(--space-2);
+    text-align: center;
+  }
+
+  .fest-section-sub {
+    font-size: 1rem;
+    color: var(--color-slate);
+    text-align: center;
+    margin: 0 0 var(--space-8);
+  }
+
+  .fest-month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+
+  @media (max-width: 1024px) {
+    .fest-month-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .fest-month-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ================================================================
+     MONTH CARD
+     ================================================================ */
+  .fest-month-card {
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .fest-month-card:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .fest-month-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-sky);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .fest-month-name {
+    font-size: 0.9rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .fest-month-count {
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+    background: rgba(232, 101, 74, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  .fest-month-body {
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-height: 80px;
+  }
+
+  .fest-month-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    opacity: 0.5;
+    font-style: italic;
+  }
+
+  /* ================================================================
+     FESTIVAL ENTRY (within month card)
+     ================================================================ */
+  .fest-entry {
+    position: relative;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .fest-entry:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  .fest-entry-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: var(--space-2);
+    overflow: hidden;
+  }
+
+  .fest-card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .fest-card-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.45) 100%);
+  }
+
+  .fest-entry-media-label {
+    position: relative;
+    z-index: 2;
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .fest-entry-info {
+    padding: var(--space-2) var(--space-3) var(--space-3);
+    background: var(--color-white);
+  }
+
+  .fest-entry-name {
+    font-size: 0.85rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+
+  .fest-entry-destination {
+    font-size: 0.72rem;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-medium);
+  }
+
+  /* Hover overlay */
+  .fest-entry-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 35, 50, 0.93);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .fest-entry:hover .fest-entry-overlay {
+    opacity: 1;
+  }
+
+  .fest-entry-desc {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.55;
+    margin: 0 0 var(--space-3);
+  }
+
+  .fest-entry-cta {
+    font-size: 0.72rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+    letter-spacing: 0.02em;
+  }
+
+  /* ================================================================
+     BOTTOM CTA
+     ================================================================ */
+  .fest-cta-section {
+    padding: var(--space-6) 0 var(--space-8);
+  }
+
+  .fest-cta-card {
+    background: linear-gradient(135deg, var(--color-deep-night) 0%, #2D3748 100%);
+    border-radius: 20px;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    color: #fff;
+  }
+
+  .fest-cta-heading {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-3);
+    color: #fff;
+  }
+
+  .fest-cta-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 520px;
+    margin: 0 auto var(--space-5);
+    line-height: 1.6;
+  }
+
+  .fest-cta-button {
+    display: inline-block;
+    background: var(--color-warm-coral);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    padding: 12px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .fest-cta-button:hover {
+    background: #d4553b;
+    transform: translateY(-2px);
+  }
+
+  /* ================================================================
+     CROSS-LINKS
+     ================================================================ */
+  .fest-crosslinks {
+    padding: 0 0 var(--space-10);
+  }
+
+  .fest-crosslinks-heading {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    text-align: center;
+    margin: 0 0 var(--space-4);
+  }
+
+  .fest-crosslinks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 640px) {
+    .fest-crosslinks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .fest-crosslink-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-4);
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .fest-crosslink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .fest-crosslink-icon {
+    font-size: 1.8rem;
+  }
+
+  .fest-crosslink-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+  }
+
+  .fest-crosslink-desc {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+
+  /* ================================================================
+     RESPONSIVE — Hero adjustments
+     ================================================================ */
+  @media (max-width: 640px) {
+    .fest-hero {
+      min-height: 55vh;
+      padding: 0 var(--space-4) 40px;
+    }
+
+    .fest-hero-meta {
+      gap: var(--space-4);
+    }
+
+    .fest-scroll-hint {
+      display: none;
+    }
+  }
+
+  /* ================================================================
+     VIEW TOGGLE
+     ================================================================ */
+  .fest-view-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    background: var(--color-sand-dark);
+    border-radius: 40px;
+    padding: 4px;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .fest-toggle-btn {
+    flex: 1;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 36px;
+    font-size: 0.82rem;
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+    background: transparent;
+    color: var(--color-slate);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .fest-toggle-btn.active {
+    background: var(--color-ocean-teal);
+    color: #fff;
+  }
+
+  .fest-toggle-btn:hover:not(.active) {
+    color: var(--color-deep-night);
+  }
+
+  /* ================================================================
+     MAP VIEW
+     ================================================================ */
+  .fest-map-container {
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 40% 30%, #0c3547 0%, #091e2f 40%, #060f1a 100%);
+    padding: 28px 20px 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .fest-map-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 300px at 30% 70%, rgba(13, 115, 119, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 200px at 70% 20%, rgba(13, 115, 119, 0.06) 0%, transparent 70%);
+    animation: festOceanShimmer 8s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  .fest-map-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle 1px at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 100%),
+      radial-gradient(circle 1px at 60% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 100%),
+      radial-gradient(circle 1px at 40% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  @keyframes festOceanShimmer {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+
+  #festLeafletMap {
+    width: 100%;
+    height: 600px;
+    border-radius: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fest-map-tooltip {
+    position: absolute;
+    background: rgba(26, 35, 50, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 50;
+    min-width: 180px;
+    max-width: 300px;
+  }
+
+  .fest-map-tooltip.fest-tooltip-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fest-map-tooltip-name {
+    font-size: 0.85rem;
+    font-weight: var(--weight-bold);
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  :global(.fest-map-tooltip-fest) {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+  }
+
+  :global(.fest-map-tooltip-month) {
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-warm-coral);
+    margin-right: 4px;
+  }
+
+  .fest-map-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fest-map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .fest-map-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(13, 115, 119, 0.5);
+  }
+
+  .fest-map-legend-note {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  @media (max-width: 640px) {
+    #festLeafletMap { height: 450px; }
+  }
+
+  /* Personal intro */
+  .fest-personal {
+    padding-block: var(--space-8);
+  }
+
+  .fest-personal-quote {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-8);
+    border-left: 4px solid #D97706;
+    background: var(--color-sky);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .fest-personal-quote p {
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    line-height: var(--leading-body);
+    font-style: italic;
+    margin-bottom: var(--space-3);
+  }
+
+  .fest-personal-quote cite {
+    font-size: var(--text-caption);
+    color: #D97706;
+    font-weight: var(--weight-semibold);
+    font-style: normal;
+  }
+</style>

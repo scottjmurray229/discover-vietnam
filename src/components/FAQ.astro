@@ -1,0 +1,129 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+{items.length > 0 && (
+  <section class="faq section-padding">
+    <div class="container-content container-prose">
+      <h2 class="faq-heading">Frequently Asked Questions</h2>
+      <dl class="faq-list">
+        {items.map((item) => (
+          <div class="faq-item">
+            <dt>
+              <button
+                class="faq-trigger"
+                type="button"
+                aria-expanded="false"
+              >
+                <span>{item.question}</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </dt>
+            <dd class="faq-answer" hidden>
+              <p>{item.answer}</p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </section>
+)}
+
+<script>
+  document.querySelectorAll('.faq-trigger').forEach((button) => {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      const answer = button.closest('dt')?.nextElementSibling as HTMLElement | null;
+      if (!answer) return;
+
+      button.setAttribute('aria-expanded', String(!expanded));
+      answer.hidden = expanded;
+    });
+  });
+</script>
+
+<style>
+  .faq-heading {
+    margin-bottom: var(--space-8);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-sand);
+    border-radius: 8px;
+    background: var(--color-white);
+    overflow: hidden;
+  }
+
+  .faq-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-heading);
+    line-height: var(--leading-h3);
+    min-height: 48px;
+  }
+
+  .faq-trigger:hover {
+    background-color: var(--color-sky);
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--color-ocean-teal);
+    transition: transform 0.3s ease;
+  }
+
+  .faq-trigger[aria-expanded='true'] .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-5) var(--space-5);
+  }
+
+  .faq-answer p {
+    color: var(--color-body);
+    line-height: var(--leading-body);
+  }
+</style>

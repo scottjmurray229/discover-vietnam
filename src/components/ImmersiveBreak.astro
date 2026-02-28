@@ -1,0 +1,136 @@
+---
+interface Props {
+  videoSrc?: string;
+  fallbackGradient?: string;
+  title?: string;
+  text?: string;
+  quote?: string;
+  quoteAuthor?: string;
+  overlayVariant?: 'dark' | 'light';
+}
+
+const {
+  videoSrc,
+  fallbackGradient = 'linear-gradient(135deg, #0D7377, #1A2332)',
+  title,
+  text,
+  quote,
+  quoteAuthor,
+  overlayVariant = 'dark',
+} = Astro.props;
+---
+
+<section class:list={['immersive-break', `immersive-break--${overlayVariant}`, 'reveal']}>
+  {videoSrc ? (
+    <video
+      class="immersive-break-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    >
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  ) : null}
+
+  <div
+    class="immersive-break-gradient"
+    style={`background: ${fallbackGradient};`}
+  />
+
+  <div class="immersive-break-content">
+    {title && <h2 class="immersive-break-title">{title}</h2>}
+    {text && <p class="immersive-break-text">{text}</p>}
+    {quote && (
+      <blockquote class="immersive-break-quote">
+        <p>{quote}</p>
+        {quoteAuthor && <cite>— {quoteAuthor}</cite>}
+      </blockquote>
+    )}
+  </div>
+</section>
+
+<style>
+  .immersive-break {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+  }
+
+  .immersive-break-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .immersive-break-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.85;
+  }
+
+  .immersive-break-video + .immersive-break-gradient {
+    opacity: 0.6;
+  }
+
+  .immersive-break--light .immersive-break-gradient {
+    opacity: 0.5;
+  }
+
+  .immersive-break-content {
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .immersive-break-title {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: white;
+    margin-bottom: var(--space-3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .immersive-break-text {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    opacity: 0.9;
+    max-width: 50ch;
+    margin-inline: auto;
+  }
+
+  .immersive-break-quote {
+    margin-top: var(--space-6);
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .immersive-break-quote p {
+    font-size: var(--text-blockquote);
+    font-style: italic;
+    line-height: var(--leading-blockquote);
+    color: white;
+    opacity: 0.95;
+    max-width: 45ch;
+    margin-inline: auto;
+  }
+
+  .immersive-break-quote cite {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--text-caption);
+    font-style: normal;
+    opacity: 0.7;
+  }
+</style>

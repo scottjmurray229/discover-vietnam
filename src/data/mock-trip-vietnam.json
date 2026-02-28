@@ -1,0 +1,1006 @@
+{
+  "name": "North to South Vietnam",
+  "subtitle": "Hanoi → Ha Long → Hue → Hoi An → Saigon → Mekong → Phu Quoc",
+  "dates": "Mar 15–24, 2026",
+  "group": [
+    { "id": "scott", "name": "Scott", "avatar": "🧔", "role": "host", "color": "#0D7377" },
+    { "id": "linh", "name": "Linh", "avatar": "🇻🇳", "role": "editor", "color": "#7C3AED" }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "date": "Mar 15",
+      "title": "Arrival & Old Quarter",
+      "location": "Hanoi",
+      "bounds": { "north": 21.045, "south": 21.020, "east": 105.860, "west": 105.840 },
+      "items": [
+        {
+          "id": "d1-1",
+          "time": "10:30 AM",
+          "icon": "✈️",
+          "type": "transport",
+          "title": "Arrive at Noi Bai International Airport",
+          "detail": "Vietnam Airlines VN302. Grab to hotel ~350,000 VND ($14 USD), 45 min to Old Quarter",
+          "status": "confirmed",
+          "lat": 21.2212,
+          "lng": 105.8070
+        },
+        {
+          "id": "d1-2",
+          "time": "12:00 PM",
+          "icon": "🏨",
+          "type": "accommodation",
+          "title": "Check in – Hanoi La Siesta Hotel & Spa",
+          "detail": "94 Ma May St, Old Quarter. Superior room 1,800,000 VND ($72 USD)/night. Rooftop bar with Hoan Kiem views",
+          "status": "confirmed",
+          "lat": 21.0340,
+          "lng": 105.8520
+        },
+        {
+          "id": "d1-3",
+          "time": "1:00 PM",
+          "icon": "🍜",
+          "type": "food",
+          "title": "Pho Gia Truyen – Best Pho in Hanoi",
+          "detail": "49 Bat Dan St. Beef pho 50,000 VND ($2 USD). Cash only, expect a queue. Been serving since 1960s",
+          "status": "confirmed",
+          "lat": 21.0348,
+          "lng": 105.8478
+        },
+        {
+          "id": "d1-4",
+          "time": "2:30 PM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "Walk the Old Quarter's 36 Streets",
+          "detail": "Self-guided walk through Hanoi's ancient merchant quarter. Each street named after the goods once sold there — Hang Bac (Silver), Hang Gai (Silk), Hang Ma (Paper)",
+          "status": "confirmed",
+          "lat": 21.0345,
+          "lng": 105.8500
+        },
+        {
+          "id": "d1-5",
+          "time": "4:30 PM",
+          "icon": "🌊",
+          "type": "activity",
+          "title": "Hoan Kiem Lake & Ngoc Son Temple",
+          "detail": "Walk around the lake, cross the iconic red Huc Bridge to Ngoc Son Temple. Entry 30,000 VND ($1.20 USD). Best light for photos at golden hour",
+          "status": "confirmed",
+          "lat": 21.0288,
+          "lng": 105.8525
+        },
+        {
+          "id": "d1-6",
+          "time": "6:00 PM",
+          "icon": "🍺",
+          "type": "food",
+          "title": "Bia Hoi Corner – Fresh Draft Beer",
+          "detail": "Junction of Ta Hien & Luong Ngoc Quyen. Bia hoi 5,000–10,000 VND ($0.40 USD) per glass. Sit on tiny plastic stools, watch the chaos. Order grilled squid and spring rolls",
+          "status": "confirmed",
+          "lat": 21.0348,
+          "lng": 105.8530
+        },
+        {
+          "id": "d1-7",
+          "time": "8:00 PM",
+          "icon": "🎭",
+          "type": "activity",
+          "title": "Thang Long Water Puppet Theatre",
+          "detail": "57B Dinh Tien Hoang. 50 min show, 100,000 VND ($4 USD). Book ahead — sells out daily. 1,000-year-old art form unique to northern Vietnam",
+          "status": "confirmed",
+          "lat": 21.0300,
+          "lng": 105.8530
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "date": "Mar 16",
+      "title": "Temples, Street Food & Culture",
+      "location": "Hanoi",
+      "bounds": { "north": 21.045, "south": 21.020, "east": 105.860, "west": 105.830 },
+      "items": [
+        {
+          "id": "d2-1",
+          "time": "7:00 AM",
+          "icon": "☕",
+          "type": "food",
+          "title": "Egg Coffee at Cafe Giang",
+          "detail": "39 Nguyen Huu Huan. Ca phe trung 35,000 VND ($1.40 USD). The original egg coffee since 1946 — whipped egg yolk, condensed milk, strong robusta. Upstairs seating",
+          "status": "confirmed",
+          "lat": 21.0340,
+          "lng": 105.8510
+        },
+        {
+          "id": "d2-2",
+          "time": "8:30 AM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "Temple of Literature (Van Mieu)",
+          "detail": "58 Quoc Tu Giam. Vietnam's first university, founded 1070. Entry 30,000 VND ($1.20 USD). Beautiful courtyards, stone stele on turtle backs. Go early to beat tour groups",
+          "status": "confirmed",
+          "lat": 21.0276,
+          "lng": 105.8355
+        },
+        {
+          "id": "d2-3",
+          "time": "10:30 AM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "Ho Chi Minh Mausoleum Complex",
+          "detail": "Free entry. Open Tue–Thu, Sat–Sun 7:30–10:30 AM only. No shorts, no cameras inside. Includes Presidential Palace grounds, One Pillar Pagoda, and Ho Chi Minh Museum",
+          "status": "confirmed",
+          "lat": 21.0369,
+          "lng": 105.8353
+        },
+        {
+          "id": "d2-4",
+          "time": "12:30 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Bun Cha Huong Lien (Obama's Bun Cha)",
+          "detail": "24 Le Van Huu. Famous after Obama & Bourdain ate here in 2016. Combo bun cha + spring rolls + beer 100,000 VND ($4 USD). The Obama table is preserved behind glass",
+          "status": "confirmed",
+          "lat": 21.0178,
+          "lng": 105.8490
+        },
+        {
+          "id": "d2-5",
+          "time": "2:00 PM",
+          "icon": "🎯",
+          "type": "activity",
+          "title": "Street Food Walking Tour",
+          "detail": "Hanoi Street Food Tours, 3 hrs. $30 USD/person. Guided tour of 6–8 street food stops: banh mi, bun rieu, banh cuon, che desserts. Includes all tastings. Small group max 8",
+          "status": "confirmed",
+          "lat": 21.0340,
+          "lng": 105.8500
+        },
+        {
+          "id": "d2-6",
+          "time": "5:30 PM",
+          "icon": "🛍️",
+          "type": "activity",
+          "title": "Dong Xuan Market",
+          "detail": "Largest covered market in Hanoi. Great for lacquerware, silk, spices, and Vietnamese coffee beans. Haggle — start at 50% of asking price. Closes at 6 PM, night market on weekends",
+          "status": "confirmed",
+          "lat": 21.0388,
+          "lng": 105.8495
+        },
+        {
+          "id": "d2-7",
+          "time": "7:00 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Dinner at Cha Ca Thang Long",
+          "detail": "19–21 Duong Thanh. Hanoi's signature dish — cha ca (turmeric fish with dill, served sizzling). 150,000 VND ($6 USD). Only serves one dish — that's how you know it's good",
+          "status": "confirmed",
+          "lat": 21.0360,
+          "lng": 105.8475
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "Mar 17",
+      "title": "Ha Long Bay Cruise",
+      "location": "Ha Long Bay",
+      "bounds": { "north": 20.960, "south": 20.880, "east": 107.120, "west": 106.970 },
+      "items": [
+        {
+          "id": "d3-1",
+          "time": "6:00 AM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Shuttle to Ha Long Bay",
+          "detail": "Hotel pickup. 3.5 hr drive via highway to Tuan Chau Marina. Included with cruise booking. Stop at a rest area halfway",
+          "status": "confirmed",
+          "lat": 20.9467,
+          "lng": 107.0500
+        },
+        {
+          "id": "d3-2",
+          "time": "10:30 AM",
+          "icon": "🚢",
+          "type": "activity",
+          "title": "Board Indochina Junk – Day Cruise",
+          "detail": "Traditional wooden junk boat. Full-day cruise through Bai Tu Long Bay (less crowded than main bay). Includes lunch, kayaking, cave visit. 2,200,000 VND ($88 USD)/person",
+          "status": "confirmed",
+          "lat": 20.9100,
+          "lng": 107.0800
+        },
+        {
+          "id": "d3-3",
+          "time": "12:00 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Seafood Lunch on Board",
+          "detail": "Fresh prawns, squid, spring rolls, fried rice, and local fish. Included with cruise. Eat on the upper deck with 360° limestone karst views",
+          "status": "confirmed",
+          "lat": 20.9050,
+          "lng": 107.0900
+        },
+        {
+          "id": "d3-4",
+          "time": "1:30 PM",
+          "icon": "🛶",
+          "type": "activity",
+          "title": "Kayaking Through Limestone Karsts",
+          "detail": "Paddle through caves and hidden lagoons. 1.5 hrs. Equipment included. Emerald water, towering karsts, floating fishing villages",
+          "status": "confirmed",
+          "lat": 20.9000,
+          "lng": 107.1000
+        },
+        {
+          "id": "d3-5",
+          "time": "3:30 PM",
+          "icon": "🦇",
+          "type": "activity",
+          "title": "Sung Sot (Surprise) Cave",
+          "detail": "One of the largest caves in Ha Long Bay. 500 steps up, spectacular stalactites and stalagmites. Included with cruise. Wear comfortable shoes",
+          "status": "confirmed",
+          "lat": 20.9040,
+          "lng": 107.1050
+        },
+        {
+          "id": "d3-6",
+          "time": "5:00 PM",
+          "icon": "🌅",
+          "type": "activity",
+          "title": "Sunset on the Sundeck",
+          "detail": "Watch the sun drop behind 1,600 limestone pillars. Fresh fruit, Vietnamese iced coffee, and spring rolls served. Best photo op of the trip",
+          "status": "confirmed",
+          "lat": 20.9100,
+          "lng": 107.0800
+        },
+        {
+          "id": "d3-7",
+          "time": "7:00 PM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Return Drive to Hanoi",
+          "detail": "3.5 hr drive back. Arrives ~10:30 PM. Or upgrade to overnight cruise — 4,500,000 VND ($180 USD)/person for cabin",
+          "status": "confirmed",
+          "lat": 21.0340,
+          "lng": 105.8520
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "date": "Mar 18",
+      "title": "Ninh Binh – Ha Long on Land",
+      "location": "Ninh Binh",
+      "bounds": { "north": 20.300, "south": 20.180, "east": 105.940, "west": 105.820 },
+      "items": [
+        {
+          "id": "d4-1",
+          "time": "7:00 AM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Private Car to Ninh Binh",
+          "detail": "2 hr drive south from Hanoi. Private car 1,200,000 VND ($48 USD) round trip. Passes through Red River Delta rice paddies",
+          "status": "confirmed",
+          "lat": 20.2540,
+          "lng": 105.9753
+        },
+        {
+          "id": "d4-2",
+          "time": "9:30 AM",
+          "icon": "🚣",
+          "type": "activity",
+          "title": "Trang An Scenic Landscape Complex",
+          "detail": "UNESCO World Heritage. 2.5 hr sampan boat ride through caves and limestone valleys. 250,000 VND ($10 USD). Rowers use their feet — unique to this region. Choose Route 2 for fewer crowds",
+          "status": "confirmed",
+          "lat": 20.2500,
+          "lng": 105.8990
+        },
+        {
+          "id": "d4-3",
+          "time": "12:30 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Lunch – De (Goat) Meat at Local Restaurant",
+          "detail": "Ninh Binh's specialty — mountain goat 7 ways. Try de tai chanh (goat lime salad) and de nuong (grilled goat). Full meal 200,000 VND ($8 USD)/person. Pair with local rice wine",
+          "status": "confirmed",
+          "lat": 20.2510,
+          "lng": 105.9000
+        },
+        {
+          "id": "d4-4",
+          "time": "2:00 PM",
+          "icon": "🚲",
+          "type": "activity",
+          "title": "Tam Coc Boat Ride & Bike Through Rice Paddies",
+          "detail": "1.5 hr rowboat through three caves along Ngo Dong River. 150,000 VND ($6 USD). Then rent a bike and cycle through emerald rice paddies to Thai Vi Temple. Bike rental 30,000 VND ($1.20 USD)",
+          "status": "confirmed",
+          "lat": 20.2150,
+          "lng": 105.9270
+        },
+        {
+          "id": "d4-5",
+          "time": "4:30 PM",
+          "icon": "🛕",
+          "type": "activity",
+          "title": "Bai Dinh Pagoda – Largest Buddhist Complex in Vietnam",
+          "detail": "500 stone Arhat statues lining the corridors, 100-ton bronze Buddha. Electric cart to the top 30,000 VND ($1.20 USD). Free entry. Allow 1.5 hrs. Bring water — lots of steps",
+          "status": "confirmed",
+          "lat": 20.2740,
+          "lng": 105.8530
+        },
+        {
+          "id": "d4-6",
+          "time": "6:30 PM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Drive to Hanoi, Evening Flight to Hue",
+          "detail": "Drive back 2 hrs, then VietJet Air VJ553 Hanoi → Hue. Departs 9:15 PM, arrives 10:30 PM. 1,100,000 VND ($44 USD). Taxi to Hue hotel 150,000 VND ($6 USD)",
+          "status": "confirmed",
+          "lat": 16.4015,
+          "lng": 107.7028
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "date": "Mar 19",
+      "title": "Imperial Hue",
+      "location": "Hue",
+      "bounds": { "north": 16.490, "south": 16.380, "east": 107.620, "west": 107.560 },
+      "items": [
+        {
+          "id": "d5-1",
+          "time": "7:00 AM",
+          "icon": "☕",
+          "type": "food",
+          "title": "Breakfast – Bun Bo Hue at Quan Bun Bo Hue O Phuong",
+          "detail": "Authentic bun bo Hue (spicy beef noodle soup) at a local favorite. 35,000 VND ($1.40 USD). Pork knuckle, lemongrass, chili oil — nothing like the versions elsewhere. Plastic table, incredible flavor",
+          "status": "confirmed",
+          "lat": 16.4660,
+          "lng": 107.5910
+        },
+        {
+          "id": "d5-2",
+          "time": "8:30 AM",
+          "icon": "🏯",
+          "type": "activity",
+          "title": "Imperial City (Dai Noi)",
+          "detail": "UNESCO World Heritage. 200,000 VND ($8 USD). Walled citadel of the Nguyen Dynasty. Halls of Mandarins, Thai Hoa Palace, Forbidden Purple City. Allow 2.5 hrs. Hire a guide 300,000 VND ($12 USD) — worth it for the history",
+          "status": "confirmed",
+          "lat": 16.4698,
+          "lng": 107.5772
+        },
+        {
+          "id": "d5-3",
+          "time": "11:30 AM",
+          "icon": "🛕",
+          "type": "activity",
+          "title": "Thien Mu Pagoda",
+          "detail": "Iconic 7-story pagoda overlooking the Perfume River. Free entry. The car of the monk who self-immolated in 1963 is displayed here. Peaceful gardens, incredible river views",
+          "status": "confirmed",
+          "lat": 16.4538,
+          "lng": 107.5495
+        },
+        {
+          "id": "d5-4",
+          "time": "1:00 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Royal Hue Cuisine at Tinh Gia Vien",
+          "detail": "Garden restaurant serving royal court-style food. Elaborate presentation, small dishes. Set menu 350,000 VND ($14 USD). Banh beo, banh khoai, nem lui — Hue specialties you can't find elsewhere",
+          "status": "confirmed",
+          "lat": 16.4550,
+          "lng": 107.5850
+        },
+        {
+          "id": "d5-5",
+          "time": "2:30 PM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "Khai Dinh Royal Tomb",
+          "detail": "10 km south of Hue. 150,000 VND ($6 USD). Fusion of Vietnamese and European architecture. Stunning mosaic interior made from broken porcelain and glass. The most ornate of all the royal tombs",
+          "status": "confirmed",
+          "lat": 16.3950,
+          "lng": 107.5950
+        },
+        {
+          "id": "d5-6",
+          "time": "4:30 PM",
+          "icon": "🚢",
+          "type": "activity",
+          "title": "Dragon Boat Cruise on the Perfume River",
+          "detail": "1.5 hr sunset cruise. 200,000 VND ($8 USD)/person. Traditional music performance on board. Passes Thien Mu Pagoda and the citadel walls from the water",
+          "status": "confirmed",
+          "lat": 16.4590,
+          "lng": 107.5700
+        },
+        {
+          "id": "d5-7",
+          "time": "7:00 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Hue Night Market Dinner",
+          "detail": "Tran Hung Dao St. Graze on banh trang nuong (Vietnamese pizza), che Hue (sweet soup desserts), and banh canh cua (crab noodle soup). Budget 100,000 VND ($4 USD) for a feast",
+          "status": "confirmed",
+          "lat": 16.4630,
+          "lng": 107.5960
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "date": "Mar 20",
+      "title": "Hoi An Ancient Town",
+      "location": "Hoi An",
+      "bounds": { "north": 15.890, "south": 15.860, "east": 108.350, "west": 108.310 },
+      "items": [
+        {
+          "id": "d6-1",
+          "time": "7:00 AM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Private Car Hue → Hoi An via Hai Van Pass",
+          "detail": "3.5 hr scenic drive over the legendary Hai Van Pass. 1,500,000 VND ($60 USD). Stop at the summit for photos — clouds below, ocean on both sides. The pass Bourdain called 'one of the best coastal roads in the world'",
+          "status": "confirmed",
+          "lat": 16.2090,
+          "lng": 108.1150
+        },
+        {
+          "id": "d6-2",
+          "time": "11:00 AM",
+          "icon": "🏨",
+          "type": "accommodation",
+          "title": "Check in – Hoi An Chic Hotel",
+          "detail": "17 Nhi Trung St. Pool access, breakfast included. 1,400,000 VND ($56 USD)/night. 5 min walk to Ancient Town",
+          "status": "confirmed",
+          "lat": 15.8770,
+          "lng": 108.3280
+        },
+        {
+          "id": "d6-3",
+          "time": "12:00 PM",
+          "icon": "🍜",
+          "type": "food",
+          "title": "Cao Lau at Trung Bac Restaurant",
+          "detail": "87 Tran Phu. Cao lau — thick noodles, pork, herbs, crispy croutons. 40,000 VND ($1.60 USD). Only made in Hoi An using water from a specific well. The town's signature dish",
+          "status": "confirmed",
+          "lat": 15.8773,
+          "lng": 108.3280
+        },
+        {
+          "id": "d6-4",
+          "time": "1:30 PM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "Hoi An Ancient Town Walking Tour",
+          "detail": "UNESCO World Heritage. Old Town ticket 120,000 VND ($5 USD) covers 5 sites. Japanese Covered Bridge, Phuc Kien Assembly Hall, Tan Ky Old House, Quan Cong Temple. Walking tour 2 hrs",
+          "status": "confirmed",
+          "lat": 15.8775,
+          "lng": 108.3270
+        },
+        {
+          "id": "d6-5",
+          "time": "3:30 PM",
+          "icon": "✂️",
+          "type": "activity",
+          "title": "Custom Tailoring at Yaly Couture",
+          "detail": "47 Nguyen Thai Hoc. Hoi An is famous for overnight tailoring. Suit from $80 USD, dress from $40 USD, ao dai (Vietnamese dress) from $30 USD. Fitting today, pickup tomorrow morning. Bring magazine photos for reference",
+          "status": "confirmed",
+          "lat": 15.8770,
+          "lng": 108.3250
+        },
+        {
+          "id": "d6-6",
+          "time": "5:00 PM",
+          "icon": "🍳",
+          "type": "activity",
+          "title": "Vietnamese Cooking Class at Red Bridge",
+          "detail": "Starts with market tour at Hoi An Central Market. Then boat to cooking school. Learn 5 dishes: fresh spring rolls, banh xeo, mango salad, clay pot fish, banana flower salad. 750,000 VND ($30 USD). Keep the recipes",
+          "status": "confirmed",
+          "lat": 15.8795,
+          "lng": 108.3310
+        },
+        {
+          "id": "d6-7",
+          "time": "7:30 PM",
+          "icon": "🏮",
+          "type": "activity",
+          "title": "Lantern-Lit Ancient Town at Night",
+          "detail": "The Ancient Town transforms after dark — hundreds of silk lanterns glow along the Thu Bon River. Release a floating candle 10,000 VND ($0.40 USD). Stroll the car-free streets, try white rose dumplings at a street stall",
+          "status": "confirmed",
+          "lat": 15.8773,
+          "lng": 108.3265
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "date": "Mar 21",
+      "title": "Da Nang – Ba Na Hills & Marble Mountains",
+      "location": "Da Nang",
+      "bounds": { "north": 16.050, "south": 15.950, "east": 108.050, "west": 107.900 },
+      "items": [
+        {
+          "id": "d7-1",
+          "time": "6:30 AM",
+          "icon": "☕",
+          "type": "food",
+          "title": "Banh Mi at Madam Khanh (The Banh Mi Queen)",
+          "detail": "115 Tran Cao Van, Hoi An. Best banh mi in town. 30,000 VND ($1.20 USD). Crispy baguette, pate, grilled pork, pickled veggies, chili sauce. Get two — you'll wish you had",
+          "status": "confirmed",
+          "lat": 15.8790,
+          "lng": 108.3300
+        },
+        {
+          "id": "d7-2",
+          "time": "7:30 AM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Grab to Ba Na Hills",
+          "detail": "40 min drive from Hoi An. Grab ~300,000 VND ($12 USD) one way. Alternatively book a day tour with return transport 400,000 VND ($16 USD)",
+          "status": "confirmed",
+          "lat": 15.9957,
+          "lng": 107.9817
+        },
+        {
+          "id": "d7-3",
+          "time": "8:30 AM",
+          "icon": "🌉",
+          "type": "activity",
+          "title": "Ba Na Hills & Golden Bridge",
+          "detail": "Entry + cable car 900,000 VND ($36 USD). World's longest single-wire cable car. The Golden Bridge — giant stone hands holding a golden walkway above the clouds. French Village, Fantasy Park, gardens. Allow 4–5 hrs",
+          "status": "confirmed",
+          "lat": 15.9957,
+          "lng": 107.9817
+        },
+        {
+          "id": "d7-4",
+          "time": "12:30 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Lunch at Ba Na Hills",
+          "detail": "Beer Plaza restaurant. Vietnamese and international options. Expect 200,000–300,000 VND ($8–12 USD). Tourist pricing but decent quality. Views are unbeatable",
+          "status": "confirmed",
+          "lat": 15.9960,
+          "lng": 107.9820
+        },
+        {
+          "id": "d7-5",
+          "time": "2:30 PM",
+          "icon": "⛰️",
+          "type": "activity",
+          "title": "Marble Mountains (Ngu Hanh Son)",
+          "detail": "Five limestone hills with caves, tunnels, and Buddhist pagodas inside. 40,000 VND ($1.60 USD) entry + 15,000 VND elevator. Huyen Khong Cave is massive — sunlight streams through ceiling holes. Beautiful views of Da Nang coastline from the summit",
+          "status": "confirmed",
+          "lat": 16.0040,
+          "lng": 108.2630
+        },
+        {
+          "id": "d7-6",
+          "time": "4:30 PM",
+          "icon": "🏖️",
+          "type": "activity",
+          "title": "My Khe Beach",
+          "detail": "One of the most beautiful urban beaches in Asia. Free entry. Soft white sand, warm water, gentle waves. Rent a sun lounger for 50,000 VND ($2 USD). Named one of the world's most luxurious beaches by Forbes",
+          "status": "confirmed",
+          "lat": 16.0440,
+          "lng": 108.2465
+        },
+        {
+          "id": "d7-7",
+          "time": "7:00 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Seafood Dinner at Be Man Restaurant",
+          "detail": "K120/11 Hoang Sa, Da Nang. Famous for grilled seafood — order by weight. Salt and chili crab, garlic butter shrimp, grilled fish in banana leaf. Budget 400,000 VND ($16 USD)/person. Locals eat here",
+          "status": "confirmed",
+          "lat": 16.0580,
+          "lng": 108.2450
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "date": "Mar 22",
+      "title": "Ho Chi Minh City – History & Energy",
+      "location": "Ho Chi Minh City",
+      "bounds": { "north": 10.790, "south": 10.750, "east": 106.710, "west": 106.660 },
+      "items": [
+        {
+          "id": "d8-1",
+          "time": "7:00 AM",
+          "icon": "✈️",
+          "type": "transport",
+          "title": "Flight Da Nang → Ho Chi Minh City",
+          "detail": "VietJet Air VJ637. Departs 7:30 AM, arrives 9:00 AM. 950,000 VND ($38 USD). Tan Son Nhat Airport. Grab to District 1 hotel 120,000 VND ($5 USD), 30 min",
+          "status": "confirmed",
+          "lat": 10.8188,
+          "lng": 106.6590
+        },
+        {
+          "id": "d8-2",
+          "time": "9:30 AM",
+          "icon": "🏨",
+          "type": "accommodation",
+          "title": "Check in – The Myst Dong Khoi",
+          "detail": "6–8 Ho Huan Nghiep, District 1. Rooftop infinity pool with Saigon skyline views. 2,500,000 VND ($100 USD)/night. Walking distance to all major sights",
+          "status": "confirmed",
+          "lat": 10.7760,
+          "lng": 106.7045
+        },
+        {
+          "id": "d8-3",
+          "time": "10:00 AM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Cu Chi Tunnels Half-Day Tour",
+          "detail": "70 km northwest of HCMC. Guided tour 450,000 VND ($18 USD) with transport. Choose Ben Duoc site (less touristy) over Ben Dinh. 3 hrs on site",
+          "status": "confirmed",
+          "lat": 11.1417,
+          "lng": 106.4630
+        },
+        {
+          "id": "d8-4",
+          "time": "10:30 AM",
+          "icon": "🕳️",
+          "type": "activity",
+          "title": "Explore the Cu Chi Tunnel Network",
+          "detail": "250 km of underground tunnels used during the Vietnam War. Crawl through widened sections, see command rooms, kitchens, booby traps. Firing range available — shoot an AK-47 for 60,000 VND ($2.40 USD)/bullet. Claustrophobic warning",
+          "status": "confirmed",
+          "lat": 11.1417,
+          "lng": 106.4630
+        },
+        {
+          "id": "d8-5",
+          "time": "2:00 PM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "War Remnants Museum",
+          "detail": "28 Vo Van Tan, District 3. 40,000 VND ($1.60 USD). Deeply moving — American war from Vietnamese perspective. US military hardware, Agent Orange exhibit, photojournalism. Allow 2 hrs. Be prepared emotionally",
+          "status": "confirmed",
+          "lat": 10.7794,
+          "lng": 106.6922
+        },
+        {
+          "id": "d8-6",
+          "time": "4:30 PM",
+          "icon": "🏛️",
+          "type": "activity",
+          "title": "Reunification Palace & Notre-Dame Cathedral",
+          "detail": "Walk between two landmarks. Reunification Palace 65,000 VND ($2.60 USD) — where the tank crashed through the gates in 1975. Notre-Dame Cathedral (exterior only, under restoration). Nearby Saigon Central Post Office — working post office designed by Gustave Eiffel",
+          "status": "confirmed",
+          "lat": 10.7769,
+          "lng": 106.6953
+        },
+        {
+          "id": "d8-7",
+          "time": "6:00 PM",
+          "icon": "🏬",
+          "type": "activity",
+          "title": "Ben Thanh Market & Street Food",
+          "detail": "Iconic Saigon market. Closes at 6 PM but the night market surrounds it until 11 PM. Com tam (broken rice) 50,000 VND ($2 USD), banh trang tron (rice paper salad) 20,000 VND ($0.80 USD). Watch for pickpockets",
+          "status": "confirmed",
+          "lat": 10.7725,
+          "lng": 106.6980
+        },
+        {
+          "id": "d8-8",
+          "time": "8:00 PM",
+          "icon": "🍸",
+          "type": "food",
+          "title": "Rooftop Drinks at Saigon Saigon Bar",
+          "detail": "Caravelle Hotel, 9th floor. Famous during the war as the journalists' bar. Cocktails 200,000–300,000 VND ($8–12 USD). Live jazz, panoramic city views. Dress smart casual",
+          "status": "confirmed",
+          "lat": 10.7766,
+          "lng": 106.7040
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "date": "Mar 23",
+      "title": "Mekong Delta – Floating Markets",
+      "location": "Can Tho / Mekong Delta",
+      "bounds": { "north": 10.100, "south": 9.990, "east": 105.800, "west": 105.700 },
+      "items": [
+        {
+          "id": "d9-1",
+          "time": "5:00 AM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Early Departure to Can Tho",
+          "detail": "3.5 hr drive from HCMC. Private car 2,000,000 VND ($80 USD) round trip. Depart early to catch the floating market before it winds down by 9 AM",
+          "status": "confirmed",
+          "lat": 10.0452,
+          "lng": 105.7469
+        },
+        {
+          "id": "d9-2",
+          "time": "6:30 AM",
+          "icon": "🚣",
+          "type": "activity",
+          "title": "Cai Rang Floating Market",
+          "detail": "Largest floating market in the Mekong Delta. Wholesale traders hang samples from poles on their boats. Buy fresh fruit, pho, and coffee from floating vendors. Boat hire 300,000 VND ($12 USD) for 2 hrs. Best before 8 AM — most authentic experience at dawn",
+          "status": "confirmed",
+          "lat": 10.0180,
+          "lng": 105.7600
+        },
+        {
+          "id": "d9-3",
+          "time": "8:30 AM",
+          "icon": "☕",
+          "type": "food",
+          "title": "Breakfast on the River",
+          "detail": "Buy hu tieu (Mekong-style noodle soup) and ca phe sua da (iced milk coffee) from floating kitchens. 30,000 VND ($1.20 USD). Eat on the boat while drifting past coconut palm-lined canals",
+          "status": "confirmed",
+          "lat": 10.0200,
+          "lng": 105.7580
+        },
+        {
+          "id": "d9-4",
+          "time": "10:00 AM",
+          "icon": "🌴",
+          "type": "activity",
+          "title": "Small Canal Boat Tour",
+          "detail": "Navigate narrow canals through coconut palm jungle. Visit a rice noodle factory, a coconut candy workshop, and a fruit orchard. Sample tropical fruits — rambutan, mangosteen, dragon fruit. 400,000 VND ($16 USD) including all tastings",
+          "status": "confirmed",
+          "lat": 10.0300,
+          "lng": 105.7400
+        },
+        {
+          "id": "d9-5",
+          "time": "12:00 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Lunch – Mekong River Fish",
+          "detail": "Riverside restaurant in Can Tho. Elephant ear fish (ca tai tuong) — deep fried whole, wrapped in rice paper with herbs. A Mekong Delta signature. 250,000 VND ($10 USD). Also try lau mam (fermented fish hotpot)",
+          "status": "confirmed",
+          "lat": 10.0480,
+          "lng": 105.7480
+        },
+        {
+          "id": "d9-6",
+          "time": "1:30 PM",
+          "icon": "🚲",
+          "type": "activity",
+          "title": "Bike Ride Through the Delta Villages",
+          "detail": "Flat terrain, shaded paths along canals. Cycle past fruit orchards, rice paddies, and stilted houses. 2 hrs. Bike rental included with tour or 100,000 VND ($4 USD) separately. Stop at a local home for tea and fruit",
+          "status": "confirmed",
+          "lat": 10.0400,
+          "lng": 105.7350
+        },
+        {
+          "id": "d9-7",
+          "time": "4:00 PM",
+          "icon": "🚐",
+          "type": "transport",
+          "title": "Drive to Can Tho Airport, Fly to Phu Quoc",
+          "detail": "Short drive to Can Tho Airport. VietJet Air to Phu Quoc, 1 hr flight. 1,000,000 VND ($40 USD). Arrives 6:30 PM. Taxi to resort 200,000 VND ($8 USD)",
+          "status": "confirmed",
+          "lat": 10.0851,
+          "lng": 105.7119
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "date": "Mar 24",
+      "title": "Phu Quoc Island – Beach & Farewell",
+      "location": "Phu Quoc",
+      "bounds": { "north": 10.350, "south": 10.150, "east": 104.050, "west": 103.850 },
+      "items": [
+        {
+          "id": "d10-1",
+          "time": "7:00 AM",
+          "icon": "🌅",
+          "type": "activity",
+          "title": "Sunrise at Long Beach",
+          "detail": "Phu Quoc's most famous beach — 20 km of powdery sand. Watch the sunrise with a Vietnamese iced coffee from a beach shack. The west coast gets sunsets, the east coast gets sunrises",
+          "status": "confirmed",
+          "lat": 10.2100,
+          "lng": 103.9580
+        },
+        {
+          "id": "d10-2",
+          "time": "8:00 AM",
+          "icon": "🍳",
+          "type": "food",
+          "title": "Breakfast at the Resort",
+          "detail": "Chen Sea Resort & Spa. Included with stay at 3,500,000 VND ($140 USD)/night. Oceanfront breakfast — pho, banh mi, tropical fruit, Vietnamese drip coffee. Pool access all day",
+          "status": "confirmed",
+          "lat": 10.1850,
+          "lng": 103.9600
+        },
+        {
+          "id": "d10-3",
+          "time": "9:30 AM",
+          "icon": "🤿",
+          "type": "activity",
+          "title": "Snorkeling at An Thoi Archipelago",
+          "detail": "Half-day boat tour to the southern islands. 500,000 VND ($20 USD). Visit 3–4 islands, snorkel coral reefs, see clownfish and sea urchins. Equipment included. Water visibility 8–15 meters. Stop at a floating bar for lunch",
+          "status": "confirmed",
+          "lat": 10.0500,
+          "lng": 104.0200
+        },
+        {
+          "id": "d10-4",
+          "time": "12:30 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Fresh Seafood Lunch on Hon Thom Island",
+          "detail": "Grilled catch of the day, garlic prawns, squid, and fresh coconut. Eaten at a beachside shack. 300,000 VND ($12 USD)/person. The freshest seafood of the entire trip",
+          "status": "confirmed",
+          "lat": 10.0480,
+          "lng": 104.0250
+        },
+        {
+          "id": "d10-5",
+          "time": "2:30 PM",
+          "icon": "🏖️",
+          "type": "activity",
+          "title": "Sao Beach (Bai Sao)",
+          "detail": "Often called the most beautiful beach in Vietnam. Turquoise water, white sand, palm trees. Free entry, lounger rental 50,000 VND ($2 USD). Less developed than Long Beach — more natural feel. Kayak rental available 100,000 VND ($4 USD)/hr",
+          "status": "confirmed",
+          "lat": 10.1530,
+          "lng": 104.0320
+        },
+        {
+          "id": "d10-6",
+          "time": "5:00 PM",
+          "icon": "🌅",
+          "type": "activity",
+          "title": "Sunset at Dinh Cau Rock Temple",
+          "detail": "Small temple perched on rocks at the harbor entrance. Fishermen pray here before heading out. Best sunset viewpoint on the island. Free. The golden hour light over the fishing boats is magical",
+          "status": "confirmed",
+          "lat": 10.2133,
+          "lng": 103.9612
+        },
+        {
+          "id": "d10-7",
+          "time": "6:30 PM",
+          "icon": "🍽️",
+          "type": "food",
+          "title": "Farewell Dinner at Phu Quoc Night Market",
+          "detail": "Bach Dang St, Duong Dong. Grilled sea urchin, scallops, crab, and Phu Quoc fish sauce — the island's liquid gold. Budget 300,000 VND ($12 USD) for a feast. Try the coconut ice cream and sugarcane juice",
+          "status": "confirmed",
+          "lat": 10.2150,
+          "lng": 103.9620
+        },
+        {
+          "id": "d10-8",
+          "time": "9:00 PM",
+          "icon": "✈️",
+          "type": "transport",
+          "title": "Departure – Phu Quoc International Airport",
+          "detail": "Grab to airport 100,000 VND ($4 USD), 15 min. Onward flight or overnight stay. Duty-free shop has excellent Phu Quoc pepper and fish sauce. Hen gap lai Vietnam! (See you again, Vietnam!)",
+          "status": "confirmed",
+          "lat": 10.1700,
+          "lng": 103.9930
+        }
+      ]
+    }
+  ],
+  "weather": [
+    { "day": "Mar 15", "icon": "🌤️", "high": 28, "low": 20, "rain": 15 },
+    { "day": "Mar 16", "icon": "⛅", "high": 27, "low": 19, "rain": 25 },
+    { "day": "Mar 17", "icon": "🌤️", "high": 26, "low": 21, "rain": 10 },
+    { "day": "Mar 18", "icon": "☀️", "high": 29, "low": 20, "rain": 5 },
+    { "day": "Mar 19", "icon": "🌦️", "high": 30, "low": 22, "rain": 40 },
+    { "day": "Mar 20", "icon": "⛅", "high": 31, "low": 23, "rain": 20 },
+    { "day": "Mar 21", "icon": "☀️", "high": 32, "low": 24, "rain": 10 },
+    { "day": "Mar 22", "icon": "🌤️", "high": 33, "low": 25, "rain": 15 },
+    { "day": "Mar 23", "icon": "☀️", "high": 34, "low": 26, "rain": 10 },
+    { "day": "Mar 24", "icon": "☀️", "high": 33, "low": 27, "rain": 5 }
+  ],
+  "contacts": [
+    { "icon": "🏨", "name": "Hanoi La Siesta Hotel", "role": "Hanoi Accommodation", "phone": "+84 24 3926 3641" },
+    { "icon": "🚢", "name": "Indochina Junk Cruises", "role": "Ha Long Bay Cruise", "phone": "+84 24 3747 0480" },
+    { "icon": "🏨", "name": "Hoi An Chic Hotel", "role": "Hoi An Accommodation", "phone": "+84 235 391 1234" },
+    { "icon": "🏨", "name": "The Myst Dong Khoi", "role": "HCMC Accommodation", "phone": "+84 28 3520 3040" },
+    { "icon": "🏨", "name": "Chen Sea Resort", "role": "Phu Quoc Accommodation", "phone": "+84 297 399 5895" },
+    { "icon": "🇻🇳", "name": "Linh Nguyen", "role": "Local Guide (Hanoi + North)", "phone": "+84 912 345 678" },
+    { "icon": "🚑", "name": "Vietnam Emergency", "role": "Police/Fire/Ambulance", "phone": "113 / 114 / 115" },
+    { "icon": "🇺🇸", "name": "US Embassy Hanoi", "role": "Consular Services", "phone": "+84 24 3850 5000" }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "type": "weather",
+      "text": "Rain chance 40% in Hue on Mar 19. Pack a light rain jacket for Imperial City visit.",
+      "time": "2 hrs ago",
+      "read": false
+    },
+    {
+      "id": 2,
+      "type": "change",
+      "by": "scott",
+      "text": "Added cooking class at Red Bridge in Hoi An — afternoon slot confirmed!",
+      "time": "5 hrs ago",
+      "read": false
+    },
+    {
+      "id": 3,
+      "type": "enriched",
+      "text": "Tip: Ha Long Bay cruise recommends bringing motion sickness meds. Bai Tu Long route can be choppy in March.",
+      "time": "1 day ago",
+      "read": true
+    },
+    {
+      "id": 4,
+      "type": "currency",
+      "text": "Exchange rate: 1 USD = 25,000 VND. ATMs dispense max 5,000,000 VND ($200) per withdrawal. Vietcombank has lowest fees.",
+      "time": "1 day ago",
+      "read": true
+    },
+    {
+      "id": 5,
+      "type": "sync",
+      "text": "All 10 days synced and available offline. Total trip budget estimate: 28,500,000 VND ($1,140 USD) per person.",
+      "time": "2 days ago",
+      "read": true
+    },
+    {
+      "id": 6,
+      "type": "change",
+      "by": "linh",
+      "text": "Suggested upgrading Ha Long cruise to overnight — the sunrise over the karsts is unmissable!",
+      "time": "3 days ago",
+      "read": true
+    }
+  ],
+  "changeLog": [
+    {
+      "id": 1,
+      "type": "added",
+      "by": "scott",
+      "time": "5 hrs ago",
+      "title": "Vietnamese Cooking Class at Red Bridge",
+      "detail": "Added to Day 6 — Hoi An",
+      "day": 6,
+      "synced": true
+    },
+    {
+      "id": 2,
+      "type": "swapped",
+      "by": "scott",
+      "time": "1 day ago",
+      "title": "Cu Chi Tunnels",
+      "from": "Day 9",
+      "to": "Day 8",
+      "reason": "Better flow — visit tunnels before Mekong Delta day",
+      "day": 8,
+      "synced": true
+    },
+    {
+      "id": 3,
+      "type": "added",
+      "by": "linh",
+      "time": "2 days ago",
+      "title": "Bai Dinh Pagoda",
+      "detail": "Local recommendation — largest Buddhist complex in Vietnam, added to Ninh Binh day",
+      "day": 4,
+      "synced": true
+    },
+    {
+      "id": 4,
+      "type": "note",
+      "by": "scott",
+      "time": "3 days ago",
+      "title": "Hai Van Pass Drive",
+      "detail": "Booked private car instead of bus — the coastal scenery is worth it",
+      "day": 6,
+      "synced": true
+    },
+    {
+      "id": 5,
+      "type": "time_changed",
+      "by": "scott",
+      "time": "4 days ago",
+      "title": "Cai Rang Floating Market",
+      "from": "8:00 AM",
+      "to": "6:30 AM",
+      "reason": "Market is best at dawn — vendors start packing up by 9 AM",
+      "day": 9,
+      "synced": true
+    }
+  ]
+}

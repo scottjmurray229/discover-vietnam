@@ -1,0 +1,1953 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FTCDisclosure from '../components/FTCDisclosure.astro';
+import { getCollection } from 'astro:content';
+import { DESTINATION_COORDS } from '../data/destination-coords';
+
+const allDests = await getCollection('destinations', (entry) => {
+  return !entry.id.startsWith('tl/');
+});
+const destMap = new Map(allDests.map(d => [String(d.slug || d.id), d]));
+
+// Build geoMarkers from shared coords module
+const geoMarkers = Object.entries(DESTINATION_COORDS).map(([slug, coords]) => ({
+  slug,
+  label: coords.label,
+  lat: coords.lat,
+  lng: coords.lng,
+}));
+
+const gmapMarkers = geoMarkers.map(m => {
+  const dest = destMap.get(m.slug);
+  return {
+    slug: m.slug, label: m.label, lat: m.lat, lng: m.lng,
+    hasVideo: !!dest?.data.heroVideo,
+    region: dest?.data.region || 'luzon',
+    url: `/destinations/${m.slug}/`,
+    status: dest?.data.heroVideo ? 'Guide Available' : 'Guide Coming Soon',
+  };
+});
+const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
+---
+<BaseLayout
+  title="AI Trip Planner — Build Your Vietnam Itinerary"
+  description="Tell us your dream Vietnam trip and our AI builds a custom day-by-day itinerary backed by 20+ trips of real travel experience. Real prices in VND & USD."
+>
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="planner-hero">
+    <video class="planner-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/pillar/plan-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="planner-hero-gradient-overlay"></div>
+    <div class="planner-hero-eyebrow">AI-Powered &middot; Any Destination &middot; Real Prices in VND &amp; USD &middot; <span class="free-badge-inline">Free Through June 30</span></div>
+    <h1>Plan Your Vietnam Trip</h1>
+    <p>Explore the map, pick your destinations, tell us your style — and our AI builds a custom day-by-day itinerary backed by 20+ trips of real Vietnam experience.</p>
+  </section>
+
+  <!-- ============================================================
+       INTERACTIVE MAP + REGION CARDS
+       ============================================================ -->
+  <div class="map-section">
+    <div class="map-section-header">
+      <h2>Where Do You Want to Go?</h2>
+      <p>Click destinations on the map or pick from the region cards. Select up to 5 — the AI connects the dots.</p>
+    </div>
+    <div class="map-layout">
+
+      <!-- VIETNAM MAP -->
+      <div class="map-container" id="mapContainer">
+        <div class="map-tooltip" id="mapTooltip">
+          <div class="map-tooltip-name" id="tooltipName"></div>
+          <div class="map-tooltip-region" id="tooltipRegion"></div>
+          <div class="map-tooltip-status" id="tooltipStatus"></div>
+        </div>
+        <div id="planGoogleMap"></div>
+        <div class="map-legend">
+          <div class="map-legend-item"><div class="map-legend-dot has-video"></div>Guide available</div>
+          <div class="map-legend-item"><div class="map-legend-dot coming-soon"></div>Guide coming soon</div>
+        </div>
+      </div>
+
+      <!-- REGION CARDS -->
+      <div class="region-cards">
+        <div class="region-card" data-region="north">
+          <div class="region-card-header"><div class="region-card-name">Northern Vietnam</div><div class="region-card-count">4 destinations</div></div>
+          <div class="region-card-desc">Ancient capital, misty mountains, and dramatic karst landscapes. Hanoi's street food alone is worth the flight.</div>
+          <div class="region-dest-tags">
+            <span class="dest-chip has-video" data-dest="hanoi">Hanoi</span>
+            <span class="dest-chip has-video" data-dest="ha-long-bay">Ha Long Bay</span>
+            <span class="dest-chip has-video" data-dest="sapa">Sapa</span>
+            <span class="dest-chip has-video" data-dest="ninh-binh">Ninh Binh</span>
+          </div>
+        </div>
+        <div class="region-card" data-region="central">
+          <div class="region-card-header"><div class="region-card-name">Central Vietnam</div><div class="region-card-count">5 destinations</div></div>
+          <div class="region-card-desc">Imperial citadels, lantern-lit ancient towns, golden beaches, and dramatic caves. The cultural heart of Vietnam.</div>
+          <div class="region-dest-tags">
+            <span class="dest-chip has-video" data-dest="hue">Hue</span>
+            <span class="dest-chip has-video" data-dest="da-nang">Da Nang</span>
+            <span class="dest-chip has-video" data-dest="hoi-an">Hoi An</span>
+            <span class="dest-chip has-video" data-dest="nha-trang">Nha Trang</span>
+            <span class="dest-chip" data-dest="phong-nha">Phong Nha</span>
+          </div>
+        </div>
+        <div class="region-card" data-region="south">
+          <div class="region-card-header"><div class="region-card-name">Southern Vietnam</div><div class="region-card-count">5 destinations</div></div>
+          <div class="region-card-desc">Buzzing Saigon, floating markets, highland retreats, and tropical islands. Where Vietnam's energy is most electric.</div>
+          <div class="region-dest-tags">
+            <span class="dest-chip has-video" data-dest="ho-chi-minh-city">Ho Chi Minh City</span>
+            <span class="dest-chip has-video" data-dest="dalat">Dalat</span>
+            <span class="dest-chip has-video" data-dest="phu-quoc">Phu Quoc</span>
+            <span class="dest-chip has-video" data-dest="mui-ne">Mui Ne</span>
+            <span class="dest-chip has-video" data-dest="can-tho">Can Tho</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SELECTED DESTINATIONS
+       ============================================================ -->
+  <div class="selected-section" id="selectedSection" style="display:none;">
+    <div class="selected-header">
+      <h3>Your Selected Destinations</h3>
+      <button class="selected-clear" id="clearAllBtn">Clear all</button>
+    </div>
+    <div class="selected-tags" id="selectedTags"></div>
+  </div>
+
+  <!-- ============================================================
+       TRIP DETAILS FORM
+       ============================================================ -->
+  <div class="trip-details reveal">
+    <h3>Trip Details</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="tripMonth">When are you going?</label>
+        <select class="form-select" id="tripMonth">
+          <option value="">Select month...</option>
+          <option>January</option><option>February</option><option>March</option>
+          <option>April</option><option>May</option><option>June</option>
+          <option>July</option><option>August</option><option>September</option>
+          <option>October</option><option>November</option><option>December</option>
+          <option value="flexible">I'm flexible</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="tripDuration">How many days?</label>
+        <select class="form-select" id="tripDuration">
+          <option value="">Select duration...</option>
+          <option>3-5 days</option>
+          <option>1 week</option>
+          <option>10 days</option>
+          <option>2 weeks</option>
+          <option>3+ weeks</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="tripStyle">Travel style</label>
+        <select class="form-select" id="tripStyle">
+          <option value="">Select style...</option>
+          <option>Backpacker (&#8369;1,000-2,000/day · ~$18-$35 USD)</option>
+          <option>Budget-comfortable (&#8369;2,000-4,000/day · ~$35-$71 USD)</option>
+          <option>Mid-range (&#8369;4,000-8,000/day · ~$71-$142 USD)</option>
+          <option>Luxury (&#8369;8,000+/day · ~$142+ USD)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="tripTravelers">Who's going?</label>
+        <select class="form-select" id="tripTravelers">
+          <option value="">Select travelers...</option>
+          <option>Solo</option>
+          <option>Couple</option>
+          <option>Family with kids</option>
+          <option>Group of friends</option>
+          <option>Honeymoon</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px;">
+      <label class="form-label" for="budgetSlider">Daily budget</label>
+      <div class="budget-display">
+        <input type="range" class="budget-range" id="budgetSlider" min="500" max="15000" step="250" value="3000" />
+        <div class="budget-value" id="budgetDisplay">&#8369;3,000 <span class="budget-usd">(~$53 USD)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ANYTHING ELSE? (optional notes)
+       ============================================================ -->
+  <div class="planner-extras reveal">
+    <label class="planner-extras-label" for="tripDescription">Anything else the AI should know? <span class="planner-extras-optional">(optional)</span></label>
+    <textarea class="planner-textarea planner-textarea--short" id="tripDescription" maxlength="500" placeholder="E.g. &quot;We love snorkeling and want to avoid tourist crowds&quot; or &quot;Flying in from the US in March&quot;"></textarea>
+    <div class="planner-extras-hint">Dietary needs, mobility concerns, must-see spots — anything helps</div>
+  </div>
+
+  <!-- ============================================================
+       GENERATE BUTTON
+       ============================================================ -->
+  <div class="generate-section reveal">
+    <button class="btn-generate" id="generateBtn">&#10022; Generate My Itinerary</button>
+    <div class="generate-note">Free through June 30, 2026 &middot; Powered by AI &middot; Backed by 20+ trips since 2003</div>
+  </div>
+
+  <!-- ============================================================
+       ITINERARY RESULT
+       ============================================================ -->
+  <div class="sample-section" id="itineraryResult"></div>
+
+  <!-- ============================================================
+       TRUST SECTION
+       ============================================================ -->
+  <section class="trust-section">
+    <div class="trust-inner">
+      <div class="trust-item-block"><div class="trust-icon">&#128506;</div><div class="trust-title">Any Destination</div><div class="trust-desc">Open-ended — plan trips to any island, city, or region in Vietnam</div></div>
+      <div class="trust-item-block"><div class="trust-icon">&#128176;</div><div class="trust-title">Real Prices</div><div class="trust-desc">Every cost in VND with USD equivalent — no guesswork</div></div>
+      <div class="trust-item-block"><div class="trust-icon">&#129523;</div><div class="trust-title">20+ Trips Since 2003</div><div class="trust-desc">Itineraries informed by Scott &amp; Scott's real travel experience</div></div>
+      <div class="trust-item-block"><div class="trust-icon">&#129309;</div><div class="trust-title">Book With Confidence</div><div class="trust-desc">Direct links to trusted hotels, tours, transport — vetted by us</div></div>
+    </div>
+  </section>
+
+  <!-- FTC Disclosure -->
+  <div class="container-content">
+    <FTCDisclosure placement="inline" />
+  </div>
+
+  <!-- ============================================================
+       SCRIPTS (must be inside BaseLayout so they render within <body>)
+       ============================================================ -->
+  <script>
+  // Scroll reveal
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
+
+  // Budget slider
+  const slider = document.getElementById('budgetSlider') as HTMLInputElement;
+  const budgetDisplay = document.getElementById('budgetDisplay');
+  if (slider && budgetDisplay) {
+    slider.addEventListener('input', () => {
+      const php = parseInt(slider.value);
+      const usd = (php / 56.5).toFixed(0);
+      budgetDisplay.innerHTML = `\u20B1${php.toLocaleString()} <span class="budget-usd">(~$${usd} USD)</span>`;
+    });
+  }
+
+  // State
+  const selectedDests = new Set<string>();
+  const selectedSection = document.getElementById('selectedSection') as HTMLElement;
+  const selectedTags = document.getElementById('selectedTags') as HTMLElement;
+
+  // URL params
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('dest')) toggleDest(params.get('dest')!);
+  if (params.get('region')) {
+    document.querySelectorAll(`.region-card[data-region="${params.get('region')}"] .dest-chip`).forEach(chip => {
+      const dest = (chip as HTMLElement).dataset.dest;
+      if (dest && !selectedDests.has(dest)) toggleDest(dest);
+    });
+  }
+
+  // Chip clicks
+  document.querySelectorAll('.dest-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const dest = (chip as HTMLElement).dataset.dest;
+      if (dest) toggleDest(dest);
+    });
+  });
+
+  // Core toggle (max 5 destinations)
+  function toggleDest(dest: string) {
+    if (selectedDests.has(dest)) {
+      selectedDests.delete(dest);
+      document.querySelectorAll(`.dest-chip[data-dest="${dest}"]`).forEach(c => c.classList.remove('selected'));
+    } else {
+      if (selectedDests.size >= 5) {
+        // Flash a brief warning instead of silently ignoring
+        const header = document.querySelector('.selected-header h3');
+        if (header) {
+          header.textContent = 'Max 5 destinations — remove one first';
+          header.style.color = '#E8654A';
+          setTimeout(() => { header.textContent = 'Your Selected Destinations'; header.style.color = ''; }, 2000);
+        }
+        return;
+      }
+      selectedDests.add(dest);
+      document.querySelectorAll(`.dest-chip[data-dest="${dest}"]`).forEach(c => c.classList.add('selected'));
+    }
+    updateSelectedUI();
+  }
+
+  function updateSelectedUI() {
+    if (selectedDests.size === 0) { selectedSection.style.display = 'none'; return; }
+    selectedSection.style.display = 'block';
+    selectedTags.innerHTML = '';
+    selectedDests.forEach(dest => {
+      const chip = document.querySelector(`.dest-chip[data-dest="${dest}"]`);
+      const name = chip ? chip.textContent!.replace(' 🎥', '') : dest;
+      const tag = document.createElement('span');
+      tag.className = 'selected-tag';
+      tag.innerHTML = `${name} <span class="remove" data-dest="${dest}">✕</span>`;
+      selectedTags.appendChild(tag);
+    });
+    // Attach remove handlers
+    selectedTags.querySelectorAll('.remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dest = (btn as HTMLElement).dataset.dest;
+        if (dest) {
+          selectedDests.delete(dest);
+          document.querySelectorAll(`.dest-chip[data-dest="${dest}"]`).forEach(c => c.classList.remove('selected'));
+          updateSelectedUI();
+        }
+      });
+    });
+  }
+
+  // Clear all
+  document.getElementById('clearAllBtn')?.addEventListener('click', () => {
+    selectedDests.clear();
+    document.querySelectorAll('.dest-chip').forEach(c => c.classList.remove('selected'));
+    updateSelectedUI();
+  });
+
+  // --- Generate itinerary ---
+  let isGenerating = false;
+
+  function getFormData() {
+    const description = (document.getElementById('tripDescription') as HTMLTextAreaElement)?.value?.trim() || '';
+    const month = (document.getElementById('tripMonth') as HTMLSelectElement)?.value || '';
+    const duration = (document.getElementById('tripDuration') as HTMLSelectElement)?.value || '';
+    const style = (document.getElementById('tripStyle') as HTMLSelectElement)?.value || '';
+    const travelers = (document.getElementById('tripTravelers') as HTMLSelectElement)?.value || '';
+
+    return {
+      destinations: Array.from(selectedDests),
+      duration: duration || '1 week',
+      budgetLevel: style || 'Mid-range',
+      travelers,
+      month: month === 'flexible' ? '' : month,
+      description,
+    };
+  }
+
+  function renderLoading(container: HTMLElement) {
+    const steps = [
+      { icon: '🗺️', text: 'Analyzing your destinations...' },
+      { icon: '✈️', text: 'Planning routes & transport...' },
+      { icon: '🏨', text: 'Finding hotels in your budget...' },
+      { icon: '🍴', text: 'Picking restaurants & local eats...' },
+      { icon: '🏄', text: 'Adding activities & experiences...' },
+      { icon: '💰', text: 'Calculating prices in VND & USD...' },
+    ];
+    container.innerHTML = `
+      <div class="itinerary-loading">
+        <div class="loading-globe">
+          <div class="loading-globe-ring"></div>
+          <svg class="loading-globe-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="28" fill="#0D7377" opacity="0.15"/>
+            <circle cx="32" cy="32" r="28" stroke="#0D7377" stroke-width="2" fill="none"/>
+            <ellipse cx="32" cy="32" rx="12" ry="28" stroke="#0D7377" stroke-width="1.5" fill="none" class="loading-globe-meridian"/>
+            <line x1="4" y1="32" x2="60" y2="32" stroke="#0D7377" stroke-width="1.5"/>
+            <ellipse cx="32" cy="20" rx="22" ry="6" stroke="#0D7377" stroke-width="1" fill="none" opacity="0.5"/>
+            <ellipse cx="32" cy="44" rx="22" ry="6" stroke="#0D7377" stroke-width="1" fill="none" opacity="0.5"/>
+            <circle cx="26" cy="24" r="3" fill="#E8654A" opacity="0.9"/>
+            <circle cx="38" cy="36" r="2.5" fill="#E8654A" opacity="0.9"/>
+            <circle cx="30" cy="42" r="2" fill="#E8654A" opacity="0.7"/>
+          </svg>
+        </div>
+        <p class="loading-text">Building your itinerary...</p>
+        <div class="loading-steps">
+          ${steps.map((s, i) => `<div class="loading-step" data-step="${i}"><span class="loading-step-icon">${s.icon}</span><span class="loading-step-label">${s.text}</span><span class="loading-step-check">✓</span></div>`).join('')}
+        </div>
+        <p class="loading-subtext">Powered by AI · Usually takes 10–20 seconds</p>
+      </div>`;
+    container.classList.add('visible');
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Animate steps sequentially
+    const stepEls = container.querySelectorAll('.loading-step');
+    stepEls.forEach((el, i) => {
+      setTimeout(() => el.classList.add('active'), i * 2500);
+      setTimeout(() => el.classList.add('done'), (i + 1) * 2500 - 400);
+    });
+  }
+
+  // Destination display names for affiliate URLs
+  const DEST_NAMES: Record<string, string> = {
+    'siquijor':'Siquijor','cebu':'Cebu','bohol':'Bohol','boracay':'Boracay',
+    'el-nido':'El Nido Palawan','coron':'Coron Palawan','siargao':'Siargao',
+    'dumaguete':'Dumaguete','clark':'Clark Southern Vietnam','manila':'Manila',
+    'davao':'Davao','camiguin':'Camiguin','puerto-princesa':'Puerto Princesa',
+    'palawan':'Palawan','vigan':'Vigan','sagada':'Sagada','batanes':'Batanes',
+    'legazpi':'Legazpi','tagaytay':'Tagaytay','baguio':'Baguio',
+    'bacolod':'Bacolod','iloilo':'Iloilo','malapascua':'Malapascua',
+    'la-union':'La Union','baler':'Baler','donsol':'Donsol',
+    'puerto-galera':'Puerto Galera','subic':'Subic',
+  };
+
+  // 12Go Asia slug mapping (site slug → 12Go city slug)
+  const TWELVE_GO_SLUGS: Record<string, string> = {
+    'manila':'manila','cebu':'cebu','bohol':'bohol','siquijor':'siquijor',
+    'dumaguete':'dumaguete','boracay':'boracay','el-nido':'el-nido',
+    'coron':'coron','siargao':'siargao','davao':'davao',
+    'puerto-princesa':'puerto-princesa','camiguin':'camiguin',
+    'iloilo':'iloilo','bacolod':'bacolod','legazpi':'legazpi',
+    'puerto-galera':'puerto-galera','batangas':'batangas',
+    'donsol':'donsol','vigan':'vigan','baguio':'baguio',
+    'sagada':'sagada','clark':'clark','la-union':'san-fernando-la-union',
+    'baler':'baler','pagudpud':'pagudpud','subic':'subic',
+    'malapascua':'malapascua','tagaytay':'tagaytay',
+  };
+
+  // Parse trip form data into booking params
+  function getBookingParams(): { checkin: string; checkout: string; adults: number; children: number } {
+    const month = (document.getElementById('tripMonth') as HTMLSelectElement)?.value || '';
+    const duration = (document.getElementById('tripDuration') as HTMLSelectElement)?.value || '1 week';
+    const travelers = (document.getElementById('tripTravelers') as HTMLSelectElement)?.value || '';
+
+    // Build checkin date from month (default: next occurrence of that month)
+    let checkin = '';
+    let checkout = '';
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const monthIdx = MONTHS.indexOf(month);
+    if (monthIdx >= 0) {
+      const now = new Date();
+      let year = now.getFullYear();
+      // If month already passed this year, use next year
+      if (monthIdx < now.getMonth()) year++;
+      const ci = new Date(year, monthIdx, 1);
+      checkin = ci.toISOString().split('T')[0];
+      // Duration → nights
+      const durationMap: Record<string, number> = { '3-5 days': 4, '1 week': 7, '10 days': 10, '2 weeks': 14, '3+ weeks': 21 };
+      const nights = durationMap[duration] || 7;
+      const co = new Date(ci);
+      co.setDate(co.getDate() + nights);
+      checkout = co.toISOString().split('T')[0];
+    }
+
+    // Travelers → adults + children
+    let adults = 2;
+    let children = 0;
+    if (travelers === 'Solo') { adults = 1; }
+    else if (travelers === 'Couple' || travelers === 'Honeymoon') { adults = 2; }
+    else if (travelers === 'Family with kids') { adults = 2; children = 1; }
+    else if (travelers === 'Group of friends') { adults = 4; }
+
+    return { checkin, checkout, adults, children };
+  }
+
+  function buildAffiliateUrl(type: string | null, destination: string, description: string): string {
+    const destName = DEST_NAMES[destination] || destination.replace(/-/g, ' ');
+    const enc = (s: string) => encodeURIComponent(s);
+    const bp = getBookingParams();
+
+    if (type === 'hotel') {
+      const hotelName = description.split(/\s+or\s+similar|[.,—]/)[0].replace(/^check\s*into\s*/i, '').trim();
+      const query = hotelName ? hotelName + ' ' + destName : destName + ' Vietnam';
+      let url = `https://www.booking.com/searchresults.html?ss=${enc(query)}&aid=2778866&label=discovervietnam`;
+      if (bp.checkin) url += `&checkin=${bp.checkin}&checkout=${bp.checkout}`;
+      url += `&group_adults=${bp.adults}&no_rooms=1`;
+      if (bp.children > 0) url += `&group_children=${bp.children}`;
+      return url;
+    }
+    if (type === 'tour') {
+      const query = destName + ' ' + description.split(/[.,—]/)[0].trim().slice(0, 40);
+      return `https://www.getyourguide.com/s/?q=${enc(query)}&partner_id=IVN6IQ3&cmp=discover-vietnam`;
+    }
+    if (type === 'transport' || type === 'ferry') {
+      const slug12go = TWELVE_GO_SLUGS[destination] || destination.replace(/-/g, '-');
+      return `https://12go.asia/en/travel/${slug12go}?z=15062413&sub_id=discoverph-plan`;
+    }
+    return `https://www.getyourguide.com/s/?q=${enc(destName + ' Vietnam')}&partner_id=IVN6IQ3&cmp=discover-vietnam`;
+  }
+
+  function buildViatorUrl(destination: string, description: string): string {
+    const destName = DEST_NAMES[destination] || destination.replace(/-/g, ' ');
+    const query = destName + ' ' + description.split(/[.,—]/)[0].trim().slice(0, 40);
+    return `https://www.viator.com/searchResults/all?text=${encodeURIComponent(query)}&pid=P00290009&mcid=42383&medium=link`;
+  }
+
+  function buildHotelsComUrl(destination: string, description: string): string {
+    const destName = DEST_NAMES[destination] || destination.replace(/-/g, ' ');
+    const hotelName = description.split(/\s+or\s+similar|[.,—]/)[0].replace(/^check\s*into\s*/i, '').trim();
+    const query = hotelName || destName;
+    const landingPage = encodeURIComponent(`https://www.hotels.com/Hotel-Search?destination=${encodeURIComponent(query + ' Vietnam')}`);
+    return `https://hotels.com/affiliate?landingPage=${landingPage}&camref=1101l5Eohj&creativeref=1011l66481&adref=trip-planner`;
+  }
+
+  // --- Chat state ---
+  let currentItinerary: any = null;
+  let chatHistory: Array<{ role: 'user' | 'assistant'; text: string }> = [];
+  let isChatting = false;
+
+  const CATEGORY_ICONS: Record<string, string> = { transport:'🚐', accommodation:'🏨', activity:'🏄', food:'🍴', ferry:'⛴️' };
+
+  function buildDayCardsHTML(it: any, source?: string): string {
+    let html = `
+      <div class="sample-header">
+        <h2>${escapeHtml(it.title)}</h2>
+        <p>${escapeHtml(it.subtitle)}</p>
+      </div>`;
+
+    if (it.totalBudget) {
+      html += `
+        <div class="budget-summary">
+          <span class="budget-summary-label">Estimated Total</span>
+          <span class="budget-summary-value">\u20B1${it.totalBudget.php?.toLocaleString() || '—'} <span class="budget-summary-usd">(~$${it.totalBudget.usd?.toLocaleString() || '—'} USD)</span></span>
+        </div>`;
+    }
+
+    for (let dayIdx = 0; dayIdx < it.days.length; dayIdx++) {
+      const day = it.days[dayIdx];
+      html += `<div class="day-card" id="itin-day-${dayIdx}" data-day="${dayIdx}">
+        <div class="day-num">Day ${day.dayNumber}</div>
+        <div class="day-title">${escapeHtml(day.title)}</div>
+        <div class="day-items">`;
+      let dayPhp = 0;
+      let dayUsd = 0;
+      for (const item of day.items) {
+        const icon = CATEGORY_ICONS[item.category] || '';
+        let priceHtml = '';
+        if (item.pricePhp) {
+          dayPhp += item.pricePhp;
+          if (item.priceUsd) dayUsd += item.priceUsd;
+          priceHtml = ` <span class="day-price">\u20B1${item.pricePhp.toLocaleString()}`;
+          if (item.priceUsd) priceHtml += ` <span class="day-price-usd">(~$${item.priceUsd} USD)</span>`;
+          priceHtml += `</span>`;
+        }
+        let affiliateHtml = '';
+        if (item.affiliateSlotId) {
+          const url = buildAffiliateUrl(item.affiliateType, day.destination, item.description);
+          if (item.affiliateType === 'hotel') {
+            const hotelsComUrl = buildHotelsComUrl(day.destination, item.description);
+            affiliateHtml = ` <a class="day-affiliate" href="${url}" target="_blank" rel="noopener noreferrer">Booking.com &rarr;</a> <a class="day-affiliate day-affiliate-alt" href="${hotelsComUrl}" target="_blank" rel="noopener noreferrer">Hotels.com &rarr;</a>`;
+          } else if (item.affiliateType === 'tour') {
+            const viatorUrl = buildViatorUrl(day.destination, item.description);
+            affiliateHtml = ` <a class="day-affiliate" href="${url}" target="_blank" rel="noopener noreferrer">GetYourGuide &rarr;</a> <a class="day-affiliate day-affiliate-alt" href="${viatorUrl}" target="_blank" rel="noopener noreferrer">Viator &rarr;</a>`;
+          } else if (item.affiliateType === 'transport' || item.affiliateType === 'ferry') {
+            affiliateHtml = ` <a class="day-affiliate" href="${url}" target="_blank" rel="noopener noreferrer">${item.category === 'ferry' ? 'Book Ferry' : 'Book Transport'} &rarr;</a>`;
+          } else {
+            affiliateHtml = ` <a class="day-affiliate" href="${url}" target="_blank" rel="noopener noreferrer">Book This &rarr;</a>`;
+          }
+        }
+        html += `<div class="day-item">
+          <span class="day-cat">${icon}</span>
+          <div class="day-time">${escapeHtml(item.time)}</div>
+          <div class="day-desc">${escapeHtml(item.description)}${priceHtml}${affiliateHtml}</div>
+        </div>`;
+      }
+      if (dayPhp > 0) {
+        html += `<div class="day-subtotal">Day total: \u20B1${dayPhp.toLocaleString()} <span class="day-subtotal-usd">(~$${dayUsd} USD)</span></div>`;
+      }
+      html += `</div></div>`;
+    }
+
+    if (source === 'ai') {
+      html += `<div class="itinerary-meta">Generated just for you by AI</div>`;
+    }
+
+    return html;
+  }
+
+  function reRenderItineraryCards() {
+    const cardsEl = document.getElementById('itineraryCards');
+    if (cardsEl && currentItinerary) {
+      cardsEl.innerHTML = buildDayCardsHTML(currentItinerary);
+      // Refresh map if itinerary was edited via chat
+      if (currentItinerary.days?.some((d: any) => d.items?.some((item: any) => item.lat && item.lng))) {
+        setTimeout(() => renderItineraryMap(currentItinerary), 100);
+      }
+    }
+  }
+
+  // --- Chat functions ---
+  function appendChatBubble(role: 'user' | 'assistant' | 'loading', text: string) {
+    const log = document.getElementById('chatLog');
+    if (!log) return;
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble chat-bubble--${role}`;
+    if (role === 'loading') {
+      bubble.innerHTML = '<span class="chat-dots"><span></span><span></span><span></span></span>';
+    } else {
+      bubble.textContent = text;
+    }
+    log.appendChild(bubble);
+    log.scrollTop = log.scrollHeight;
+    return bubble;
+  }
+
+  function removeChatLoading() {
+    const log = document.getElementById('chatLog');
+    if (!log) return;
+    const loader = log.querySelector('.chat-bubble--loading');
+    if (loader) loader.remove();
+  }
+
+  async function sendChatMessage(msg: string) {
+    if (isChatting || !currentItinerary || !msg.trim()) return;
+    isChatting = true;
+
+    const input = document.getElementById('chatInput') as HTMLInputElement;
+    const sendBtn = document.getElementById('chatSendBtn') as HTMLButtonElement;
+    const chips = document.querySelectorAll<HTMLButtonElement>('.chat-chip');
+    if (input) input.disabled = true;
+    if (sendBtn) sendBtn.disabled = true;
+    chips.forEach(c => c.disabled = true);
+
+    // Show user bubble + loading
+    appendChatBubble('user', msg);
+    appendChatBubble('loading', '');
+
+    try {
+      const res = await fetch('/api/chat-itinerary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentItinerary,
+          conversationHistory: chatHistory,
+          userMessage: msg,
+        }),
+      });
+
+      const data = await res.json();
+      removeChatLoading();
+
+      if (res.status === 429) {
+        appendChatBubble('assistant', data.requiresEmail
+          ? 'Free limit reached. Enter your email above to unlock more requests.'
+          : 'Daily limit reached. Please try again tomorrow.');
+      } else if (!data.success) {
+        appendChatBubble('assistant', data.error || 'Something went wrong. Try again.');
+      } else {
+        // Success — update itinerary and chat
+        currentItinerary = data.itinerary;
+        chatHistory.push({ role: 'user', text: msg });
+        chatHistory.push({ role: 'assistant', text: data.changeSummary });
+        // Keep history capped at 12
+        if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
+        const summaryBubble = appendChatBubble('assistant', data.changeSummary);
+        reRenderItineraryCards();
+        // Scroll the chat response into view so user sees the summary
+        summaryBubble?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Update remaining requests notice
+        if (data.remainingRequests !== undefined && data.remainingRequests <= 2) {
+          const notice = document.getElementById('chatRateNotice');
+          if (notice) {
+            notice.textContent = `${data.remainingRequests} free request${data.remainingRequests === 1 ? '' : 's'} remaining today`;
+            notice.style.display = 'block';
+          }
+        }
+      }
+    } catch {
+      removeChatLoading();
+      appendChatBubble('assistant', 'Network error. Please check your connection.');
+    } finally {
+      isChatting = false;
+      if (input) { input.disabled = false; input.value = ''; input.focus(); }
+      if (sendBtn) sendBtn.disabled = false;
+      chips.forEach(c => c.disabled = false);
+    }
+  }
+
+  // --- Itinerary Map ---
+  const ITIN_DAY_COLORS = ['#0D7377', '#E8654A', '#5B21B6', '#059669', '#9A3412', '#1565C0', '#991B1B', '#78350F'];
+  let itinMap: google.maps.Map | null = null;
+  let itinDayMarkers: google.maps.Marker[][] = [];
+  let itinDayPolylines: google.maps.Polyline[] = [];
+  let itinInfoWindow: google.maps.InfoWindow | null = null;
+  let itinActiveDays = new Set<number>();
+
+  function renderItineraryMap(it: any) {
+    const mapEl = document.getElementById('itineraryMap');
+    if (!mapEl || typeof google === 'undefined') return;
+
+    // Check if any items have coordinates
+    const hasCoords = it.days.some((d: any) => d.items.some((item: any) => item.lat && item.lng));
+    if (!hasCoords) {
+      mapEl.parentElement!.style.display = 'none';
+      return;
+    }
+
+    mapEl.parentElement!.style.display = 'block';
+
+    itinMap = new google.maps.Map(mapEl, {
+      zoom: 7,
+      center: { lat: 11.0, lng: 122.0 },
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+      zoomControl: true,
+      gestureHandling: 'cooperative',
+      styles: [
+        { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+        { featureType: 'poi.park', elementType: 'labels', stylers: [{ visibility: 'on' }] },
+        { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#E8F4F5' }] },
+        { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#0D7377' }] },
+        { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#F5F0E8' }] },
+        { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#EBE4D8' }] },
+        { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#D4A574' }] },
+        { featureType: 'transit', stylers: [{ visibility: 'simplified' }] },
+      ],
+    });
+
+    itinInfoWindow = new google.maps.InfoWindow();
+    itinDayMarkers = [];
+    itinDayPolylines = [];
+    itinActiveDays = new Set(it.days.map((_: any, i: number) => i));
+
+    const bounds = new google.maps.LatLngBounds();
+
+    it.days.forEach((day: any, dayIdx: number) => {
+      const color = ITIN_DAY_COLORS[dayIdx % ITIN_DAY_COLORS.length];
+      const markers: google.maps.Marker[] = [];
+      const coords: google.maps.LatLngLiteral[] = [];
+
+      day.items.forEach((item: any, itemIdx: number) => {
+        if (!item.lat || !item.lng) return;
+        const pos = { lat: item.lat, lng: item.lng };
+        bounds.extend(pos);
+        coords.push(pos);
+
+        const marker = new google.maps.Marker({
+          position: pos,
+          map: itinMap,
+          label: { text: String(itemIdx + 1), color: '#fff', fontSize: '11px', fontWeight: 'bold' },
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 14,
+            fillColor: color,
+            fillOpacity: 1,
+            strokeColor: '#fff',
+            strokeWeight: 2,
+          },
+          title: `Day ${day.dayNumber}: ${item.description?.substring(0, 60) || ''}`,
+        });
+
+        marker.addListener('click', () => {
+          const icon = { transport:'🚐', accommodation:'🏨', activity:'🏄', food:'🍴', ferry:'⛴️' }[item.category] || '';
+          let priceStr = '';
+          if (item.pricePhp) priceStr = ` · ₫${item.pricePhp.toLocaleString()}`;
+          itinInfoWindow!.setContent(`
+            <div style="font-family:Outfit,sans-serif;max-width:220px;">
+              <div style="font-size:11px;font-weight:700;color:#0D7377;">Day ${day.dayNumber} · ${escapeHtml(item.time)}</div>
+              <div style="font-size:14px;font-weight:700;color:#1A2332;margin:4px 0;">${icon} ${escapeHtml(item.description?.substring(0, 80) || '')}</div>
+              ${priceStr ? `<div style="font-size:12px;color:#4A5568;">${priceStr}</div>` : ''}
+            </div>
+          `);
+          itinInfoWindow!.open(itinMap, marker);
+
+          // Scroll to card
+          const cardId = `itin-day-${dayIdx}`;
+          const card = document.getElementById(cardId);
+          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        markers.push(marker);
+      });
+
+      itinDayMarkers.push(markers);
+
+      // Polyline for this day
+      const polyline = new google.maps.Polyline({
+        path: coords,
+        strokeColor: color,
+        strokeOpacity: 0.7,
+        strokeWeight: 3,
+        geodesic: true,
+        map: coords.length >= 2 ? itinMap : undefined,
+      });
+      itinDayPolylines.push(polyline);
+    });
+
+    itinMap.fitBounds(bounds, { top: 40, bottom: 40, left: 40, right: 40 });
+
+    // Build day filter pills
+    const legendEl = document.getElementById('itinMapLegend');
+    if (legendEl) {
+      legendEl.innerHTML = it.days.map((day: any, i: number) => {
+        const color = ITIN_DAY_COLORS[i % ITIN_DAY_COLORS.length];
+        return `<button class="itin-day-pill active" data-day="${i}" style="--pill-color:${color};">
+          <span class="itin-day-pill-dot" style="background:${color};"></span>Day ${day.dayNumber}
+        </button>`;
+      }).join('');
+
+      legendEl.querySelectorAll('.itin-day-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const dayIdx = parseInt((pill as HTMLElement).dataset.day || '0');
+          if (itinActiveDays.has(dayIdx)) {
+            itinActiveDays.delete(dayIdx);
+            pill.classList.remove('active');
+          } else {
+            itinActiveDays.add(dayIdx);
+            pill.classList.add('active');
+          }
+          toggleItinDayVisibility(dayIdx, itinActiveDays.has(dayIdx));
+        });
+      });
+    }
+  }
+
+  function toggleItinDayVisibility(dayIdx: number, visible: boolean) {
+    if (itinDayMarkers[dayIdx]) itinDayMarkers[dayIdx].forEach(m => m.setVisible(visible));
+    if (itinDayPolylines[dayIdx]) itinDayPolylines[dayIdx].setVisible(visible);
+  }
+
+  function panItinMapToDay(dayIdx: number) {
+    if (!itinMap || !itinDayMarkers[dayIdx]) return;
+    const markers = itinDayMarkers[dayIdx];
+    if (markers.length === 0) return;
+    const bounds = new google.maps.LatLngBounds();
+    markers.forEach(m => bounds.extend(m.getPosition()!));
+    itinMap.fitBounds(bounds, { top: 40, bottom: 40, left: 40, right: 40 });
+  }
+
+  function renderItinerary(container: HTMLElement, data: any) {
+    const it = data.itinerary;
+
+    // Set chat state
+    currentItinerary = it;
+    chatHistory = [];
+
+    // Check for coords to decide if we show the map
+    const hasCoords = it.days.some((d: any) => d.items.some((item: any) => item.lat && item.lng));
+
+    let html = `<div class="itin-layout">
+      <div class="itin-cards-col" id="itineraryCards">${buildDayCardsHTML(it, data.source)}</div>
+      ${hasCoords ? `<div class="itin-map-col" id="itinMapCol">
+        <div id="itinMapLegend" class="itin-map-legend"></div>
+        <div id="itineraryMap" style="width:100%;height:100%;border-radius:12px;"></div>
+      </div>` : ''}
+    </div>`;
+
+    if (data.remainingRequests !== undefined && data.remainingRequests <= 2) {
+      html += `<div class="rate-notice">${data.remainingRequests} free generation${data.remainingRequests === 1 ? '' : 's'} remaining today</div>`;
+    }
+
+    // Footer: action buttons + chat + next steps
+    html += `<div id="itineraryFooter">
+      <div class="itinerary-actions">
+        <button class="itin-action-btn itin-action--email" id="emailItinerary"><span class="itin-action-icon">📧</span> Email My Itinerary</button>
+        <button class="itin-action-btn itin-action--print" id="printItinerary"><span class="itin-action-icon">🖨️</span> Print / Save PDF</button>
+        <button class="itin-action-btn itin-action--copy" id="copyItinerary"><span class="itin-action-icon">📋</span> Copy to Clipboard</button>
+        <button class="itin-action-btn itin-action--redo" id="redoItinerary"><span class="itin-action-icon">🔄</span> Generate Again</button>
+      </div>
+      <div class="email-itin-form" id="emailItinForm" style="display:none;">
+        <p class="email-itin-desc">We'll send your full itinerary with booking links straight to your inbox.</p>
+        <form class="email-itin-row" id="emailItinSubmit">
+          <input type="email" class="email-itin-input" id="emailItinInput" placeholder="your@email.com" required />
+          <button type="submit" class="planner-btn planner-btn--primary planner-btn--sm">Send Itinerary</button>
+        </form>
+        <p class="email-itin-privacy">No spam. Unsubscribe anytime.</p>
+      </div>
+
+      <!-- Chat section -->
+      <div class="chat-section" id="chatSection">
+        <div class="chat-header">Refine Your Itinerary</div>
+        <div class="chat-chips">
+          <button class="chat-chip" data-msg="Swap one destination for somewhere less touristy">Swap a destination</button>
+          <button class="chat-chip" data-msg="Adjust the budget to be more budget-friendly with cheaper hotels and street food">Change budget</button>
+          <button class="chat-chip" data-msg="Add a rest day in the middle of the trip for relaxing at the hotel or beach">Add a rest day</button>
+          <button class="chat-chip" data-msg="Shorten the trip by removing the least essential day">Shorten trip</button>
+          <button class="chat-chip" data-msg="Add more activities and experiences to each day">More activities</button>
+          <button class="chat-chip" data-msg="Add more local food recommendations and restaurant suggestions to the itinerary">More food</button>
+        </div>
+        <div class="chat-log" id="chatLog"></div>
+        <div class="chat-rate-notice" id="chatRateNotice" style="display:none;"></div>
+        <div class="chat-input-row">
+          <input type="text" class="chat-input" id="chatInput" placeholder="e.g. Swap Boracay for Siargao" maxlength="500" />
+          <button class="chat-send-btn" id="chatSendBtn" aria-label="Send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <div class="chat-hint">Each edit counts as 1 AI request</div>
+      </div>
+
+      <div class="itinerary-next-steps">
+        <p class="next-steps-heading">What's next?</p>
+        <div class="next-steps-grid">
+          <div class="next-step-card">
+            <span class="next-step-num">1</span>
+            <div><strong>Refine with chat</strong><br><span class="next-step-desc">Use the chat above to swap destinations, adjust budget, add rest days — without starting over.</span></div>
+          </div>
+          <div class="next-step-card">
+            <span class="next-step-num">2</span>
+            <div><strong>Save your itinerary</strong><br><span class="next-step-desc">Email it to yourself with booking links, print as PDF, or copy to your notes app.</span></div>
+          </div>
+          <div class="next-step-card">
+            <span class="next-step-num">3</span>
+            <div><strong>Start booking</strong><br><span class="next-step-desc">Use the "Book Stay", "Book Tour", and "Book Transport" links in your itinerary to lock in the best rates.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="before-you-go">
+        <div class="byg-header">
+          <span class="byg-icon">🛡️</span>
+          <span class="byg-title">Before You Go: Travel Insurance</span>
+        </div>
+        <p class="byg-text">A medevac flight from a remote Vietnamese island can cost $10,000+. We use <a href="https://safetywing.com/?referenceID=24858745&utm_source=24858745&utm_medium=Ambassador" target="_blank" rel="noopener sponsored">SafetyWing</a> for every trip — it's affordable, covers medical and evacuation, and you can sign up even after you've left home.</p>
+        <p class="byg-quote">"We've thankfully never had to file a claim, but having it is peace of mind every time we board that plane." — Scott</p>
+        <a class="byg-btn" href="https://safetywing.com/?referenceID=24858745&utm_source=24858745&utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Check SafetyWing Rates →</a>
+        <p class="byg-disclosure">Affiliate link — we earn a commission at no extra cost to you. <a href="/legal/affiliate-disclosure/">Full disclosure</a>.</p>
+      </div>
+
+      <div class="companion-upsell">
+        <h3 class="companion-upsell-heading">Take This Itinerary Offline</h3>
+        <p class="companion-upsell-text">Get your itinerary with offline access, local directions, budget tracking, and Vietnamese phrases — all in one app. Free through June 30, 2026.</p>
+        <a href="/companion/" class="companion-upsell-btn">Get Trip Companion — Free Until June 30</a>
+      </div>
+
+      <div class="transport-widget-section">
+        <p class="transport-widget-heading">Book Buses, Ferries & Flights</p>
+        <p class="transport-widget-sub">Search routes between Vietnamese destinations — ferries, buses, vans, and domestic flights.</p>
+        <div class="transport-widget-wrap" id="transportWidget"></div>
+        <div class="transport-widget-powered">Powered by <a href="https://12go.asia/?z=15062413&sub_id=discoverph-plan" target="_blank" rel="noopener sponsored">12Go Asia</a></div>
+      </div>
+    </div>`;
+
+    container.innerHTML = html;
+    container.classList.add('visible');
+
+    // Initialize itinerary map if we have coordinates
+    if (hasCoords) {
+      setTimeout(() => {
+        renderItineraryMap(it);
+        // Wire day card click → pan map
+        container.querySelectorAll('.day-card[data-day]').forEach(card => {
+          card.addEventListener('click', (e) => {
+            // Don't pan if user clicked a link/button inside the card
+            if ((e.target as HTMLElement).closest('a, button')) return;
+            const dayIdx = parseInt((card as HTMLElement).dataset.day || '0');
+            panItinMapToDay(dayIdx);
+          });
+        });
+      }, 100);
+    }
+
+    // Wire up chat chips
+    container.querySelectorAll('.chat-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const msg = (chip as HTMLElement).dataset.msg;
+        if (msg) sendChatMessage(msg);
+      });
+    });
+
+    // Wire up chat input
+    document.getElementById('chatSendBtn')?.addEventListener('click', () => {
+      const input = document.getElementById('chatInput') as HTMLInputElement;
+      if (input?.value?.trim()) sendChatMessage(input.value.trim());
+    });
+
+    document.getElementById('chatInput')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const input = e.target as HTMLInputElement;
+        if (input.value.trim()) sendChatMessage(input.value.trim());
+      }
+    });
+
+    // Wire up action buttons
+    document.getElementById('printItinerary')?.addEventListener('click', () => {
+      window.print();
+    });
+
+    document.getElementById('copyItinerary')?.addEventListener('click', () => {
+      const btn = document.getElementById('copyItinerary');
+      const copyIt = currentItinerary || it;
+      let text = copyIt.title + '\n' + copyIt.subtitle + '\n\n';
+      if (copyIt.totalBudget) text += `Estimated Total: \u20B1${copyIt.totalBudget.php?.toLocaleString()} (~$${copyIt.totalBudget.usd?.toLocaleString()} USD)\n\n`;
+      for (const day of copyIt.days) {
+        text += `--- Day ${day.dayNumber}: ${day.title} ---\n`;
+        for (const item of day.items) {
+          text += `  ${item.time} \u2014 ${item.description}`;
+          if (item.pricePhp) text += ` (\u20B1${item.pricePhp.toLocaleString()})`;
+          text += '\n';
+        }
+        text += '\n';
+      }
+      text += 'Generated by Discover Vietnam AI Trip Planner\nhttps://discovervietnam.info/plan/';
+      navigator.clipboard.writeText(text).then(() => {
+        if (btn) { btn.innerHTML = '<span class="itin-action-icon">\u2705</span> Copied!'; setTimeout(() => { btn.innerHTML = '<span class="itin-action-icon">\ud83d\udccb</span> Copy to Clipboard'; }, 2000); }
+      });
+    });
+
+    document.getElementById('redoItinerary')?.addEventListener('click', () => {
+      currentItinerary = null;
+      chatHistory = [];
+      container.classList.remove('visible');
+      container.innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Email itinerary toggle + submit
+    document.getElementById('emailItinerary')?.addEventListener('click', () => {
+      const form = document.getElementById('emailItinForm');
+      if (form) {
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        if (form.style.display === 'block') {
+          (document.getElementById('emailItinInput') as HTMLInputElement)?.focus();
+        }
+      }
+    });
+
+    document.getElementById('emailItinSubmit')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('emailItinInput') as HTMLInputElement;
+      const email = emailInput?.value?.trim();
+      if (!email) return;
+
+      const submitBtn = document.querySelector('#emailItinSubmit button') as HTMLButtonElement;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+
+      try {
+        const emailIt = currentItinerary || it;
+        const res = await fetch('/api/email-itinerary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, itinerary: emailIt, tripParams: getBookingParams() }),
+        });
+        const result = await res.json();
+        const form = document.getElementById('emailItinForm');
+        if (form) {
+          if (result.success) {
+            form.innerHTML = '<p class="email-itin-success">Sent! Check your inbox for your itinerary with booking links.</p>';
+          } else {
+            form.innerHTML = `<p class="email-itin-error">${result.error || 'Failed to send. Try copying instead.'}</p>`;
+          }
+        }
+      } catch {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Itinerary'; }
+      }
+    });
+
+    // Lazy-load 12Go transport widget
+    const widgetWrap = document.getElementById('transportWidget');
+    if (widgetWrap && !widgetWrap.hasChildNodes()) {
+      const s = document.createElement('script');
+      s.src = '//cdn0.trainbusferry.com/tools/form/en/?id=15062413&domain=12go.asia';
+      s.dataset.one2go = '15062413';
+      s.dataset.color = 'blue';
+      s.dataset.language = 'en';
+      s.dataset.width = '250';
+      s.dataset.height = '320';
+      s.dataset.border = '1';
+      s.dataset.radius = '8';
+      s.dataset.caption = 'Find Transport in Vietnam';
+      s.dataset.sub_id = 'discoverph-plan';
+      s.dataset.domain = '12go.asia';
+      widgetWrap.appendChild(s);
+    }
+  }
+
+  function renderEmailGate(container: HTMLElement) {
+    container.innerHTML = `
+      <div class="email-gate">
+        <h3>Unlock More Itineraries</h3>
+        <p>You've used your free generations for today. Enter your email to unlock 10 more — plus get our free Vietnam planning guide.</p>
+        <form class="email-gate-form" id="emailGateForm">
+          <input type="email" class="email-gate-input" id="emailGateInput" placeholder="your@email.com" required />
+          <button type="submit" class="planner-btn planner-btn--primary">Unlock &amp; Generate</button>
+        </form>
+        <p class="email-gate-privacy">No spam, ever. Unsubscribe anytime.</p>
+      </div>`;
+    container.classList.add('visible');
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    document.getElementById('emailGateForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = (document.getElementById('emailGateInput') as HTMLInputElement)?.value?.trim();
+      if (!email) return;
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, destinations: Array.from(selectedDests) }),
+        });
+        if (res.ok) {
+          generateItinerary();
+        } else {
+          const err = await res.json();
+          renderError(container, err.error || 'Failed to subscribe. Please try again.');
+        }
+      } catch {
+        renderError(container, 'Network error. Please check your connection.');
+      }
+    });
+  }
+
+  function renderError(container: HTMLElement, message: string) {
+    container.innerHTML = `
+      <div class="itinerary-error">
+        <p>${escapeHtml(message)}</p>
+        <button class="planner-btn planner-btn--primary" id="retryBtn">Try Again</button>
+      </div>`;
+    container.classList.add('visible');
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('retryBtn')?.addEventListener('click', generateItinerary);
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  async function generateItinerary() {
+    if (isGenerating) return;
+    const container = document.getElementById('itineraryResult') as HTMLElement;
+    if (!container) return;
+
+    const formData = getFormData();
+    if (formData.destinations.length === 0 && !formData.description) {
+      renderError(container, 'Please select at least one destination or describe your trip in the notes field.');
+      return;
+    }
+
+    // Reset chat state on new generation
+    currentItinerary = null;
+    chatHistory = [];
+
+    isGenerating = true;
+
+    // Disable the generate button to prevent rapid re-submission
+    const genBtn = document.getElementById('generateBtn') as HTMLButtonElement;
+    if (genBtn) { genBtn.disabled = true; genBtn.style.opacity = '0.5'; genBtn.style.cursor = 'not-allowed'; }
+
+    renderLoading(container);
+
+    try {
+      const res = await fetch('/api/generate-itinerary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 429 && data.requiresEmail) {
+        renderEmailGate(container);
+      } else if (res.status === 429) {
+        renderError(container, data.error || "We're experiencing high demand. Please try again later.");
+      } else if (!res.ok || !data.success) {
+        renderError(container, data.error || 'Something went wrong. Please try again.');
+      } else {
+        renderItinerary(container, data);
+      }
+    } catch {
+      renderError(container, 'Network error. Please check your connection and try again.');
+    } finally {
+      isGenerating = false;
+      // Re-enable the generate button
+      if (genBtn) { genBtn.disabled = false; genBtn.style.opacity = ''; genBtn.style.cursor = ''; }
+    }
+  }
+
+  document.getElementById('generateBtn')?.addEventListener('click', generateItinerary);
+
+</script>
+
+<!-- Google Maps for Planner -->
+<script is:inline define:vars={{ markers: gmapMarkers, mapsKey: MAPS_KEY }}>
+  window.initPlanMap = function() {
+    var mapEl = document.getElementById('planGoogleMap');
+    if (!mapEl) return;
+
+    var map = new google.maps.Map(mapEl, {
+      center: { lat: 12.0, lng: 122.5 },
+      zoom: 5.5,
+      mapTypeId: 'terrain',
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_TOP },
+      gestureHandling: 'cooperative',
+      minZoom: 5,
+      maxZoom: 12,
+      restriction: {
+        latLngBounds: { north: 22, south: 4, east: 130, west: 115 },
+        strictBounds: false,
+      },
+    });
+
+    var tooltip = document.getElementById('mapTooltip');
+    var tooltipName = document.getElementById('tooltipName');
+    var tooltipRegion = document.getElementById('tooltipRegion');
+    var tooltipStatus = document.getElementById('tooltipStatus');
+    var container = document.getElementById('mapContainer');
+
+    // Fit to show all destinations
+    var bounds = new google.maps.LatLngBounds();
+    markers.forEach(function(m) { bounds.extend({ lat: m.lat, lng: m.lng }); });
+    map.fitBounds(bounds, 20);
+
+    markers.forEach(function(m) {
+      var marker = new google.maps.Marker({
+        position: { lat: m.lat, lng: m.lng },
+        map: map,
+        title: m.label,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: m.hasVideo ? 7 : 5,
+          fillColor: m.hasVideo ? '#E8654A' : '#888888',
+          fillOpacity: m.hasVideo ? 0.95 : 0.6,
+          strokeColor: m.hasVideo ? '#ffffff' : '#555555',
+          strokeWeight: m.hasVideo ? 2 : 1,
+          strokeOpacity: m.hasVideo ? 0.9 : 0.5,
+        },
+        optimized: false,
+      });
+
+      marker.addListener('mouseover', function(e) {
+        if (tooltipName) tooltipName.textContent = m.label;
+        if (tooltipRegion) tooltipRegion.textContent = m.region;
+        if (tooltipStatus) {
+          tooltipStatus.textContent = m.status;
+          tooltipStatus.className = 'map-tooltip-status ' +
+            (m.hasVideo ? 'has-video' : 'coming');
+        }
+        if (tooltip) tooltip.classList.add('visible');
+        if (container && tooltip && e.domEvent) {
+          var rect = container.getBoundingClientRect();
+          tooltip.style.left = (e.domEvent.clientX - rect.left + 12) + 'px';
+          tooltip.style.top = (e.domEvent.clientY - rect.top - 10) + 'px';
+        }
+      });
+
+      marker.addListener('mouseout', function() {
+        if (tooltip) tooltip.classList.remove('visible');
+      });
+
+      // Click selects destination via chip
+      marker.addListener('click', function() {
+        var chip = document.querySelector('.dest-chip[data-dest="' + m.slug + '"]');
+        if (chip) chip.click();
+      });
+    });
+
+    // Region card hover → highlight markers
+    var regionBounds = {
+      luzon: { north: 21, south: 13, east: 126, west: 119.5 },
+      visayas: { north: 12.5, south: 9, east: 126, west: 121 },
+      palawan: { north: 13, south: 8.5, east: 121.5, west: 117.5 },
+      mindanao: { north: 10.5, south: 5.5, east: 127, west: 120 },
+    };
+
+    document.querySelectorAll('.region-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.dest-chip')) return;
+        var r = card.dataset.region || '';
+        var b = regionBounds[r];
+        if (b) map.fitBounds(b, { top: 10, right: 10, bottom: 10, left: 10 });
+      });
+    });
+  };
+
+  // Load Google Maps API
+  var gscript = document.createElement('script');
+  gscript.src = 'https://maps.googleapis.com/maps/api/js?key=' + mapsKey + '&callback=initPlanMap';
+  gscript.async = true;
+  gscript.defer = true;
+  document.head.appendChild(gscript);
+
+  // Track Maps API load
+  fetch('/api/track-maps', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ page: 'plan' }) }).catch(function() {});
+</script>
+</BaseLayout>
+
+<style is:global>
+  /* ================================================================
+     HERO  (is:global because itinerary results are injected via JS innerHTML
+     and don't get Astro's scoping attribute)
+     ================================================================ */
+  .planner-hero {
+    padding: 130px var(--space-6) 60px;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(160deg, #1A2332 0%, #0E4D5C 40%, #0D7377 70%, #064E3B 100%);
+    overflow: hidden;
+  }
+
+  .planner-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .planner-hero-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+    z-index: 1;
+  }
+
+  .planner-hero-video ~ .planner-hero-gradient-overlay ~ * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .planner-hero-eyebrow {
+    font-size: 0.68rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-warm-gold);
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: plannerHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+  }
+
+  .free-badge-inline {
+    display: inline-block;
+    background: #38A169;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 100px;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  .planner-hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: white;
+    line-height: 1.1;
+    margin-bottom: var(--space-4);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: plannerHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.35s;
+  }
+
+  .planner-hero p {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+    opacity: 0;
+    animation: plannerHeroUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+  }
+
+  @keyframes plannerHeroUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================================================================
+     PLANNER EXTRAS (optional notes textarea)
+     ================================================================ */
+  .planner-extras { max-width: 720px; margin: 0 auto; padding: 0 var(--space-6) var(--space-12); background: var(--color-white); border-radius: 16px; box-shadow: 0 4px 20px rgba(26, 35, 50, 0.06); padding: var(--space-6); max-width: 720px; margin: 0 auto; }
+  .planner-extras-label { font-size: 0.88rem; font-weight: var(--weight-semibold); color: var(--color-heading); margin-bottom: var(--space-3); display: block; }
+  .planner-extras-optional { font-weight: var(--weight-regular); color: var(--color-slate); }
+  .planner-textarea { width: 100%; min-height: 100px; padding: var(--space-4); border: 2px solid var(--color-sand); border-radius: 16px; font-family: inherit; font-size: 0.95rem; color: var(--color-heading); resize: vertical; outline: none; transition: border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1); line-height: 1.6; }
+  .planner-textarea:focus { border-color: var(--color-ocean-teal); }
+  .planner-textarea::placeholder { color: #A0AEC0; }
+  .planner-textarea--short { min-height: 72px; }
+  .planner-extras-hint { font-size: 0.78rem; color: var(--color-slate); font-weight: 300; margin-top: var(--space-2); }
+
+  .planner-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-weight: var(--weight-semibold);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    min-height: 48px;
+  }
+
+  .planner-btn--primary { background: var(--color-warm-coral); color: white; }
+  .planner-btn--primary:hover { background: #D4553B; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232, 101, 74, 0.25); color: white; }
+  .planner-btn--teal { background: var(--color-ocean-teal); color: white; }
+  .planner-btn--teal:hover { background: #095456; color: white; }
+
+  /* ================================================================
+     INTERACTIVE MAP
+     ================================================================ */
+  .map-section { max-width: var(--content-lg); margin: 0 auto; padding: var(--space-10) var(--space-6) var(--space-16); }
+  .map-section-header { text-align: center; margin-bottom: var(--space-8); }
+  .map-section-header h2 { font-size: 1.8rem; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .map-section-header p { font-size: 0.95rem; color: var(--color-slate); font-weight: 300; max-width: 100%; }
+
+  .map-layout { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: start; }
+
+  .map-container {
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 40% 30%, #0c3547 0%, #091e2f 40%, #060f1a 100%);
+    padding: 28px 20px 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .map-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 300px at 30% 70%, rgba(13, 115, 119, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 200px at 70% 20%, rgba(13, 115, 119, 0.06) 0%, transparent 70%);
+    animation: oceanShimmer 8s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes oceanShimmer { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+  .map-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle 1px at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 100%),
+      radial-gradient(circle 1px at 60% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 100%),
+      radial-gradient(circle 1px at 40% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  #planGoogleMap { width: 100%; height: 550px; border-radius: 12px; position: relative; z-index: 1; }
+
+  .map-legend { display: flex; justify-content: center; gap: 20px; margin-top: var(--space-4); flex-wrap: wrap; position: relative; z-index: 1; }
+  .map-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.45); }
+  .map-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .map-legend-dot.has-video { background: var(--color-warm-coral); box-shadow: 0 0 6px rgba(232, 101, 74, 0.5); }
+  .map-legend-dot.coming-soon { background: rgba(255, 255, 255, 0.3); }
+
+  .map-tooltip { position: absolute; background: rgba(26, 35, 50, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 14px; pointer-events: none; opacity: 0; transform: translateY(4px); transition: opacity 0.2s ease, transform 0.2s ease; z-index: 50; min-width: 140px; white-space: nowrap; }
+  .map-tooltip.visible { opacity: 1; transform: translateY(0); }
+  .map-tooltip-name { font-size: 0.9rem; font-weight: var(--weight-bold); color: white; margin-bottom: 2px; }
+  .map-tooltip-region { font-size: 0.65rem; color: rgba(255, 255, 255, 0.45); font-weight: var(--weight-medium); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .map-tooltip-status { font-size: 0.72rem; font-weight: var(--weight-medium); }
+  .map-tooltip-status.has-video { color: var(--color-warm-coral); }
+  .map-tooltip-status.coming { color: rgba(255, 255, 255, 0.4); }
+
+  /* Region cards */
+  .region-cards { display: flex; flex-direction: column; gap: 14px; }
+  .region-card { background: var(--color-white); border-radius: 16px; padding: 20px; cursor: pointer; border: 2px solid transparent; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+  .region-card:hover { border-color: var(--color-ocean-teal); box-shadow: 0 4px 24px rgba(26, 35, 50, 0.08); }
+  .region-card.active { border-color: var(--color-warm-coral); box-shadow: 0 12px 48px rgba(26, 35, 50, 0.14); }
+  .region-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-2); }
+  .region-card-name { font-size: 1.1rem; font-weight: var(--weight-bold); color: var(--color-heading); }
+  .region-card-count { font-size: 0.7rem; font-weight: var(--weight-semibold); color: var(--color-ocean-teal); background: var(--color-sky); padding: 3px 10px; border-radius: 100px; }
+  .region-card-desc { font-size: 0.8rem; color: var(--color-slate); line-height: 1.55; font-weight: 300; margin-bottom: var(--space-3); max-width: 100%; }
+  .region-dest-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dest-chip { font-size: 0.72rem; font-weight: var(--weight-medium); padding: 4px 10px; border-radius: 100px; background: var(--color-sand); color: var(--color-heading); cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; user-select: none; text-decoration: none; }
+  .dest-chip:hover { background: var(--color-ocean-teal); color: white; }
+  .dest-chip.selected { background: var(--color-warm-coral); color: white; border-color: var(--color-warm-coral); }
+  .dest-chip.has-video::after { content: ' 🎥'; font-size: 0.6rem; }
+
+  /* ================================================================
+     SELECTED DESTINATIONS
+     ================================================================ */
+  .selected-section { max-width: 720px; margin: 0 auto; padding: 0 var(--space-6) var(--space-12); }
+  .selected-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }
+  .selected-header h3 { font-size: 1.2rem; font-weight: var(--weight-bold); color: var(--color-heading); }
+  .selected-clear { font-size: 0.8rem; color: var(--color-warm-coral); cursor: pointer; font-weight: var(--weight-medium); border: none; background: none; font-family: inherit; }
+  .selected-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+  .selected-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--color-ocean-teal); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.82rem; font-weight: var(--weight-medium); }
+  .selected-tag .remove { cursor: pointer; opacity: 0.7; transition: opacity 0.25s ease; }
+  .selected-tag .remove:hover { opacity: 1; }
+
+  /* ================================================================
+     TRIP DETAILS FORM
+     ================================================================ */
+  .trip-details { max-width: 720px; margin: 0 auto; padding: 0 var(--space-6) var(--space-16); }
+  .trip-details h3 { font-size: 1.3rem; font-weight: var(--weight-bold); color: var(--color-heading); margin-bottom: var(--space-5); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 0.78rem; font-weight: var(--weight-semibold); color: var(--color-heading); }
+  .form-select { padding: 12px 16px; border: 2px solid var(--color-sand); border-radius: 8px; font-family: inherit; font-size: 0.9rem; color: var(--color-heading); background: var(--color-white); outline: none; transition: border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%234A5568' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .form-select:focus { border-color: var(--color-ocean-teal); }
+
+  .budget-display { display: flex; align-items: center; gap: 12px; }
+  .budget-range { flex: 1; -webkit-appearance: none; height: 6px; border-radius: 3px; background: var(--color-sand); outline: none; }
+  .budget-range::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--color-ocean-teal); cursor: pointer; }
+  .budget-value { font-size: 0.9rem; font-weight: var(--weight-semibold); color: var(--color-heading); min-width: 180px; text-align: right; }
+  .budget-usd { color: var(--color-ocean-teal); font-weight: var(--weight-regular); }
+
+  /* ================================================================
+     GENERATE BUTTON
+     ================================================================ */
+  .generate-section { max-width: 720px; margin: 0 auto; padding: 0 var(--space-6) var(--space-10); text-align: center; }
+  .btn-generate { display: inline-flex; align-items: center; gap: 10px; background: var(--color-warm-coral); color: white; padding: 18px 48px; border-radius: 100px; font-weight: var(--weight-bold); font-size: 1.05rem; text-decoration: none; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: none; cursor: pointer; font-family: inherit; min-height: 48px; }
+  .btn-generate:hover { background: #D4553B; transform: translateY(-3px); box-shadow: 0 12px 40px rgba(232, 101, 74, 0.35); color: white; }
+  .generate-note { font-size: 0.78rem; color: var(--color-slate); margin-top: var(--space-3); font-weight: 300; }
+
+  /* ================================================================
+     SAMPLE ITINERARY
+     ================================================================ */
+  .sample-section { max-width: 1120px; margin: 0 auto; padding: 0 var(--space-6) var(--space-16); display: none; }
+  .sample-section.visible { display: block; }
+
+  /* Itinerary 2-column layout: cards + sticky map */
+  .itin-layout { display: flex; gap: 24px; align-items: flex-start; }
+  .itin-cards-col { flex: 1; min-width: 0; max-width: 720px; }
+  .itin-map-col {
+    width: 380px; flex-shrink: 0;
+    position: sticky; top: 80px;
+    height: calc(100vh - 120px);
+    display: flex; flex-direction: column;
+    background: var(--color-white); border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(26, 35, 50, 0.08);
+    overflow: hidden;
+  }
+  .itin-map-legend {
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px;
+    background: var(--color-white); border-bottom: 1px solid var(--color-sand);
+  }
+  .itin-day-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 100px; font-size: 0.72rem;
+    font-weight: 600; font-family: inherit; cursor: pointer;
+    background: var(--color-sand); color: var(--color-slate);
+    border: 1.5px solid transparent; transition: all 0.2s;
+  }
+  .itin-day-pill.active { background: var(--pill-color, #0D7377); color: #fff; border-color: var(--pill-color, #0D7377); }
+  .itin-day-pill:hover { opacity: 0.85; }
+  .itin-day-pill-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .itin-day-pill.active .itin-day-pill-dot { background: #fff !important; }
+
+  @media (max-width: 1024px) {
+    .itin-layout { flex-direction: column; }
+    .itin-cards-col { max-width: 100%; }
+    .itin-map-col {
+      width: 100%; position: relative; top: 0;
+      height: 350px; margin-bottom: var(--space-6);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .itin-map-col { height: 280px; }
+  }
+  .sample-header { text-align: center; margin-bottom: var(--space-8); }
+  .sample-header h2 { font-size: 1.8rem; color: var(--color-heading); }
+  .sample-header p { color: var(--color-slate); font-size: 0.9rem; font-weight: 300; max-width: 100%; }
+  .day-card { background: var(--color-white); border-radius: 16px; padding: var(--space-6); margin-bottom: var(--space-4); box-shadow: 0 4px 24px rgba(26, 35, 50, 0.08); }
+  .day-num { font-size: 0.7rem; font-weight: var(--weight-bold); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-warm-coral); margin-bottom: 6px; }
+  .day-title { font-size: 1.2rem; font-weight: var(--weight-bold); color: var(--color-heading); margin-bottom: var(--space-3); }
+  .day-items { display: flex; flex-direction: column; gap: 10px; }
+  .day-item { display: flex; gap: 12px; align-items: flex-start; }
+  .day-time { font-size: 0.78rem; font-weight: var(--weight-semibold); color: var(--color-ocean-teal); min-width: 80px; flex-shrink: 0; }
+  .day-desc { font-size: 0.85rem; color: var(--color-slate); line-height: 1.6; font-weight: 300; max-width: 100%; }
+  .day-price { display: inline-block; background: var(--color-sand); padding: 2px 8px; border-radius: 100px; font-size: 0.75rem; font-weight: var(--weight-semibold); color: var(--color-heading); margin-left: 4px; }
+  .day-price-usd { font-weight: var(--weight-regular); color: var(--color-ocean-teal); }
+  .day-cat { font-size: 1rem; flex-shrink: 0; width: 24px; text-align: center; }
+  .day-affiliate { display: inline-block; font-size: 0.72rem; font-weight: 600; color: var(--color-ocean-teal); text-decoration: none; border: 1px solid var(--color-ocean-teal); padding: 2px 10px; border-radius: 100px; margin-left: 6px; transition: all 0.2s; white-space: nowrap; }
+  .day-affiliate:hover { background: var(--color-ocean-teal); color: white; }
+  .day-affiliate-alt { color: var(--color-warm-coral); border-color: var(--color-warm-coral); margin-left: 4px; }
+  .day-affiliate-alt:hover { background: var(--color-warm-coral); color: white; }
+  .day-subtotal { text-align: right; font-size: 0.78rem; font-weight: 600; color: var(--color-heading); padding-top: 10px; margin-top: 10px; border-top: 1px solid var(--color-sand); }
+  .day-subtotal-usd { font-weight: 400; color: var(--color-ocean-teal); }
+
+  /* Loading state — animated progress */
+  .itinerary-loading { text-align: center; padding: var(--space-12) var(--space-4); }
+
+  .loading-globe { position: relative; width: 88px; height: 88px; margin: 0 auto var(--space-6); }
+  .loading-globe-ring {
+    position: absolute; inset: -4px; border: 3px solid var(--color-sand-dark);
+    border-top-color: var(--color-ocean-teal); border-right-color: var(--color-ocean-teal);
+    border-radius: 50%; animation: globeSpin 1.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  }
+  .loading-globe-svg { width: 64px; height: 64px; position: absolute; top: 12px; left: 12px; animation: globePulse 3s ease-in-out infinite; }
+  .loading-globe-meridian { animation: meridianRotate 4s linear infinite; transform-origin: 32px 32px; }
+
+  @keyframes globeSpin { to { transform: rotate(360deg); } }
+  @keyframes globePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  @keyframes meridianRotate { 0% { rx: 12; } 25% { rx: 24; } 50% { rx: 12; } 75% { rx: 4; } 100% { rx: 12; } }
+
+  .loading-text { font-size: 1.2rem; font-weight: var(--weight-bold); color: var(--color-heading); margin-bottom: var(--space-6); }
+
+  .loading-steps { max-width: 340px; margin: 0 auto var(--space-6); text-align: left; }
+  .loading-step {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 8px; margin-bottom: 4px;
+    opacity: 0.3; transition: all 0.4s ease;
+  }
+  .loading-step.active { opacity: 1; background: var(--color-sky); }
+  .loading-step.done { opacity: 0.6; background: transparent; }
+  .loading-step-icon { font-size: 1.1rem; flex-shrink: 0; width: 24px; text-align: center; }
+  .loading-step-label { font-size: 0.85rem; color: var(--color-heading); font-weight: var(--weight-medium); flex: 1; }
+  .loading-step-check { font-size: 0.8rem; color: var(--color-ocean-teal); opacity: 0; transition: opacity 0.3s ease; }
+  .loading-step.done .loading-step-check { opacity: 1; }
+
+  .loading-subtext { font-size: 0.78rem; color: var(--color-slate); font-weight: 300; }
+
+  /* Itinerary action buttons */
+  .itinerary-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: var(--space-6) 0 var(--space-4); border-top: 1px solid var(--color-sand); margin-top: var(--space-6); }
+  .itin-action-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 100px; font-size: 0.82rem;
+    font-weight: var(--weight-semibold); font-family: inherit; cursor: pointer;
+    border: 2px solid var(--color-sand-dark); background: var(--color-white);
+    color: var(--color-heading); transition: all 0.25s ease;
+  }
+  .itin-action-btn:hover { border-color: var(--color-ocean-teal); color: var(--color-ocean-teal); }
+  .itin-action-icon { font-size: 0.95rem; }
+  .itin-action--email { border-color: var(--color-warm-coral); color: var(--color-warm-coral); }
+  .itin-action--email:hover { background: var(--color-warm-coral); color: white; }
+  .itin-action--redo { border-color: var(--color-ocean-teal); color: var(--color-ocean-teal); }
+  .itin-action--redo:hover { background: var(--color-ocean-teal); color: white; }
+
+  /* Email itinerary inline form */
+  .email-itin-form { max-width: 480px; margin: 0 auto; padding: var(--space-5) 0; text-align: center; }
+  .email-itin-desc { font-size: 0.85rem; color: var(--color-slate); font-weight: 300; margin-bottom: var(--space-3); line-height: 1.5; }
+  .email-itin-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .email-itin-input {
+    flex: 1; min-width: 200px; padding: 10px 16px; border: 2px solid var(--color-sand-dark);
+    border-radius: 10px; font-size: 0.9rem; font-family: inherit;
+    outline: none; transition: border-color 0.2s;
+  }
+  .email-itin-input:focus { border-color: var(--color-ocean-teal); }
+  .planner-btn--sm { padding: 10px 24px; font-size: 0.85rem; }
+  .email-itin-privacy { font-size: 0.7rem; color: var(--color-slate); margin-top: var(--space-2); }
+  .email-itin-success { font-size: 0.9rem; color: var(--color-ocean-teal); font-weight: var(--weight-semibold); padding: var(--space-3) 0; }
+  .email-itin-error { font-size: 0.9rem; color: var(--color-warm-coral); padding: var(--space-3) 0; }
+
+  /* Next steps */
+  .itinerary-next-steps { padding: var(--space-8) 0 var(--space-4); }
+  .next-steps-heading { font-size: 1.1rem; font-weight: var(--weight-bold); color: var(--color-heading); text-align: center; margin-bottom: var(--space-5); }
+  .next-steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .next-step-card {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--color-sky); border-radius: 12px; padding: 16px;
+  }
+  .next-step-num {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--color-ocean-teal); color: white; font-size: 0.8rem;
+    font-weight: var(--weight-bold); display: flex; align-items: center;
+    justify-content: center; margin-top: 2px;
+  }
+  .next-step-card strong { font-size: 0.85rem; color: var(--color-heading); }
+  .next-step-desc { font-size: 0.78rem; color: var(--color-slate); font-weight: 300; line-height: 1.5; }
+
+  @media (max-width: 768px) {
+    .next-steps-grid { grid-template-columns: 1fr; }
+    .itinerary-actions { gap: 8px; }
+    .itin-action-btn { padding: 8px 14px; font-size: 0.78rem; }
+  }
+
+  /* ================================================================
+     12GO TRANSPORT WIDGET
+     ================================================================ */
+  .transport-widget-section {
+    text-align: center;
+    padding: var(--space-6) 0 var(--space-4);
+    border-top: 1px solid var(--color-sand);
+    margin-top: var(--space-4);
+  }
+  .transport-widget-heading {
+    font-size: 1.1rem; font-weight: var(--weight-bold);
+    color: var(--color-heading); margin-bottom: var(--space-1);
+  }
+  .transport-widget-sub {
+    font-size: 0.85rem; color: var(--color-slate);
+    margin-bottom: var(--space-4);
+  }
+  .transport-widget-wrap {
+    display: inline-block;
+    background: var(--color-sky);
+    border-radius: 16px;
+    padding: var(--space-4);
+    max-width: 282px;
+  }
+  .transport-widget-powered {
+    font-size: 0.7rem; color: var(--color-slate);
+    margin-top: var(--space-2);
+  }
+  .transport-widget-powered a {
+    color: var(--color-ocean-teal); text-decoration: underline;
+  }
+
+  /* ================================================================
+     BEFORE YOU GO — Travel Insurance
+     ================================================================ */
+  .before-you-go {
+    background: var(--color-sky);
+    border-radius: 16px;
+    padding: var(--space-6);
+    margin: var(--space-6) 0 var(--space-4);
+    border: 1px solid rgba(13, 115, 119, 0.12);
+  }
+  .byg-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .byg-icon { font-size: 1.3rem; }
+  .byg-title {
+    font-size: 1rem; font-weight: var(--weight-bold);
+    color: var(--color-heading);
+  }
+  .byg-text {
+    font-size: 0.85rem; color: var(--color-slate);
+    line-height: 1.6; margin: 0 0 var(--space-3);
+  }
+  .byg-text a {
+    color: var(--color-ocean-teal); font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: rgba(13, 115, 119, 0.3);
+    text-underline-offset: 2px;
+  }
+  .byg-text a:hover { text-decoration-color: var(--color-ocean-teal); }
+  .byg-quote {
+    font-size: 0.8rem; font-style: italic;
+    color: var(--color-slate); line-height: 1.5;
+    padding: var(--space-3) var(--space-4);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    margin: 0 0 var(--space-4);
+  }
+  .byg-btn {
+    display: inline-block;
+    background: var(--color-ocean-teal); color: #fff;
+    font-size: 0.8rem; font-weight: var(--weight-semibold);
+    padding: 8px 20px; border-radius: 40px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .byg-btn:hover {
+    background: #095456; transform: translateY(-1px); color: #fff;
+  }
+  .byg-disclosure {
+    font-size: 0.68rem; color: var(--color-slate);
+    margin: var(--space-2) 0 0;
+  }
+  .byg-disclosure a {
+    color: var(--color-ocean-teal); text-decoration: underline;
+  }
+
+  /* ================================================================
+     TRIP COMPANION UPSELL
+     ================================================================ */
+  .companion-upsell {
+    background: #E8F4F5;
+    border-left: 4px solid #0D7377;
+    border-radius: 12px;
+    padding: var(--space-6);
+    margin: var(--space-6) 0 var(--space-4);
+  }
+  .companion-upsell-heading {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--color-heading);
+    margin: 0 0 var(--space-2);
+  }
+  .companion-upsell-text {
+    font-size: 0.9rem;
+    color: var(--color-slate);
+    line-height: 1.6;
+    margin: 0 0 var(--space-4);
+  }
+  .companion-upsell-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 28px;
+    background: #0D7377;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .companion-upsell-btn:hover {
+    background: #095456;
+    transform: translateY(-1px);
+    color: #fff;
+  }
+
+  /* ================================================================
+     CHAT SECTION
+     ================================================================ */
+  .chat-section {
+    border: 2px solid var(--color-sand-dark); border-radius: 16px;
+    padding: var(--space-5); margin: var(--space-6) 0;
+    background: var(--color-white);
+  }
+  .chat-header {
+    font-size: 1rem; font-weight: var(--weight-bold);
+    color: var(--color-heading); margin-bottom: var(--space-4);
+    text-align: center;
+  }
+  .chat-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin-bottom: var(--space-4);
+  }
+  .chat-chip {
+    font-size: 0.75rem; font-weight: var(--weight-medium);
+    padding: 6px 14px; border-radius: 100px;
+    background: var(--color-sky); color: var(--color-ocean-teal);
+    border: 1px solid transparent; cursor: pointer;
+    font-family: inherit; transition: all 0.25s ease;
+  }
+  .chat-chip:hover {
+    background: var(--color-ocean-teal); color: white;
+    border-color: var(--color-ocean-teal);
+  }
+  .chat-chip:disabled { opacity: 0.5; cursor: not-allowed; }
+  .chat-log {
+    max-height: 320px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: var(--space-4); padding: 4px 0;
+  }
+  .chat-log:empty { display: none; }
+  .chat-bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 14px;
+    font-size: 0.85rem; line-height: 1.5; word-break: break-word;
+    animation: chatBubbleIn 0.25s ease;
+  }
+  .chat-bubble--user {
+    align-self: flex-end; background: var(--color-ocean-teal);
+    color: white; border-bottom-right-radius: 4px;
+  }
+  .chat-bubble--assistant {
+    align-self: flex-start; background: var(--color-sky);
+    color: var(--color-heading); border-bottom-left-radius: 4px;
+  }
+  .chat-bubble--loading {
+    align-self: flex-start; background: var(--color-sky);
+    border-bottom-left-radius: 4px; padding: 12px 20px;
+  }
+  @keyframes chatBubbleIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Loading dots */
+  .chat-dots { display: flex; gap: 4px; align-items: center; }
+  .chat-dots span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--color-ocean-teal); opacity: 0.4;
+    animation: chatDotPulse 1.4s ease-in-out infinite;
+  }
+  .chat-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes chatDotPulse {
+    0%, 80%, 100% { opacity: 0.4; transform: scale(1); }
+    40% { opacity: 1; transform: scale(1.2); }
+  }
+  .chat-input-row { display: flex; gap: 8px; }
+  .chat-input {
+    flex: 1; padding: 10px 14px; border: 2px solid var(--color-sand-dark);
+    border-radius: 10px; font-size: 0.88rem; font-family: inherit;
+    color: var(--color-heading); outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .chat-input:focus { border-color: var(--color-ocean-teal); }
+  .chat-input::placeholder { color: #A0AEC0; }
+  .chat-input:disabled { opacity: 0.5; }
+  .chat-send-btn {
+    width: 42px; height: 42px; border-radius: 10px; border: none;
+    background: var(--color-ocean-teal); color: white;
+    cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .chat-send-btn:hover { background: #095456; transform: translateY(-1px); }
+  .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .chat-hint {
+    font-size: 0.72rem; color: var(--color-slate);
+    text-align: center; margin-top: var(--space-2); font-weight: 300;
+  }
+  .chat-rate-notice {
+    text-align: center; font-size: 0.78rem; color: var(--color-warm-coral);
+    background: rgba(232, 101, 74, 0.08); border-radius: 8px;
+    padding: var(--space-2) var(--space-3); margin-bottom: var(--space-3);
+  }
+
+  @media (max-width: 640px) {
+    .chat-chips { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .chat-chip { flex-shrink: 0; }
+  }
+
+  /* Print styles */
+  @media print {
+    .planner-hero, .map-section, .selected-section, .trip-details, .planner-extras,
+    .generate-section, .trust-section, .itinerary-actions, .itinerary-next-steps,
+    .itinerary-meta, .rate-notice, .chat-section, .email-itin-form, footer, nav { display: none !important; }
+    .sample-section { display: block !important; padding: 0 !important; }
+    .day-card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ddd; }
+  }
+
+  /* Budget summary */
+  .budget-summary {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--color-sky); border-radius: 12px; padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+  .budget-summary-label { font-size: 0.85rem; font-weight: var(--weight-semibold); color: var(--color-ocean-teal); }
+  .budget-summary-value { font-size: 1.1rem; font-weight: var(--weight-extrabold); color: var(--color-heading); }
+  .budget-summary-usd { font-size: 0.85rem; font-weight: var(--weight-regular); color: var(--color-ocean-teal); }
+
+  /* Meta + rate notice */
+  .itinerary-meta { text-align: center; font-size: 0.75rem; color: var(--color-slate); padding: var(--space-4) 0; font-weight: 300; }
+  .rate-notice {
+    text-align: center; font-size: 0.8rem; color: var(--color-warm-coral);
+    background: rgba(232, 101, 74, 0.08); border-radius: 8px;
+    padding: var(--space-3) var(--space-4); margin-top: var(--space-4);
+  }
+
+  /* Error state */
+  .itinerary-error { text-align: center; padding: var(--space-8) 0; }
+  .itinerary-error p { font-size: 0.95rem; color: var(--color-slate); margin-bottom: var(--space-4); }
+
+  /* Email gate */
+  .email-gate { text-align: center; padding: var(--space-8) 0; }
+  .email-gate h3 { font-size: 1.3rem; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .email-gate > p { font-size: 0.9rem; color: var(--color-slate); font-weight: 300; max-width: 460px; margin: 0 auto var(--space-6); line-height: 1.6; }
+  .email-gate-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 440px; margin: 0 auto; }
+  .email-gate-input {
+    flex: 1; min-width: 200px; padding: 12px 16px; border: 2px solid var(--color-sand-dark);
+    border-radius: 10px; font-size: 0.9rem; font-family: var(--font-body);
+    outline: none; transition: border-color 0.2s;
+  }
+  .email-gate-input:focus { border-color: var(--color-ocean-teal); }
+  .email-gate-privacy { font-size: 0.72rem; color: var(--color-slate); margin-top: var(--space-3); }
+
+  /* ================================================================
+     TRUST SECTION
+     ================================================================ */
+  .trust-section { background: var(--color-white); border-top: 1px solid var(--color-sand); padding: var(--space-12) var(--space-6); }
+  .trust-inner { max-width: var(--content-lg); margin: 0 auto; display: flex; justify-content: center; gap: var(--space-12); flex-wrap: wrap; text-align: center; }
+  .trust-item-block { max-width: 200px; }
+  .trust-icon { font-size: 1.5rem; margin-bottom: var(--space-2); display: block; }
+  .trust-title { font-weight: var(--weight-semibold); font-size: 0.85rem; color: var(--color-heading); margin-bottom: var(--space-1); }
+  .trust-desc { font-size: 0.78rem; color: var(--color-slate); line-height: 1.5; font-weight: 300; max-width: 100%; }
+
+  /* ================================================================
+     RESPONSIVE
+     ================================================================ */
+  @media (max-width: 900px) {
+    .map-layout { grid-template-columns: 1fr; }
+    .map-container { max-width: 480px; margin: 0 auto; }
+    #planGoogleMap { height: 450px; }
+  }
+
+  @media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .trust-inner { gap: var(--space-8); }
+  }
+</style>

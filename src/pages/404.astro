@@ -1,0 +1,131 @@
+---
+import '../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Island Not Found | Discover Vietnam</title>
+</head>
+<body class="error-page">
+  <div class="bg"></div>
+  <div class="palm left">🌴</div>
+  <div class="palm right">🌴</div>
+  <div class="content">
+    <div class="code">404</div>
+    <h1>This island doesn't exist</h1>
+    <p>The page you're looking for has drifted out to sea. But there are 7,641 other islands to explore.</p>
+    <div class="links">
+      <a href="/" class="primary">Back to Paradise</a>
+    </div>
+  </div>
+</body>
+</html>
+
+<style>
+  .error-page {
+    font-family: var(--font-sans);
+    background: #0a1628;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #0a1628 0%, #1a5276 40%, #2e86ab 70%, #40E0D0 100%);
+    z-index: 0;
+    opacity: 0.6;
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+  }
+  .code {
+    font-size: 8rem;
+    font-weight: 200;
+    letter-spacing: 1rem;
+    background: linear-gradient(135deg, #667eea, #764ba2, #40E0D0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.3rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  p {
+    font-size: 1.2rem;
+    opacity: 0.7;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: none;
+  }
+  .links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+  }
+  .links a.primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+  .links a.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+  }
+  .links a.ghost {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .links a.ghost:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .palm {
+    position: fixed;
+    bottom: -20px;
+    font-size: 15rem;
+    opacity: 0.08;
+    z-index: 0;
+  }
+  .palm.left {
+    left: -40px;
+    transform: rotate(-15deg);
+  }
+  .palm.right {
+    right: -40px;
+    transform: rotate(15deg);
+  }
+  @media (max-width: 768px) {
+    .code { font-size: 5rem; }
+    h1 { font-size: 1.5rem; }
+    .links { flex-direction: column; align-items: center; }
+  }
+</style>

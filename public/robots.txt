@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://discovervietnam.info/sitemap-index.xml

@@ -1,0 +1,105 @@
+---
+interface Props {
+  region: string;
+  bestMonths?: string[];
+  budgetPerDay?: {
+    backpacker: number;
+    midRange: number;
+    luxury: number;
+  };
+  gettingThere?: string;
+}
+
+const { region, bestMonths, budgetPerDay, gettingThere } = Astro.props;
+---
+
+<section id="quick-facts" class="quick-facts">
+  <div class="quick-facts-inner">
+    <div class="quick-facts-item">
+      <div class="quick-facts-icon">🌏</div>
+      <div class="quick-facts-label">Region</div>
+      <div class="quick-facts-value">{region}</div>
+    </div>
+
+    {bestMonths && bestMonths.length > 0 && (
+      <div class="quick-facts-item">
+        <div class="quick-facts-icon">📅</div>
+        <div class="quick-facts-label">Best Time</div>
+        <div class="quick-facts-value">{bestMonths.slice(0, 3).join(', ')}{bestMonths.length > 3 ? ` +${bestMonths.length - 3} more` : ''}</div>
+      </div>
+    )}
+
+    {budgetPerDay && (
+      <div class="quick-facts-item">
+        <div class="quick-facts-icon">💰</div>
+        <div class="quick-facts-label">Daily Budget</div>
+        <div class="quick-facts-value">${budgetPerDay.backpacker}–${budgetPerDay.luxury} USD</div>
+      </div>
+    )}
+
+    {gettingThere && (
+      <div class="quick-facts-item">
+        <div class="quick-facts-icon">✈️</div>
+        <div class="quick-facts-label">Getting There</div>
+        <div class="quick-facts-value quick-facts-value--wide">{gettingThere}</div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .quick-facts {
+    background: var(--color-deep-night);
+    padding: 0 var(--space-6);
+  }
+
+  .quick-facts-inner {
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .quick-facts-item {
+    padding: var(--space-6) var(--space-5);
+    background: var(--color-deep-night);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .quick-facts-icon {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-1);
+    opacity: 0.4;
+  }
+
+  .quick-facts-label {
+    font-size: 0.68rem;
+    font-weight: var(--weight-semibold);
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .quick-facts-value {
+    font-size: 0.92rem;
+    font-weight: var(--weight-semibold);
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: capitalize;
+  }
+
+  .quick-facts-value--wide {
+    font-weight: var(--weight-regular);
+    font-size: var(--text-caption);
+    text-transform: none;
+    max-width: 30ch;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+  }
+</style>

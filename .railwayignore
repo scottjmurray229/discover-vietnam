@@ -1,0 +1,17 @@
+public/videos/
+dist/
+node_modules/
+.astro/
+video-tracking/
+*.mp4
+*.webm
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+*.eps
+*.pdf
+public/images/
+public/posters/
+.git/

@@ -1,0 +1,24 @@
+{
+  "name": "Trip Companion — Discover Philippines",
+  "short_name": "Trip Companion",
+  "description": "Your offline Philippines trip companion with local directions, budget tracking, and insider tips.",
+  "start_url": "/companion/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#064E56",
+  "background_color": "#F7F7F8",
+  "icons": [
+    {
+      "src": "/companion-icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/companion-icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

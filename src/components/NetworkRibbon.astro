@@ -1,0 +1,133 @@
+---
+import { HUB_URL } from '../data/network-sites';
+---
+
+<div class="network-ribbon" id="network-ribbon" aria-label="Network announcement" hidden>
+  <div class="ribbon-inner container-content">
+    <p class="ribbon-text">
+      Part of the <a href={HUB_URL} class="ribbon-link" target="_blank" rel="noopener">Discover More Travel</a> network — 14 destinations worldwide
+    </p>
+    <button class="ribbon-dismiss" type="button" aria-label="Dismiss announcement">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M3 3l8 8M3 11l8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'network-ribbon-dismissed';
+  const EXPIRY_DAYS = 30;
+
+  function isRibbonDismissed(): boolean {
+    try {
+      const val = localStorage.getItem(STORAGE_KEY);
+      if (!val) return false;
+      const expires = parseInt(val, 10);
+      if (Date.now() > expires) {
+        localStorage.removeItem(STORAGE_KEY);
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function dismissRibbon(): void {
+    try {
+      const expires = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, String(expires));
+    } catch {}
+  }
+
+  const ribbon = document.getElementById('network-ribbon');
+  if (ribbon && !isRibbonDismissed()) {
+    ribbon.hidden = false;
+    document.documentElement.style.setProperty('--ribbon-height', '36px');
+
+    const btn = ribbon.querySelector('.ribbon-dismiss');
+    btn?.addEventListener('click', () => {
+      dismissRibbon();
+      ribbon.hidden = true;
+      document.documentElement.style.setProperty('--ribbon-height', '0px');
+    });
+  }
+</script>
+
+<style>
+  .network-ribbon {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 51;
+    height: 36px;
+    background: var(--color-deep-night);
+    color: rgba(255, 255, 255, 0.85);
+    display: none;
+  }
+
+  .network-ribbon:not([hidden]) {
+    display: block;
+  }
+
+  @media (max-width: 767px) {
+    .network-ribbon {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ribbon-text {
+      font-size: 11px;
+    }
+  }
+
+  .ribbon-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: var(--space-3);
+    position: relative;
+  }
+
+  .ribbon-text {
+    font-size: 12px;
+    font-weight: var(--weight-regular);
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+
+  .ribbon-link {
+    color: var(--color-ocean-teal-light, #11969B);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .ribbon-link:hover {
+    color: #14B8A6;
+  }
+
+  .ribbon-dismiss {
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .ribbon-dismiss:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+</style>

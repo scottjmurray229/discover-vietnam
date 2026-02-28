@@ -1,0 +1,223 @@
+---
+interface Props {
+  pageType: 'homepage' | 'destination' | 'blog' | 'author';
+  data?: Record<string, any>;
+  faqItems?: { question: string; answer: string }[];
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const { pageType, data = {}, faqItems, breadcrumbs } = Astro.props;
+
+const baseUrl = (Astro.site || new URL('https://discovervietnam.info')).toString().replace(/\/$/, '');
+const currentPath = Astro.url.pathname;
+const currentUrl = `${baseUrl}${currentPath}`;
+
+// --- Schema builders ---
+
+function buildOrganization() {
+  return {
+    '@type': 'Organization',
+    '@id': `${baseUrl}/#organization`,
+    name: 'Discover Vietnam',
+    url: baseUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/favicon.svg`,
+    },
+    sameAs: [
+      'https://www.youtube.com/@DiscoverVietnam',
+      'https://www.facebook.com/DiscoverVietnamTravel',
+      'https://www.instagram.com/discover.vietnam',
+    ],
+  };
+}
+
+function buildWebSite() {
+  return {
+    '@type': 'WebSite',
+    '@id': `${baseUrl}/#website`,
+    name: 'Discover Vietnam',
+    url: baseUrl,
+    publisher: { '@id': `${baseUrl}/#organization` },
+  };
+}
+
+function buildHomepageSchemas() {
+  return [
+    {
+      '@context': 'https://schema.org',
+      ...buildOrganization(),
+    },
+    {
+      '@context': 'https://schema.org',
+      ...buildWebSite(),
+    },
+  ];
+}
+
+function buildDestinationSchemas() {
+  const schemas: Record<string, any>[] = [];
+
+  // TouristDestination
+  const budgetRange = data.budgetPerDay
+    ? `$${data.budgetPerDay.backpacker}-$${data.budgetPerDay.luxury} USD per day`
+    : undefined;
+
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    '@id': `${currentUrl}#destination`,
+    name: data.title,
+    description: data.description,
+    touristType: data.highlights?.map((h: any) => {
+      const text = typeof h === 'string' ? h : h.title || '';
+      return text.split('—')[0]?.trim();
+    }),
+    ...(budgetRange && {
+      priceRange: budgetRange,
+    }),
+    containedInPlace: {
+      '@type': 'Country',
+      name: 'Vietnam',
+    },
+    isPartOf: {
+      '@type': 'AdministrativeArea',
+      name: data.region,
+    },
+  });
+
+  // Place
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'Place',
+    '@id': `${currentUrl}#place`,
+    name: data.title,
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: data.region,
+      addressCountry: 'VN',
+    },
+  });
+
+  // SpeakableSpecification (targets Quick Facts block)
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': currentUrl,
+    name: `${data.title} Travel Guide`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['#quick-facts'],
+    },
+    isPartOf: { '@id': `${baseUrl}/#website` },
+  });
+
+  // FAQPage schema is emitted by FAQ.astro component directly — no duplicate here
+
+  return schemas;
+}
+
+function buildBlogSchemas() {
+  const authorSlug = 'scott';
+
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      '@id': `${currentUrl}#article`,
+      headline: data.title,
+      description: data.description,
+      ...(data.pubDate && { datePublished: new Date(data.pubDate).toISOString() }),
+      ...(data.heroImage && {
+        image: data.heroImage.startsWith('http') ? data.heroImage : `${baseUrl}${data.heroImage}`,
+      }),
+      author: {
+        '@type': 'Person',
+        name: data.author || 'Scott',
+        url: `${baseUrl}/about/${authorSlug}/`,
+      },
+      publisher: { '@id': `${baseUrl}/#organization` },
+      isPartOf: { '@id': `${baseUrl}/#website` },
+    },
+  ];
+}
+
+function buildAuthorSchemas() {
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ProfilePage',
+      '@id': `${currentUrl}#profilepage`,
+      mainEntity: {
+        '@type': 'Person',
+        '@id': `${currentUrl}#person`,
+        name: data.name,
+        ...(data.image && { image: data.image }),
+        ...(data.bio && { description: data.bio }),
+        ...(data.url && { url: data.url }),
+        ...(data.knowsAbout && { knowsAbout: data.knowsAbout }),
+        ...(data.sameAs && { sameAs: data.sameAs }),
+        worksFor: { '@id': `${baseUrl}/#organization` },
+      },
+    },
+  ];
+}
+
+function buildFAQSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems!.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+function buildBreadcrumbSchema() {
+  if (!breadcrumbs || breadcrumbs.length === 0) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.url.startsWith('http') ? crumb.url : `${baseUrl}${crumb.url}`,
+    })),
+  };
+}
+
+// --- Build all schemas for this page ---
+
+let schemas: Record<string, any>[] = [];
+
+switch (pageType) {
+  case 'homepage':
+    schemas = buildHomepageSchemas();
+    break;
+  case 'destination':
+    schemas = buildDestinationSchemas();
+    break;
+  case 'blog':
+    schemas = buildBlogSchemas();
+    break;
+  case 'author':
+    schemas = buildAuthorSchemas();
+    break;
+}
+
+const breadcrumbSchema = buildBreadcrumbSchema();
+if (breadcrumbSchema) {
+  schemas.push(breadcrumbSchema);
+}
+---
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

@@ -1,0 +1,13 @@
+/* ============================================================
+   TRIP COMPANION — Page-specific tokens
+   Only imported on /companion/ pages
+   ============================================================ */
+
+:root {
+  --color-palm: #2D8A4E;
+  --color-palm-light: #E8F5EC;
+  --color-ocean-deep: #064E56;
+
+  --gradient-companion-hero: linear-gradient(135deg, var(--color-ocean-deep), var(--color-ocean-teal));
+  --gradient-companion-cta: linear-gradient(135deg, var(--color-warm-coral), #D4553B);
+}

@@ -1,0 +1,883 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/', label: 'Home', match: (p: string) => p === '/' },
+  { href: '/destinations/', label: 'Destinations', match: (p: string) => p.startsWith('/destinations') },
+  { href: '/plan/', label: 'Plan', match: (p: string) => p === '/plan/' || p === '/plan' },
+  { href: '/about/', label: 'About', match: (p: string) => p.startsWith('/about') },
+];
+
+const guideLinks = [
+  { href: '/practical/', label: 'Snorkeling', icon: '🤿' },
+  { href: '/festivals/', label: 'Festivals', icon: '🎉' },
+  { href: '/cuisine/', label: 'Food & Cuisine', icon: '🍴' },
+  { href: '/history/', label: 'WWII Heritage', icon: '🏛️' },
+  { href: '/practical/', label: 'Travel Tips', icon: '🛠️' },
+  { href: '/wellness-philippines/', label: 'Wellness', icon: '💆' },
+  { href: '/finer-things/', label: 'The Finer Things', icon: '🥃' },
+];
+
+const isGuidesActive = (p: string) =>
+  p.startsWith('/snorkeling') || p.startsWith('/festivals') || p.startsWith('/cuisine') || p.startsWith('/history') || p.startsWith('/practical') || p.startsWith('/wellness') || p.startsWith('/finer-things');
+---
+
+<!-- Desktop: top nav bar — transparent → solid on scroll -->
+<header class="desktop-nav" aria-label="Main navigation" data-pagefind-ignore>
+  <nav class="container-content desktop-nav-inner">
+    <a href="/" class="desktop-nav-brand">
+      Discover <span class="brand-accent">Vietnam</span>
+    </a>
+
+    <div class="desktop-nav-links">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['desktop-nav-link', { 'desktop-nav-link--active': link.match(currentPath) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+
+      <!-- Discover dropdown -->
+      <div class="guides-dropdown">
+        <button
+          class:list={['desktop-nav-link guides-trigger', { 'desktop-nav-link--active': isGuidesActive(currentPath) }]}
+          type="button"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          Discover <svg class="guides-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="guides-panel" hidden>
+          {guideLinks.map((g) => (
+            <a href={g.href} class:list={['guides-panel-link', { 'guides-panel-link--active': currentPath.startsWith(g.href) }]}>
+              <span class="guides-panel-icon">{g.icon}</span>
+              <span>{g.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a
+        href="/blog/"
+        class:list={['desktop-nav-link', { 'desktop-nav-link--active': currentPath.startsWith('/blog') }]}
+      >
+        Blog
+      </a>
+    </div>
+
+    <!-- Search button (desktop) -->
+    <button class="search-trigger" type="button" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Language Switcher (desktop) -->
+    <LanguageSwitcher />
+
+    <!-- Trip Companion CTA (desktop ≥1024px) -->
+    <a href="/companion/" class="companion-cta">Trip Companion</a>
+
+    <!-- Hamburger button (tablet) -->
+    <button
+      class="hamburger"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg class="hamburger-icon hamburger-open" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <svg class="hamburger-icon hamburger-close" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:none;">
+        <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Dropdown menu for hamburger -->
+  <div id="mobile-menu" class="dropdown-menu" hidden>
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class:list={['dropdown-link', { 'dropdown-link--active': link.match(currentPath) }]}
+      >
+        {link.label}
+      </a>
+    ))}
+    <a
+      href="/blog/"
+      class:list={['dropdown-link', { 'dropdown-link--active': currentPath.startsWith('/blog') }]}
+    >
+      Blog
+    </a>
+    <a
+      href="/companion/"
+      class:list={['dropdown-link dropdown-link--companion', { 'dropdown-link--active': currentPath.startsWith('/companion') }]}
+    >
+      Trip Companion
+    </a>
+    <div class="dropdown-lang-row">
+      <LanguageSwitcher />
+    </div>
+    <div class="dropdown-divider"></div>
+    <div class="dropdown-section-label">Discover</div>
+    {guideLinks.map((g) => (
+      <a
+        href={g.href}
+        class:list={['dropdown-link', { 'dropdown-link--active': currentPath.startsWith(g.href) }]}
+      >
+        <span class="dropdown-link-icon">{g.icon}</span> {g.label}
+      </a>
+    ))}
+  </div>
+</header>
+
+<!-- Search Modal -->
+<div id="search-modal" class="search-modal" hidden>
+  <div class="search-modal-backdrop"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" type="button" aria-label="Close search">&times;</button>
+    <div id="search-container"></div>
+  </div>
+</div>
+
+<!-- Mobile: bottom tab bar -->
+<nav class="mobile-tab-bar" aria-label="Main navigation" data-pagefind-ignore>
+  <div class="mobile-tab-bar-inner">
+    <a href="/" class:list={['tab-link', { 'tab-link--active': currentPath === '/' }]}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1v-9.5z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 21V14h6v7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="/destinations/" class:list={['tab-link', { 'tab-link--active': currentPath.startsWith('/destinations') }]}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.75"/>
+        <path d="M12 3a15 15 0 014 9 15 15 0 01-4 9 15 15 0 01-4-9 15 15 0 014-9zM3 12h18" stroke="currentColor" stroke-width="1.75"/>
+      </svg>
+      <span>Explore</span>
+    </a>
+    <a href="/companion/" class:list={['tab-link', { 'tab-link--active': currentPath.startsWith('/companion') }]}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3" y="9" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 9V6a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="15" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>Companion</span>
+    </a>
+    <button class:list={['tab-link tab-link--guides', { 'tab-link--active': isGuidesActive(currentPath) }]} type="button" aria-expanded="false" aria-controls="mobile-guides-panel">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 19V5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 19a2 2 0 012-2h13" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Discover</span>
+    </button>
+    <a href="/plan/" class:list={['tab-link tab-link--plan', { 'tab-link--active': currentPath === '/plan/' || currentPath === '/plan' }]}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Plan</span>
+    </a>
+  </div>
+
+  <!-- Guides flyout panel (mobile) -->
+  <div id="mobile-guides-panel" class="mobile-guides-panel" hidden>
+    {guideLinks.map((g) => (
+      <a href={g.href} class:list={['mobile-guides-link', { 'mobile-guides-link--active': currentPath.startsWith(g.href) }]}>
+        <span class="mobile-guides-icon">{g.icon}</span>
+        <span>{g.label}</span>
+      </a>
+    ))}
+    <a href="/companion/" class:list={['mobile-guides-link', { 'mobile-guides-link--active': currentPath.startsWith('/companion') }]}>
+      <span class="mobile-guides-icon">🧭</span>
+      <span>Trip Companion</span>
+    </a>
+    <div class="mobile-guides-lang">
+      <LanguageSwitcher />
+    </div>
+  </div>
+</nav>
+
+<!-- Scroll sentinel for IntersectionObserver -->
+<div class="scroll-sentinel" aria-hidden="true"></div>
+
+<script>
+  // Transparent → solid desktop nav on scroll
+  const sentinel = document.querySelector('.scroll-sentinel');
+  const desktopNav = document.querySelector('.desktop-nav');
+
+  if (sentinel && desktopNav) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        desktopNav.classList.toggle('desktop-nav--solid', !entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+  }
+
+  // Hamburger toggle
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const openIcon = document.querySelector('.hamburger-open');
+  const closeIcon = document.querySelector('.hamburger-close');
+
+  if (hamburger && mobileMenu && openIcon && closeIcon) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = !mobileMenu.hidden;
+      mobileMenu.hidden = isOpen;
+      hamburger.setAttribute('aria-expanded', String(!isOpen));
+      (openIcon as HTMLElement).style.display = isOpen ? '' : 'none';
+      (closeIcon as HTMLElement).style.display = isOpen ? 'none' : '';
+    });
+  }
+
+  // Desktop Guides dropdown
+  const guidesTrigger = document.querySelector('.guides-trigger');
+  const guidesPanel = document.querySelector('.guides-panel');
+
+  if (guidesTrigger && guidesPanel) {
+    guidesTrigger.addEventListener('click', () => {
+      const isOpen = !(guidesPanel as HTMLElement).hidden;
+      (guidesPanel as HTMLElement).hidden = isOpen;
+      guidesTrigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!(e.target as HTMLElement).closest('.guides-dropdown')) {
+        (guidesPanel as HTMLElement).hidden = true;
+        guidesTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Search modal
+  const searchTrigger = document.querySelector('.search-trigger');
+  const searchModal = document.getElementById('search-modal');
+  const searchBackdrop = searchModal?.querySelector('.search-modal-backdrop');
+  const searchClose = searchModal?.querySelector('.search-modal-close');
+  const searchContainer = document.getElementById('search-container');
+  let pagefindLoaded = false;
+
+  async function openSearch() {
+    if (!searchModal || !searchContainer) return;
+    searchModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+
+    if (!pagefindLoaded) {
+      pagefindLoaded = true;
+      // Load Pagefind CSS
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/pagefind/pagefind-ui.css';
+      document.head.appendChild(link);
+
+      // Load Pagefind JS
+      const script = document.createElement('script');
+      script.src = '/pagefind/pagefind-ui.js';
+      script.onload = () => {
+        // @ts-ignore
+        new PagefindUI({ element: '#search-container', showSubResults: true, showImages: false });
+        setTimeout(() => {
+          const input = searchContainer.querySelector<HTMLInputElement>('input');
+          if (input) input.focus();
+        }, 100);
+      };
+      document.head.appendChild(script);
+    } else {
+      setTimeout(() => {
+        const input = searchContainer.querySelector<HTMLInputElement>('input');
+        if (input) input.focus();
+      }, 50);
+    }
+  }
+
+  function closeSearch() {
+    if (!searchModal) return;
+    searchModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  searchTrigger?.addEventListener('click', openSearch);
+  searchBackdrop?.addEventListener('click', closeSearch);
+  searchClose?.addEventListener('click', closeSearch);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && searchModal && !searchModal.hidden) closeSearch();
+    // Ctrl/Cmd+K to open search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  // Mobile Guides flyout
+  const mobileGuidesBtn = document.querySelector('.tab-link--guides');
+  const mobileGuidesPanel = document.getElementById('mobile-guides-panel');
+
+  if (mobileGuidesBtn && mobileGuidesPanel) {
+    mobileGuidesBtn.addEventListener('click', () => {
+      const isOpen = !mobileGuidesPanel.hidden;
+      mobileGuidesPanel.hidden = isOpen;
+      mobileGuidesBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!(e.target as HTMLElement).closest('.mobile-tab-bar')) {
+        mobileGuidesPanel.hidden = true;
+        mobileGuidesBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
+
+<style>
+  /* ---- Scroll sentinel ---- */
+  .scroll-sentinel {
+    position: absolute;
+    top: 0;
+    height: 1px;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* ---- Desktop nav ---- */
+  .desktop-nav {
+    display: none;
+    position: fixed;
+    top: var(--ribbon-height, 0px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: transparent;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, top 0.3s ease;
+  }
+
+  .desktop-nav--solid {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: block;
+    }
+  }
+
+  .desktop-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .desktop-nav-brand {
+    font-size: 1.25rem;
+    font-weight: var(--weight-extrabold);
+    color: white;
+    text-decoration: none;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .desktop-nav--solid .desktop-nav-brand {
+    color: var(--color-deep-night);
+    text-shadow: none;
+  }
+
+  .brand-accent {
+    color: var(--color-ocean-teal);
+  }
+
+  .desktop-nav:not(.desktop-nav--solid) .brand-accent {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .desktop-nav-links {
+    display: none;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .desktop-nav-links {
+      display: flex;
+    }
+    .hamburger {
+      display: none !important;
+    }
+  }
+
+  .desktop-nav-link {
+    font-size: var(--text-nav);
+    font-weight: var(--weight-medium);
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .desktop-nav-link:hover {
+    color: white;
+  }
+
+  .desktop-nav-link--active {
+    color: white;
+    font-weight: var(--weight-semibold);
+  }
+
+  .desktop-nav--solid .desktop-nav-link {
+    color: var(--color-slate);
+    text-shadow: none;
+  }
+
+  .desktop-nav--solid .desktop-nav-link:hover {
+    color: var(--color-ocean-teal);
+  }
+
+  .desktop-nav--solid .desktop-nav-link--active {
+    color: var(--color-ocean-teal);
+  }
+
+  /* ---- Companion CTA (desktop ≥1024px) ---- */
+  .companion-cta {
+    display: none;
+    padding: 8px 18px;
+    border-radius: 24px;
+    background: var(--color-warm-coral);
+    color: white;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    animation: companion-pulse 2s ease-in-out 1;
+  }
+
+  .companion-cta:hover {
+    background: #D4553B;
+    color: white;
+    box-shadow: 0 2px 12px rgba(232, 101, 74, 0.4);
+  }
+
+  .desktop-nav:not(.desktop-nav--solid) .companion-cta {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 12px rgba(232, 101, 74, 0.3);
+  }
+
+  .desktop-nav:not(.desktop-nav--solid) .companion-cta:hover {
+    background: var(--color-warm-coral);
+    border-color: var(--color-warm-coral);
+    box-shadow: 0 2px 16px rgba(232, 101, 74, 0.5);
+  }
+
+  @media (min-width: 1024px) {
+    .companion-cta {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  @keyframes companion-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* ---- Companion link in dropdown ---- */
+  .dropdown-link--companion {
+    color: var(--color-warm-coral);
+    font-weight: var(--weight-semibold);
+  }
+
+  .dropdown-link--companion:hover {
+    background-color: rgba(232, 101, 74, 0.08);
+    color: var(--color-warm-coral);
+  }
+
+  /* ---- Hamburger (tablet: 768-1023px) ---- */
+  .hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    min-height: 48px;
+    min-width: 48px;
+    transition: color 0.3s ease, filter 0.3s ease;
+  }
+
+  .desktop-nav--solid .hamburger {
+    color: var(--color-heading);
+    filter: none;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hamburger {
+      display: flex;
+    }
+  }
+
+  /* ---- Dropdown menu ---- */
+  .dropdown-menu {
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .dropdown-link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-nav);
+    font-weight: var(--weight-medium);
+    color: var(--color-slate);
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  .dropdown-link:hover {
+    background-color: var(--color-sky);
+    color: var(--color-ocean-teal);
+  }
+
+  .dropdown-link--active {
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ---- Mobile tab bar ---- */
+  .mobile-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-tab-bar {
+      display: none;
+    }
+  }
+
+  .mobile-tab-bar-inner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    padding-bottom: calc(var(--space-1) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tab-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-height: 48px;
+    min-width: 48px;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: var(--weight-medium);
+    color: var(--color-slate);
+    opacity: 0.6;
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .tab-link--active {
+    color: var(--color-ocean-teal);
+    opacity: 1;
+    font-weight: var(--weight-semibold);
+  }
+
+  .tab-link--guides {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ---- Desktop Guides dropdown ---- */
+  .guides-dropdown {
+    position: relative;
+  }
+
+  .guides-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+
+  .guides-chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .guides-trigger[aria-expanded="true"] .guides-chevron {
+    transform: rotate(180deg);
+  }
+
+  .guides-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: -16px;
+    min-width: 180px;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: var(--space-2);
+    z-index: 60;
+  }
+
+  .guides-panel-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-slate);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .guides-panel-link:hover {
+    background: var(--color-sky);
+    color: var(--color-ocean-teal);
+  }
+
+  .guides-panel-link--active {
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+    background: rgba(13, 115, 119, 0.06);
+  }
+
+  .guides-panel-icon {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+  }
+
+  /* ---- Tablet dropdown extras ---- */
+  .dropdown-divider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.06);
+    margin: var(--space-2) var(--space-4);
+  }
+
+  .dropdown-section-label {
+    font-size: 0.65rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-slate);
+    opacity: 0.5;
+    padding: var(--space-1) var(--space-4) var(--space-1);
+  }
+
+  .dropdown-link-icon {
+    margin-right: 6px;
+  }
+
+  /* ---- Mobile Guides flyout ---- */
+  .mobile-guides-panel {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding: var(--space-3) var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+
+  .mobile-guides-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: var(--space-3) var(--space-2);
+    font-size: 11px;
+    font-weight: var(--weight-medium);
+    color: var(--color-slate);
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .mobile-guides-link:hover,
+  .mobile-guides-link--active {
+    background: var(--color-sky);
+    color: var(--color-ocean-teal);
+  }
+
+  .mobile-guides-icon {
+    font-size: 1.3rem;
+  }
+
+  /* ---- Language switcher in mobile flyout ---- */
+  .mobile-guides-lang {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-2);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    margin-top: var(--space-1);
+  }
+
+  .mobile-guides-lang :global(.lang-switcher) {
+    display: inline-flex;
+    font-size: 0.85rem;
+  }
+
+  .mobile-guides-lang :global(.lang-switcher-link) {
+    color: var(--color-slate);
+    padding: 6px 12px;
+  }
+
+  .mobile-guides-lang :global(.lang-switcher-link:hover) {
+    color: var(--color-ocean-teal);
+  }
+
+  .mobile-guides-lang :global(.lang-switcher-link--active) {
+    color: var(--color-ocean-teal);
+    background: rgba(13, 115, 119, 0.08);
+  }
+
+  /* ---- Search trigger ---- */
+  .search-trigger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0;
+    transition: color 0.3s ease, filter 0.3s ease;
+  }
+
+  .search-trigger:hover {
+    color: white;
+  }
+
+  .desktop-nav--solid .search-trigger {
+    color: var(--color-slate);
+    filter: none;
+  }
+
+  .desktop-nav--solid .search-trigger:hover {
+    color: var(--color-ocean-teal);
+  }
+
+  @media (min-width: 1024px) {
+    .search-trigger {
+      display: flex;
+    }
+  }
+
+  /* ---- Search modal ---- */
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10vh;
+  }
+
+  .search-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 35, 50, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 640px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    padding: var(--space-6, 24px);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .search-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-slate, #4A5568);
+    cursor: pointer;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-modal-close:hover {
+    color: var(--color-heading, #1A2332);
+  }
+
+  /* ---- Language switcher in tablet dropdown ---- */
+  .dropdown-lang-row {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .dropdown-lang-row :global(.lang-switcher) {
+    display: inline-flex;
+    font-size: 0.85rem;
+  }
+
+  .dropdown-lang-row :global(.lang-switcher-link) {
+    color: var(--color-slate);
+    padding: 6px 12px;
+  }
+
+  .dropdown-lang-row :global(.lang-switcher-link:hover) {
+    color: var(--color-ocean-teal);
+  }
+
+  .dropdown-lang-row :global(.lang-switcher-link--active) {
+    color: var(--color-ocean-teal);
+    background: rgba(13, 115, 119, 0.08);
+  }
+</style>

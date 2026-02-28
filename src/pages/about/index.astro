@@ -1,0 +1,853 @@
+---
+/**
+ * about.astro — "One Man's Love for Vietnam"
+ * Route: /about
+ * Design: about-final.html (approved prototype)
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import scottImg from '../../images/scott-murray.jpg';
+---
+
+<BaseLayout
+  title="About — Scott Murray"
+  description="Meet Scott Murray — an American travel writer with 20+ years exploring Vietnam. Real prices, local tips, and personal experience across the country."
+>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="about-hero">
+  <video class="about-hero-video" autoplay muted loop playsinline preload="metadata">
+    <source src="/videos/pillar/about-hero.mp4" type="video/mp4" />
+  </video>
+  <div class="about-hero-gradient-overlay"></div>
+  <div class="hero-grid"></div>
+  <div class="about-hero-inner">
+    <div class="hero-eyebrow">About Discover Vietnam</div>
+    <h1>A Love Letter to <em>Vietnam</em></h1>
+    <p class="hero-intro">I'm Scott Murray &mdash; an American who first set foot in Vietnam in 2003 and never stopped coming back. What started as a week-long trip turned into 20+ years of exploration across the country, from Hanoi's Old Quarter to the Mekong Delta's floating markets. 40+ countries of travel, but Vietnam has always been the first love. This is how two decades of obsessive trip planning became the travel guide I wished existed.</p>
+    <div class="hero-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ PERSONAL LETTER ═══════════════ -->
+<section class="letter-section reveal">
+  <div class="letter-block">
+    <div class="letter-attr">Scott <span class="attr-role">· American · First passport: 2002 · First Vietnam trip: 2003</span></div>
+    <p class="letter-text">Travel has always been my escape from the rat race &mdash; and honestly, I enjoy the <strong>planning</strong> almost as much as being there. Researching destinations, mapping routes, finding that perfect street food stall. It started with a trip to Southeast Asia in 2003. One of my best friends told me I needed to see Vietnam for myself. I'd barely left the country. I landed in Hanoi &mdash; the chaos of the Old Quarter, the motorbikes, the pho on every corner &mdash; and Vietnam addiction began.<br><br>Since then I've made 20+ trips across the entire country &mdash; Ha Long Bay, Hoi An, Da Nang, Ho Chi Minh City, the Mekong Delta, Sapa, Phu Quoc, and dozens more. I've watched Vietnam transform from a backpacker secret to a world-class destination while still keeping its soul. I've taken the Reunification Express from Hanoi to Saigon. I've watched Grab replace the taxis that quoted me five times the real fare.<br><br><strong>I'm not a travel blogger. I work in healthcare IT.</strong> But Vietnam keeps pulling me back, and I finally decided to put everything I've learned into something useful &mdash; a site with real local knowledge, honest prices, video content from the places I've actually been, and an AI trip planner that builds itineraries from 20+ years of real experience. It's the resource I talked about building years ago. It just took this long to figure out how.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ TIMELINE ═══════════════ -->
+<section class="timeline-section">
+  <div class="timeline-header">
+    <div class="section-eyebrow">Our Story</div>
+    <h2 class="section-title">23 Years in the Making</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-year-side"><div class="tl-year">2003</div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content-side"><div class="tl-content">
+        <div class="tl-title">First Landing: Hanoi</div>
+        <p class="tl-text">The first trip. Touching down at Noi Bai Airport, the wall of humidity, the chaos of motorbikes, and a bowl of pho that changed everything. Hanoi's Old Quarter before the craft beer scene. Just narrow streets, ancient temples, and a realization: Vietnam is unlike anywhere on Earth. The addiction begins.</p>
+      </div></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year-side"><div class="tl-year">2005</div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content-side"><div class="tl-content">
+        <div class="tl-title">Ha Long Bay &amp; the Central Coast</div>
+        <p class="tl-text">Second trip. Ha Long Bay on an overnight junk boat, then south to Hoi An and Hue. The Imperial Citadel at sunrise, tailor shops in Hoi An's lantern-lit streets, and the best banh mi in the world. The obsession deepens.</p>
+      </div></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year-side"><div class="tl-year">2006&ndash;18</div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content-side"><div class="tl-content">
+        <div class="tl-title">Deeper Into the Country</div>
+        <p class="tl-text">Da Nang, Nha Trang, Dalat, Sapa, the Mekong Delta, Phu Quoc, Ninh Binh, Phong Nha. Each trip goes further from the tourist trail. Local friends open doors no guidebook can &mdash; hidden restaurants, real prices, off-the-map villages. 40+ countries of travel, but Vietnam is always the first love.</p>
+      </div></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year-side"><div class="tl-year">2019&ndash;24</div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content-side"><div class="tl-content">
+        <div class="tl-title">Capturing the Country</div>
+        <p class="tl-text">I start documenting everything &mdash; video from rice terraces, motorbike routes, street food markets, and coastal roads. The idea crystallizes: why does no Vietnam travel site show you what these places actually look and feel like? The dream of a proper travel resource takes shape.</p>
+      </div></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year-side"><div class="tl-year">2025</div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content-side"><div class="tl-content">
+        <div class="tl-title">Discover Vietnam Launches</div>
+        <p class="tl-text">The site I dreamed about building for years finally becomes real &mdash; with video content, an AI trip planner, and local connections powering every recommendation. Not a side hustle with recycled content. A real guide built by someone who loves this country.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PROFILE CARDS ═══════════════ -->
+<section class="profiles-section">
+  <div class="profiles-header">
+    <div class="section-eyebrow">Meet the Team</div>
+    <h2 class="section-title">The People Behind the Pages</h2>
+  </div>
+  <div class="profiles-grid profiles-grid--single">
+    <div class="profile-card reveal">
+      <div class="profile-banner scott"><div class="profile-banner-bg"></div></div>
+      <Image src={scottImg} alt="Scott Murray" class="profile-avatar scott-av" width={96} height={96} format="webp" loading="lazy" />
+      <div class="profile-body">
+        <div class="profile-name">Scott</div>
+        <div class="profile-role">Founder &middot; Writer &middot; Videographer</div>
+        <p class="profile-bio">Healthcare IT professional by day, Vietnam travel obsessive by every other waking moment. Based in Southern California. First trip was 2003 to Hanoi &mdash; and it sparked 40+ countries of travel, but Vietnam has always been the first love. 20+ trips across the entire country from Sapa to the Mekong Delta. Enjoys the trip planning almost as much as the travel itself. Taken the Reunification Express more times than he can count.</p>
+        <div class="profile-stats">
+          <div class="profile-stat"><div class="profile-stat-num">20+</div><div class="profile-stat-label">Years visiting VN</div></div>
+          <div class="profile-stat"><div class="profile-stat-num">20+</div><div class="profile-stat-label">Trips &amp; counting</div></div>
+          <div class="profile-stat"><div class="profile-stat-num">40+</div><div class="profile-stat-label">Countries traveled</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ OUR PROMISE ═══════════════ -->
+<section class="promise-section">
+  <div class="promise-inner">
+    <div class="section-eyebrow">Our Promise</div>
+    <h2 class="section-title">What You'll Never Find Here</h2>
+    <p class="promise-text">We built this site because we got tired of Vietnam travel content that's secretly a press trip recap or a sponsored hotel review dressed up as honest advice. We don't want you to experience the same challenges we did — early on and even recently. Discover Vietnam exists because we wanted the resource we wished we had back in 2003.</p>
+    <div class="zero-grid">
+      <div class="zero-card reveal"><div class="zero-num coral">0</div><div class="zero-label">Sponsored posts<br><em>ever</em></div></div>
+      <div class="zero-card reveal"><div class="zero-num teal">0</div><div class="zero-label">Press trips or<br>free hotel stays</div></div>
+      <div class="zero-card reveal"><div class="zero-num gold">20+</div><div class="zero-label">Years of Vietnam<br>experience</div></div>
+      <div class="zero-card reveal"><div class="zero-num white-num">100%</div><div class="zero-label">Real prices in<br>VND &amp; USD</div></div>
+    </div>
+    <div class="promise-quote">If we recommend it, we've been there. If we list a price, we've paid it. If we tell you to skip something, we've wasted our own money there first. This is a truthful, fact-based site — and we want you to feel like you've experienced it with us.</div>
+  </div>
+</section>
+
+<!-- ═══════════════ WHAT WE'RE BUILDING ═══════════════ -->
+<section class="vision-section">
+  <div class="vision-inner">
+    <div class="vision-content">
+      <div class="section-eyebrow">What We're Building</div>
+      <h2 class="section-title">More Than a Travel Blog</h2>
+      <p class="vision-text">Discover Vietnam isn't a collection of "Top 10" listicles. It's a living resource built on 20+ years of real experience, local connections, and technology that actually helps you plan a better trip. Here's what makes it different:</p>
+      <ul class="vision-list">
+        <li><span class="v-icon">🎥</span> Video guides for select destinations &mdash; see the rice terraces, streets, and beaches before you book</li>
+        <li><span class="v-icon">🤖</span> An AI trip planner that builds custom itineraries with real prices, not hallucinated estimates</li>
+        <li><span class="v-icon">💰</span> Every price listed in both VND and USD, updated regularly based on what I actually pay</li>
+        <li><span class="v-icon">👥</span> Content informed by local friends and connections &mdash; real insights, not recycled hotel press releases</li>
+      </ul>
+      <div class="btn-row">
+        <a href="/plan/" class="btn-primary">✦ Try the AI Trip Planner</a>
+        <a href="/destinations/" class="btn-outline">Browse All Destinations</a>
+      </div>
+    </div>
+    <div class="vision-features">
+      <a href="/destinations/" class="v-feature reveal"><div class="v-feature-icon">🏝️</div><div class="v-feature-title">Destination Guides</div><div class="v-feature-desc">Deep dives into each island — not surface-level overviews, but neighborhood-level detail with real logistics.</div></a>
+      <div class="v-feature reveal"><div class="v-feature-icon">📹</div><div class="v-feature-title">Video Content</div><div class="v-feature-desc">Real footage from Hanoi, Ha Long Bay, Hoi An, Da Nang, and more &mdash; including select 360&deg; immersive video. See it before you go.</div></div>
+      <a href="/plan/" class="v-feature reveal"><div class="v-feature-icon">🗺️</div><div class="v-feature-title">AI Trip Planner</div><div class="v-feature-desc">Describe your dream trip and get a custom day-by-day itinerary built on 20+ years of real experience.</div></a>
+      <div class="v-feature reveal"><div class="v-feature-icon">📧</div><div class="v-feature-title">Itinerary Downloads</div><div class="v-feature-desc">PDF itineraries you can take offline &mdash; complete with maps, booking links, and insider tips from local connections.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EMAIL CTA ═══════════════ -->
+<section class="email-cta-section">
+  <div class="email-cta-inner">
+    <h2 class="section-title">Get the Guide Before Everyone Else</h2>
+    <p class="email-cta-desc">I'm building new destination guides, video content, and trip planner features every month. Drop your email and I'll send the good stuff first &mdash; no spam, no affiliate dumps, just real Vietnam travel intel from someone who actually goes there.</p>
+    <form class="email-form" onsubmit="event.preventDefault();">
+      <input type="email" class="email-input" placeholder="your@email.com" />
+      <button type="submit" class="btn-sand">Subscribe →</button>
+    </form>
+    <p class="email-note">We respect your inbox. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
+</script>
+
+<style>
+  /* ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ */
+  .about-hero {
+    padding: 160px 24px 100px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(165deg, #141C26 0%, #172830 30%, #1a3035 55%, #172830 75%, #141C26 100%);
+  }
+  .about-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .about-hero-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+    z-index: 0;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(20px, -15px); }
+    66% { transform: translate(-10px, 10px); }
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .about-hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-warm-gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+  }
+  .about-hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+  }
+  .about-hero h1 em {
+    color: var(--color-warm-gold);
+    font-style: italic;
+  }
+  .hero-intro {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.85;
+    font-weight: 300;
+    max-width: 620px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+  }
+  .hero-intro em {
+    color: var(--color-warm-gold);
+    font-style: italic;
+  }
+  .hero-line {
+    width: 1px;
+    height: 56px;
+    margin: 48px auto 0;
+    background: linear-gradient(to bottom, rgba(212,165,116,0.5), transparent);
+    opacity: 0;
+    animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) forwards 0.9s;
+  }
+  @keyframes heroUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════════════
+     PERSONAL LETTERS
+     ═══════════════════════════════════════════ */
+  .letter-section {
+    padding: 80px 24px 64px;
+    max-width: var(--content-lg);
+    margin: 0 auto;
+  }
+  .letter-block {
+    position: relative;
+    padding-left: 32px;
+    border-left: 2px solid #EBE4D8;
+    margin-bottom: 52px;
+    transition: border-color 0.5s ease;
+  }
+  .letter-block:hover { border-left-color: var(--color-ocean-teal); }
+  .letter-block:last-child { margin-bottom: 0; }
+  .letter-attr {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-warm-coral);
+    margin-bottom: 14px;
+  }
+  .letter-attr .attr-role {
+    color: #718096;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  .letter-text {
+    font-size: 1.02rem;
+    line-height: 2;
+    color: var(--color-deep-night);
+    font-weight: 300;
+  }
+  .letter-text strong { font-weight: 600; }
+  .letter-text em { font-style: italic; }
+
+  /* ═══════════════════════════════════════════
+     TIMELINE
+     ═══════════════════════════════════════════ */
+  .timeline-section {
+    padding: 80px 24px 100px;
+    background: var(--color-white);
+  }
+  .timeline-header {
+    text-align: center;
+    max-width: var(--content-lg);
+    margin: 0 auto 72px;
+  }
+  .section-eyebrow {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-warm-coral);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--color-deep-night);
+    line-height: 1.15;
+  }
+  .timeline {
+    max-width: var(--max-width, 1120px);
+    margin: 0 auto;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, #EBE4D8, var(--color-ocean-teal), var(--color-warm-coral), var(--color-warm-gold), #EBE4D8);
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 64px;
+    position: relative;
+    align-items: center;
+  }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 3px solid var(--color-ocean-teal);
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+  .tl-item:hover .tl-dot {
+    background: var(--color-warm-coral);
+    border-color: var(--color-warm-coral);
+    transform: translate(-50%, -50%) scale(1.35);
+    box-shadow: 0 0 0 6px rgba(232,101,74,0.15);
+  }
+  .tl-year {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: #EBE4D8;
+    line-height: 1;
+    transition: color 0.5s ease;
+  }
+  .tl-item:hover .tl-year { color: var(--color-ocean-teal); }
+  .tl-content { max-width: 420px; }
+  .tl-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: var(--color-deep-night);
+    margin-bottom: 10px;
+  }
+  .tl-text {
+    font-size: 0.88rem;
+    color: var(--color-slate);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .tl-item:nth-child(odd) .tl-year-side { text-align: right; }
+  .tl-item:nth-child(odd) .tl-content-side { text-align: left; padding-left: 12px; }
+  .tl-item:nth-child(even) { direction: rtl; }
+  .tl-item:nth-child(even) > * { direction: ltr; }
+  .tl-item:nth-child(even) .tl-year-side { text-align: right; }
+  .tl-item:nth-child(even) .tl-content-side { text-align: left; padding-left: 12px; }
+
+  /* ═══════════════════════════════════════════
+     PROFILE CARDS
+     ═══════════════════════════════════════════ */
+  .profiles-section {
+    padding: 100px 24px;
+    background: var(--color-sand);
+  }
+  .profiles-header {
+    text-align: center;
+    max-width: var(--content-lg);
+    margin: 0 auto 56px;
+  }
+  .profiles-grid {
+    max-width: var(--max-width, 1120px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .profile-card {
+    background: var(--color-white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(26,35,50,0.08);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 48px rgba(26,35,50,0.14);
+  }
+  .profile-banner { height: 200px; position: relative; overflow: hidden; }
+  .profile-banner-bg { position: absolute; inset: 0; transition: transform 0.8s ease; }
+  .profile-card:hover .profile-banner-bg { transform: scale(1.08); }
+  .profile-banner.scott {
+    background: linear-gradient(135deg, #0c3547 0%, #0D7377 40%, #14B8A6 70%, #38D9A9 100%);
+  }
+  /* reserve for future team member banner */
+  .profile-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle 80px at 25% 35%, rgba(255,255,255,0.06), transparent),
+      radial-gradient(circle 60px at 75% 65%, rgba(255,255,255,0.04), transparent);
+  }
+  .profile-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 4px solid var(--color-white);
+    margin: -48px auto 0;
+    position: relative;
+    z-index: 2;
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease;
+  }
+  .profile-card:hover .profile-avatar { transform: scale(1.08); }
+  .profile-avatar.scott-av { background: linear-gradient(135deg, #0D7377, #14B8A6); }
+  /* reserve for future team member avatar */
+  .profile-body { padding: 20px 32px 32px; text-align: center; }
+  .profile-name {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--color-deep-night);
+    margin-bottom: 4px;
+  }
+  .profile-role {
+    font-size: 0.76rem;
+    color: #718096;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .profile-bio {
+    font-size: 0.86rem;
+    color: var(--color-slate);
+    line-height: 1.85;
+    font-weight: 300;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-sand);
+  }
+  .profile-stat { text-align: center; }
+  .profile-stat-num {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--color-deep-night);
+  }
+  .profile-stat-label {
+    font-size: 0.63rem;
+    color: #718096;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* ═══════════════════════════════════════════
+     OUR PROMISE
+     ═══════════════════════════════════════════ */
+  .promise-section {
+    padding: 100px 24px;
+    background: var(--color-deep-night);
+    position: relative;
+    overflow: hidden;
+  }
+  .promise-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(13,115,119,0.05), transparent 55%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .promise-section::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(232,101,74,0.04), transparent 55%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .promise-inner {
+    max-width: var(--content-lg);
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .promise-inner .section-eyebrow { color: var(--color-warm-gold); }
+  .promise-inner .section-title { color: white; margin-bottom: 32px; }
+  .promise-text {
+    font-size: 1.02rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.95;
+    font-weight: 300;
+    margin-bottom: 56px;
+  }
+  .zero-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 56px;
+  }
+  .zero-card {
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px 16px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .zero-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.12);
+    transform: translateY(-5px);
+  }
+  .zero-num {
+    font-family: var(--font-serif);
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .zero-num.coral { color: var(--color-warm-coral); }
+  .zero-num.teal { color: #11969B; }
+  .zero-num.gold { color: var(--color-warm-gold); }
+  .zero-num.white-num { color: white; }
+  .zero-label {
+    font-size: 0.76rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  .promise-quote {
+    font-family: var(--font-serif);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-style: italic;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.55;
+    max-width: 580px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 24px;
+  }
+  .promise-quote::before {
+    content: '\201C';
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    color: var(--color-warm-coral);
+    opacity: 0.25;
+    position: absolute;
+    top: -28px;
+    left: -8px;
+    line-height: 1;
+  }
+
+  /* ═══════════════════════════════════════════
+     WHAT WE'RE BUILDING
+     ═══════════════════════════════════════════ */
+  .vision-section {
+    padding: 100px 24px;
+    background: var(--color-white);
+  }
+  .vision-inner {
+    max-width: var(--max-width, 1120px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .vision-content .section-eyebrow { text-align: left; }
+  .vision-content .section-title { text-align: left; margin-bottom: 20px; }
+  .vision-text {
+    font-size: 0.93rem;
+    color: var(--color-slate);
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .vision-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .vision-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.88rem;
+    color: var(--color-slate);
+    font-weight: 400;
+    line-height: 1.65;
+  }
+  .vision-list li .v-icon { flex-shrink: 0; margin-top: 2px; font-size: 1rem; }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-warm-coral);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.93rem;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+  .btn-primary:hover {
+    background: #D4553B;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232,101,74,0.25);
+  }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--color-ocean-teal);
+    padding: 14px 32px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.93rem;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    border: 2px solid var(--color-ocean-teal);
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+  .btn-outline:hover {
+    background: var(--color-ocean-teal);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(13,115,119,0.2);
+  }
+  .btn-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .vision-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .v-feature {
+    background: var(--color-sand);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .v-feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 24px rgba(26,35,50,0.08);
+    border-color: #EBE4D8;
+  }
+  .v-feature-icon { font-size: 1.5rem; margin-bottom: 10px; }
+  .v-feature-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-deep-night);
+    margin-bottom: 6px;
+  }
+  .v-feature-desc {
+    font-size: 0.76rem;
+    color: var(--color-slate);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ═══════════════════════════════════════════
+     EMAIL CTA
+     ═══════════════════════════════════════════ */
+  .email-cta-section {
+    padding: 80px 24px;
+    background: var(--color-ocean-teal);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .email-cta-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .email-cta-inner {
+    max-width: 560px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .email-cta-inner .section-title { color: white; margin-bottom: 12px; }
+  .email-cta-desc {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.93rem;
+    font-weight: 300;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+  .email-form { display: flex; gap: 12px; }
+  .email-input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    background: rgba(255,255,255,0.95);
+    color: var(--color-deep-night);
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .email-input:focus { border-color: var(--color-warm-coral); }
+  .email-input::placeholder { color: #A0AEC0; }
+  .btn-sand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--color-warm-coral);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+  }
+  .btn-sand:hover {
+    background: #D4553B;
+    transform: translateY(-1px);
+  }
+  .email-note {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.45);
+    margin-top: 12px;
+  }
+
+  /* ═══════════════════════════════════════════
+     REVEAL + RESPONSIVE
+     ═══════════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .timeline::before { left: 24px; }
+    .tl-item { grid-template-columns: 1fr; gap: 8px; padding-left: 56px; }
+    .tl-item:nth-child(even) { direction: ltr; }
+    .tl-item:nth-child(odd) .tl-year-side,
+    .tl-item:nth-child(even) .tl-year-side { text-align: left; }
+    .tl-dot { left: 24px; }
+    .tl-year { font-size: 2.2rem; }
+    .profiles-grid { grid-template-columns: 1fr; }
+    .vision-inner { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .zero-grid { grid-template-columns: 1fr 1fr; }
+    .email-form { flex-direction: column; }
+    .btn-row { justify-content: center; }
+    .vision-features { grid-template-columns: 1fr; }
+    .about-hero { padding: 130px 24px 80px; }
+    .profiles-section { padding: 64px 24px; }
+    .promise-section { padding: 64px 24px; }
+    .vision-section { padding: 64px 24px; }
+  }
+</style>

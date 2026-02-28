@@ -1,0 +1,52 @@
+/**
+ * Shared video map for destination cards.
+ * Maps destination slugs to video file paths (preview preferred, hero as fallback).
+ * Used by: src/pages/index.astro, src/pages/destinations/index.astro
+ */
+export const destinationVideoMap: Record<string, string> = {
+  // Destinations with preview clips (smaller, optimized for card hover)
+  siquijor: '/videos/destinations/siquijor-preview.mp4',
+  bohol: '/videos/destinations/bohol-preview.mp4',
+  dumaguete: '/videos/destinations/dumaguete-preview.mp4',
+  cebu: '/videos/destinations/cebu-preview.mp4',
+  boracay: '/videos/destinations/boracay-preview.mp4',
+  bacolod: '/videos/destinations/bacolod-preview.mp4',
+  camiguin: '/videos/destinations/camiguin-preview.mp4',
+  caramoan: '/videos/destinations/caramoan-preview.mp4',
+  coron: '/videos/destinations/coron-preview.mp4',
+  davao: '/videos/destinations/davao-preview.mp4',
+  donsol: '/videos/destinations/donsol-preview.mp4',
+  'el-nido': '/videos/destinations/el-nido-preview.mp4',
+  iloilo: '/videos/destinations/iloilo-preview.mp4',
+  legazpi: '/videos/destinations/legazpi-preview.mp4',
+  malapascua: '/videos/destinations/malapascua-preview.mp4',
+  manila: '/videos/destinations/manila-preview.mp4',
+  'puerto-princesa': '/videos/destinations/puerto-princesa-preview.mp4',
+  sagada: '/videos/destinations/sagada-preview.mp4',
+  siargao: '/videos/destinations/siargao-preview.mp4',
+  tagaytay: '/videos/destinations/tagaytay-preview.mp4',
+  vigan: '/videos/destinations/vigan-preview.mp4',
+  laoag: '/videos/destinations/laoag-preview.mp4',
+  // Destinations with hero video only (no preview yet)
+  banaue: '/videos/destinations/banaue-hero.mp4',
+  batangas: '/videos/destinations/batangas-hero.mp4',
+  'la-union': '/videos/destinations/la-union-hero.mp4',
+  pagudpud: '/videos/destinations/pagudpud-hero.mp4',
+  samar: '/videos/destinations/samar-hero.mp4',
+  sipalay: '/videos/destinations/sipalay-hero.mp4',
+  subic: '/videos/destinations/subic-hero.mp4',
+  tacloban: '/videos/destinations/tacloban-hero.mp4',
+  biliran: '/videos/destinations/biliran-hero.mp4',
+  guimaras: '/videos/destinations/guimaras-hero.mp4',
+  laguna: '/videos/destinations/laguna-hero.mp4',
+  'puerto-galera': '/videos/destinations/puerto-galera-hero.mp4',
+  clark: '/videos/destinations/clark-hero.mp4',
+  batanes: '/videos/destinations/batanes-hero.mp4',
+  zambales: '/videos/destinations/zambales-hero.mp4',
+  baler: '/videos/destinations/baler-hero.mp4',
+  cuyo: '/videos/destinations/cuyo-hero.mp4',
+  baguio: '/videos/destinations/baguio-hero.mp4',
+  bataan: '/videos/destinations/bataan-hero.mp4',
+  marinduque: '/videos/destinations/marinduque-hero.mp4',
+  'mt-pulag': '/videos/destinations/mt-pulag-hero.mp4',
+} as const;

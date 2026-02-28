@@ -1,0 +1,148 @@
+---
+interface Props {
+  name: string;
+  type: 'hotel' | 'restaurant' | 'tour' | 'activity';
+  price: string;
+  priceNote?: string;
+  personalNote: string;
+  affiliateUrl?: string;
+  badge?: string;
+  photo?: string;
+}
+
+const {
+  name,
+  type,
+  price,
+  priceNote,
+  personalNote,
+  affiliateUrl = '#',
+  badge,
+  photo,
+} = Astro.props;
+
+const ctaText = type === 'hotel' ? 'Check Availability' : type === 'restaurant' ? 'View Details' : 'View Details';
+---
+
+<div class="pick-card">
+  {photo && (
+    <div class="pick-card-img">
+      <img src={photo} alt={name} loading="lazy" width="320" height="180" />
+    </div>
+  )}
+  {badge && <span class="pick-card-badge">{badge}</span>}
+  <div class="pick-card-body">
+    <div class="pick-card-type">{type}</div>
+    <h4 class="pick-card-name">{name}</h4>
+    <div class="pick-card-price">
+      {price}
+      {priceNote && <span class="pick-card-price-note">{priceNote}</span>}
+    </div>
+    <p class="pick-card-note">{personalNote}</p>
+    <a href={affiliateUrl} class="pick-card-cta" target={affiliateUrl !== '#' ? '_blank' : undefined} rel={affiliateUrl !== '#' ? 'noopener sponsored' : undefined}>
+      {ctaText}
+    </a>
+  </div>
+</div>
+
+<style>
+  .pick-card {
+    position: relative;
+    background: var(--color-white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .pick-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .pick-card-img {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+
+  .pick-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pick-card-badge {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    background: var(--color-warm-coral);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: var(--weight-bold);
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    z-index: 1;
+  }
+
+  .pick-card-body {
+    padding: var(--space-5);
+  }
+
+  .pick-card-type {
+    font-size: 0.65rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ocean-teal);
+    margin-bottom: var(--space-1);
+  }
+
+  .pick-card-name {
+    font-size: 1.05rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-heading);
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+  }
+
+  .pick-card-price {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin-bottom: var(--space-2);
+  }
+
+  .pick-card-price-note {
+    font-size: 0.78rem;
+    font-weight: var(--weight-regular);
+    color: var(--color-slate);
+    margin-left: 4px;
+  }
+
+  .pick-card-note {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--color-slate);
+    line-height: 1.5;
+    margin-bottom: var(--space-4);
+  }
+
+  .pick-card-cta {
+    display: inline-block;
+    padding: var(--space-2) var(--space-5);
+    background: var(--color-ocean-teal);
+    color: white;
+    font-size: 0.82rem;
+    font-weight: var(--weight-semibold);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .pick-card-cta:hover {
+    background: var(--color-link-hover);
+  }
+</style>

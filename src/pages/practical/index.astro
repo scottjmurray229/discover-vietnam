@@ -1,0 +1,821 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Travel Tips', url: '/practical/' },
+];
+
+const pageTitle = 'Vietnam Travel Tips — Visa, Money, Transport & Safety Guide 2026';
+const pageDescription = 'Everything you need before your first (or tenth) trip to Vietnam — visa rules, ATMs, SIM cards, transport, safety, packing, and cultural etiquette.';
+
+interface TopicSection {
+  id: string;
+  icon: string;
+  title: string;
+  gradient: string;
+  video?: string;
+  items: { label: string; text: string }[];
+}
+
+const topics: TopicSection[] = [
+  {
+    id: 'visa',
+    icon: '🛂',
+    title: 'Visa & Entry Requirements',
+    gradient: 'linear-gradient(135deg, #1565C0 0%, #42A5F5 100%)',
+    video: '/videos/pillar/practical-break-visa.mp4',
+    items: [
+      { label: '45-Day Visa-Free', text: 'Citizens of 13 countries (including USA, UK, France, Germany, Italy, Spain, Japan, South Korea) can enter Vietnam visa-free for up to 45 days. You need a passport valid for at least 6 months and a return or onward ticket.' },
+      { label: 'E-Visa for Everyone Else', text: 'Citizens of all countries can apply for a 90-day single-entry e-visa online at evisa.xuatnhapcanh.gov.vn. Costs $25 USD, takes 3 business days. Print the approval letter before your flight. You can also get a visa on arrival with a pre-arranged approval letter, but e-visa is simpler.' },
+      { label: 'Documents to Carry', text: 'Always lock your passport in your hotel safe when you\'re out exploring — carry a photocopy on your phone or on paper instead. Hotels will ask for your passport at check-in for registration, but after that it should stay locked up. Carry your passport on travel days between cities.' },
+      { label: 'Customs Declaration', text: 'Fill out the customs and health declaration form on the plane or at the immigration kiosk. It takes about 5 minutes. Vietnam immigration is generally fast and efficient at major airports like Tan Son Nhat (HCMC), Noi Bai (Hanoi), and Da Nang.' },
+      { label: 'Global Entry / SENTRI', text: 'If you\'re a US citizen, get Global Entry before your trip — it\'s about $120 for five years and worth every penny. The real payoff is coming home through any US international airport. After 15+ hours of travel, multiple jumbo jets land at the same time and the immigration line is massive. Global Entry gets you through in minutes instead of an hour-plus. It pays for itself after two trips.' },
+    ],
+  },
+  {
+    id: 'money',
+    icon: '💰',
+    title: 'Money & ATMs',
+    gradient: 'linear-gradient(135deg, #2E7D32 0%, #66BB6A 100%)',
+    video: '/videos/pillar/practical-break-money.mp4',
+    items: [
+      { label: 'ATM Strategy', text: 'Use bank ATMs from Vietcombank, BIDV, Agribank, or Techcombank for the best rates and lowest fees. Most ATMs dispense up to 3,000,000–5,000,000 VND per transaction. Withdrawal fees range from 22,000–55,000 VND ($1–2 USD). Store extra cash in your hotel safe. Some US banks reimburse ATM fees — I use a Fidelity Cash Management card exclusively over there and never pay a fee.' },
+      { label: 'Split Your Cards', text: 'ALWAYS bring two or three ATM cards and credit cards on your trip. Only carry one of each when you go out — keep the backups locked in your hotel safe. Vietnam is very safe, but things fall out of pockets, bags get left behind, and if you lose your only card, your trip is over. I learned this the hard way.' },
+      { label: 'Cash Is King', text: 'Outside Hanoi, Ho Chi Minh City, and major tourist hubs, many restaurants, motorbike taxis, markets, and guesthouses are cash-only. Always carry enough dong to cover 2–3 days of expenses, especially in rural areas and smaller towns.' },
+      { label: 'Digital Payments', text: 'Vietnam is rapidly going cashless in cities. Many shops and restaurants accept bank transfers via QR code. MoMo and ZaloPay are the dominant mobile wallets, but they require a Vietnamese bank account to fully use. Visa and Mastercard work at most hotels, upscale restaurants, and tourist businesses.' },
+      { label: 'Daily Budget Ranges', text: 'Backpacker: 500,000–800,000 VND/day ($20–32 USD) — hostels, street food, public transport. Mid-range: 1,500,000–3,000,000 VND/day ($60–120 USD) — hotels, restaurants, private tours. Luxury: 5,000,000+ VND/day ($200+ USD) — resorts, fine dining, private cars.' },
+      { label: 'Exchange Tips', text: 'Change money at licensed gold shops (tiem vang) or banks for the best rates — gold shops in Hanoi\'s Old Quarter and HCMC\'s District 1 typically offer better rates than banks. Airport exchange counters have poor rates. US dollars get the best exchange rates. Never exchange money with street changers.' },
+    ],
+  },
+  {
+    id: 'transport',
+    icon: '✈️',
+    title: 'Getting Around',
+    gradient: 'linear-gradient(135deg, #E65100 0%, #FF9800 100%)',
+    video: '/videos/pillar/practical-break-transport.mp4',
+    items: [
+      { label: 'Domestic Flights', text: 'VietJet Air, Vietnam Airlines, and Bamboo Airways connect Hanoi, Ho Chi Minh City, and Da Nang to 20+ domestic airports. Book 2–4 weeks ahead for the best prices. One-way flights start at 500,000–1,500,000 VND ($20–60 USD). VietJet often has flash sales with fares under $10.' },
+      { label: 'Reunification Express Train', text: 'Vietnam\'s iconic railway runs 1,726 km from Hanoi to Ho Chi Minh City, stopping at Hue, Da Nang, Nha Trang, and other cities. Soft sleeper berths cost 800,000–1,200,000 VND ($32–48 USD) for the full journey. Book at the station or through 12Go Asia. The Hai Van Pass stretch between Hue and Da Nang is one of the most scenic rail journeys in Southeast Asia.' },
+      { label: 'Sleeper Buses', text: 'Long-distance sleeper buses connect major cities for 200,000–500,000 VND ($8–20 USD). Operators like The Sinh Tourist, Futa Bus, and Hoang Long run comfortable reclining-bed buses with AC and blankets. Overnight routes save a hotel night. Book through your hotel or at bus company offices — avoid touts at bus stations.' },
+      { label: 'Grab & Ride-Hailing', text: 'Download the Grab app before your trip and add your international credit card when you land. Grab works well in Hanoi, Ho Chi Minh City, Da Nang, Nha Trang, and most major cities — metered fares, no haggling, air-conditioned cars. GrabBike (motorcycle taxi) is cheaper and faster in traffic. Be and Xanh SM are local alternatives. Not available in smaller towns.' },
+      { label: 'Motorbike Rental', text: 'Available everywhere for 100,000–200,000 VND/day ($4–8 USD) for semi-automatic scooters. An international driving permit (IDP) with motorcycle endorsement is technically required. Helmets are mandatory. Traffic in Hanoi and HCMC is intense — only ride if you\'re experienced. In smaller towns like Hoi An, Da Lat, and Phong Nha, renting a motorbike is the best way to explore. Important: rental shops may ask to hold your passport as a deposit — never hand it over. Offer a photocopy instead and walk away if they insist.' },
+      { label: 'Boats & Cruises', text: 'Ha Long Bay overnight cruises range from 1,500,000–5,000,000 VND ($60–200 USD) per person. Mekong Delta day trips from Can Tho or HCMC cost 300,000–800,000 VND ($12–32 USD). Speedboats to islands like Cat Ba, Phu Quoc, and the Con Dao islands run on fixed schedules — book through your hotel or at the port.' },
+    ],
+  },
+  {
+    id: 'connectivity',
+    icon: '📱',
+    title: 'SIM Cards & Connectivity',
+    gradient: 'linear-gradient(135deg, #6A1B9A 0%, #AB47BC 100%)',
+    video: '/videos/pillar/practical-break-connectivity.mp4',
+    items: [
+      { label: 'You Probably Don\'t Need a Local SIM', text: 'Most US carriers now include free data and texting in Vietnam — T-Mobile, Google Fi, and AT&T International Day Pass all work. Calls are usually $0.20/minute, but don\'t call anyone unless it\'s an emergency. Install WhatsApp and Zalo before your trip — Zalo is how Vietnamese people communicate and how you\'ll message hotels, tour operators, and drivers.' },
+      { label: 'eSIM & Local SIMs', text: 'Most newer phones are eSIM only, so you can\'t pop in a physical SIM anyway. If your carrier doesn\'t cover Vietnam, grab a Viettel, Mobifone, or Vinaphone eSIM through their app or buy a tourist SIM at Tan Son Nhat, Noi Bai, or Da Nang airport for 100,000–200,000 VND ($4–8 USD) with 10–30 GB of data. SIM registration requires your passport.' },
+      { label: 'Data Coverage', text: '4G/LTE works in most cities and tourist areas. 5G is expanding in Hanoi and Ho Chi Minh City. Viettel has the widest coverage nationwide, including rural areas; Mobifone and Vinaphone are strong in cities. Top up via convenience stores (Circle K, Ministop) or the carrier\'s app — packages run 50,000–200,000 VND ($2–8 USD) for 3–30 GB.' },
+      { label: 'WiFi Reliability', text: 'Hotel and cafe WiFi is generally excellent in cities and major tourist areas (10–50 Mbps). Vietnam has some of the best cafe WiFi in Southeast Asia. Remote mountain towns and islands can be slow or unavailable. Your mobile data is the backup plan — and the reason I always make sure my US carrier coverage is sorted before I land.' },
+    ],
+  },
+  {
+    id: 'safety',
+    icon: '🏥',
+    title: 'Safety & Health',
+    gradient: 'linear-gradient(135deg, #C62828 0%, #EF5350 100%)',
+    video: '/videos/pillar/practical-break-safety.mp4',
+    items: [
+      { label: 'Travel Insurance', text: 'Non-negotiable. Get a policy that covers medical evacuation — the best hospitals are in Hanoi and Ho Chi Minh City, and a medevac flight from a remote area can cost $10,000+. I use <a href="https://safetywing.com/?referenceID=24858745&utm_source=24858745&utm_medium=Ambassador" target="_blank" rel="noopener sponsored">SafetyWing</a> for every trip — it\'s affordable, covers nomads and short-trippers alike, and you can sign up even after you\'ve left home. I\'ve thankfully never had to file a claim, but having it is peace of mind every time I board that plane.' },
+      { label: 'Tap Water', text: 'Don\'t drink tap water anywhere in Vietnam. Bottled water costs 5,000–10,000 VND ($0.20–0.40 USD) and is available everywhere. Ice in restaurants and cafes is almost always purified (tubular or hollow ice is safe; irregular chunks may not be). Vietnamese iced coffee is safe at any established cafe.' },
+      { label: 'Hospitals & Clinics', text: 'Major cities have quality private hospitals: Vinmec International Hospital and Family Medical Practice (Hanoi and HCMC), FV Hospital (HCMC), and Da Nang Family Hospital (Da Nang). Smaller towns and remote areas may only have basic clinics — another reason for medevac insurance.' },
+      { label: 'Dengue & Mosquitoes', text: 'Dengue is present year-round, especially during rainy season (May–Nov). Use mosquito repellent with DEET, wear long sleeves at dusk, and choose accommodation with screens or air conditioning. No vaccine is widely recommended for travelers.' },
+      { label: 'Rainy Season & Weather', text: 'Vietnam\'s weather varies by region. The north (Hanoi, Sapa, Ha Long Bay) has a cool winter from November to March. Central Vietnam (Hue, Hoi An, Da Nang) gets heaviest rain in October–December. The south (HCMC, Mekong Delta, Phu Quoc) has rainy season from May to November. Monitor weather via nchmf.gov.vn and airline alerts. Always have buffer days in your itinerary.' },
+      { label: 'General Safety', text: 'Vietnam is generally very safe for tourists. Use common sense: avoid flashing expensive items, be careful crossing streets (traffic is intense), and keep valuables in a hotel safe. Bag-snatching by motorbike is the main risk in HCMC — carry bags on the building side of the sidewalk, not the street side.' },
+    ],
+  },
+  {
+    id: 'packing',
+    icon: '🎒',
+    title: 'Packing Essentials',
+    gradient: 'linear-gradient(135deg, #78350F 0%, #D97706 100%)',
+    video: '/videos/pillar/practical-break-packing.mp4',
+    items: [
+      { label: 'Reef-Safe Sunscreen', text: 'Many marine sanctuaries now require reef-safe sunscreen (no oxybenzone or octinoxate). Bring your own — it\'s expensive and hard to find locally. I use <a href="https://www.amazon.com/dp/B07PKWHTR1?tag=discovervn-20" target="_blank" rel="nofollow sponsored">this reef-safe SPF 50+</a>; you will burn faster than you expect near the equator.' },
+      { label: 'Mosquito Repellent', text: 'Bring <a href="https://www.amazon.com/dp/B004H89KFC?tag=discovervn-20" target="_blank" rel="nofollow sponsored">DEET-based repellent</a> (40% concentration or higher). Local brands like OFF! are available but international brands with higher concentrations work better. Essential for evenings and island stays.' },
+      { label: 'Waterproof Dry Bag', text: 'An <a href="https://www.amazon.com/dp/B0BKQGXYQ9?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Osprey ultralight dry bag</a> (10–20L) protects your phone, wallet, and camera during island-hopping, boat rides, and sudden downpours. You\'ll use this every single day.' },
+      { label: 'Power & Voltage Warning', text: 'Vietnam uses Type A, Type C, and Type F plugs at 220V — NOT 110V like the US. Your phone chargers and laptops are dual-voltage and will work fine. Do NOT bring any appliances — I plugged in a Keurig and it popped the circuit breaker instantly. Hair dryers, curling irons, and anything with a heating element will fry unless it\'s rated 110–240V. Bring a <a href="https://www.amazon.com/dp/B0CXD881LN?tag=discovervn-20" target="_blank" rel="nofollow sponsored">travel power strip with USB ports</a> and a universal adapter.' },
+      { label: 'Rain Jacket or Poncho', text: 'Even in dry season, afternoon showers happen. A <a href="https://www.amazon.com/dp/B0CLR8QXKW?tag=discovervn-20" target="_blank" rel="nofollow sponsored">lightweight packable rain jacket</a> beats an umbrella for island-hopping and hiking. During wet season (Jun–Nov), rain is a daily certainty.' },
+      { label: 'Footwear', text: 'Skip the flip-flops for walking around town — sidewalks can be uneven and one stubbed toe can ruin your day. <a href="https://www.amazon.com/dp/B097755RHH?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Closed-toe Crocs</a> or <a href="https://www.amazon.com/dp/B002Y25BSS?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Keen Newport sandals</a> are what I wear daily. Save the flip-flops for the beach and hotel. For waterfall hikes, rocky shores, and wet boat landings, strapped sandals work well. Closed-toe hiking shoes for volcano treks and mountain trails.' },
+      { label: 'First Aid & Hydration', text: 'Pack a <a href="https://www.amazon.com/dp/B0DB794BKQ?tag=discovervn-20" target="_blank" rel="nofollow sponsored">small first aid kit</a> — bandages, antiseptic, Imodium, and pain relievers. Bring <a href="https://www.amazon.com/dp/B0DK26RFG4?tag=discovervn-20" target="_blank" rel="nofollow sponsored">electrolyte tablets</a> for dehydration — the heat and humidity will drain you faster than you think. I always keep a bottle of Gatorade in the hotel fridge. You can buy Gatorade and Pocari Sweat at any 7-Eleven or convenience store across the country.' },
+      { label: 'Clothing & Sun Protection', text: 'Pack lightweight <a href="https://www.amazon.com/dp/B0DQC8QTPL?tag=discovervn-20" target="_blank" rel="nofollow sponsored">UV-rated rashguards</a> and a <a href="https://www.amazon.com/dp/B08DYFR4PN?tag=discovervn-20" target="_blank" rel="nofollow sponsored">cooling UV hat</a> — the equatorial sun is no joke and you\'ll be outside all day. <a href="https://www.amazon.com/dp/B0B1LHFCBP?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Cargo shorts</a> are a must. My cargo short system is battle-tested: loose dongs in front right pocket, large bills in right cargo pocket, one credit card in front left, phone in left cargo. You don\'t want to be pulling out a money clip to buy a dollar beer.' },
+      { label: 'Swim & Snorkel Gear', text: 'Bring 2–3 <a href="https://www.amazon.com/dp/B0CLQRX346?tag=discovervn-20" target="_blank" rel="nofollow sponsored">swim trunks with pockets</a> so they can dry between days — nothing worse than putting on a wet suit in the morning. Grab a <a href="https://www.amazon.com/dp/B0DZXJPX6X?tag=discovervn-20" target="_blank" rel="nofollow sponsored">water wallet</a> for cash and your room key, and keep your phone dry in a <a href="https://www.amazon.com/dp/B079HV3TC9?tag=discovervn-20" target="_blank" rel="nofollow sponsored">waterproof phone pouch</a>. Bring your own mask and snorkel — the rental masks at most places are scratched and leak. I use the <a href="https://www.amazon.com/dp/B001PR12QI?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Cressi Big Eyes Evolution mask</a> and <a href="https://www.amazon.com/dp/B007MAKHUO?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Cressi Supernova dry snorkel</a> . You can rent fins anywhere. Pack <a href="https://www.amazon.com/dp/B0DSG9CH7W?tag=discovervn-20" target="_blank" rel="nofollow sponsored">water shoes</a> for snorkeling and rocky beaches.' },
+      { label: 'Plane Outfit & Layers', text: 'Wear a <a href="https://www.amazon.com/dp/B0CHMSD8S2?tag=discovervn-20" target="_blank" rel="nofollow sponsored">tracksuit or sweatsuit</a> on the plane — the flight is 15+ hours and the cabin gets cold. It also doubles as your cool-weather layer for mountain destinations like Sapa, Da Lat, and Ha Giang where temps drop into the 50s–60s°F at night. Bring a <a href="https://www.amazon.com/dp/B079X4S4DQ?tag=discovervn-20" target="_blank" rel="nofollow sponsored">Cabeau travel pillow</a> for the flight — worth every penny on a Hanoi red-eye.' },
+      { label: 'Packing & Day Bag', text: 'Use <a href="https://www.amazon.com/dp/B014VBI5MS?tag=discovervn-20" target="_blank" rel="nofollow sponsored">packing cubes</a> to organize your bag — one for clean clothes, one for dirty, one for swim gear. You\'ll be living out of your suitcase and moving between islands constantly. For daily exploring, a <a href="https://www.amazon.com/dp/B0DKTBMFZJ?tag=discovervn-20" target="_blank" rel="nofollow sponsored">crossbody sling bag</a> keeps your essentials accessible and secure — phone, cash, sunscreen, and water bottle all within reach without a bulky backpack.' },
+    ],
+  },
+  {
+    id: 'culture',
+    icon: '🇻🇳',
+    title: 'Language & Cultural Etiquette',
+    gradient: 'linear-gradient(135deg, #0D7377 0%, #14B8A6 100%)',
+    video: '/videos/pillar/practical-break-culture.mp4',
+    items: [
+      { label: 'Basic Vietnamese', text: '"Cam on" (thank you), "Xin chao" (hello), "Bao nhieu?" (how much?), "Ngon qua!" (delicious!), "Bia" (beer), "Nuoc" (water), "Nha ve sinh" (restroom), "Khong" (no). Even a few words earn massive goodwill and genuine smiles.' },
+      { label: 'Addressing People Respectfully', text: 'Vietnamese culture has a built-in respect system through pronouns. Call older men "Anh" (older brother) and older women "Chi" (older sister). Adding "cam on" (thank you) to interactions goes a long way. It\'s one of the most important cultural signals in Vietnam &mdash; local friends drilled this into me from day one.' },
+      { label: 'Tipping Norms', text: 'Tipping isn\'t mandatory but is appreciated. 10% at restaurants if no service charge is added (check the bill). 20,000–50,000 VND for hotel staff, 100,000–200,000 VND for tour guides, round up for Grab drivers. Vietnamese people remember generous tippers.' },
+      { label: 'Temple & Pagoda Dress Codes', text: 'Cover shoulders and knees when visiting temples and pagodas &mdash; Vietnam is predominantly Buddhist and these are active places of worship. Remove shoes before entering any temple or home. Some historical sites also require modest dress.' },
+      { label: 'Vietnamese Hospitality', text: 'Vietnamese people are famously warm and welcoming. Don\'t be surprised if strangers invite you to share a meal, offer directions, or go out of their way to help. Accepting food or invitations (even briefly) is polite and builds genuine connections.' },
+      { label: 'Language', text: 'Vietnamese is the national language and uses the Latin alphabet with tonal marks. English is increasingly spoken in cities and tourist areas, especially by younger people. In rural areas, a translation app and pointing will get you through most situations.' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  pageType="destination"
+  schemaData={{ title: pageTitle, description: pageDescription }}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="prac-hero">
+    <video class="prac-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/pillar/practical-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="prac-hero-gradient"></div>
+    <div class="prac-hero-noise"></div>
+    <div class="prac-hero-content">
+      <h1 class="prac-hero-title">Vietnam Travel Essentials</h1>
+      <p class="prac-hero-subtitle">Visa rules, ATM strategy, transport cheat sheets, SIM cards, safety tips, packing lists, and the cultural etiquette that turns a good trip into a great one.</p>
+      <div class="prac-hero-meta">
+        <div class="prac-hero-meta-item">
+          <span class="prac-hero-meta-label">Topics</span>
+          <span class="prac-hero-meta-value">7</span>
+        </div>
+        <div class="prac-hero-meta-item">
+          <span class="prac-hero-meta-label">Updated</span>
+          <span class="prac-hero-meta-value">Feb 2026</span>
+        </div>
+        <div class="prac-hero-meta-item">
+          <span class="prac-hero-meta-label">Trips</span>
+          <span class="prac-hero-meta-value">25+</span>
+        </div>
+      </div>
+    </div>
+    <div class="prac-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Personal intro -->
+  <section class="prac-personal reveal">
+    <div class="container-content">
+      <blockquote class="prac-personal-quote">
+        <p>I've made every mistake in this guide at least once &mdash; from running out of cash in a remote village to getting on the wrong bus in Hanoi. After 20+ trips, I've figured out the practical side of Vietnamese travel so you don't have to learn the hard way. This is the cheat sheet I wish someone had handed me in 2003.</p>
+        <cite>&mdash; Scott</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Quick Nav -->
+  <section class="prac-quicknav reveal">
+    <div class="container-content">
+      <div class="prac-quicknav-grid">
+        {topics.map((t) => (
+          <a href={`#${t.id}`} class="prac-quicknav-chip">
+            <span class="prac-quicknav-icon">{t.icon}</span>
+            <span class="prac-quicknav-label">{t.title.split(' ').slice(0, 2).join(' ')}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Topic Sections -->
+  {topics.map((topic) => (
+    <section class="prac-topic reveal" id={topic.id}>
+      <div class="container-content">
+        <div class="prac-topic-header" style={`background: ${topic.gradient};`}>
+          {topic.video && (
+            <video class="prac-topic-video" autoplay muted loop playsinline preload="none">
+              <source src={topic.video} type="video/mp4" />
+            </video>
+          )}
+          <div class="prac-topic-header-inner">
+            <span class="prac-topic-icon">{topic.icon}</span>
+            <h2 class="prac-topic-title">{topic.title}</h2>
+            <span class="prac-topic-count">{topic.items.length} tips</span>
+          </div>
+        </div>
+
+        <div class="prac-tip-grid">
+          {topic.items.map((item) => (
+            <div class="prac-tip-card">
+              <h3 class="prac-tip-label">{item.label}</h3>
+              <p class="prac-tip-text" set:html={item.text} />
+            </div>
+          ))}
+        </div>
+
+        {topic.id === 'transport' && (
+          <div class="prac-transport-widget">
+            <h3 class="prac-transport-widget-title">Search Routes & Book Transport</h3>
+            <p class="prac-transport-widget-desc">Compare ferries, buses, vans, and domestic flights between Vietnamese destinations.</p>
+            <div class="prac-transport-widget-inner">
+              <script src="//cdn0.trainbusferry.com/tools/form/en/?id=15062413&domain=12go.asia" data-one2go="15062413" data-color="blue" data-language="en" data-width="250" data-height="320" data-border="1" data-radius="8" data-caption="Find Transport in Vietnam" data-sub_id="discovervn" data-domain="12go.asia"></script>
+            </div>
+            <div class="prac-transport-widget-powered">Powered by <a href="https://12go.asia/?z=15062413&sub_id=discovervn" target="_blank" rel="noopener sponsored">12Go Asia</a></div>
+          </div>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <!-- Affiliate Disclosure -->
+  <div class="container-content reveal" style="padding-bottom: 0;">
+    <p class="prac-affiliate-disclosure">Some links on this page are affiliate links — I earn a small commission if you purchase through them, at no extra cost to you. I only recommend gear I personally use on my Vietnam trips. <a href="/legal/affiliate-disclosure/">Full disclosure</a>.</p>
+  </div>
+
+  <!-- Bottom CTA -->
+  <section class="prac-cta-section reveal">
+    <div class="container-content">
+      <div class="prac-cta-card">
+        <h2 class="prac-cta-heading">Plan Your Vietnam Trip</h2>
+        <p class="prac-cta-text">Tell our AI planner your dates, budget, and interests — it builds a custom day-by-day itinerary with flights, hotels, and activities.</p>
+        <a href="/plan/" class="prac-cta-button">Start Planning &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQ items={[
+    { question: "Do I need a visa to visit Vietnam?", answer: "Citizens of 13 countries (including USA, UK, France, Germany, Japan, South Korea) can enter Vietnam visa-free for up to 45 days. Everyone else can apply for a 90-day e-visa online at evisa.xuatnhapcanh.gov.vn for $25 USD. Bring a return or onward ticket — immigration may ask for proof of departure." },
+    { question: "Is Vietnam safe for tourists?", answer: "Vietnam is generally very safe for tourists. Bag-snatching by motorbike is the main risk in Ho Chi Minh City — carry bags on the building side of the sidewalk. Use common sense: don't flash expensive items, use Grab for transport, and be careful crossing streets (traffic is intense but predictable once you learn the flow). Tourist areas are well-policed." },
+    { question: "How much money should I bring to Vietnam?", answer: "Budget travelers: 500,000-800,000 VND/day ($20-32 USD) covers hostels, street food, and public transport. Mid-range: 1,500,000-3,000,000 VND/day ($60-120 USD) for hotels, restaurants, and activities. Luxury: 5,000,000+ VND/day ($200+ USD) for resorts and private tours. Withdraw dong from ATMs (Vietcombank, BIDV have the best rates). Notify your bank before traveling. Cash is essential in smaller towns." },
+    { question: "Can I use my credit card in Vietnam?", answer: "Credit cards are accepted at hotels, malls, and upscale restaurants in major cities. However, most local restaurants, markets, street food stalls, and small businesses are cash-only. Always carry 500,000-1,000,000 VND in cash. Visa and Mastercard are widely accepted where cards work; Amex is less common. ATM withdrawal limits are typically 3,000,000-5,000,000 VND per transaction." },
+    { question: "What is the best way to get around Vietnam?", answer: "Between cities: domestic flights (VietJet Air, Vietnam Airlines, Bamboo Airways) or the Reunification Express train. Within cities: Grab (ride-hailing app) and GrabBike for beating traffic. Between nearby cities: sleeper buses (The Sinh Tourist, Futa Bus). Renting a motorbike costs 100,000-200,000 VND/day and is the best way to explore smaller towns like Hoi An, Da Lat, and Phong Nha." },
+    { question: "Do I need a SIM card for Vietnam?", answer: "If your US carrier covers Vietnam (T-Mobile, Google Fi, AT&T International Day Pass), you may not need one. Otherwise, buy a Viettel, Mobifone, or Vinaphone SIM at the airport for 100,000-200,000 VND ($4-8 USD) with 10-30 GB of data. 4G is widespread in tourist areas. Remote mountain areas may have spotty coverage — Viettel has the widest reach." },
+  ]} />
+
+  <!-- Email Capture -->
+  <div class="container-content reveal" style="padding-bottom: var(--space-6);">
+    <EmailCapture
+      leadMagnet="Get Our Free Vietnam Travel Essentials Guide"
+      description="A printable PDF covering everything in this guide — plus offline maps, emergency contacts, and a packing checklist."
+      bullets={[
+        'E-visa application walkthrough and extension options',
+        'ATM strategy and daily budget planner by travel style',
+        'Printable Vietnamese phrase card for markets and transport',
+        'Packing checklist with beach, trekking, and city variants',
+      ]}
+      guideTag="pillar-practical"
+    />
+  </div>
+
+  <!-- Cross-links -->
+  <section class="prac-crosslinks reveal">
+    <div class="container-content">
+      <h3 class="prac-crosslinks-heading">Explore More</h3>
+      <div class="prac-crosslinks-grid">
+        <a href="/practical/" class="prac-crosslink-card">
+          <span class="prac-crosslink-icon">&#127754;</span>
+          <span class="prac-crosslink-label">Snorkeling Guide</span>
+          <span class="prac-crosslink-desc">14 destinations ranked by what you'll see in the water</span>
+        </a>
+        <a href="/festivals/" class="prac-crosslink-card">
+          <span class="prac-crosslink-icon">&#127914;</span>
+          <span class="prac-crosslink-label">Festival Calendar</span>
+          <span class="prac-crosslink-desc">32 festivals across 29 destinations, month by month</span>
+        </a>
+        <a href="/cuisine/" class="prac-crosslink-card">
+          <span class="prac-crosslink-icon">&#127860;</span>
+          <span class="prac-crosslink-label">Food & Cuisine</span>
+          <span class="prac-crosslink-desc">35 dishes by region with where to find the best version</span>
+        </a>
+        <a href="/history/" class="prac-crosslink-card">
+          <span class="prac-crosslink-icon">&#127963;</span>
+          <span class="prac-crosslink-label">WWII Heritage</span>
+          <span class="prac-crosslink-desc">The sites, stories, and memorials across the islands</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!-- Scroll Reveal Observer -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO — Practical travel gradient (no video)
+     ================================================================ */
+  .prac-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .prac-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .prac-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .prac-hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .prac-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 720px;
+  }
+
+  .prac-hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    line-height: 1.1;
+    margin: 0 0 var(--space-3);
+  }
+
+  .prac-hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0 0 var(--space-5);
+    max-width: 580px;
+  }
+
+  .prac-hero-meta {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .prac-hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .prac-hero-meta-label {
+    font-size: 0.65rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .prac-hero-meta-value {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: #fff;
+  }
+
+  .prac-scroll-hint {
+    position: absolute;
+    bottom: 16px;
+    right: var(--space-6);
+    z-index: 3;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+    animation: pracBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes pracBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ================================================================
+     PERSONAL INTRO
+     ================================================================ */
+  .prac-personal {
+    padding-block: var(--space-8);
+  }
+
+  .prac-personal-quote {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-8);
+    border-left: 4px solid var(--color-ocean-teal);
+    background: var(--color-sky);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .prac-personal-quote p {
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    line-height: var(--leading-body);
+    font-style: italic;
+    margin-bottom: var(--space-3);
+  }
+
+  .prac-personal-quote cite {
+    font-size: var(--text-caption);
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+    font-style: normal;
+  }
+
+  /* ================================================================
+     QUICK NAV — Jump-to chips
+     ================================================================ */
+  .prac-quicknav {
+    padding: 0 0 var(--space-6);
+  }
+
+  .prac-quicknav-grid {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .prac-quicknav-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 40px;
+    font-size: 0.8rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-slate);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .prac-quicknav-chip:hover {
+    background: var(--color-sky);
+    color: var(--color-ocean-teal);
+    transform: translateY(-2px);
+  }
+
+  .prac-quicknav-icon {
+    font-size: 1rem;
+  }
+
+  .prac-quicknav-label {
+    white-space: nowrap;
+  }
+
+  /* ================================================================
+     TOPIC SECTION
+     ================================================================ */
+  .prac-topic {
+    padding: var(--space-4) 0 var(--space-6);
+    scroll-margin-top: 80px;
+  }
+
+  .prac-topic-header {
+    position: relative;
+    border-radius: 20px;
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-5);
+    overflow: hidden;
+  }
+
+  .prac-topic-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  .prac-topic-header-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .prac-topic-icon {
+    font-size: 1.6rem;
+  }
+
+  .prac-topic-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    margin: 0;
+    line-height: 1.2;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .prac-topic-count {
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* ================================================================
+     TIP CARDS
+     ================================================================ */
+  .prac-tip-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .prac-tip-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .prac-tip-card {
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: var(--space-5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .prac-tip-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .prac-tip-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin: 0 0 var(--space-2);
+    line-height: 1.3;
+  }
+
+  .prac-tip-text {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .prac-tip-text :global(a) {
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: rgba(13, 115, 119, 0.3);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .prac-tip-text :global(a:hover) {
+    text-decoration-color: var(--color-ocean-teal);
+  }
+
+  /* ================================================================
+     12GO TRANSPORT WIDGET
+     ================================================================ */
+  .prac-transport-widget {
+    text-align: center;
+    margin-top: var(--space-6);
+    padding: var(--space-6);
+    background: var(--color-sky);
+    border-radius: 16px;
+  }
+
+  .prac-transport-widget-title {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin: 0 0 var(--space-1);
+  }
+
+  .prac-transport-widget-desc {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    margin: 0 0 var(--space-4);
+  }
+
+  .prac-transport-widget-inner {
+    display: inline-block;
+    max-width: 282px;
+  }
+
+  .prac-transport-widget-powered {
+    font-size: 0.7rem;
+    color: var(--color-slate);
+    margin-top: var(--space-2);
+  }
+
+  .prac-transport-widget-powered a {
+    color: var(--color-ocean-teal);
+    text-decoration: underline;
+  }
+
+  /* ================================================================
+     AFFILIATE DISCLOSURE
+     ================================================================ */
+  .prac-affiliate-disclosure {
+    font-size: 0.75rem;
+    color: var(--color-slate);
+    line-height: 1.5;
+    text-align: center;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-sky);
+    border-radius: 10px;
+    margin-bottom: var(--space-4);
+  }
+
+  .prac-affiliate-disclosure a {
+    color: var(--color-ocean-teal);
+    text-decoration: underline;
+  }
+
+  /* ================================================================
+     BOTTOM CTA
+     ================================================================ */
+  .prac-cta-section {
+    padding: var(--space-6) 0 var(--space-8);
+  }
+
+  .prac-cta-card {
+    background: linear-gradient(135deg, var(--color-deep-night) 0%, #2D3748 100%);
+    border-radius: 20px;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    color: #fff;
+  }
+
+  .prac-cta-heading {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-3);
+    color: #fff;
+  }
+
+  .prac-cta-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 520px;
+    margin: 0 auto var(--space-5);
+    line-height: 1.6;
+  }
+
+  .prac-cta-button {
+    display: inline-block;
+    background: var(--color-warm-coral);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    padding: 12px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .prac-cta-button:hover {
+    background: #d4553b;
+    transform: translateY(-2px);
+  }
+
+  /* ================================================================
+     CROSS-LINKS
+     ================================================================ */
+  .prac-crosslinks {
+    padding: 0 0 var(--space-10);
+  }
+
+  .prac-crosslinks-heading {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    text-align: center;
+    margin: 0 0 var(--space-4);
+  }
+
+  .prac-crosslinks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .prac-crosslinks-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .prac-crosslinks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .prac-crosslink-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-4);
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .prac-crosslink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .prac-crosslink-icon {
+    font-size: 1.8rem;
+  }
+
+  .prac-crosslink-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+  }
+
+  .prac-crosslink-desc {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+
+  /* ================================================================
+     RESPONSIVE
+     ================================================================ */
+  @media (max-width: 640px) {
+    .prac-hero {
+      min-height: 50vh;
+      padding: 0 var(--space-4) 40px;
+    }
+
+    .prac-hero-meta {
+      gap: var(--space-4);
+    }
+
+    .prac-scroll-hint {
+      display: none;
+    }
+
+    .prac-topic-header {
+      padding: var(--space-4) var(--space-4);
+    }
+  }
+</style>

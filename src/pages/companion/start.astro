@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import IntakeFlow from '../../components/companion/IntakeFlow';
+import '../../styles/companion.css';
+---
+
+<BaseLayout
+  title="Start Your Trip Companion"
+  description="Build your offline Vietnam trip companion. Upload an itinerary, paste your plans, or start from a proven template."
+>
+  <div class="intake-wrapper">
+    <IntakeFlow client:load />
+  </div>
+</BaseLayout>
+
+<style>
+  .intake-wrapper {
+    min-height: 100vh;
+    background: #F7F7F8;
+  }
+
+  @media (min-width: 768px) {
+    .intake-wrapper {
+      padding-top: 64px;
+    }
+  }
+</style>

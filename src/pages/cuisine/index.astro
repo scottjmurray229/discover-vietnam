@@ -1,0 +1,965 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Vietnamese Cuisine Guide', url: '/cuisine/' },
+];
+
+const pageTitle = 'Vietnamese Cuisine Guide — Eat Your Way Across Vietnam';
+const pageDescription = 'A region-by-region menu of the dishes that define Vietnamese food culture — from Hanoi pho to Mekong Delta hu tieu. Find where to eat the real thing.';
+
+interface Dish {
+  name: string;
+  image?: string;
+  destination: string;
+  slug: string;
+  price: string;
+  description: string;
+  tag?: string;
+}
+
+interface MenuSection {
+  region: string;
+  tagline: string;
+  gradient: string;
+  dishes: Dish[];
+}
+
+const menu: MenuSection[] = [
+  {
+    region: 'Northern Vietnam',
+    tagline: 'Hanoi pho, bun cha, and the refined flavors of the Red River Delta',
+    gradient: 'linear-gradient(135deg, #BF360C 0%, #E8654A 100%)',
+    dishes: [
+      {
+        name: 'Pho Bo (Beef Pho)',
+        image: '/images/cuisine/pho-bo.jpg',
+        destination: 'Hanoi',
+        slug: 'hanoi',
+        price: '40,000–70,000 VND / $2–3 USD',
+        description: 'The iconic Vietnamese soup — rice noodles in a slow-simmered beef bone broth with star anise, cinnamon, and charred ginger. Hanoi\'s version is cleaner and more subtle than the south.',
+        tag: 'Iconic',
+      },
+      {
+        name: 'Bun Cha',
+        image: '/images/cuisine/bun-cha.jpg',
+        destination: 'Hanoi',
+        slug: 'hanoi',
+        price: '40,000–60,000 VND / $2–3 USD',
+        description: 'Grilled pork patties and sliced belly in a sweet-sour fish sauce broth, served with rice noodles and fresh herbs. Obama ate it with Bourdain. Best at lunch from street stalls.',
+        tag: 'Must-Try',
+      },
+      {
+        name: 'Egg Coffee (Ca Phe Trung)',
+        image: '/images/cuisine/egg-coffee.jpg',
+        destination: 'Hanoi',
+        slug: 'hanoi',
+        price: '25,000–45,000 VND / $1–2 USD',
+        description: 'Whipped egg yolk, condensed milk, and strong Vietnamese coffee — creamy like tiramisu in a cup. Invented at Cafe Giang in the Old Quarter in 1946.',
+        tag: 'Heritage',
+      },
+      {
+        name: 'Bun Bo Nam Bo',
+        image: '/images/cuisine/bun-bo-nam-bo.jpg',
+        destination: 'Hanoi',
+        slug: 'hanoi',
+        price: '45,000–65,000 VND / $2–3 USD',
+        description: 'Dry rice noodles topped with stir-fried beef, crushed peanuts, crispy shallots, and fresh herbs. No broth — just layers of texture and heat.',
+      },
+      {
+        name: 'Thang Co',
+        image: '/images/cuisine/thang-co.jpg',
+        destination: 'Sapa',
+        slug: 'sapa',
+        price: '30,000–50,000 VND / $1–2 USD',
+        description: 'H\'mong horse meat stew simmered with cardamom, lemongrass, and ginger — a highland specialty sold at Sapa\'s weekend markets. An acquired taste with deep cultural roots.',
+        tag: 'Heritage',
+      },
+    ],
+  },
+  {
+    region: 'Central Vietnam',
+    tagline: 'Imperial cuisine, Hoi An specialties, and the spiciest food in the country',
+    gradient: 'linear-gradient(135deg, #0D7377 0%, #4DB6AC 100%)',
+    dishes: [
+      {
+        name: 'Bun Bo Hue',
+        image: '/images/cuisine/bun-bo-hue.jpg',
+        destination: 'Hue',
+        slug: 'hue',
+        price: '30,000–50,000 VND / $1–2 USD',
+        description: 'Spicy, lemongrass-perfumed beef noodle soup with thick round noodles, pig knuckle, and blood cake. Hue\'s pride — more complex than pho and fiercely beloved by locals.',
+        tag: 'Legendary',
+      },
+      {
+        name: 'Banh Beo',
+        image: '/images/cuisine/banh-beo.jpg',
+        destination: 'Hue',
+        slug: 'hue',
+        price: '20,000–35,000 VND / $1–1.50 USD',
+        description: 'Tiny steamed rice cakes topped with dried shrimp, crispy pork skin, and scallion oil. Served in sets of 10-20 small dishes — imperial snacking at its finest.',
+      },
+      {
+        name: 'Cao Lau',
+        image: '/images/cuisine/cao-lau.jpg',
+        destination: 'Hoi An',
+        slug: 'hoi-an',
+        price: '35,000–55,000 VND / $1.50–2 USD',
+        description: 'Chewy noodles made with water from a specific Hoi An well, topped with sliced pork, herbs, and crispy croutons. You literally cannot get real cao lau anywhere else in Vietnam.',
+        tag: 'Iconic',
+      },
+      {
+        name: 'Banh Mi',
+        image: '/images/cuisine/banh-mi.jpg',
+        destination: 'Hoi An',
+        slug: 'hoi-an',
+        price: '20,000–35,000 VND / $1–1.50 USD',
+        description: 'Crusty baguette stuffed with pate, cold cuts, pickled daikon and carrot, cilantro, and chili. Hoi An\'s Banh Mi Phuong was called the best sandwich in the world by Bourdain.',
+        tag: 'Must-Try',
+      },
+      {
+        name: 'Mi Quang',
+        image: '/images/cuisine/mi-quang.jpg',
+        destination: 'Da Nang',
+        slug: 'da-nang',
+        price: '35,000–55,000 VND / $1.50–2 USD',
+        description: 'Turmeric-tinted noodles in a small amount of rich broth, topped with shrimp, pork, peanuts, rice crackers, and herbs. Da Nang\'s signature — more noodle dish than soup.',
+        tag: 'Iconic',
+      },
+      {
+        name: 'Nem Nuong (Grilled Pork Rolls)',
+        image: '/images/cuisine/nem-nuong.jpg',
+        destination: 'Nha Trang',
+        slug: 'nha-trang',
+        price: '40,000–60,000 VND / $2–3 USD',
+        description: 'Grilled pork sausage wrapped in rice paper with fresh herbs, green banana, and star fruit, dipped in fermented soybean sauce. Nha Trang\'s most famous street food.',
+        tag: 'Must-Try',
+      },
+    ],
+  },
+  {
+    region: 'Southern Vietnam',
+    tagline: 'Sweet flavors, coconut everything, and the bounty of the Mekong Delta',
+    gradient: 'linear-gradient(135deg, #1A2332 0%, #6A1B9A 50%, #D4A853 100%)',
+    dishes: [
+      {
+        name: 'Banh Xeo',
+        image: '/images/cuisine/banh-xeo.jpg',
+        destination: 'Ho Chi Minh City',
+        slug: 'ho-chi-minh-city',
+        price: '30,000–55,000 VND / $1–2 USD',
+        description: 'Giant sizzling crepe made with rice flour and turmeric, stuffed with shrimp, pork, and bean sprouts. Tear off a piece, wrap it in lettuce and herbs, and dip.',
+        tag: 'Iconic',
+      },
+      {
+        name: 'Com Tam (Broken Rice)',
+        image: '/images/cuisine/com-tam.jpg',
+        destination: 'Ho Chi Minh City',
+        slug: 'ho-chi-minh-city',
+        price: '35,000–60,000 VND / $1.50–2.50 USD',
+        description: 'Fractured rice grains topped with grilled pork chop, shredded pork skin, steamed egg cake, and fish sauce. Saigon\'s breakfast of champions — eaten at any hour.',
+        tag: 'Must-Try',
+      },
+      {
+        name: 'Hu Tieu Nam Vang',
+        image: '/images/cuisine/hu-tieu.jpg',
+        destination: 'Can Tho',
+        slug: 'can-tho',
+        price: '30,000–50,000 VND / $1–2 USD',
+        description: 'Clear pork bone broth with thin rice noodles, shrimp, pork, and quail eggs. A Mekong Delta staple with Cambodian-Chinese roots — best eaten at dawn at floating market stalls.',
+      },
+      {
+        name: 'Banh Trang Nuong (Vietnamese Pizza)',
+        image: '/images/cuisine/banh-trang-nuong.jpg',
+        destination: 'Dalat',
+        slug: 'dalat',
+        price: '15,000–25,000 VND / $0.60–1 USD',
+        description: 'Rice paper grilled over charcoal and topped with egg, dried shrimp, scallion, and chili sauce. Dalat\'s night market snack — cheap, addictive, and uniquely Vietnamese.',
+      },
+      {
+        name: 'Phu Quoc Fish Sauce',
+        image: '/images/cuisine/phu-quoc-fish-sauce.jpg',
+        destination: 'Phu Quoc',
+        slug: 'phu-quoc',
+        price: '50,000–120,000 VND / $2–5 USD per bottle',
+        description: 'The world\'s best fish sauce comes from Phu Quoc — fermented anchovies aged in wooden barrels for 12+ months. Visit the factories in Duong Dong and taste the difference.',
+        tag: 'Heritage',
+      },
+      {
+        name: 'Bun Mam',
+        image: '/images/cuisine/bun-mam.jpg',
+        destination: 'Can Tho',
+        slug: 'can-tho',
+        price: '40,000–65,000 VND / $2–3 USD',
+        description: 'Fermented fish broth noodle soup loaded with seafood, eggplant, and fresh herbs. The Mekong Delta\'s most pungent and polarizing dish — locals swear by it.',
+        tag: 'Rare',
+      },
+    ],
+  },
+];
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  pageType="destination"
+  schemaData={{ title: pageTitle, description: pageDescription }}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="menu-hero">
+    <video class="menu-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/pillar/cuisine-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="menu-hero-gradient"></div>
+    <div class="menu-hero-noise"></div>
+    <div class="menu-hero-content">
+      <h1 class="menu-hero-title">The Vietnamese Menu</h1>
+      <p class="menu-hero-subtitle">Steaming pho, sizzling banh xeo, bun cha you can smell from a block away — eat your way across three regions and discover the dishes that define each destination.</p>
+      <div class="menu-hero-meta">
+        <div class="menu-hero-meta-item">
+          <span class="menu-hero-meta-label">Dishes</span>
+          <span class="menu-hero-meta-value">16</span>
+        </div>
+        <div class="menu-hero-meta-item">
+          <span class="menu-hero-meta-label">Regions</span>
+          <span class="menu-hero-meta-value">3</span>
+        </div>
+        <div class="menu-hero-meta-item">
+          <span class="menu-hero-meta-label">Destinations</span>
+          <span class="menu-hero-meta-value">13</span>
+        </div>
+      </div>
+    </div>
+    <div class="menu-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Personal intro -->
+  <section class="menu-personal reveal">
+    <div class="container-content">
+      <blockquote class="menu-personal-quote">
+        <p>I'd never had Vietnamese food before my first trip in 2003. I started with the staples &mdash; pho, banh mi, bun cha, spring rolls &mdash; and fell in love immediately. But it was local friends who pushed me past the comfort zone. Bun bo Hue at a roadside stall in Hue. Cao lau in Hoi An's Old Town. Dishes I never would have ordered on my own, in places I never would have found. Every trip now, the food is half the reason I go.</p>
+        <cite>— Scott</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Menu Intro -->
+  <section class="menu-intro reveal">
+    <div class="container-content">
+      <div class="menu-intro-card">
+        <p class="menu-intro-text">Think of this as your tasting menu for Vietnam. I've organized the country's essential dishes by region — <strong>Northern Vietnam</strong> around Hanoi, <strong>Central Vietnam</strong> from Hue to Nha Trang, and <strong>Southern Vietnam</strong> from Saigon to the Mekong Delta. Click any dish to explore the destination where it's famous.</p>
+        <div class="menu-intro-legend">
+          <span class="menu-tag menu-tag--heritage">Heritage</span>
+          <span class="menu-tag menu-tag--musttry">Must-Try</span>
+          <span class="menu-tag menu-tag--iconic">Iconic</span>
+          <span class="menu-tag menu-tag--fresh">Fresh Catch</span>
+          <span class="menu-tag menu-tag--rare">Rare</span>
+          <span class="menu-tag menu-tag--pasalubong">Pasalubong</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Sections by Region -->
+  {menu.map((section) => (
+    <section class="menu-region reveal">
+      <div class="container-content">
+        <div class="menu-region-header" style={`background: ${section.gradient};`}>
+          <div class="menu-region-header-inner">
+            <h2 class="menu-region-name">{section.region}</h2>
+            <p class="menu-region-tagline">{section.tagline}</p>
+            <span class="menu-region-count">{section.dishes.length} dishes</span>
+          </div>
+          <div class="menu-region-ornament">&#9733;</div>
+        </div>
+
+        <div class="menu-dish-grid">
+          {section.dishes.map((dish) => (
+            <a href={`/destinations/${dish.slug}/`} class="menu-dish-card">
+              <div class="menu-dish-media" style={`background: ${section.gradient};`}>
+                {dish.image && (
+                  <img src={dish.image} alt={`${dish.name} — ${dish.destination}`} class="menu-dish-img" loading="lazy" />
+                )}
+                {dish.tag && (
+                  <span class={`menu-tag menu-tag--${dish.tag.toLowerCase().replace(/[^a-z]/g, '')}`}>{dish.tag}</span>
+                )}
+              </div>
+              <div class="menu-dish-body">
+                <div class="menu-dish-top">
+                  <h3 class="menu-dish-name">{dish.name}</h3>
+                  <span class="menu-dish-price">{dish.price}</span>
+                </div>
+                <p class="menu-dish-destination">{dish.destination}</p>
+                <p class="menu-dish-desc">{dish.description}</p>
+                <span class="menu-dish-cta">Explore {dish.destination} &rarr;</span>
+              </div>
+              <div class="menu-dish-overlay">
+                <p class="menu-dish-overlay-desc">{dish.description}</p>
+                <span class="menu-dish-overlay-cta">Explore {dish.destination} &rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Bottom CTA -->
+  <section class="menu-cta-section reveal">
+    <div class="container-content">
+      <div class="menu-cta-card">
+        <h2 class="menu-cta-heading">Plan Your Food Trip</h2>
+        <p class="menu-cta-text">Tell our AI planner which dishes you want to try and it will build a region-by-region itinerary — with the best restaurants, markets, and street food stops.</p>
+        <a href="/plan/" class="menu-cta-button">Start Planning &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQ items={[
+    { question: "What is the national dish of Vietnam?", answer: "Adobo is widely considered the national dish — chicken or pork braised in vinegar, soy sauce, garlic, and black peppercorns. Every family has their own version. Lechon (whole roasted pig) is the centerpiece of celebrations. Both reflect the Vietnamese approach to food: bold flavors, communal eating, and recipes passed through generations." },
+    { question: "Is Vietnamese food spicy?", answer: "Most Vietnamese dishes are savory, sour, or sweet rather than spicy. Vinegar and soy sauce are more common than chili. The exception is Bicol cuisine from the Bicol region — dishes like Bicol Express and laing use coconut milk with bird's eye chili (siling labuyo). In general, chili is served as a condiment on the side, not cooked into the food." },
+    { question: "What are the must-try street foods in Vietnam?", answer: "Isaw (grilled chicken intestines on a stick), kwek-kwek (deep-fried quail eggs in orange batter), fishball with sweet or spicy sauce, and banana cue (caramelized banana on a stick). Balut (fertilized duck egg) is the famous dare food — most Vietnameses eat it as a regular snack. Street food costs ₫10-50 ($0.20-$1) per item." },
+    { question: "How much does a meal cost in Vietnam?", answer: "Street food: ₫20-100 ($0.40-$2). Local carinderias (turo-turo eateries): ₫80-150 ($1.50-$3) for rice plus two viands. Mid-range restaurants: ₫200-500 ($4-$9). Upscale dining: ₫800-2,000 ($14-$36). A daily food budget of ₫500-1,000 ($9-$18) covers three meals comfortably outside Manila." },
+    { question: "Is it safe to eat street food in Vietnam?", answer: "Street food is generally safe if you follow basic rules: eat from busy stalls with high turnover (food is fresher), choose items cooked in front of you rather than pre-made, and avoid anything that's been sitting uncovered. Vietnameses eat street food daily — the busier the stall, the safer the food. Bring antacids if you have a sensitive stomach." },
+    { question: "What is the most famous Vietnamese dessert?", answer: "Halo-halo is the iconic Vietnamese dessert — shaved ice layered with sweet beans, jellies, leche flan, ube (purple yam) ice cream, and evaporated milk. It's served everywhere from street carts to restaurants. Other favorites include leche flan (caramel custard), bibingka (rice cake baked in banana leaves), and turon (fried banana spring rolls)." },
+  ]} />
+
+  <!-- Email Capture -->
+  <div class="container-content reveal" style="padding-bottom: var(--space-6);">
+    <EmailCapture
+      leadMagnet="Get Our Free Vietnamese Food Guide"
+      description="A region-by-region PDF guide to Vietnamese cuisine — with the best restaurants, street food stalls, and dishes you can't miss."
+      bullets={[
+        'All 35 dishes with where to find the best version',
+        'Price guide — from ₫30 street food to ₫500 restaurant plates',
+        'Food safety tips and dietary considerations',
+        'Printable food phrase card (Vietnamese, Bisaya, Ilocano)',
+      ]}
+      guideTag="pillar-cuisine"
+    />
+  </div>
+
+  <!-- Cross-links -->
+  <section class="menu-crosslinks reveal">
+    <div class="container-content">
+      <h3 class="menu-crosslinks-heading">Explore More</h3>
+      <div class="menu-crosslinks-grid">
+        <a href="/festivals/" class="menu-crosslink-card">
+          <span class="menu-crosslink-icon">&#127914;</span>
+          <span class="menu-crosslink-label">Festival Calendar</span>
+          <span class="menu-crosslink-desc">32 festivals across 29 destinations, month by month</span>
+        </a>
+        <a href="/practical/" class="menu-crosslink-card">
+          <span class="menu-crosslink-icon">&#127754;</span>
+          <span class="menu-crosslink-label">Snorkeling Guide</span>
+          <span class="menu-crosslink-desc">14 destinations ranked by what you'll see in the water</span>
+        </a>
+        <a href="/destinations/" class="menu-crosslink-card">
+          <span class="menu-crosslink-icon">&#127965;</span>
+          <span class="menu-crosslink-label">All Destinations</span>
+          <span class="menu-crosslink-desc">Every island we've explored with honest reviews</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!-- Scroll Reveal Observer -->
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<style>
+  /* ================================================================
+     HERO — Warm, food-inspired gradient
+     ================================================================ */
+  .menu-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem var(--space-6) 60px;
+    overflow: hidden;
+  }
+
+  .menu-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .menu-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .menu-hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .menu-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 720px;
+  }
+
+  .menu-hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    line-height: 1.1;
+    margin: 0 0 var(--space-3);
+  }
+
+  .menu-hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0 0 var(--space-5);
+    max-width: 580px;
+  }
+
+  .menu-hero-meta {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .menu-hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .menu-hero-meta-label {
+    font-size: 0.65rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .menu-hero-meta-value {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: #fff;
+  }
+
+  .menu-scroll-hint {
+    position: absolute;
+    bottom: 16px;
+    right: var(--space-6);
+    z-index: 3;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+    animation: menuBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes menuBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ================================================================
+     MENU INTRO
+     ================================================================ */
+  .menu-intro {
+    padding: var(--space-8) 0 var(--space-4);
+  }
+
+  .menu-intro-card {
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    padding: var(--space-5) var(--space-6);
+    text-align: center;
+  }
+
+  .menu-intro-text {
+    font-size: 1rem;
+    color: var(--color-slate);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto var(--space-4);
+  }
+
+  .menu-intro-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  /* ================================================================
+     TAGS
+     ================================================================ */
+  .menu-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 6px;
+    line-height: 1.4;
+  }
+
+  .menu-tag--heritage {
+    background: rgba(191, 54, 12, 0.1);
+    color: #BF360C;
+  }
+
+  .menu-tag--musttry, .menu-tag--mustry {
+    background: rgba(13, 115, 119, 0.1);
+    color: var(--color-ocean-teal);
+  }
+
+  .menu-tag--iconic {
+    background: rgba(212, 168, 83, 0.15);
+    color: #9A7B2E;
+  }
+
+  .menu-tag--freshcatch {
+    background: rgba(33, 150, 243, 0.1);
+    color: #1565C0;
+  }
+
+  .menu-tag--rare {
+    background: rgba(106, 27, 154, 0.1);
+    color: #6A1B9A;
+  }
+
+  .menu-tag--pasalubong {
+    background: rgba(232, 101, 74, 0.1);
+    color: var(--color-warm-coral);
+  }
+
+  .menu-tag--legendary {
+    background: rgba(212, 168, 83, 0.15);
+    color: #9A7B2E;
+  }
+
+  .menu-tag--nationaldish {
+    background: rgba(191, 54, 12, 0.1);
+    color: #BF360C;
+  }
+
+  /* ================================================================
+     REGION SECTION
+     ================================================================ */
+  .menu-region {
+    padding: var(--space-6) 0;
+  }
+
+  .menu-region-header {
+    position: relative;
+    border-radius: 20px;
+    padding: var(--space-6) var(--space-6);
+    margin-bottom: var(--space-6);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .menu-region-header-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .menu-region-name {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    margin: 0 0 var(--space-1);
+    line-height: 1.1;
+  }
+
+  .menu-region-tagline {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 var(--space-3);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  .menu-region-count {
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .menu-region-ornament {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ================================================================
+     DISH GRID — Menu-style cards
+     ================================================================ */
+  .menu-dish-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 1024px) {
+    .menu-dish-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .menu-dish-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .menu-dish-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .menu-dish-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Media placeholder */
+  .menu-dish-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: var(--space-2);
+    overflow: hidden;
+  }
+
+  .menu-dish-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 0.4s ease;
+  }
+
+  .menu-dish-card:hover .menu-dish-img {
+    transform: scale(1.06);
+  }
+
+  .menu-dish-media .menu-tag {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Card body */
+  .menu-dish-body {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .menu-dish-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: 4px;
+  }
+
+  .menu-dish-name {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .menu-dish-price {
+    font-size: 0.65rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .menu-dish-destination {
+    font-size: 0.72rem;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-medium);
+    margin: 0 0 var(--space-2);
+  }
+
+  .menu-dish-desc {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    line-height: 1.55;
+    margin: 0 0 var(--space-3);
+    flex: 1;
+  }
+
+  .menu-dish-cta {
+    font-size: 0.72rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+    letter-spacing: 0.02em;
+  }
+
+  /* Hover overlay — visible on non-touch hover */
+  .menu-dish-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 35, 50, 0.93);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .menu-dish-card:hover .menu-dish-overlay {
+    opacity: 1;
+  }
+
+  .menu-dish-overlay-desc {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.6;
+    margin: 0 0 var(--space-3);
+  }
+
+  .menu-dish-overlay-cta {
+    font-size: 0.75rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+  }
+
+  /* ================================================================
+     BOTTOM CTA
+     ================================================================ */
+  .menu-cta-section {
+    padding: var(--space-6) 0 var(--space-8);
+  }
+
+  .menu-cta-card {
+    background: linear-gradient(135deg, var(--color-deep-night) 0%, #2D3748 100%);
+    border-radius: 20px;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    color: #fff;
+  }
+
+  .menu-cta-heading {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-3);
+    color: #fff;
+  }
+
+  .menu-cta-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 520px;
+    margin: 0 auto var(--space-5);
+    line-height: 1.6;
+  }
+
+  .menu-cta-button {
+    display: inline-block;
+    background: var(--color-warm-coral);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    padding: 12px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .menu-cta-button:hover {
+    background: #d4553b;
+    transform: translateY(-2px);
+  }
+
+  /* ================================================================
+     CROSS-LINKS
+     ================================================================ */
+  .menu-crosslinks {
+    padding: 0 0 var(--space-10);
+  }
+
+  .menu-crosslinks-heading {
+    font-size: 1.1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    text-align: center;
+    margin: 0 0 var(--space-4);
+  }
+
+  .menu-crosslinks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 640px) {
+    .menu-crosslinks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .menu-crosslink-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-4);
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .menu-crosslink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .menu-crosslink-icon {
+    font-size: 1.8rem;
+  }
+
+  .menu-crosslink-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+  }
+
+  .menu-crosslink-desc {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+
+  /* ================================================================
+     RESPONSIVE — Hero & misc
+     ================================================================ */
+  @media (max-width: 640px) {
+    .menu-hero {
+      min-height: 55vh;
+      padding: 0 var(--space-4) 40px;
+    }
+
+    .menu-hero-meta {
+      gap: var(--space-4);
+    }
+
+    .menu-scroll-hint {
+      display: none;
+    }
+
+    .menu-region-header {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .menu-region-ornament {
+      display: none;
+    }
+  }
+
+  /* Personal intro */
+  .menu-personal {
+    padding-block: var(--space-8);
+  }
+
+  .menu-personal-quote {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-8);
+    border-left: 4px solid var(--color-warm-coral);
+    background: var(--color-sky);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .menu-personal-quote p {
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    line-height: var(--leading-body);
+    font-style: italic;
+    margin-bottom: var(--space-3);
+  }
+
+  .menu-personal-quote cite {
+    font-size: var(--text-caption);
+    color: var(--color-warm-coral);
+    font-weight: var(--weight-semibold);
+    font-style: normal;
+  }
+</style>

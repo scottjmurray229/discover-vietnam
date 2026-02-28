@@ -1,0 +1,807 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allDests = await getCollection('destinations', (entry) => {
+  return !entry.id.startsWith('tl/');
+});
+
+// Build a slim JSON payload with only the fields the comparison tool needs
+const destData = allDests
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .map(d => ({
+    slug: String(d.slug || d.id),
+    title: d.data.title,
+    tagline: d.data.tagline || '',
+    region: d.data.region,
+    bestMonths: d.data.bestMonths || [],
+    budgetPerDay: d.data.budgetPerDay || { backpacker: 0, midRange: 0, luxury: 0 },
+    gettingThere: d.data.gettingThere || '',
+    highlights: (d.data.highlights || []).map(h => typeof h === 'string' ? h : h.title),
+    heroVideo: d.data.heroVideo || '',
+  }));
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Compare Destinations', url: '/compare/' },
+];
+---
+<BaseLayout
+  title="Compare Destinations — Side by Side"
+  description="Compare Vietnamese destinations side by side. Budget, best months, highlights, and more for up to 3 destinations at once."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section class="compare-hero">
+    <div class="container-content">
+      <h1>Compare Destinations</h1>
+      <p class="compare-subtitle">Pick 2 or 3 destinations to compare side by side — budget, best time to visit, highlights, and how to get there.</p>
+    </div>
+  </section>
+
+  <!-- Selector -->
+  <section class="compare-selector-section">
+    <div class="container-content">
+      <div class="selector-bar">
+        <div class="selector-slots" id="selectorSlots">
+          <div class="selector-slot" data-slot="a">
+            <label class="selector-label">Destination 1</label>
+            <select class="selector-dropdown" data-slot="a">
+              <option value="">Choose...</option>
+            </select>
+          </div>
+          <div class="selector-vs">vs</div>
+          <div class="selector-slot" data-slot="b">
+            <label class="selector-label">Destination 2</label>
+            <select class="selector-dropdown" data-slot="b">
+              <option value="">Choose...</option>
+            </select>
+          </div>
+          <div class="selector-vs selector-vs-c" id="vsC" style="display:none;">vs</div>
+          <div class="selector-slot selector-slot-c" data-slot="c" id="slotC" style="display:none;">
+            <label class="selector-label">Destination 3</label>
+            <select class="selector-dropdown" data-slot="c">
+              <option value="">Choose...</option>
+            </select>
+          </div>
+        </div>
+        <div class="selector-actions">
+          <button class="btn-add-third" id="btnAddThird" title="Add a third destination">+ Add Third</button>
+          <button class="btn-remove-third" id="btnRemoveThird" style="display:none;" title="Remove third destination">Remove Third</button>
+          <button class="btn-compare" id="btnCompare">Compare</button>
+        </div>
+      </div>
+
+      <!-- Selected chips -->
+      <div class="selected-chips" id="selectedChips"></div>
+    </div>
+  </section>
+
+  <!-- Comparison Results -->
+  <section class="compare-results container-content" id="compareResults" style="display:none;">
+    <!-- Cards rendered by JS -->
+    <div class="compare-grid" id="compareGrid"></div>
+
+    <!-- Comparison Table -->
+    <div class="compare-table-wrap" id="compareTableWrap" style="display:none;">
+      <h2>Side-by-Side Comparison</h2>
+      <div class="compare-table-scroll">
+        <table class="compare-table" id="compareTable">
+          <thead id="compareTableHead"></thead>
+          <tbody id="compareTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="compare-actions" id="compareActions" style="display:none;">
+      <a class="btn-plan" id="btnPlan" href="/plan/">Plan a Trip with These Destinations</a>
+      <button class="btn-share" id="btnShare">Share This Comparison</button>
+      <span class="share-toast" id="shareToast">Link copied!</span>
+    </div>
+  </section>
+
+  <!-- Empty state -->
+  <section class="compare-empty container-content" id="compareEmpty">
+    <div class="empty-state">
+      <div class="empty-icon">&#x2194;</div>
+      <p>Select 2 or 3 destinations above, then hit <strong>Compare</strong> to see them side by side.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ destData }}>
+(function() {
+  var destinations = destData;
+  var destMap = {};
+  destinations.forEach(function(d) { destMap[d.slug] = d; });
+
+  // DOM refs
+  var dropdownA = document.querySelector('select[data-slot="a"]');
+  var dropdownB = document.querySelector('select[data-slot="b"]');
+  var dropdownC = document.querySelector('select[data-slot="c"]');
+  var btnAddThird = document.getElementById('btnAddThird');
+  var btnRemoveThird = document.getElementById('btnRemoveThird');
+  var btnCompare = document.getElementById('btnCompare');
+  var btnPlan = document.getElementById('btnPlan');
+  var btnShare = document.getElementById('btnShare');
+  var shareToast = document.getElementById('shareToast');
+  var slotC = document.getElementById('slotC');
+  var vsC = document.getElementById('vsC');
+  var compareResults = document.getElementById('compareResults');
+  var compareGrid = document.getElementById('compareGrid');
+  var compareTableWrap = document.getElementById('compareTableWrap');
+  var compareTable = document.getElementById('compareTable');
+  var compareTableHead = document.getElementById('compareTableHead');
+  var compareTableBody = document.getElementById('compareTableBody');
+  var compareActions = document.getElementById('compareActions');
+  var compareEmpty = document.getElementById('compareEmpty');
+  var thirdVisible = false;
+
+  // Populate dropdowns
+  function populateDropdowns() {
+    var options = '<option value="">Choose...</option>';
+    destinations.forEach(function(d) {
+      options += '<option value="' + d.slug + '">' + d.title + '</option>';
+    });
+    dropdownA.innerHTML = options;
+    dropdownB.innerHTML = options;
+    dropdownC.innerHTML = options;
+  }
+  populateDropdowns();
+
+  // Read URL params on load
+  function readURLParams() {
+    var params = new URLSearchParams(window.location.search);
+    var a = params.get('a') || '';
+    var b = params.get('b') || '';
+    var c = params.get('c') || '';
+    if (a && destMap[a]) dropdownA.value = a;
+    if (b && destMap[b]) dropdownB.value = b;
+    if (c && destMap[c]) {
+      showThirdSlot();
+      dropdownC.value = c;
+    }
+    if (a && b) {
+      runComparison();
+    }
+  }
+
+  function showThirdSlot() {
+    thirdVisible = true;
+    slotC.style.display = '';
+    vsC.style.display = '';
+    btnAddThird.style.display = 'none';
+    btnRemoveThird.style.display = '';
+  }
+
+  function hideThirdSlot() {
+    thirdVisible = false;
+    slotC.style.display = 'none';
+    vsC.style.display = 'none';
+    btnAddThird.style.display = '';
+    btnRemoveThird.style.display = 'none';
+    dropdownC.value = '';
+  }
+
+  btnAddThird.addEventListener('click', showThirdSlot);
+  btnRemoveThird.addEventListener('click', function() {
+    hideThirdSlot();
+    // Re-run comparison if we already have results showing
+    if (compareResults.style.display !== 'none') runComparison();
+  });
+
+  btnCompare.addEventListener('click', function() { runComparison(); });
+
+  // Allow Enter key to trigger compare from dropdowns
+  [dropdownA, dropdownB, dropdownC].forEach(function(dd) {
+    dd.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') runComparison();
+    });
+  });
+
+  function getSelectedSlugs() {
+    var slugs = [];
+    if (dropdownA.value) slugs.push(dropdownA.value);
+    if (dropdownB.value) slugs.push(dropdownB.value);
+    if (thirdVisible && dropdownC.value) slugs.push(dropdownC.value);
+    // Deduplicate
+    return slugs.filter(function(s, i, arr) { return arr.indexOf(s) === i; });
+  }
+
+  function updateURL(slugs) {
+    var params = new URLSearchParams();
+    if (slugs[0]) params.set('a', slugs[0]);
+    if (slugs[1]) params.set('b', slugs[1]);
+    if (slugs[2]) params.set('c', slugs[2]);
+    var newURL = window.location.pathname + '?' + params.toString();
+    window.history.replaceState(null, '', newURL);
+  }
+
+  function regionLabel(r) {
+    return r.charAt(0).toUpperCase() + r.slice(1);
+  }
+
+  function formatBudget(b) {
+    if (!b || (!b.backpacker && !b.midRange && !b.luxury)) return 'N/A';
+    return '$' + b.backpacker + ' / $' + b.midRange + ' / $' + b.luxury;
+  }
+
+  function runComparison() {
+    var slugs = getSelectedSlugs();
+    if (slugs.length < 2) {
+      alert('Please select at least 2 different destinations to compare.');
+      return;
+    }
+
+    updateURL(slugs);
+
+    var selected = slugs.map(function(s) { return destMap[s]; }).filter(Boolean);
+
+    // Show results, hide empty state
+    compareResults.style.display = '';
+    compareEmpty.style.display = 'none';
+
+    // Build cards
+    renderCards(selected);
+
+    // Build table
+    renderTable(selected);
+
+    // Update plan link
+    var planParams = slugs.map(function(s, i) { return 'dest' + (i + 1) + '=' + s; }).join('&');
+    btnPlan.href = '/plan/?' + planParams;
+
+    compareActions.style.display = '';
+
+    // Scroll to results
+    compareResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderCards(selected) {
+    var html = '';
+    selected.forEach(function(d) {
+      var highlightsHTML = '';
+      if (d.highlights && d.highlights.length > 0) {
+        highlightsHTML = '<ul class="card-highlights">';
+        d.highlights.forEach(function(h) {
+          highlightsHTML += '<li>' + escapeHTML(h) + '</li>';
+        });
+        highlightsHTML += '</ul>';
+      }
+
+      html += '<div class="compare-card">';
+      html += '<div class="card-header">';
+      html += '<h3><a href="/destinations/' + d.slug + '/">' + escapeHTML(d.title) + '</a></h3>';
+      if (d.tagline) html += '<p class="card-tagline">' + escapeHTML(d.tagline) + '</p>';
+      html += '<span class="card-region">' + regionLabel(d.region) + '</span>';
+      html += '</div>';
+      html += '<div class="card-body">';
+
+      html += '<div class="card-row"><span class="card-label">Best Months</span><span class="card-value">' + (d.bestMonths.length > 0 ? escapeHTML(d.bestMonths.join(', ')) : 'N/A') + '</span></div>';
+      html += '<div class="card-row"><span class="card-label">Budget / Day (USD)</span><span class="card-value card-budget">';
+      if (d.budgetPerDay.backpacker || d.budgetPerDay.midRange || d.budgetPerDay.luxury) {
+        html += '<span class="budget-tier"><span class="budget-label">Backpacker</span> $' + d.budgetPerDay.backpacker + '</span>';
+        html += '<span class="budget-tier"><span class="budget-label">Mid-range</span> $' + d.budgetPerDay.midRange + '</span>';
+        html += '<span class="budget-tier"><span class="budget-label">Luxury</span> $' + d.budgetPerDay.luxury + '</span>';
+      } else {
+        html += 'N/A';
+      }
+      html += '</span></div>';
+      html += '<div class="card-row card-row-block"><span class="card-label">Getting There</span><span class="card-value">' + escapeHTML(d.gettingThere || 'N/A') + '</span></div>';
+      html += '<div class="card-row card-row-block"><span class="card-label">Highlights</span>' + highlightsHTML + '</div>';
+
+      html += '</div></div>';
+    });
+    compareGrid.innerHTML = html;
+  }
+
+  function renderTable(selected) {
+    // Header
+    var headHTML = '<tr><th class="table-label-col">Category</th>';
+    selected.forEach(function(d) {
+      headHTML += '<th><a href="/destinations/' + d.slug + '/">' + escapeHTML(d.title) + '</a></th>';
+    });
+    headHTML += '</tr>';
+    compareTableHead.innerHTML = headHTML;
+
+    // Rows
+    var rows = [
+      { label: 'Region', key: 'region', format: function(d) { return regionLabel(d.region); } },
+      { label: 'Tagline', key: 'tagline', format: function(d) { return escapeHTML(d.tagline || '-'); } },
+      { label: 'Best Months', key: 'bestMonths', format: function(d) { return d.bestMonths.length > 0 ? escapeHTML(d.bestMonths.join(', ')) : '-'; } },
+      { label: 'Backpacker (USD/day)', key: 'bp', format: function(d) { return d.budgetPerDay.backpacker ? '$' + d.budgetPerDay.backpacker : '-'; } },
+      { label: 'Mid-Range (USD/day)', key: 'mr', format: function(d) { return d.budgetPerDay.midRange ? '$' + d.budgetPerDay.midRange : '-'; } },
+      { label: 'Luxury (USD/day)', key: 'lux', format: function(d) { return d.budgetPerDay.luxury ? '$' + d.budgetPerDay.luxury : '-'; } },
+      { label: 'Getting There', key: 'gt', format: function(d) { return escapeHTML(d.gettingThere || '-'); } },
+      { label: 'Highlights', key: 'hl', format: function(d) {
+        if (!d.highlights || d.highlights.length === 0) return '-';
+        return d.highlights.map(function(h) { return escapeHTML(h); }).join(', ');
+      }},
+    ];
+
+    var bodyHTML = '';
+    rows.forEach(function(row, idx) {
+      bodyHTML += '<tr class="' + (idx % 2 === 0 ? 'row-even' : 'row-odd') + '">';
+      bodyHTML += '<td class="table-label-col">' + row.label + '</td>';
+      selected.forEach(function(d) {
+        bodyHTML += '<td>' + row.format(d) + '</td>';
+      });
+      bodyHTML += '</tr>';
+    });
+    compareTableBody.innerHTML = bodyHTML;
+    compareTableWrap.style.display = '';
+  }
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  // Share button
+  btnShare.addEventListener('click', function() {
+    var url = window.location.href;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function() {
+        showToast();
+      });
+    } else {
+      // Fallback
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast();
+    }
+  });
+
+  function showToast() {
+    shareToast.classList.add('visible');
+    setTimeout(function() {
+      shareToast.classList.remove('visible');
+    }, 2000);
+  }
+
+  // Init
+  readURLParams();
+})();
+</script>
+
+<style>
+  /* ============================================================
+     COMPARE PAGE — Scoped Styles
+     ============================================================ */
+
+  /* Hero */
+  .compare-hero {
+    background: linear-gradient(135deg, #0D7377, #1A2332);
+    color: white;
+    padding: var(--space-16) 0 var(--space-12);
+    text-align: center;
+  }
+  .compare-hero h1 {
+    color: white;
+    margin-bottom: var(--space-3);
+  }
+  .compare-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--text-body);
+    max-width: 540px;
+    margin-inline: auto;
+  }
+
+  /* Selector */
+  .compare-selector-section {
+    padding: var(--space-8) 0 var(--space-4);
+  }
+  .selector-bar {
+    background: var(--color-white);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: var(--space-6);
+  }
+  .selector-slots {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .selector-slot {
+    flex: 1;
+    min-width: 180px;
+  }
+  .selector-label {
+    display: block;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-body);
+    margin-bottom: var(--space-1);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .selector-dropdown {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #E0DAD0;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    background: var(--color-sand);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: auto;
+  }
+  .selector-dropdown:focus {
+    border-color: var(--color-ocean-teal);
+    outline: none;
+  }
+  .selector-vs {
+    font-family: var(--font-serif);
+    font-size: var(--text-h3);
+    color: var(--color-warm-coral);
+    font-weight: var(--weight-bold);
+    padding-bottom: 8px;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .selector-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+  .btn-add-third,
+  .btn-remove-third {
+    font-family: var(--font-sans);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid var(--color-ocean-teal);
+    background: transparent;
+    color: var(--color-ocean-teal);
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-add-third:hover {
+    background: var(--color-ocean-teal);
+    color: white;
+  }
+  .btn-remove-third {
+    border-color: var(--color-warm-coral);
+    color: var(--color-warm-coral);
+  }
+  .btn-remove-third:hover {
+    background: var(--color-warm-coral);
+    color: white;
+  }
+  .btn-compare {
+    font-family: var(--font-sans);
+    font-size: var(--text-button);
+    font-weight: var(--weight-semibold);
+    padding: 10px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    background: var(--color-ocean-teal);
+    color: white;
+    transition: background 0.2s;
+    min-height: 44px;
+  }
+  .btn-compare:hover {
+    background: #095456;
+  }
+
+  /* Results grid — cards */
+  .compare-results {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+  .compare-card {
+    background: var(--color-sand);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .compare-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .card-header {
+    background: var(--color-ocean-teal);
+    color: white;
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    position: relative;
+  }
+  .card-header h3 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-regular);
+    color: white;
+    margin-bottom: var(--space-1);
+  }
+  .card-header h3 a {
+    color: white;
+    text-decoration: none;
+  }
+  .card-header h3 a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    color: white;
+  }
+  .card-tagline {
+    font-style: italic;
+    font-size: var(--text-caption);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: var(--space-2);
+    max-width: 100%;
+  }
+  .card-region {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card-body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .card-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: baseline;
+  }
+  .card-row-block {
+    flex-direction: column;
+  }
+  .card-label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  .card-value {
+    font-size: var(--text-body);
+    color: var(--color-heading);
+    line-height: 1.5;
+  }
+  .card-budget {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .budget-tier {
+    font-size: 0.9rem;
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+  .budget-label {
+    font-size: 0.75rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-body);
+    text-transform: uppercase;
+    min-width: 80px;
+  }
+  .card-highlights {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-1) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .card-highlights li {
+    background: var(--color-sky);
+    color: var(--color-heading);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: var(--weight-medium);
+  }
+
+  /* Comparison table */
+  .compare-table-wrap {
+    margin-bottom: var(--space-10);
+  }
+  .compare-table-wrap h2 {
+    margin-bottom: var(--space-5);
+  }
+  .compare-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .compare-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background: var(--color-white);
+  }
+  .compare-table th {
+    background: var(--color-ocean-teal);
+    color: white;
+    font-family: var(--font-sans);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-body);
+    padding: 14px 16px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .compare-table th a {
+    color: white;
+    text-decoration: none;
+  }
+  .compare-table th a:hover {
+    text-decoration: underline;
+    color: white;
+  }
+  .compare-table td {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-heading);
+    border-bottom: 1px solid #EBE4D8;
+    vertical-align: top;
+  }
+  .table-label-col {
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+    white-space: nowrap;
+    min-width: 150px;
+  }
+  .row-even td {
+    background: var(--color-sand);
+  }
+  .row-odd td {
+    background: var(--color-white);
+  }
+
+  /* Actions */
+  .compare-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--space-6);
+    position: relative;
+  }
+  .btn-plan {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: var(--text-button);
+    font-weight: var(--weight-semibold);
+    padding: 14px 32px;
+    border-radius: 8px;
+    background: var(--color-ocean-teal);
+    color: white;
+    text-decoration: none;
+    min-height: 48px;
+    transition: background 0.2s;
+  }
+  .btn-plan:hover {
+    background: #095456;
+    color: white;
+  }
+  .btn-share {
+    font-family: var(--font-sans);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid var(--color-ocean-teal);
+    background: transparent;
+    color: var(--color-ocean-teal);
+    transition: background 0.2s, color 0.2s;
+    min-height: 48px;
+  }
+  .btn-share:hover {
+    background: var(--color-ocean-teal);
+    color: white;
+  }
+  .share-toast {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-deep-night);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: var(--weight-semibold);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .share-toast.visible {
+    opacity: 1;
+  }
+
+  /* Empty state */
+  .compare-empty {
+    padding: var(--space-12) 0 var(--space-16);
+  }
+  .empty-state {
+    text-align: center;
+    padding: var(--space-12) var(--space-6);
+    background: var(--color-white);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    max-width: 480px;
+    margin-inline: auto;
+  }
+  .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+    opacity: 0.5;
+  }
+  .empty-state p {
+    color: var(--color-body);
+    max-width: 100%;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 639px) {
+    .selector-slots {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .selector-vs {
+      text-align: center;
+      padding: 0;
+    }
+    .selector-slot {
+      min-width: 100%;
+    }
+    .compare-grid {
+      grid-template-columns: 1fr;
+    }
+    .selector-actions {
+      justify-content: center;
+    }
+    .compare-actions {
+      flex-direction: column;
+      padding-bottom: var(--space-10);
+    }
+    .share-toast {
+      bottom: -8px;
+    }
+  }
+
+  /* Tablet — 2 cols for 3 cards */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .compare-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+interface Props {
+  placement?: 'footer' | 'inline';
+}
+
+const { placement = 'inline' } = Astro.props;
+---
+
+<aside class:list={['ftc-disclosure', `ftc-disclosure--${placement}`]} aria-label="Affiliate disclosure">
+  <p>
+    <strong>Disclosure:</strong> Some links on this page are affiliate links. If you book through them, we earn a small commission at no extra cost to you. We only recommend places and services we've personally used. See our <a href="/legal/affiliate-disclosure/">full affiliate disclosure</a>.
+  </p>
+</aside>
+
+<style>
+  .ftc-disclosure {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-slate);
+    border-radius: 8px;
+  }
+
+  .ftc-disclosure--inline {
+    background-color: var(--color-sky);
+    padding: var(--space-3) var(--space-4);
+    margin-block: var(--space-6);
+  }
+
+  .ftc-disclosure--footer {
+    padding: 0;
+    background: none;
+  }
+
+  .ftc-disclosure p {
+    max-width: 80ch;
+  }
+
+  .ftc-disclosure strong {
+    color: var(--color-heading);
+  }
+
+  .ftc-disclosure a {
+    color: var(--color-ocean-teal);
+  }
+</style>

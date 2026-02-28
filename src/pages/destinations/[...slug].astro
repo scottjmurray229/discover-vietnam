@@ -1,0 +1,18 @@
+---
+import { getCollection, render } from 'astro:content';
+import DestinationLayout from '../../layouts/DestinationLayout.astro';
+
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  return destinations.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<DestinationLayout frontmatter={entry.data}>
+  <Content />
+</DestinationLayout>

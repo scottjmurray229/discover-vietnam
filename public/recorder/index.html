@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a1420">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DP Recorder">
+<link rel="manifest" href="manifest.json">
+<title>DP Story Recorder</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a1420;--bg2:#0f1d2e;--bg3:#152638;
+  --card:#131f30;--card2:#1a2940;--cb:#1e3048;
+  --teal:#0d9488;--tb:#14b8a6;--td:#0a6b62;--tg:rgba(13,148,136,.12);
+  --coral:#e8654a;--red:#ef4444;--green:#22c55e;
+  --t1:#e2e8f0;--t2:#8899b0;--t3:#4a5e78;
+  --font:'Outfit',system-ui,sans-serif;--serif:'Crimson Pro',Georgia,serif;
+  --r:14px;--rs:10px;
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t1);overflow:hidden}
+button{font-family:var(--font);border:none;cursor:pointer}
+::-webkit-scrollbar{display:none}
+
+.app{display:flex;flex-direction:column;height:100dvh;max-width:500px;margin:0 auto;overflow:hidden}
+
+/* HEADER */
+.hdr{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--cb);background:var(--bg);flex-shrink:0}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.hdr-ico{width:30px;height:30px;background:var(--teal);border-radius:8px;display:grid;place-items:center}
+.hdr-ico svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hdr-t{font-size:15px;font-weight:600;letter-spacing:-.02em}
+.hdr-t span{color:var(--tb)}
+.usr-tog{display:flex;background:var(--bg3);border-radius:20px;padding:3px}
+.usr-tog button{padding:5px 14px;border-radius:17px;font-size:12px;font-weight:500;background:transparent;color:var(--t3);transition:all .2s}
+.usr-tog button.on{background:var(--teal);color:#fff}
+
+/* TABS */
+.nav{display:flex;border-bottom:1px solid var(--cb);background:var(--bg);flex-shrink:0}
+.nav button{flex:1;padding:11px 8px;font-size:13px;font-weight:500;color:var(--t3);background:none;position:relative;transition:color .2s}
+.nav button.on{color:var(--tb)}
+.nav button.on::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:2px;background:var(--tb);border-radius:1px}
+.badge{font-size:10px;background:var(--bg3);color:var(--t2);padding:1px 6px;border-radius:8px;margin-left:3px}
+
+/* SCREENS */
+.scr{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scr.on{display:flex;flex-direction:column}
+
+/* ══════ RECORD SCREEN ══════ */
+.rec-scr{padding:16px 18px 40px}
+.pickers{display:flex;gap:8px;margin-bottom:14px}
+.pk{flex:1;padding:10px 12px;background:var(--card);border:1px solid var(--cb);border-radius:var(--rs);color:var(--t1);font-family:var(--font);font-size:13px;font-weight:500;appearance:none;-webkit-appearance:none;background-repeat:no-repeat;background-position:right 10px center;background-size:12px;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%234a5e78' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E")}
+.pk option{background:var(--bg2);color:var(--t1)}
+
+/* Prompt card */
+.p-card{background:var(--card);border:1px solid var(--cb);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
+.p-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tb);margin-bottom:4px}
+.p-text{font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.5;color:var(--t1)}
+.p-nav{display:flex;gap:8px;margin-top:10px}
+.p-nav button{flex:1;padding:7px;border-radius:8px;font-size:12px;font-weight:500;transition:all .15s}
+.p-nav .prev-btn,.p-nav .next-btn{background:var(--bg3);color:var(--t2)}
+.p-nav .free-btn{background:transparent;color:var(--t3);text-decoration:underline;text-underline-offset:2px}
+.p-nav button:active{opacity:.7}
+
+/* Record zone */
+.rec-zone{display:flex;flex-direction:column;align-items:center;padding:16px 0}
+.timer{font-size:40px;font-weight:300;letter-spacing:.04em;color:var(--t1);margin-bottom:16px;font-variant-numeric:tabular-nums}
+.timer.live{color:var(--coral)}
+.r-wrap{position:relative;margin-bottom:14px}
+.r-ring{width:96px;height:96px;border-radius:50%;border:3px solid var(--cb);display:grid;place-items:center;transition:all .3s}
+.r-ring.live{border-color:var(--coral);animation:rpulse 1.5s ease infinite}
+@keyframes rpulse{0%,100%{box-shadow:0 0 0 0 rgba(232,101,74,.25)}50%{box-shadow:0 0 0 14px rgba(232,101,74,0)}}
+.r-btn{width:68px;height:68px;border-radius:50%;background:var(--coral);display:grid;place-items:center;transition:all .2s;box-shadow:0 4px 20px rgba(232,101,74,.3)}
+.r-btn:active{transform:scale(.9)}
+.r-btn.live{border-radius:14px;width:48px;height:48px;background:var(--red)}
+.r-btn svg{width:26px;height:26px;fill:#fff;transition:all .2s}
+.rec-status{font-size:12px;color:var(--t3);min-height:18px;text-align:center}
+.rec-status.live{color:var(--coral)}
+
+/* Transcript */
+.tx-box{background:var(--card);border:1px solid var(--cb);border-radius:var(--r);padding:14px;margin-top:12px;position:relative}
+.tx-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.tx-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tb)}
+.tx-btns{display:flex;gap:4px}
+.tx-btns button{padding:3px 8px;border-radius:6px;background:var(--bg3);color:var(--t2);font-size:11px;font-weight:500;transition:all .15s}
+.tx-btns button:active{opacity:.7}
+.tx-content{font-size:15px;line-height:1.7;color:var(--t1);min-height:60px;outline:none;white-space:pre-wrap;word-break:break-word}
+.tx-content:empty::before{content:attr(data-ph);color:var(--t3);font-style:italic;pointer-events:none}
+.tx-content .interim{color:var(--t3)}
+.tx-wc{font-size:11px;color:var(--t3);margin-top:6px;text-align:right}
+
+/* Action bar */
+.act-bar{display:none;gap:8px;margin-top:14px}
+.act-bar.vis{display:flex}
+.act-bar button{flex:1;padding:13px;border-radius:var(--rs);font-size:14px;font-weight:600;transition:all .15s}
+.act-bar button:active{transform:scale(.97)}
+.btn-share{background:var(--teal);color:#fff}
+.btn-email{background:#c23b22;color:#fff}
+.btn-copy{background:var(--bg3);color:var(--t2)}
+.btn-clear{background:transparent;color:var(--t3);font-weight:500;flex:0.5}
+
+/* Share toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ══════ PROMPTS SCREEN ══════ */
+.pr-scr{padding:16px 18px 100px}
+.sec-t{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin:16px 0 10px}
+.sec-t:first-child{margin-top:4px}
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.chip{padding:6px 14px;border-radius:18px;font-size:12px;font-weight:500;white-space:nowrap;background:var(--card);color:var(--t2);border:1px solid var(--cb);transition:all .2s;flex-shrink:0}
+.chip.on{background:var(--tg);color:var(--tb);border-color:var(--td)}
+.pr-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.pr-item{background:var(--card);border:1px solid var(--cb);border-radius:var(--rs);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;transition:all .15s}
+.pr-item:active{background:var(--card2)}
+.pr-item.done{opacity:.5}
+.pr-item .pi-text{font-size:14px;flex:1;margin-right:10px;line-height:1.4}
+.pr-item .pi-num{font-size:11px;color:var(--t3);margin-right:10px;flex-shrink:0}
+.pr-item .pi-go{width:28px;height:28px;border-radius:50%;background:var(--tg);display:grid;place-items:center;flex-shrink:0}
+.pr-item .pi-go svg{width:14px;height:14px;fill:none;stroke:var(--tb);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pr-item.done .pi-go{background:rgba(34,197,94,.12)}
+.pr-item.done .pi-go svg{stroke:var(--green)}
+
+/* ══════ SAVED SCREEN ══════ */
+.sv-scr{padding:16px 18px 100px}
+.sv-empty{text-align:center;padding:60px 20px;color:var(--t3)}
+.sv-empty svg{width:48px;height:48px;stroke:var(--t3);fill:none;stroke-width:1.5;margin-bottom:12px}
+.sv-empty p{font-size:14px;line-height:1.5}
+.sv-item{background:var(--card);border:1px solid var(--cb);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.sv-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sv-dest{font-size:11px;font-weight:600;color:var(--tb);text-transform:uppercase;letter-spacing:.06em}
+.sv-date{font-size:11px;color:var(--t3)}
+.sv-prompt{font-size:12px;color:var(--t2);margin-bottom:6px;font-style:italic}
+.sv-text{font-size:14px;line-height:1.6;color:var(--t1);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.sv-actions{display:flex;gap:6px;margin-top:10px}
+.sv-actions button{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:500;transition:all .15s}
+.sv-actions button:active{opacity:.7}
+.sv-share{background:var(--tg);color:var(--tb)}
+.sv-email{background:rgba(194,59,34,.15);color:#e8654a}
+.sv-copy{background:var(--bg3);color:var(--t2)}
+.sv-del{background:transparent;color:var(--t3)}
+
+/* Speech not supported banner */
+.no-speech{background:var(--red);color:#fff;padding:12px 18px;font-size:13px;text-align:center;border-radius:var(--rs);margin:12px 18px}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-ico"><svg viewBox="0 0 24 24"><path d="M12 1a4 4 0 00-4 4v7a4 4 0 008 0V5a4 4 0 00-4-4z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+      <div class="hdr-t"><span>DP</span> Recorder</div>
+    </div>
+    <div class="usr-tog">
+      <button class="on" onclick="setUser('scott')">Scott</button>
+      <button onclick="setUser('jenice')">Jenice</button>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="on" onclick="showTab('record')">Record</button>
+    <button onclick="showTab('prompts')">Prompts</button>
+    <button onclick="showTab('saved')">Saved <span class="badge" id="sv-count">0</span></button>
+  </div>
+
+  <!-- RECORD SCREEN -->
+  <div class="scr rec-scr on" id="scr-record">
+    <div class="pickers">
+      <select class="pk" id="dest-pick" onchange="onDestChange()">
+        <option value="general">General / Origin</option>
+        <option value="manila">Manila</option>
+        <option value="cebu">Cebu</option>
+        <option value="boracay">Boracay</option>
+        <option value="palawan">Palawan</option>
+        <option value="el-nido">El Nido</option>
+        <option value="coron">Coron</option>
+        <option value="bohol">Bohol</option>
+        <option value="siargao">Siargao</option>
+        <option value="siquijor">Siquijor</option>
+        <option value="dumaguete">Dumaguete</option>
+        <option value="baguio">Baguio</option>
+        <option value="sagada">Sagada</option>
+        <option value="batanes">Batanes</option>
+        <option value="vigan">Vigan</option>
+        <option value="la-union">La Union</option>
+        <option value="camiguin">Camiguin</option>
+        <option value="puerto-galera">Puerto Galera</option>
+        <option value="zambales">Zambales</option>
+        <option value="clark-angeles">Clark / Angeles</option>
+        <option value="pampanga">Pampanga</option>
+        <option value="tagaytay">Tagaytay</option>
+        <option value="batangas">Batangas</option>
+        <option value="iloilo">Iloilo</option>
+        <option value="davao">Davao</option>
+        <option value="bukidnon">Bukidnon</option>
+      </select>
+      <select class="pk" id="cat-pick" onchange="onCatChange()">
+        <option value="origin">Origin Story</option>
+        <option value="food">Food & Dining</option>
+        <option value="adventure">Adventure</option>
+        <option value="culture">Culture & People</option>
+        <option value="tips">Tips & Advice</option>
+        <option value="personal">Personal Memory</option>
+        <option value="free">Free Talk</option>
+      </select>
+    </div>
+
+    <!-- Prompt card -->
+    <div class="p-card" id="prompt-card">
+      <div class="p-label">Prompt <span id="p-idx">1</span> of <span id="p-total">5</span></div>
+      <div class="p-text" id="p-text"></div>
+      <div class="p-nav">
+        <button class="prev-btn" onclick="prevPrompt()">← Prev</button>
+        <button class="free-btn" onclick="goFree()">Skip prompt</button>
+        <button class="next-btn" onclick="nextPrompt()">Next →</button>
+      </div>
+    </div>
+
+    <!-- Record zone -->
+    <div class="rec-zone">
+      <div class="timer" id="timer">00:00</div>
+      <div class="r-wrap">
+        <div class="r-ring" id="r-ring">
+          <button class="r-btn" id="r-btn" onclick="toggleRec()">
+            <svg id="mic-ico" viewBox="0 0 24 24"><path d="M12 1a4 4 0 00-4 4v7a4 4 0 008 0V5a4 4 0 00-4-4z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="rec-status" id="rec-status">Tap to record &amp; transcribe</div>
+    </div>
+
+    <!-- Transcript -->
+    <div class="tx-box">
+      <div class="tx-hdr">
+        <span class="tx-label">Transcript</span>
+        <div class="tx-btns">
+          <button onclick="editTranscript()">Edit</button>
+        </div>
+      </div>
+      <div class="tx-content" id="tx" data-ph="Your words will appear here as you speak..."></div>
+      <div class="tx-wc" id="tx-wc"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="act-bar" id="act-bar">
+      <button class="btn-share" onclick="shareTranscript()">📤 Share</button>
+      <button class="btn-email" onclick="emailTranscript()">✉️ Email</button>
+      <button class="btn-copy" onclick="copyTranscript()">📋 Copy</button>
+      <button class="btn-clear" onclick="clearAll()">Clear</button>
+    </div>
+  </div>
+
+  <!-- PROMPTS SCREEN -->
+  <div class="scr pr-scr" id="scr-prompts">
+    <div class="sec-t">Category</div>
+    <div class="chips" id="cat-chips"></div>
+    <div class="sec-t">Destination</div>
+    <div class="chips" id="dest-chips"></div>
+    <div class="sec-t" id="pr-list-title">Prompts</div>
+    <div class="pr-list" id="pr-list"></div>
+  </div>
+
+  <!-- SAVED SCREEN -->
+  <div class="scr sv-scr" id="scr-saved">
+    <div class="sv-empty" id="sv-empty">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      <p>No saved recordings yet.<br>Record something and tap Save!</p>
+    </div>
+    <div id="sv-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══ DATA ═══
+const PROMPTS = {
+  origin: [
+    "How did you first discover the Philippines? What pulled you there?",
+    "Describe the moment you knew the Philippines was special to you.",
+    "What's the one thing about the Philippines that surprises first-time visitors?",
+    "How has the Philippines changed since your first trip?",
+    "Why should someone trust YOUR perspective on Philippines travel?"
+  ],
+  food: [
+    "What's the first thing you eat when you arrive at this destination?",
+    "Describe a meal here that you still think about — where was it, what was it?",
+    "What local food should every visitor try, and where's the best version?",
+    "What food surprised you the most here?",
+    "Walk us through a perfect food day at this destination, meal by meal."
+  ],
+  adventure: [
+    "What's the single best experience you've had at this destination?",
+    "Describe an adventure here that pushed you out of your comfort zone.",
+    "What's the best kept secret activity that most tourists miss?",
+    "If you only had 24 hours here, what would you absolutely not skip?",
+    "What's the best time of day to experience this destination, and why?"
+  ],
+  culture: [
+    "What's a local custom or tradition here that travelers should know about?",
+    "Describe an interaction with a local that changed how you see this place.",
+    "What Filipino cultural value is most visible at this destination?",
+    "How do locals actually spend their weekends here?",
+    "What should travelers know about etiquette or respect at this destination?"
+  ],
+  tips: [
+    "What's the biggest mistake tourists make at this destination?",
+    "How do you actually get here — what's the real logistics?",
+    "What should someone budget for a 3-day trip here?",
+    "What do you wish someone had told you before your first visit?",
+    "What's the best way to get around once you're here?"
+  ],
+  personal: [
+    "What's your favorite personal memory tied to this destination?",
+    "How has visiting this place changed you as a person or traveler?",
+    "Describe a funny or unexpected thing that happened here.",
+    "What does this destination mean to you and your family?",
+    "If you could relive one day here, which would it be and why?"
+  ],
+  free: [
+    "Talk about whatever's on your mind about this destination — no rules."
+  ]
+};
+
+const DESTS = [
+  {v:'general',l:'General / Origin'},{v:'manila',l:'Manila'},{v:'cebu',l:'Cebu'},
+  {v:'boracay',l:'Boracay'},{v:'palawan',l:'Palawan'},{v:'el-nido',l:'El Nido'},
+  {v:'coron',l:'Coron'},{v:'bohol',l:'Bohol'},{v:'siargao',l:'Siargao'},
+  {v:'siquijor',l:'Siquijor'},{v:'dumaguete',l:'Dumaguete'},{v:'baguio',l:'Baguio'},
+  {v:'sagada',l:'Sagada'},{v:'batanes',l:'Batanes'},{v:'vigan',l:'Vigan'},
+  {v:'la-union',l:'La Union'},{v:'camiguin',l:'Camiguin'},{v:'puerto-galera',l:'Puerto Galera'},
+  {v:'zambales',l:'Zambales'},{v:'clark-angeles',l:'Clark / Angeles'},{v:'pampanga',l:'Pampanga'},
+  {v:'tagaytay',l:'Tagaytay'},{v:'batangas',l:'Batangas'},{v:'iloilo',l:'Iloilo'},
+  {v:'davao',l:'Davao'},{v:'bukidnon',l:'Bukidnon'}
+];
+
+const CATS = [
+  {v:'origin',l:'Origin Story'},{v:'food',l:'Food & Dining'},{v:'adventure',l:'Adventure'},
+  {v:'culture',l:'Culture & People'},{v:'tips',l:'Tips & Advice'},{v:'personal',l:'Personal Memory'},
+  {v:'free',l:'Free Talk'}
+];
+
+// ═══ STATE ═══
+let currentUser = 'scott';
+let currentDest = 'general';
+let currentCat = 'origin';
+let promptIdx = 0;
+let isRecording = false;
+let recognition = null;
+let finalTranscript = '';
+let interimTranscript = '';
+let timerInterval = null;
+let seconds = 0;
+let saved = JSON.parse(localStorage.getItem('dp-saved') || '[]');
+let completedPrompts = JSON.parse(localStorage.getItem('dp-done') || '{}');
+
+// ═══ INIT ═══
+function init() {
+  // Check speech recognition support
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.querySelector('.rec-zone').innerHTML = '<div class="no-speech">Speech recognition not supported in this browser. Use Chrome on Android or Safari on iOS.</div>';
+    return;
+  }
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = (e) => {
+    interimTranscript = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) {
+        finalTranscript += t + ' ';
+      } else {
+        interimTranscript = t;
+      }
+    }
+    renderTranscript();
+  };
+
+  recognition.onerror = (e) => {
+    if (e.error === 'no-speech') return;
+    console.error('Speech error:', e.error);
+    if (isRecording && e.error === 'network') {
+      document.getElementById('rec-status').textContent = 'Network error — check connection';
+    }
+  };
+
+  recognition.onend = () => {
+    // Auto-restart if still recording (speech recognition times out)
+    if (isRecording) {
+      try { recognition.start(); } catch(e) {}
+    }
+  };
+
+  updatePrompt();
+  updateSavedCount();
+  buildPromptsBrowser();
+}
+
+// ═══ USER TOGGLE ═══
+function setUser(u) {
+  currentUser = u;
+  document.querySelectorAll('.usr-tog button').forEach(b => b.classList.toggle('on', b.textContent.toLowerCase() === u));
+}
+
+// ═══ TABS ═══
+function showTab(tab) {
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+  event.currentTarget.classList.add('on');
+  document.getElementById('scr-' + tab).classList.add('on');
+  if (tab === 'prompts') buildPromptsBrowser();
+  if (tab === 'saved') renderSaved();
+}
+
+// ═══ PICKERS ═══
+function onDestChange() {
+  currentDest = document.getElementById('dest-pick').value;
+  promptIdx = 0;
+  updatePrompt();
+}
+function onCatChange() {
+  currentCat = document.getElementById('cat-pick').value;
+  promptIdx = 0;
+  updatePrompt();
+}
+
+// ═══ PROMPTS ═══
+function getPrompts() { return PROMPTS[currentCat] || PROMPTS.free; }
+
+function updatePrompt() {
+  const prompts = getPrompts();
+  const card = document.getElementById('prompt-card');
+  document.getElementById('p-idx').textContent = promptIdx + 1;
+  document.getElementById('p-total').textContent = prompts.length;
+  document.getElementById('p-text').textContent = prompts[promptIdx] || 'Free talk — say whatever comes to mind.';
+}
+
+function nextPrompt() {
+  const prompts = getPrompts();
+  promptIdx = (promptIdx + 1) % prompts.length;
+  updatePrompt();
+}
+function prevPrompt() {
+  const prompts = getPrompts();
+  promptIdx = (promptIdx - 1 + prompts.length) % prompts.length;
+  updatePrompt();
+}
+function goFree() {
+  document.getElementById('cat-pick').value = 'free';
+  currentCat = 'free';
+  promptIdx = 0;
+  updatePrompt();
+}
+
+// ═══ RECORDING ═══
+function toggleRec() {
+  if (!recognition) return;
+  if (isRecording) stopRec(); else startRec();
+}
+
+function startRec() {
+  isRecording = true;
+  seconds = 0;
+  // Don't clear previous transcript — allow appending across sessions
+  try { recognition.start(); } catch(e) {}
+
+  document.getElementById('r-btn').classList.add('live');
+  document.getElementById('r-ring').classList.add('live');
+  document.getElementById('timer').classList.add('live');
+  document.getElementById('rec-status').textContent = 'Listening...';
+  document.getElementById('rec-status').classList.add('live');
+
+  // Mic icon → stop square
+  document.getElementById('mic-ico').innerHTML = '<rect x="6" y="6" width="12" height="12" rx="2"/>';
+
+  timerInterval = setInterval(() => {
+    seconds++;
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    document.getElementById('timer').textContent = m + ':' + s;
+  }, 1000);
+}
+
+function stopRec() {
+  isRecording = false;
+  try { recognition.stop(); } catch(e) {}
+
+  clearInterval(timerInterval);
+  document.getElementById('r-btn').classList.remove('live');
+  document.getElementById('r-ring').classList.remove('live');
+  document.getElementById('timer').classList.remove('live');
+  document.getElementById('rec-status').textContent = 'Tap to record & transcribe';
+  document.getElementById('rec-status').classList.remove('live');
+
+  // Stop square → mic icon
+  document.getElementById('mic-ico').innerHTML = '<path d="M12 1a4 4 0 00-4 4v7a4 4 0 008 0V5a4 4 0 00-4-4z"/>';
+
+  interimTranscript = '';
+  renderTranscript();
+  showActions();
+}
+
+function renderTranscript() {
+  const el = document.getElementById('tx');
+  const full = finalTranscript.trim();
+  const interim = interimTranscript.trim();
+  if (!full && !interim) {
+    el.innerHTML = '';
+    return;
+  }
+  el.innerHTML = full + (interim ? ' <span class="interim">' + interim + '</span>' : '');
+  // Word count
+  const wc = full ? full.split(/\s+/).filter(w => w).length : 0;
+  document.getElementById('tx-wc').textContent = wc ? wc + ' words' : '';
+  // Auto scroll
+  el.scrollTop = el.scrollHeight;
+}
+
+function showActions() {
+  const text = finalTranscript.trim();
+  document.getElementById('act-bar').classList.toggle('vis', text.length > 0);
+}
+
+// ═══ ACTIONS ═══
+function getShareText() {
+  const dest = document.getElementById('dest-pick');
+  const cat = document.getElementById('cat-pick');
+  const destLabel = dest.options[dest.selectedIndex].text;
+  const catLabel = cat.options[cat.selectedIndex].text;
+  const prompt = document.getElementById('p-text').textContent;
+  const text = finalTranscript.trim();
+  const user = currentUser.charAt(0).toUpperCase() + currentUser.slice(1);
+
+  let out = `📍 ${destLabel} | ${catLabel}\n`;
+  out += `🎙️ Recorded by ${user}\n`;
+  if (currentCat !== 'free') out += `💬 Prompt: ${prompt}\n`;
+  out += `\n${text}\n`;
+  return out;
+}
+
+async function shareTranscript() {
+  const text = getShareText();
+  if (navigator.share) {
+    try {
+      // url param needed for Gmail on Android to open properly
+      await navigator.share({ title: 'DP Recording', text: text, url: '' });
+      toast('Shared!');
+    } catch(e) {
+      if (e.name !== 'AbortError') emailFallback(text);
+    }
+  } else {
+    emailFallback(text);
+  }
+}
+
+function emailFallback(text) {
+  const subj = encodeURIComponent('DP Recording');
+  const body = encodeURIComponent(text);
+  window.location.href = `mailto:scottjmurray@gmail.com?subject=${subj}&body=${body}`;
+}
+
+function emailTranscript() {
+  const dest = document.getElementById('dest-pick');
+  const cat = document.getElementById('cat-pick');
+  const destLabel = dest.options[dest.selectedIndex].text;
+  const catLabel = cat.options[cat.selectedIndex].text;
+  const prompt = document.getElementById('p-text').textContent;
+  const text = finalTranscript.trim();
+  const user = currentUser.charAt(0).toUpperCase() + currentUser.slice(1);
+
+  const subj = `DP Recording - ${destLabel} - ${catLabel}`;
+  let body = `Destination: ${destLabel}\nCategory: ${catLabel}\nRecorded by: ${user}\n`;
+  if (currentCat !== 'free') body += `Prompt: ${prompt}\n`;
+  body += `\n${text}`;
+
+  // Copy to clipboard first as safety net
+  navigator.clipboard.writeText(body).catch(() => {});
+  toast('Copied — opening email...');
+
+  setTimeout(() => {
+    const a = document.createElement('a');
+    a.href = 'mailto:scottjmurray@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+    a.click();
+  }, 300);
+}
+
+function copyTranscript() {
+  copyFallback(getShareText());
+}
+
+function copyFallback(text) {
+  navigator.clipboard.writeText(text).then(() => toast('Copied!')).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Copied!');
+  });
+}
+
+function saveTranscript() {
+  const text = finalTranscript.trim();
+  if (!text) return;
+  const entry = {
+    id: Date.now(),
+    user: currentUser,
+    dest: currentDest,
+    destLabel: document.getElementById('dest-pick').options[document.getElementById('dest-pick').selectedIndex].text,
+    cat: currentCat,
+    catLabel: document.getElementById('cat-pick').options[document.getElementById('cat-pick').selectedIndex].text,
+    prompt: currentCat !== 'free' ? document.getElementById('p-text').textContent : null,
+    text: text,
+    date: new Date().toISOString(),
+    wordCount: text.split(/\s+/).filter(w => w).length
+  };
+  saved.unshift(entry);
+  localStorage.setItem('dp-saved', JSON.stringify(saved));
+  // Mark prompt done
+  const key = currentDest + '-' + currentCat + '-' + promptIdx;
+  completedPrompts[key] = true;
+  localStorage.setItem('dp-done', JSON.stringify(completedPrompts));
+  updateSavedCount();
+  toast('Saved!');
+}
+
+function clearAll() {
+  if (!confirm('Clear this transcript?')) return;
+  finalTranscript = '';
+  interimTranscript = '';
+  seconds = 0;
+  document.getElementById('tx').innerHTML = '';
+  document.getElementById('tx-wc').textContent = '';
+  document.getElementById('timer').textContent = '00:00';
+  document.getElementById('act-bar').classList.remove('vis');
+}
+
+function editTranscript() {
+  const el = document.getElementById('tx');
+  el.contentEditable = el.contentEditable === 'true' ? 'false' : 'true';
+  if (el.contentEditable === 'true') {
+    el.focus();
+    toast('Editing — tap elsewhere when done');
+    el.addEventListener('blur', () => {
+      el.contentEditable = 'false';
+      finalTranscript = el.textContent;
+      showActions();
+    }, { once: true });
+  }
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function updateSavedCount() {
+  document.getElementById('sv-count').textContent = saved.length;
+}
+
+// ═══ PROMPTS BROWSER ═══
+function buildPromptsBrowser() {
+  // Category chips
+  const cc = document.getElementById('cat-chips');
+  cc.innerHTML = CATS.map(c =>
+    `<div class="chip${c.v === currentCat ? ' on' : ''}" onclick="browseCat('${c.v}')">${c.l}</div>`
+  ).join('');
+
+  // Dest chips
+  const dc = document.getElementById('dest-chips');
+  dc.innerHTML = DESTS.map(d =>
+    `<div class="chip${d.v === currentDest ? ' on' : ''}" onclick="browseDest('${d.v}')">${d.l}</div>`
+  ).join('');
+
+  renderPromptList();
+}
+
+function browseCat(c) {
+  currentCat = c;
+  document.getElementById('cat-pick').value = c;
+  promptIdx = 0;
+  updatePrompt();
+  buildPromptsBrowser();
+}
+function browseDest(d) {
+  currentDest = d;
+  document.getElementById('dest-pick').value = d;
+  promptIdx = 0;
+  updatePrompt();
+  buildPromptsBrowser();
+}
+
+function renderPromptList() {
+  const list = document.getElementById('pr-list');
+  const prompts = getPrompts();
+  const destLabel = DESTS.find(d => d.v === currentDest)?.l || currentDest;
+  document.getElementById('pr-list-title').textContent = destLabel + ' — ' + (CATS.find(c => c.v === currentCat)?.l || '');
+
+  list.innerHTML = prompts.map((p, i) => {
+    const key = currentDest + '-' + currentCat + '-' + i;
+    const done = completedPrompts[key];
+    return `<div class="pr-item${done ? ' done' : ''}" onclick="usePrompt(${i})">
+      <span class="pi-num">${i + 1}</span>
+      <span class="pi-text">${p}</span>
+      <span class="pi-go"><svg viewBox="0 0 24 24">${done ? '<polyline points="20 6 9 17 4 12"/>' : '<polyline points="9 18 15 12 9 6"/>'}</svg></span>
+    </div>`;
+  }).join('');
+}
+
+function usePrompt(i) {
+  promptIdx = i;
+  updatePrompt();
+  showTab.call({ classList: { add: () => {} } }, 'record');
+  // Manually switch tabs
+  document.querySelectorAll('.nav button').forEach((b, idx) => {
+    b.classList.toggle('on', idx === 0);
+  });
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+  document.getElementById('scr-record').classList.add('on');
+}
+
+// ═══ SAVED LIST ═══
+function renderSaved() {
+  const list = document.getElementById('sv-list');
+  const empty = document.getElementById('sv-empty');
+  empty.style.display = saved.length ? 'none' : 'block';
+
+  list.innerHTML = saved.map(s => {
+    const date = new Date(s.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    return `<div class="sv-item">
+      <div class="sv-meta">
+        <span class="sv-dest">${s.destLabel} · ${s.catLabel}</span>
+        <span class="sv-date">${date} · ${s.user}</span>
+      </div>
+      ${s.prompt ? `<div class="sv-prompt">"${s.prompt}"</div>` : ''}
+      <div class="sv-text">${s.text}</div>
+      <div class="sv-actions">
+        <button class="sv-share" onclick="shareSaved(${s.id})">Share</button>
+        <button class="sv-email" onclick="emailSaved(${s.id})">Email</button>
+        <button class="sv-copy" onclick="copySaved(${s.id})">Copy</button>
+        <button class="sv-del" onclick="deleteSaved(${s.id})">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function shareSaved(id) {
+  const s = saved.find(x => x.id === id);
+  if (!s) return;
+  let text = `📍 ${s.destLabel} | ${s.catLabel}\n🎙️ ${s.user}\n`;
+  if (s.prompt) text += `💬 ${s.prompt}\n`;
+  text += `\n${s.text}\n`;
+  if (navigator.share) {
+    navigator.share({ title: 'DP Recording', text, url: '' }).catch(() => emailFallback(text));
+  } else {
+    emailFallback(text);
+  }
+}
+
+function copySaved(id) {
+  const s = saved.find(x => x.id === id);
+  if (!s) return;
+  let text = `📍 ${s.destLabel} | ${s.catLabel}\n🎙️ ${s.user}\n`;
+  if (s.prompt) text += `💬 ${s.prompt}\n`;
+  text += `\n${s.text}\n`;
+  copyFallback(text);
+}
+
+function emailSaved(id) {
+  const s = saved.find(x => x.id === id);
+  if (!s) return;
+  const subj = `DP Recording - ${s.destLabel} - ${s.catLabel}`;
+  let body = `Destination: ${s.destLabel}\nCategory: ${s.catLabel}\nRecorded by: ${s.user}\n`;
+  if (s.prompt) body += `Prompt: ${s.prompt}\n`;
+  body += `\n${s.text}`;
+
+  navigator.clipboard.writeText(body).catch(() => {});
+  toast('Copied — opening email...');
+
+  setTimeout(() => {
+    const a = document.createElement('a');
+    a.href = 'mailto:scottjmurray@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+    a.click();
+  }, 300);
+}
+
+function deleteSaved(id) {
+  if (!confirm('Delete this recording?')) return;
+  saved = saved.filter(x => x.id !== id);
+  localStorage.setItem('dp-saved', JSON.stringify(saved));
+  updateSavedCount();
+  renderSaved();
+}
+
+// ═══ BOOT ═══
+init();
+</script>
+</body>
+</html>
