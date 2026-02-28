@@ -40,7 +40,7 @@ interface Props {
       quoteAuthor?: string;
     }[];
   };
-  locale?: 'en' | 'tl';
+  locale?: 'en' | 'vi';
 }
 
 const { frontmatter, locale } = Astro.props;
@@ -111,7 +111,7 @@ const budgetText = frontmatter.budgetPerDay
   ? `$${frontmatter.budgetPerDay.backpacker}–$${frontmatter.budgetPerDay.luxury}/day`
   : '';
 
-// Derive destination slug from the URL pathname for guideTag (e.g., /destinations/siquijor/ -> siquijor)
+// Derive destination slug from the URL pathname for guideTag (e.g., /destinations/hanoi/ -> hanoi)
 const destSlug = Astro.url.pathname.replace(/^\/destinations\//, '').replace(/\/$/, '') || frontmatter.title.toLowerCase().replace(/\s+/g, '-');
 
 // Content pillar links for cross-linking section

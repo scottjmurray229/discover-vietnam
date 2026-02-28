@@ -106,7 +106,7 @@ export default function ToolsTab({ contacts, weather }: ToolsTabProps) {
           </div>
           {[
             { icon: '⛅', title: 'Weather Forecasts', freq: 'Every 6 hours', detail: '7-day forecast for each destination' },
-            { icon: '💱', title: 'Currency Rates', freq: 'Every 12 hours', detail: 'USD/PHP rate for budget tracker' },
+            { icon: '💱', title: 'Currency Rates', freq: 'Every 12 hours', detail: 'USD/VND rate for budget tracker' },
             { icon: '🧭', title: 'Direction Updates', freq: 'Weekly', detail: 'Price changes, new routes, closures' },
             { icon: '📰', title: 'Local Advisories', freq: 'Real-time', detail: 'Travel advisories and weather alerts' },
           ].map((item, i) => (

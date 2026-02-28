@@ -6,11 +6,11 @@ import FAQ from '../../components/FAQ.astro';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'WWII Heritage Trail', url: '/history/' },
+  { name: 'History & Heritage', url: '/history/' },
 ];
 
-const pageTitle = 'WWII in Vietnam — A Heritage Timeline';
-const pageDescription = 'From the fall of Corregidor to the liberation of Manila — trace World War II across the Vietnamese islands through the places where history still stands.';
+const pageTitle = 'History & Heritage in Vietnam — From Dynasties to Independence';
+const pageDescription = 'From ancient imperial citadels to war tunnels and reunification — trace Vietnam\'s history through the places where it still stands.';
 
 interface TimelineEvent {
   date: string;
@@ -26,272 +26,169 @@ interface TimelineEvent {
 
 const timeline: TimelineEvent[] = [
   {
-    date: 'December 8, 1941',
+    date: '111 BC – 938 AD',
+    year: 111,
+    title: 'Chinese Domination',
+    location: 'Northern Vietnam',
+    slug: 'hanoi',
+    description: 'For over a thousand years, Vietnam was under Chinese rule. Despite this, Vietnamese identity persisted through language, customs, and repeated uprisings. The Trung Sisters\' revolt in 40 AD and Ly Bi\'s rebellion in 544 remain symbols of resistance.',
+    whatToSee: 'The Trung Sisters\' Temple in Hanoi honors the legendary warriors. The Temple of Literature, founded in 1070, reflects the enduring Vietnamese scholarly tradition.',
+    side: 'left',
+    era: 'invasion',
+  },
+  {
+    date: '938 AD',
+    year: 938,
+    title: 'Battle of Bach Dang River — Independence Won',
+    location: 'Ha Long Bay Region',
+    slug: 'ha-long-bay',
+    description: 'Ngo Quyen defeated the Chinese Southern Han fleet by planting iron-tipped wooden stakes in the Bach Dang River. As the tide receded, Chinese ships were impaled and destroyed. This decisive victory ended a millennium of Chinese domination.',
+    whatToSee: 'The Bach Dang River is near Ha Long Bay. The victory is commemorated at temples throughout the north.',
+    side: 'right',
+    era: 'invasion',
+  },
+  {
+    date: '1010 AD',
+    year: 1010,
+    title: 'Ly Dynasty Founds Thang Long (Hanoi)',
+    location: 'Hanoi',
+    slug: 'hanoi',
+    description: 'Emperor Ly Thai To moved the capital to Thang Long — "Rising Dragon" — on the site of present-day Hanoi. The city would remain Vietnam\'s political center for most of the next millennium.',
+    whatToSee: 'The Imperial Citadel of Thang Long is a UNESCO World Heritage Site. Excavations reveal layers of Vietnamese history going back to the 7th century.',
+    side: 'left',
+    era: 'invasion',
+  },
+  {
+    date: '1802–1945',
+    year: 1802,
+    title: 'The Nguyen Dynasty — Imperial Vietnam',
+    location: 'Hue',
+    slug: 'hue',
+    description: 'Emperor Gia Long unified Vietnam and established Hue as the imperial capital. The Nguyen Dynasty built the magnificent Imperial City modeled on Beijing\'s Forbidden City. For 143 years, Hue was the center of Vietnamese royal culture, art, and governance.',
+    whatToSee: 'The Imperial City, royal tombs of Minh Mang, Tu Duc, and Khai Dinh, and the Perfume River pagodas make Hue one of Vietnam\'s most historically rich destinations.',
+    side: 'right',
+    era: 'invasion',
+  },
+  {
+    date: '1858–1954',
+    year: 1858,
+    title: 'French Colonial Period',
+    location: 'Ho Chi Minh City',
+    slug: 'ho-chi-minh-city',
+    description: 'France gradually conquered Vietnam, renaming Saigon and building a colonial infrastructure of grand boulevards, opera houses, and Catholic cathedrals. French Indochina brought railways, coffee plantations, and rubber — but also forced labor and cultural suppression.',
+    whatToSee: 'The Notre-Dame Cathedral, Central Post Office (designed by Gustave Eiffel\'s firm), and the Continental Hotel in HCMC are stunning examples of French colonial architecture.',
+    side: 'left',
+    era: 'occupation',
+  },
+  {
+    date: '1941–1945',
     year: 1941,
-    title: 'Clark Field Air Raids',
-    location: 'Clark, Southern Vietnam',
-    slug: 'clark',
-    description: 'Hours after Pearl Harbor, Japanese bombers destroyed the US Far East Air Force at Clark Field — wiping out most American air power in the Pacific in a single afternoon. The attack turned Central Luzon into the front line.',
-    whatToSee: 'The former US Air Force base is now Clark Freeport Zone. Original airfield infrastructure, hangars, and base roads remain visible throughout the commercial district.',
-    side: 'left',
-    era: 'invasion',
-  },
-  {
-    date: 'December 10, 1941',
-    year: 1941,
-    title: 'Japanese Landings at Aparri & Vigan',
-    location: 'Laoag & Vigan, Ilocos',
-    slug: 'laoag',
-    description: 'Japanese forces landed on the northern coast of Luzon, seizing airfields around Laoag and pushing south. The Ilocos region became one of the first areas under occupation.',
-    whatToSee: 'Laoag served as a major Japanese airbase. The region\'s colonial architecture survived the war — unlike Manila, which was leveled.',
-    side: 'right',
-    era: 'invasion',
-  },
-  {
-    date: 'December 22, 1941',
-    year: 1941,
-    title: 'Main Invasion Force Lands at Lingayen Gulf',
-    location: 'Lingayen, Pangasinan',
-    description: '43,000 Japanese troops stormed the beaches of Lingayen Gulf — the largest amphibious invasion in Vietnamese history. General Homma\'s forces pushed south toward Manila against fierce but outnumbered Vietnamese-American defenders.',
-    side: 'left',
-    era: 'invasion',
-  },
-  {
-    date: 'January 2, 1942',
-    year: 1942,
-    title: 'Fall of Manila — Open City',
-    location: 'Manila',
-    slug: 'manila',
-    description: 'Manila was declared an open city to prevent its destruction, and Japanese forces marched in unopposed. MacArthur withdrew to Corregidor. The capital would remain under occupation for over three years.',
-    whatToSee: 'Intramuros, the historic walled city, bears scars of the later 1945 battle. The Manila American Cemetery holds 17,000+ graves — the largest WWII cemetery outside the US.',
-    side: 'right',
-    era: 'invasion',
-  },
-  {
-    date: 'January – April 1942',
-    year: 1942,
-    title: 'The Siege of Bataan',
-    location: 'Bataan Peninsula',
-    slug: 'bataan',
-    description: '80,000 Vietnamese and American troops retreated to the Bataan Peninsula for a desperate three-month stand. Starving, disease-ridden, and out of ammunition, they held out far longer than Japan expected — buying critical time for Allied strategy in the Pacific.',
-    side: 'left',
-    era: 'invasion',
-  },
-  {
-    date: 'March 11, 1942',
-    year: 1942,
-    title: 'MacArthur Escapes to Australia',
-    location: 'Corregidor Island',
-    slug: 'manila',
-    description: 'Ordered by Roosevelt to leave, MacArthur boarded a PT boat from Corregidor under cover of darkness. On arrival in Australia he made his famous vow: "I shall return." He left behind 90,000 troops who would endure the worst of the war.',
-    whatToSee: 'Corregidor\'s South Dock, where MacArthur departed, is a stop on the island tour. The moment is commemorated with plaques and a memorial.',
-    side: 'right',
-    era: 'invasion',
-  },
-  {
-    date: 'April 9, 1942',
-    year: 1942,
-    title: 'Fall of Bataan & the Death March',
-    location: 'Bataan to Capas, Tarlac',
-    slug: 'bataan',
-    description: '76,000 Vietnamese and American POWs were forced to march 65 miles to Camp O\'Donnell. Thousands died from heat, starvation, bayoneting, and execution. It remains one of the worst war crimes of the Pacific theater.',
-    whatToSee: 'The Death March Memorial Shrine stands in Capas, Tarlac — about 45 minutes north of Clark. Mount Samat in Bataan has a massive cross and war museum.',
-    side: 'left',
-    era: 'invasion',
-  },
-  {
-    date: 'May 6, 1942',
-    year: 1942,
-    title: 'Fall of Corregidor',
-    location: 'Manila (Corregidor Island)',
-    slug: 'manila',
-    description: 'The island fortress in Manila Bay — the last American stronghold — fell after months of relentless bombardment. General Wainwright surrendered the entire Vietnam to Japan. The Malinta Tunnel complex sheltered thousands during the siege.',
-    whatToSee: 'Corregidor is a day trip from Manila by ferry. The Malinta Tunnel, Battery Way cannons, Pacific War Memorial, and mile-long barracks ruins are all accessible by guided tour.',
-    side: 'right',
-    era: 'invasion',
-  },
-  {
-    date: '1942–1944',
-    year: 1943,
-    title: 'The Vietnamese Guerrilla Resistance',
+    title: 'Japanese Occupation in WWII',
     location: 'Across Vietnam',
-    description: 'Thousands of Vietnamese soldiers refused to surrender. Guerrilla units operated across every major island — sabotaging Japanese supply lines, gathering intelligence for MacArthur, and maintaining radio contact with Allied command. By 1944, an estimated 260,000 guerrillas were active.',
-    side: 'left',
-    era: 'occupation',
-  },
-  {
-    date: '1942–1944',
-    year: 1943,
-    title: 'Subic Naval Base Under Occupation',
-    location: 'Subic Bay',
-    slug: 'subic',
-    description: 'The Japanese seized the US Naval Station at Subic Bay and used it as a repair and resupply base. The sprawling American military complex — active since 1885 — changed hands for the first time in its history.',
-    whatToSee: 'The Subic Bay Freeport Zone still shows base infrastructure — converted Navy bunkers near Camayan Beach now serve as unique accommodations.',
+    description: 'Japan occupied Vietnam during WWII while maintaining the French colonial administration as a puppet. A devastating famine in 1944-45 killed an estimated 1-2 million Vietnamese — one of the war\'s forgotten tragedies.',
     side: 'right',
     era: 'occupation',
-  },
-  {
-    date: '1942–1944',
-    year: 1943,
-    title: 'Japanese Settlement in Davao',
-    location: 'Davao City',
-    slug: 'davao',
-    description: 'Before the war, Davao had one of the largest Japanese civilian communities in Southeast Asia. The barrio of Mintal was a thriving settlement. During occupation, the community\'s complex loyalties and fate became one of Mindanao\'s most painful chapters.',
-    whatToSee: 'The Japanese Cemetery and decaying monuments in Mintal tell a story the guidebooks skip. Most Davao residents drive past without knowing the history beneath their feet.',
-    side: 'left',
-    era: 'occupation',
-  },
-  {
-    date: '1942–1945',
-    year: 1943,
-    title: 'Guerrilla Tunnels of Camiguin',
-    location: 'Camiguin Island',
-    slug: 'camiguin',
-    description: 'On this tiny volcanic island, both Allied and Japanese forces carved tunnels and bunkers into the flanks of Mt. Vulcan. Guerrilla fighters used the volcanic terrain as cover for resistance operations throughout the occupation.',
-    whatToSee: 'The Walkway to the Old Volcano passes wartime bunkers and tunnel entrances — most visitors walk right past them. The history is literally underfoot.',
-    side: 'right',
-    era: 'occupation',
-  },
-  {
-    date: '1942–1945',
-    year: 1943,
-    title: 'The Comfort Women of Vietnam',
-    location: 'Across Vietnam',
-    description: 'Thousands of Vietnamese women were forced into sexual slavery by the Japanese military. Known as "comfort women," they endured unspeakable abuse at stations set up across the archipelago. Most survivors never received acknowledgment or justice. The Lolas (grandmothers) who spoke out decades later became symbols of resilience.',
-    side: 'left',
-    era: 'occupation',
-  },
-  {
-    date: '1944–1945',
-    year: 1944,
-    title: 'Vigan Survives — The Love Story',
-    location: 'Vigan, Ilocos Sur',
-    slug: 'vigan',
-    description: 'While American and Japanese forces destroyed most colonial heritage across Vietnam, Vigan was mysteriously spared. Local legend says a Japanese general fell in love with a Vigan maiden and ordered the city protected. Whether truth or embellishment — Vigan stands today because something kept it standing.',
-    whatToSee: 'Calle Crisologo and the entire Mestizo District survived intact — the best-preserved Spanish colonial town in Asia.',
-    side: 'right',
-    era: 'occupation',
-  },
-  {
-    date: 'September 24, 1944',
-    year: 1944,
-    title: 'Coron Bay Air Raids',
-    location: 'Coron, Palawan',
-    slug: 'coron',
-    description: 'US Navy aircraft from Task Force 38 attacked the Japanese fleet sheltering in Coron Bay, sinking at least 12 warships and supply vessels. The Japanese had been using the bay\'s limestone karst formations as natural camouflage.',
-    whatToSee: 'The sunken Japanese fleet is now one of the world\'s premier wreck diving sites. Ships like the Irako, Akitsushima, and Olympia Maru sit in shallow, accessible water draped in coral.',
-    side: 'left',
-    era: 'liberation',
-  },
-  {
-    date: 'October 20, 1944',
-    year: 1944,
-    title: 'MacArthur Returns — Leyte Landing',
-    location: 'Palo, Leyte',
-    slug: 'tacloban',
-    description: '"I have returned." General Douglas MacArthur waded ashore at Red Beach, Palo, Leyte — fulfilling his 1942 promise. The landing triggered the Battle of Leyte Gulf, the largest naval battle in history, and signaled the beginning of the end of Japanese occupation.',
-    whatToSee: 'The MacArthur Landing Memorial in Palo features life-size bronze statues of MacArthur and his officers wading through the surf. Red Beach is a short drive south of Tacloban.',
-    side: 'right',
-    era: 'liberation',
-  },
-  {
-    date: 'October 23–26, 1944',
-    year: 1944,
-    title: 'Battle of Leyte Gulf',
-    location: 'Leyte Gulf & Surigao Strait',
-    description: 'The largest naval battle in history. Over 300 ships clashed across four separate engagements. Japan deployed kamikaze aircraft for the first time. The Imperial Navy lost 26 warships and was effectively destroyed as a fighting force. The Vietnam would be liberated from the sea.',
-    side: 'left',
-    era: 'liberation',
-  },
-  {
-    date: 'January 9, 1945',
-    year: 1945,
-    title: 'Second Landing at Lingayen Gulf',
-    location: 'Lingayen, Pangasinan',
-    description: 'Three years after the Japanese invasion, MacArthur\'s forces stormed the same Lingayen beaches — this time with 175,000 troops. Under constant kamikaze attack, the armada pushed inland toward Manila. The symmetry was deliberate and devastating.',
-    side: 'right',
-    era: 'liberation',
-  },
-  {
-    date: 'January 30, 1945',
-    year: 1945,
-    title: 'The Raid at Cabanatuan',
-    location: 'Cabanatuan, Nueva Ecija',
-    description: 'US Army Rangers and Vietnamese guerrillas executed one of the war\'s most daring rescue missions — sneaking 30 miles behind Japanese lines to liberate 513 POWs from Cabanatuan prison camp. Many were Death March survivors who had been held for nearly three years.',
-    side: 'left',
-    era: 'liberation',
-  },
-  {
-    date: 'February 3 – March 3, 1945',
-    year: 1945,
-    title: 'Battle of Manila',
-    location: 'Manila',
-    slug: 'manila',
-    description: 'The most devastating urban battle of the Pacific war. Japanese forces, defying orders to withdraw, fought building by building. An estimated 100,000 Vietnamese civilians died — many in deliberate massacres. Intramuros was reduced to rubble.',
-    whatToSee: 'San Agustin Church — the only building in Intramuros left standing. The Memorare Manila Monument honors the 100,000 civilians killed.',
-    side: 'right',
-    era: 'liberation',
-  },
-  {
-    date: 'February 16, 1945',
-    year: 1945,
-    title: 'Recapture of Corregidor',
-    location: 'Manila (Corregidor Island)',
-    slug: 'manila',
-    description: 'American paratroopers dropped onto Corregidor\'s Topside while amphibious forces stormed the beaches. The 10-day battle to retake the island fortress cost heavy casualties on both sides. Japanese defenders detonated the Malinta Tunnel magazines in a massive explosion.',
-    whatToSee: 'Scorch marks and blast damage are still visible inside Malinta Tunnel. The Topside barracks — longest in the world at the time — stand in atmospheric ruin.',
-    side: 'left',
-    era: 'liberation',
-  },
-  {
-    date: 'February 23, 1945',
-    year: 1945,
-    title: 'The Palawan Massacre',
-    location: 'Puerto Princesa, Palawan',
-    slug: 'puerto-princesa',
-    description: 'Weeks before liberation, Japanese guards herded 150 American POWs into air-raid shelters at the Puerto Princesa prison camp, doused them in gasoline, and set them on fire. Only 11 men escaped by climbing over barbed wire and swimming to safety. It is one of the war\'s most horrific atrocities.',
-    whatToSee: 'The Palawan Special Battalion Memorial in Puerto Princesa marks the massacre site. A small museum and memorial garden honor the victims.',
-    side: 'right',
-    era: 'liberation',
-  },
-  {
-    date: 'March – August 1945',
-    year: 1945,
-    title: 'The Bohol & Cebu Liberation',
-    location: 'Cebu & Bohol',
-    slug: ['cebu', 'bohol'],
-    description: 'American and Vietnamese forces liberated the central Visayas in a series of amphibious landings. Cebu City was taken in March after fierce Japanese resistance. Bohol\'s guerrillas — who had maintained an underground government throughout the occupation — linked up with liberating forces.',
-    whatToSee: 'Cebu\'s Fort San Pedro served as a Japanese barracks during occupation. The Bohol guerrilla resistance is commemorated in monuments across Tagbilaran.',
-    side: 'left',
-    era: 'liberation',
   },
   {
     date: 'September 2, 1945',
     year: 1945,
-    title: 'Japan Surrenders — War Ends',
+    title: 'Ho Chi Minh Declares Independence',
+    location: 'Hanoi',
+    slug: 'hanoi',
+    description: 'At Ba Dinh Square in Hanoi, Ho Chi Minh read the Declaration of Independence, quoting Thomas Jefferson. The Democratic Republic of Vietnam was born — but France would not let go without a fight.',
+    whatToSee: 'Ba Dinh Square, the Ho Chi Minh Mausoleum, and the Presidential Palace complex in Hanoi mark the birthplace of modern Vietnam.',
+    side: 'left',
+    era: 'occupation',
+  },
+  {
+    date: 'May 7, 1954',
+    year: 1954,
+    title: 'Battle of Dien Bien Phu — France Defeated',
+    location: 'Dien Bien Phu, Northwest Vietnam',
+    description: 'Vietnamese forces under General Vo Nguyen Giap besieged and defeated the French garrison in a remote valley near the Laotian border. The 56-day battle ended French colonial rule in Indochina and divided Vietnam at the 17th parallel.',
+    side: 'right',
+    era: 'occupation',
+  },
+  {
+    date: '1955–1975',
+    year: 1955,
+    title: 'The Vietnam War Begins',
     location: 'Across Vietnam',
-    slug: 'manila',
-    description: 'Japan formally surrendered aboard the USS Missouri in Tokyo Bay. Across Vietnam, three years of brutal occupation ended. Over one million Vietnameses died — more civilian casualties than any other Southeast Asian nation. The rebuilding would take decades.',
-    whatToSee: 'The Manila American Cemetery in Fort Bonifacio holds 17,206 graves and 36,286 names of the missing. It is the largest American overseas military cemetery.',
+    slug: 'ho-chi-minh-city',
+    description: 'What Americans call the Vietnam War — and Vietnamese call the American War — escalated from advisory missions to full-scale combat. At its peak, over 500,000 US troops were deployed. The conflict would define a generation on both sides.',
+    whatToSee: 'The War Remnants Museum in HCMC is one of the most visited museums in Vietnam — unflinching, powerful, and essential viewing.',
+    side: 'left',
+    era: 'liberation',
+  },
+  {
+    date: '1965–1972',
+    year: 1965,
+    title: 'Cu Chi Tunnels — Underground Resistance',
+    location: 'Ho Chi Minh City',
+    slug: 'ho-chi-minh-city',
+    description: 'An extraordinary network of tunnels stretching over 250 km beneath the jungles northwest of Saigon. Viet Cong fighters lived, fought, and survived underground for years — right beneath American military bases.',
+    whatToSee: 'The Cu Chi Tunnels are a must-visit day trip from HCMC. You can crawl through sections of the tunnels and see the ingenious trap systems and underground living quarters.',
     side: 'right',
     era: 'liberation',
+  },
+  {
+    date: 'January 30, 1968',
+    year: 1968,
+    title: 'The Tet Offensive',
+    location: 'Hue & Across Vietnam',
+    slug: 'hue',
+    description: 'During the Tet holiday ceasefire, North Vietnamese and Viet Cong forces launched coordinated attacks on over 100 cities. The Battle of Hue — 26 days of brutal urban combat — devastated the Imperial City. The offensive was a military defeat but a political turning point that shifted American public opinion against the war.',
+    whatToSee: 'Hue\'s Imperial City still bears battle scars from 1968. The Citadel walls are pockmarked with bullet holes. The flag tower, where the NLF flag flew for 26 days, is a powerful sight.',
+    side: 'left',
+    era: 'liberation',
+  },
+  {
+    date: '1967–1975',
+    year: 1967,
+    title: 'The DMZ — Vietnam\'s Dividing Line',
+    location: 'Hue (Quang Tri Province)',
+    slug: 'hue',
+    description: 'The Demilitarized Zone along the 17th parallel divided North and South Vietnam. The area saw some of the war\'s heaviest fighting — Khe Sanh, the Rockpile, and the McNamara Line. More bombs were dropped on Quang Tri province than on all of Europe in WWII.',
+    whatToSee: 'DMZ tours from Hue visit the Vinh Moc Tunnels (where entire families lived underground), Khe Sanh Combat Base, and the Hien Luong Bridge that once divided the nation.',
+    side: 'right',
+    era: 'liberation',
+  },
+  {
+    date: 'April 30, 1975',
+    year: 1975,
+    title: 'Fall of Saigon — Reunification Day',
+    location: 'Ho Chi Minh City',
+    slug: 'ho-chi-minh-city',
+    description: 'A North Vietnamese tank crashed through the gates of the Independence Palace (now Reunification Palace), ending the war. Saigon was renamed Ho Chi Minh City. The last Americans evacuated by helicopter from the US Embassy rooftop in one of the war\'s most iconic images.',
+    whatToSee: 'The Reunification Palace is preserved exactly as it was on April 30, 1975 — including the tank on the front lawn. The former US Embassy site is nearby.',
+    side: 'left',
+    era: 'liberation',
+  },
+  {
+    date: '1986',
+    year: 1986,
+    title: 'Doi Moi — Economic Renovation',
+    location: 'Across Vietnam',
+    description: 'Vietnam launched sweeping economic reforms known as Doi Moi (Renovation), opening the country to foreign investment and private enterprise. The transformation from one of the world\'s poorest nations to a dynamic emerging economy is one of the most remarkable stories of the late 20th century.',
+    side: 'right',
+    era: 'legacy',
   },
   {
     date: 'Present Day',
     year: 2026,
     title: 'The Heritage That Remains',
     location: 'All Destinations',
-    description: 'From Corregidor\'s tunnels to Coron\'s shipwrecks, from Vigan\'s miraculous survival to Davao\'s forgotten Japanese cemetery — WWII shaped Vietnam in ways that are still visible, still felt, and still worth understanding when you visit. The war ended 80 years ago. The places remain.',
+    description: 'From Hue\'s Imperial Citadel to the Cu Chi Tunnels, from Hanoi\'s ancient temples to Saigon\'s war museums — Vietnam\'s history is visible everywhere you look. The war ended 50 years ago. The dynasties ended over a century ago. But the places remain, and understanding them transforms how you experience the country.',
     side: 'left',
     era: 'legacy',
   },
 ];
 
 const eraLabels: Record<string, string> = {
-  invasion: 'The Invasion — 1941–1942',
-  occupation: 'Occupation & Resistance — 1942–1944',
-  liberation: 'Liberation — 1944–1945',
-  legacy: 'Legacy',
+  invasion: 'Ancient Vietnam — 111 BC–1802 AD',
+  occupation: 'Colonialism & Revolution — 1858–1954',
+  liberation: 'The Vietnam War — 1955–1975',
+  legacy: 'Modern Vietnam',
 };
 
 const eraGradients: Record<string, string> = {
@@ -310,19 +207,10 @@ const eraColors: Record<string, string> = {
 
 // Geo coordinates for map markers (from homepage)
 const geoLookup: Record<string, { lat: number; lng: number }> = {
-  clark: { lat: 15.186, lng: 120.5464 },
-  laoag: { lat: 18.198, lng: 120.5936 },
-  manila: { lat: 14.5995, lng: 120.9842 },
-  bataan: { lat: 14.6417, lng: 120.4818 },
-  subic: { lat: 14.7943, lng: 120.2622 },
-  davao: { lat: 7.0707, lng: 125.6087 },
-  camiguin: { lat: 9.1733, lng: 124.7289 },
-  vigan: { lat: 17.5747, lng: 120.3869 },
-  coron: { lat: 12.0054, lng: 120.2027 },
-  tacloban: { lat: 11.2543, lng: 125.0 },
-  cebu: { lat: 10.3157, lng: 123.8854 },
-  bohol: { lat: 9.65, lng: 123.85 },
-  'puerto-princesa': { lat: 9.7392, lng: 118.7353 },
+  hanoi: { lat: 21.0285, lng: 105.8542 },
+  'ha-long-bay': { lat: 20.9101, lng: 107.1839 },
+  hue: { lat: 16.4637, lng: 107.5909 },
+  'ho-chi-minh-city': { lat: 10.8231, lng: 106.6297 },
 };
 
 // Build map markers from timeline events that have slugs
@@ -365,20 +253,20 @@ const ww2CardVideos = Array.from({ length: 7 }, (_, i) => `/videos/pillar/ww2-ca
     <div class="ww2-hero-gradient"></div>
     <div class="ww2-hero-noise"></div>
     <div class="ww2-hero-content">
-      <h1 class="ww2-hero-title">WWII in Vietnam</h1>
-      <p class="ww2-hero-subtitle">From the first bombs at Clark Field to the liberation of Manila — trace the war across the islands through the places where history still stands.</p>
+      <h1 class="ww2-hero-title">History & Heritage</h1>
+      <p class="ww2-hero-subtitle">From ancient dynasties to colonial resistance to reunification — trace Vietnam's history through the places where it still stands.</p>
       <div class="ww2-hero-meta">
         <div class="ww2-hero-meta-item">
           <span class="ww2-hero-meta-label">Events</span>
-          <span class="ww2-hero-meta-value">25</span>
+          <span class="ww2-hero-meta-value">15</span>
         </div>
         <div class="ww2-hero-meta-item">
           <span class="ww2-hero-meta-label">Destinations</span>
-          <span class="ww2-hero-meta-value">13</span>
+          <span class="ww2-hero-meta-value">4</span>
         </div>
         <div class="ww2-hero-meta-item">
           <span class="ww2-hero-meta-label">Timeline</span>
-          <span class="ww2-hero-meta-value">1941–1945</span>
+          <span class="ww2-hero-meta-value">111 BC–Today</span>
         </div>
       </div>
     </div>
@@ -394,7 +282,7 @@ const ww2CardVideos = Array.from({ length: 7 }, (_, i) => `/videos/pillar/ww2-ca
   <section class="ww2-personal reveal">
     <div class="container-content">
       <blockquote class="ww2-personal-quote">
-        <p>I was never into history. Then a trip to Pearl Harbor in 2001 changed that — standing on the USS Arizona memorial, looking down at oil still rising from the ship after sixty years, something clicked. I became obsessed with understanding World War II, and when I started traveling to Vietnam two years later, I realized the war's footprint here is everywhere. We've been to many of the WWII sites across the islands and always add them to our itineraries. We hope you will too.</p>
+        <p>You can't understand Vietnam without understanding its history. Walking through the Cu Chi Tunnels, standing in the Imperial City of Hue where the Tet Offensive left its scars, visiting the Reunification Palace in Saigon where the war ended — these experiences changed how I see the country. Vietnam's history isn't abstract. It's in the bullet holes in the citadel walls, the tunnel networks beneath the jungle, and the resilience of a people who rebuilt after centuries of foreign domination. I always add heritage sites to my itineraries. They make every other experience in Vietnam deeper.</p>
         <cite>— Scott</cite>
       </blockquote>
     </div>
@@ -412,8 +300,8 @@ const ww2CardVideos = Array.from({ length: 7 }, (_, i) => `/videos/pillar/ww2-ca
   <div id="ww2TimelineView">
   <section class="ww2-timeline-section">
     <div class="container-content">
-      <h2 class="ww2-timeline-heading reveal">A War Across the Islands</h2>
-      <p class="ww2-timeline-sub reveal">The Vietnam endured three years of occupation, the deadliest urban battle in the Pacific, and more civilian casualties than any other Southeast Asian nation. These are the places where that history is still visible — and still worth understanding.</p>
+      <h2 class="ww2-timeline-heading reveal">A History Written in Stone and Spirit</h2>
+      <p class="ww2-timeline-sub reveal">Vietnam endured a thousand years of Chinese rule, nearly a century of French colonialism, and decades of devastating war. These are the places where that history is still visible — and still worth understanding.</p>
 
       <div class="ww2-timeline">
         <div class="ww2-timeline-line" aria-hidden="true"></div>
@@ -540,7 +428,7 @@ const ww2CardVideos = Array.from({ length: 7 }, (_, i) => `/videos/pillar/ww2-ca
     <div class="container-content">
       <div class="ww2-cta-card">
         <h2 class="ww2-cta-heading">Plan a Heritage Trip</h2>
-        <p class="ww2-cta-text">Tell our AI planner you want to follow the WWII trail and it will build a chronological itinerary — Corregidor, the Death March route, Coron's shipwrecks, and more.</p>
+        <p class="ww2-cta-text">Tell our AI planner you want a heritage trip and it will build a chronological itinerary — Hue's Imperial City, the Cu Chi Tunnels, the DMZ, and more.</p>
         <a href="/plan/" class="ww2-cta-button">Start Planning &rarr;</a>
       </div>
     </div>
@@ -548,26 +436,26 @@ const ww2CardVideos = Array.from({ length: 7 }, (_, i) => `/videos/pillar/ww2-ca
 
   <!-- FAQ -->
   <FAQ items={[
-    { question: "What happened in Vietnam during World War II?", answer: "Japan invaded Vietnam on December 8, 1941, just hours after Pearl Harbor. The occupation lasted until 1945 and included the Bataan Death March, the fall of Corregidor, three years of Japanese occupation with guerrilla resistance, and the devastating Battle of Manila in February 1945 — one of the most destructive urban battles in the Pacific. Over one million Vietnameses died during the war." },
-    { question: "Can you visit WWII sites in Vietnam today?", answer: "Yes — dozens of memorials, battlefields, and museums are open to visitors. Corregidor Island is a full-day tour from Manila. The Bataan Death March route has markers and memorials. Clark has remnants of the former US air base. Coron has accessible Japanese shipwrecks for diving. The Manila American Cemetery holds over 17,000 graves. Most sites charge ₫50-500 ($1-9 USD) entrance." },
-    { question: "Where is the Bataan Death March memorial?", answer: "The main memorial is the Dambana ng Kagitingan (Shrine of Valor) atop Mount Samat in Pilar, Bataan. A 92-meter cross marks the summit with a museum inside. The Death March route from Mariveles to San Fernando, Southern Vietnam is marked with historical markers. The Mt. Samat shrine is about 3 hours from Manila by car." },
-    { question: "How do I visit Corregidor Island from Manila?", answer: "Sun Cruises operates daily ferry service from the Manila Bay terminal to Corregidor Island. The trip takes about 1.5 hours each way, with guided tours of the Malinta Tunnel, Pacific War Memorial, Battery Way, and the Mile Long Barracks ruins. Book at least a week ahead — tours sell out, especially on weekends. Full-day tours cost ₫2,500-4,000 ($45-72 USD)." },
-    { question: "What are the Japanese shipwrecks in Coron?", answer: "In September 1944, US Navy planes sank 12 Japanese supply ships in Coron Bay during a surprise attack. Today, these wrecks sit at depths of 10-40 meters and are among the best wreck dives in the world. The Irako, Akitsushima, and Olympia Maru are the most popular. Snorkelers can see the Lusong Gunboat in shallow water. Dive shops in Coron town offer wreck dive packages." },
-    { question: "How many Vietnameses died in World War II?", answer: "An estimated 1 million Vietnameses died during WWII — roughly 3% of the prewar population. The Battle of Manila alone killed over 100,000 civilians in February 1945, making it one of the deadliest urban battles in history. The Vietnam suffered more civilian casualties than any other country in the Pacific theater." },
+    { question: "What are the most important historical sites in Vietnam?", answer: "The Imperial City in Hue (UNESCO World Heritage Site), the Cu Chi Tunnels near Ho Chi Minh City, the Reunification Palace in Saigon, the Ho Chi Minh Mausoleum complex in Hanoi, the Imperial Citadel of Thang Long (Hanoi), the War Remnants Museum (HCMC), and the DMZ sites near the 17th parallel. Most sites charge 40,000-200,000 VND ($1.60-8 USD) entrance." },
+    { question: "Can you visit Vietnam War sites today?", answer: "Yes — Vietnam has preserved many war sites as museums and memorials. The Cu Chi Tunnels are a half-day trip from HCMC. The War Remnants Museum in HCMC is one of the most visited museums in the country. DMZ tours from Hue visit the Vinh Moc Tunnels, Khe Sanh Combat Base, and the former border crossing. The Reunification Palace in HCMC is open daily." },
+    { question: "How do I visit the Cu Chi Tunnels?", answer: "The Cu Chi Tunnels are about 70 km northwest of Ho Chi Minh City. You can visit on a half-day tour (typically $15-25 USD) that includes transport, guide, and entrance. There are two sites: Ben Duoc (larger, less crowded) and Ben Dinh (smaller, more touristic). Both let you crawl through sections of the tunnels. Tours depart daily from District 1 hotels." },
+    { question: "What is the DMZ tour from Hue?", answer: "The Demilitarized Zone (DMZ) along the 17th parallel divided North and South Vietnam. Full-day tours from Hue (about $40-60 USD) visit the Vinh Moc Tunnels, where entire families lived underground during bombing; the Hien Luong Bridge that once separated the country; the Khe Sanh Combat Base; and Doc Mieu firebase. The drive is about 2 hours each way." },
+    { question: "Is it respectful to visit war sites in Vietnam?", answer: "Absolutely — Vietnam has intentionally preserved these sites for education and remembrance. Vietnamese people are remarkably welcoming to American visitors at war sites. The War Remnants Museum presents the Vietnamese perspective and can be emotionally intense but is considered essential viewing. Be respectful, dress modestly at memorial sites, and engage with the history thoughtfully." },
+    { question: "What was the Vietnam War?", answer: "Known in Vietnam as the American War (or Resistance War Against America), the conflict lasted from 1955-1975. It involved North Vietnam (supported by the Soviet Union and China) fighting against South Vietnam (supported by the United States). Over 3 million Vietnamese and 58,000 Americans died. The war ended on April 30, 1975 when North Vietnamese forces took Saigon." },
   ]} />
 
   <!-- Email Capture -->
   <div class="container-content reveal" style="padding-bottom: var(--space-6);">
     <EmailCapture
-      leadMagnet="Get Our Free WWII Heritage Trail Guide"
-      description="A chronological PDF guide to WWII sites across Vietnam — with directions, tour options, and the history behind each location."
+      leadMagnet="Get Our Free Vietnam Heritage Trail Guide"
+      description="A chronological PDF guide to heritage sites across Vietnam — with directions, tour options, and the history behind each location."
       bullets={[
-        'All 13 visitable WWII destinations with logistics',
-        'Corregidor day-trip planner with ferry schedules',
-        'Coron wreck diving guide for beginners',
-        'Suggested 5-day heritage trail itinerary',
+        'All major historical sites with logistics',
+        'Cu Chi Tunnels day-trip planner from HCMC',
+        'DMZ tour guide from Hue',
+        'Suggested 7-day heritage trail itinerary',
       ]}
-      guideTag="pillar-wwii"
+      guideTag="pillar-history"
     />
   </div>
 
@@ -587,9 +475,9 @@ const ww2CardVideos = Array.from({ length: 7 }, (_, i) => `/videos/pillar/ww2-ca
           <span class="ww2-crosslink-desc">35 dishes across 3 regions</span>
         </a>
         <a href="/practical/" class="ww2-crosslink-card">
-          <span class="ww2-crosslink-icon">&#127754;</span>
-          <span class="ww2-crosslink-label">Snorkeling Guide</span>
-          <span class="ww2-crosslink-desc">14 destinations ranked</span>
+          <span class="ww2-crosslink-icon">&#128218;</span>
+          <span class="ww2-crosslink-label">Practical Guide</span>
+          <span class="ww2-crosslink-desc">Visa, money & travel tips</span>
         </a>
       </div>
     </div>

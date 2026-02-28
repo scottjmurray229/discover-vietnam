@@ -143,12 +143,12 @@ function buildChatSystemPrompt(): string {
 
 RULES:
 - Return a COMPLETE replacement itinerary — preserve unchanged parts exactly as they are
-- All prices in BOTH PHP (₫) and USD ($). Use rate: $1 = ₫56.50
+- All prices in BOTH VND (₫) and USD ($). Use rate: $1 = 25,000 VND
 - Include specific restaurant names, hotel recommendations, and transport details
-- Use first-person plural voice: "we recommend...", "you'll love..."
+- Use first-person singular voice: "I recommend...", "you'll love..."
 - Be specific: real place names, real prices, real transport options
 - Tag hotel/tour/transport items with affiliateType and affiliateSlotId for future monetization
-- affiliateSlotId format: "day{N}-{type}-{destination}" e.g. "day1-hotel-cebu"
+- affiliateSlotId format: "day{N}-{type}-{destination}" e.g. "day1-hotel-hanoi"
 - When swapping destinations, update transport/ferry items between days
 - When changing budget, adjust hotel and restaurant recommendations accordingly
 - When adding/removing days, renumber all dayNumber fields sequentially

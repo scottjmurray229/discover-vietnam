@@ -6,8 +6,8 @@ import FTCDisclosure from '../../components/FTCDisclosure.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog', (entry) => {
-  // Exclude translated files (tl/ subdirectory) from English listing, and exclude drafts
-  return !entry.id.startsWith('tl/') && !entry.data.draft;
+  // Exclude translated files (vi/ subdirectory) from English listing, and exclude drafts
+  return !entry.id.startsWith('vi/') && !entry.data.draft;
 });
 const posts = allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 
@@ -20,7 +20,7 @@ const breadcrumbs = [
 ---
 <BaseLayout
   title="Blog — Vietnam Travel Stories & Guides"
-  description="Travel stories, practical guides, food adventures, and festival coverage from 20+ trips across the Vietnamese islands."
+  description="Travel stories, practical guides, food adventures, and festival coverage from 20+ trips across Vietnam."
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
@@ -31,8 +31,8 @@ const breadcrumbs = [
     <div class="blog-hero-gradient" />
     <div class="blog-hero-overlay" />
     <div class="blog-hero-content">
-      <h1 class="blog-hero-title">Stories from the Islands</h1>
-      <p class="blog-hero-subtitle">Travel stories, practical guides, and food adventures from 20+ trips across the Vietnamese archipelago.</p>
+      <h1 class="blog-hero-title">Stories from the Road</h1>
+      <p class="blog-hero-subtitle">Travel stories, practical guides, and food adventures from 20+ trips across Vietnam.</p>
     </div>
   </header>
 
@@ -44,7 +44,7 @@ const breadcrumbs = [
   <!-- Personal caption -->
   <section class="blog-caption reveal">
     <div class="container-content">
-      <p class="blog-caption-text">These are our stories to you — from the places we've been, the food we've eaten, and the people who've shaped every trip. We'll keep them fresh, like the mangoes in Vietnam.</p>
+      <p class="blog-caption-text">These are my stories to you &mdash; from the places I've been, the food I've eaten, and the people who've shaped every trip. I'll keep them fresh, like the pho in Hanoi.</p>
     </div>
   </section>
 
@@ -101,7 +101,7 @@ const breadcrumbs = [
         <div class="blog-empty">
           <div class="blog-empty-icon">&#9998;</div>
           <h2>Articles Coming Soon</h2>
-          <p>We're writing our first batch of in-depth Vietnam travel guides, food stories, and festival coverage. Sign up below to be the first to read them.</p>
+          <p>I'm writing the first batch of in-depth Vietnam travel guides, food stories, and festival coverage. Sign up below to be the first to read them.</p>
           <div class="blog-empty-topics">
             <div class="blog-empty-topic">
               <span class="blog-empty-topic-icon">&#127754;</span>

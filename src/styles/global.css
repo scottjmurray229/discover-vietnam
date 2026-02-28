@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================================
-   DISCOVER PHILIPPINES — Global Design System
+   DISCOVER VIETNAM — Global Design System
    Source of truth: Product Design Document v2.1
    ============================================================ */
 
@@ -28,14 +28,16 @@
   --color-link: var(--color-ocean-teal);
   --color-link-hover: #0A5C5F;
 
-  --gradient-siquijor: linear-gradient(160deg, #1a1035 0%, #2d1b69 30%, #4C1D95 55%, #3730A3 80%, #1e1145 100%);
-  --gradient-cebu: linear-gradient(135deg, #0E4D5C, #0D7377, #14B8A6);
-  --gradient-bohol: linear-gradient(135deg, #065F46, #059669, #34D399);
-  --gradient-dumaguete: linear-gradient(135deg, #92400E, #D97706, #FBBF24);
-  --gradient-palawan: linear-gradient(135deg, #064E3B, #0D7377, #06B6D4);
-  --gradient-boracay: linear-gradient(135deg, #9D174D, #E8654A, #FB923C);
-  --gradient-siargao: linear-gradient(135deg, #0E7490, #14B8A6, #5EEAD4);
-  --gradient-clark: linear-gradient(160deg, #451a03 0%, #78350F 30%, #B45309 55%, #D97706 80%, #92400E 100%);
+  --gradient-hanoi: linear-gradient(160deg, #1a1035 0%, #2d1b69 30%, #4C1D95 55%, #3730A3 80%, #1e1145 100%);
+  --gradient-ho chi minh city: linear-gradient(135deg, #9D174D, #E8654A, #FB923C);
+  --gradient-da nang: linear-gradient(135deg, #0E4D5C, #0D7377, #14B8A6);
+  --gradient-hoi an: linear-gradient(135deg, #92400E, #D97706, #FBBF24);
+  --gradient-hue: linear-gradient(160deg, #451a03 0%, #78350F 30%, #B45309 55%, #D97706 80%, #92400E 100%);
+  --gradient-ha long bay: linear-gradient(135deg, #064E3B, #0D7377, #06B6D4);
+  --gradient-sapa: linear-gradient(135deg, #065F46, #059669, #34D399);
+  --gradient-nha trang: linear-gradient(135deg, #0E7490, #14B8A6, #5EEAD4);
+  --gradient-phu quoc: linear-gradient(135deg, #064E3B, #0D7377, #06B6D4);
+  --gradient-dalat: linear-gradient(135deg, #065F46, #059669, #34D399);
   --gradient-homepage: linear-gradient(135deg, #0D7377, #1A2332, #0D7377);
 }
 

@@ -28,12 +28,12 @@ const COLORS = {
 };
 
 const SAMPLE_PASTE = `Day 1 - Arrive Hanoi, explore Old Quarter
-Day 2 - Sardine run snorkeling, Kawasan Falls canyoneering
-Day 3 - Ha Long Bay overnight cruise
-Day 4 - Island hopping Balicasag & Virgin Island
-Day 5 - Train to Hue, Imperial Citadel
-Day 6 - Tubod Marine Sanctuary, Balete Tree, free afternoon
-Day 7 - Ferry to Dumaguete, fly home`;
+Day 2 - Ha Long Bay overnight cruise
+Day 3 - Ha Long Bay, return to Hanoi
+Day 4 - Train to Hue, Imperial Citadel
+Day 5 - Hue temples, Perfume River boat ride
+Day 6 - Drive to Hoi An, lantern-lit old town
+Day 7 - Hoi An cooking class, fly home from Da Nang`;
 
 const ENRICHMENT_FEATURES = [
   { icon: '🧭', title: 'Real Directions' },
@@ -236,9 +236,9 @@ export default function IntakeFlow() {
         <div style={{
           position: 'absolute', top: -20, right: -20, fontSize: 100, opacity: 0.08,
           transform: 'rotate(-15deg)',
-        }}>🇵🇭</div>
+        }}>🇻🇳</div>
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase' as const, opacity: 0.6, marginBottom: 8 }}>
-          DISCOVER PHILIPPINES
+          DISCOVER VIETNAM
         </div>
         <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>
           Your Trip.<br />Your Companion.
@@ -840,7 +840,7 @@ export default function IntakeFlow() {
         <>
           <div style={{ fontSize: 14, fontWeight: 800, color: COLORS.deepNight, marginBottom: 10 }}>Everything included:</div>
           {[
-            { icon: '🧭', title: 'Real Directions', desc: "Not Google Maps pins — actual 'take the Ceres bus, tell the conductor Panagsama' directions" },
+            { icon: '🧭', title: 'Real Directions', desc: "Not Google Maps pins — actual 'grab a xe om, tell the driver Bui Vien' directions" },
             { icon: '🌅', title: 'Sunrise/Sunset', desc: 'Golden hour times with best viewpoints matched to your daily locations' },
             { icon: '💬', title: 'Local Phrases', desc: 'Vietnamese phrases tuned to your destinations with pronunciation' },
             { icon: '📞', title: 'Key Contacts', desc: 'Emergency numbers, hospitals, trusted local drivers & guides for your specific route' },

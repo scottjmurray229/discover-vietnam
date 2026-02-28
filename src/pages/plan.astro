@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import { DESTINATION_COORDS } from '../data/destination-coords';
 
 const allDests = await getCollection('destinations', (entry) => {
-  return !entry.id.startsWith('tl/');
+  return !entry.id.startsWith('vi/');
 });
 const destMap = new Map(allDests.map(d => [String(d.slug || d.id), d]));
 
@@ -22,7 +22,7 @@ const gmapMarkers = geoMarkers.map(m => {
   return {
     slug: m.slug, label: m.label, lat: m.lat, lng: m.lng,
     hasVideo: !!dest?.data.heroVideo,
-    region: dest?.data.region || 'luzon',
+    region: dest?.data.region || 'north',
     url: `/destinations/${m.slug}/`,
     status: dest?.data.heroVideo ? 'Guide Available' : 'Guide Coming Soon',
   };
@@ -207,7 +207,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
     <div class="trust-inner">
       <div class="trust-item-block"><div class="trust-icon">&#128506;</div><div class="trust-title">Any Destination</div><div class="trust-desc">Open-ended — plan trips to any island, city, or region in Vietnam</div></div>
       <div class="trust-item-block"><div class="trust-icon">&#128176;</div><div class="trust-title">Real Prices</div><div class="trust-desc">Every cost in VND with USD equivalent — no guesswork</div></div>
-      <div class="trust-item-block"><div class="trust-icon">&#129523;</div><div class="trust-title">20+ Trips Since 2003</div><div class="trust-desc">Itineraries informed by Scott &amp; Scott's real travel experience</div></div>
+      <div class="trust-item-block"><div class="trust-icon">&#129523;</div><div class="trust-title">20+ Trips Since 2003</div><div class="trust-desc">Itineraries informed by Scott's real travel experience across Vietnam</div></div>
       <div class="trust-item-block"><div class="trust-icon">&#129309;</div><div class="trust-title">Book With Confidence</div><div class="trust-desc">Direct links to trusted hotels, tours, transport — vetted by us</div></div>
     </div>
   </section>
@@ -383,29 +383,20 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
 
   // Destination display names for affiliate URLs
   const DEST_NAMES: Record<string, string> = {
-    'siquijor':'Siquijor','cebu':'Cebu','bohol':'Bohol','boracay':'Boracay',
-    'el-nido':'El Nido Palawan','coron':'Coron Palawan','siargao':'Siargao',
-    'dumaguete':'Dumaguete','clark':'Clark Southern Vietnam','manila':'Manila',
-    'davao':'Davao','camiguin':'Camiguin','puerto-princesa':'Puerto Princesa',
-    'palawan':'Palawan','vigan':'Vigan','sagada':'Sagada','batanes':'Batanes',
-    'legazpi':'Legazpi','tagaytay':'Tagaytay','baguio':'Baguio',
-    'bacolod':'Bacolod','iloilo':'Iloilo','malapascua':'Malapascua',
-    'la-union':'La Union','baler':'Baler','donsol':'Donsol',
-    'puerto-galera':'Puerto Galera','subic':'Subic',
+    'hanoi':'Hanoi','ho-chi-minh-city':'Ho Chi Minh City','da-nang':'Da Nang',
+    'hoi-an':'Hoi An','hue':'Hue','ha-long-bay':'Ha Long Bay',
+    'sapa':'Sapa','nha-trang':'Nha Trang','phu-quoc':'Phu Quoc',
+    'dalat':'Dalat','ninh-binh':'Ninh Binh','mui-ne':'Mui Ne',
+    'can-tho':'Can Tho','phong-nha':'Phong Nha',
   };
 
   // 12Go Asia slug mapping (site slug → 12Go city slug)
   const TWELVE_GO_SLUGS: Record<string, string> = {
-    'manila':'manila','cebu':'cebu','bohol':'bohol','siquijor':'siquijor',
-    'dumaguete':'dumaguete','boracay':'boracay','el-nido':'el-nido',
-    'coron':'coron','siargao':'siargao','davao':'davao',
-    'puerto-princesa':'puerto-princesa','camiguin':'camiguin',
-    'iloilo':'iloilo','bacolod':'bacolod','legazpi':'legazpi',
-    'puerto-galera':'puerto-galera','batangas':'batangas',
-    'donsol':'donsol','vigan':'vigan','baguio':'baguio',
-    'sagada':'sagada','clark':'clark','la-union':'san-fernando-la-union',
-    'baler':'baler','pagudpud':'pagudpud','subic':'subic',
-    'malapascua':'malapascua','tagaytay':'tagaytay',
+    'hanoi':'hanoi','ho-chi-minh-city':'ho-chi-minh-city','da-nang':'da-nang',
+    'hoi-an':'hoi-an','hue':'hue','ha-long-bay':'ha-long','sapa':'sapa',
+    'nha-trang':'nha-trang','phu-quoc':'phu-quoc','dalat':'da-lat',
+    'ninh-binh':'ninh-binh','mui-ne':'mui-ne','can-tho':'can-tho',
+    'phong-nha':'dong-hoi',
   };
 
   // Parse trip form data into booking params
@@ -465,7 +456,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
     }
     if (type === 'transport' || type === 'ferry') {
       const slug12go = TWELVE_GO_SLUGS[destination] || destination.replace(/-/g, '-');
-      return `https://12go.asia/en/travel/${slug12go}?z=15062413&sub_id=discoverph-plan`;
+      return `https://12go.asia/en/travel/${slug12go}?z=15062413&sub_id=discovervn-plan`;
     }
     return `https://www.getyourguide.com/s/?q=${enc(destName + ' Vietnam')}&partner_id=IVN6IQ3&cmp=discover-vietnam`;
   }
@@ -682,7 +673,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
 
     itinMap = new google.maps.Map(mapEl, {
       zoom: 7,
-      center: { lat: 11.0, lng: 122.0 },
+      center: { lat: 16.0, lng: 106.5 },
       mapTypeControl: false,
       streetViewControl: false,
       fullscreenControl: false,
@@ -864,7 +855,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
         <div class="chat-log" id="chatLog"></div>
         <div class="chat-rate-notice" id="chatRateNotice" style="display:none;"></div>
         <div class="chat-input-row">
-          <input type="text" class="chat-input" id="chatInput" placeholder="e.g. Swap Boracay for Siargao" maxlength="500" />
+          <input type="text" class="chat-input" id="chatInput" placeholder="e.g. Swap Da Nang for Dalat" maxlength="500" />
           <button class="chat-send-btn" id="chatSendBtn" aria-label="Send">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
@@ -911,7 +902,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
         <p class="transport-widget-heading">Book Buses, Ferries & Flights</p>
         <p class="transport-widget-sub">Search routes between Vietnamese destinations — ferries, buses, vans, and domestic flights.</p>
         <div class="transport-widget-wrap" id="transportWidget"></div>
-        <div class="transport-widget-powered">Powered by <a href="https://12go.asia/?z=15062413&sub_id=discoverph-plan" target="_blank" rel="noopener sponsored">12Go Asia</a></div>
+        <div class="transport-widget-powered">Powered by <a href="https://12go.asia/?z=15062413&sub_id=discovervn-plan" target="_blank" rel="noopener sponsored">12Go Asia</a></div>
       </div>
     </div>`;
 
@@ -1043,7 +1034,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
       s.dataset.border = '1';
       s.dataset.radius = '8';
       s.dataset.caption = 'Find Transport in Vietnam';
-      s.dataset.sub_id = 'discoverph-plan';
+      s.dataset.sub_id = 'discovervn-plan';
       s.dataset.domain = '12go.asia';
       widgetWrap.appendChild(s);
     }
@@ -1164,7 +1155,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
     if (!mapEl) return;
 
     var map = new google.maps.Map(mapEl, {
-      center: { lat: 12.0, lng: 122.5 },
+      center: { lat: 16.0, lng: 106.5 },
       zoom: 5.5,
       mapTypeId: 'terrain',
       disableDefaultUI: true,
@@ -1174,7 +1165,7 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
       minZoom: 5,
       maxZoom: 12,
       restriction: {
-        latLngBounds: { north: 22, south: 4, east: 130, west: 115 },
+        latLngBounds: { north: 24, south: 8, east: 112, west: 100 },
         strictBounds: false,
       },
     });
@@ -1236,10 +1227,9 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
 
     // Region card hover → highlight markers
     var regionBounds = {
-      luzon: { north: 21, south: 13, east: 126, west: 119.5 },
-      visayas: { north: 12.5, south: 9, east: 126, west: 121 },
-      palawan: { north: 13, south: 8.5, east: 121.5, west: 117.5 },
-      mindanao: { north: 10.5, south: 5.5, east: 127, west: 120 },
+      north: { north: 23.5, south: 19.5, east: 108, west: 102 },
+      central: { north: 17.5, south: 11.5, east: 110, west: 105 },
+      south: { north: 12, south: 8.5, east: 109, west: 103 },
     };
 
     document.querySelectorAll('.region-card').forEach(function(card) {

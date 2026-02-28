@@ -17,7 +17,7 @@ interface Props {
     relatedDestinations?: string[];
     readingTime?: number;
   };
-  locale?: 'en' | 'tl';
+  locale?: 'en' | 'vi';
 }
 
 const { frontmatter, locale } = Astro.props;
@@ -239,7 +239,6 @@ const pubDateFormatted = new Date(frontmatter.pubDate).toLocaleDateString('en-US
   }
 
   .blg-byline-avatar--scott { background: var(--color-ocean-teal); }
-  .blg-byline-avatar--jenice { background: var(--color-warm-coral); }
 
   .blg-byline-info {
     display: flex;
@@ -399,9 +398,10 @@ const pubDateFormatted = new Date(frontmatter.pubDate).toLocaleDateString('en-US
   }
 
   /* ================================================================
-     TAGALOG CALLOUT — used as <div class="tagalog-callout"> in markdown
+     VIETNAMESE CALLOUT — used as <div class="vietnamese-callout"> or <div class="language-callout"> in markdown
      ================================================================ */
-  .blg-content :global(.tagalog-callout) {
+  .blg-content :global(.vietnamese-callout),
+  .blg-content :global(.language-callout) {
     background: linear-gradient(135deg, var(--color-sand) 0%, rgba(232, 101, 74, 0.08) 100%);
     border-left: 4px solid var(--color-warm-coral);
     padding: var(--space-6) var(--space-7);
@@ -413,7 +413,8 @@ const pubDateFormatted = new Date(frontmatter.pubDate).toLocaleDateString('en-US
     color: var(--color-heading);
   }
 
-  .blg-content :global(.tagalog-callout .translation) {
+  .blg-content :global(.vietnamese-callout .translation),
+  .blg-content :global(.language-callout .translation) {
     display: block;
     font-family: var(--font-body);
     font-size: 0.95rem;

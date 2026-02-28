@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allDests = await getCollection('destinations', (entry) => {
-  return !entry.id.startsWith('tl/');
+  return !entry.id.startsWith('vi/');
 });
 
 // Build a slim JSON payload with only the fields the comparison tool needs
