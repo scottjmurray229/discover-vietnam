@@ -49,24 +49,36 @@ function scanVideos() {
   const result = { heroes: {}, previews: {}, breaks: {} };
   if (!fs.existsSync(DEST_VIDEOS)) return result;
 
-  const files = fs.readdirSync(DEST_VIDEOS).filter(f => f.endsWith('.mp4'));
+  const files = fs.readdirSync(DEST_VIDEOS).filter(f => /\.(mp4|mov)$/i.test(f));
 
   for (const f of files) {
     const slug = slugFromFilename(f);
 
     if (f.includes('-hero')) {
-      result.heroes[slug] = f;
+      // Prefer .mp4 over .mov
+      if (!result.heroes[slug] || (f.endsWith('.mp4') && !result.heroes[slug].endsWith('.mp4'))) {
+        result.heroes[slug] = f;
+      }
     } else if (f.includes('-preview')) {
-      result.previews[slug] = f;
+      if (!result.previews[slug] || (f.endsWith('.mp4') && !result.previews[slug].endsWith('.mp4'))) {
+        result.previews[slug] = f;
+      }
     } else if (f.includes('-break-')) {
       if (!result.breaks[slug]) result.breaks[slug] = [];
       result.breaks[slug].push(f);
     }
   }
 
-  // Sort break files by number so they wire in order
+  // Sort break files by number; prefer .mp4 over .mov for same break number
   for (const slug of Object.keys(result.breaks)) {
-    result.breaks[slug].sort((a, b) => {
+    const byNum = {};
+    for (const f of result.breaks[slug]) {
+      const num = extractBreakNum(f);
+      if (!byNum[num] || (f.endsWith('.mp4') && !byNum[num].endsWith('.mp4'))) {
+        byNum[num] = f;
+      }
+    }
+    result.breaks[slug] = Object.values(byNum).sort((a, b) => {
       const nA = extractBreakNum(a);
       const nB = extractBreakNum(b);
       if (nA !== nB) return nA - nB;
@@ -79,7 +91,7 @@ function scanVideos() {
 
 function slugFromFilename(filename) {
   const m = filename.match(/^(.+?)-(hero|break-|preview)/);
-  return m ? m[1] : filename.replace('.mp4', '');
+  return m ? m[1] : filename.replace(/\.(mp4|mov)$/i, '');
 }
 
 function extractBreakNum(filename) {
@@ -111,12 +123,18 @@ function wireHeroFrontmatter(heroes) {
     if (content.includes(`heroVideo: "${webPath}"`)) continue;
 
     // Replace existing heroVideo line
-    const replaced = content.replace(
+    let replaced = content.replace(
       /heroVideo:\s*["']?.*?["']?\s*$/m,
       `heroVideo: "${webPath}"`
     );
 
-    if (replaced === content) continue; // No heroVideo line found
+    if (replaced === content) {
+      // No heroVideo line in frontmatter — insert one before closing ---
+      const fmMatch = content.match(/^(---\r?\n)([\s\S]*?)(\r?\n---)/);
+      if (!fmMatch) continue;
+      const eol = content.includes('\r\n') ? '\r\n' : '\n';
+      replaced = `${fmMatch[1]}${fmMatch[2]}${eol}heroVideo: "${webPath}"${fmMatch[3]}${content.slice(fmMatch[0].length)}`;
+    }
 
     if (!dryRun) fs.writeFileSync(mdPath, replaced);
     console.log(`     ✅ ${slug}.md → heroVideo`);
@@ -133,8 +151,15 @@ function wireHeroFrontmatter(heroes) {
 function wireDestinationVideoMap(heroes, previews) {
   const tsPath = path.join(DATA_DIR, 'destination-videos.ts');
   if (!fs.existsSync(tsPath)) {
-    console.log('    ⚠️  src/data/destination-videos.ts not found — skipping');
-    return 0;
+    // Create the file from template
+    if (!dryRun) {
+      fs.mkdirSync(path.dirname(tsPath), { recursive: true });
+      fs.writeFileSync(tsPath, `export const destinationVideoMap: Record<string, string> = {\n};\n`);
+      console.log('    📄 Created destination-videos.ts');
+    } else {
+      console.log('    📄 Would create destination-videos.ts');
+      return 0;
+    }
   }
 
   let content = fs.readFileSync(tsPath, 'utf8');
@@ -145,8 +170,8 @@ function wireDestinationVideoMap(heroes, previews) {
 
   for (const slug of allSlugs) {
     if (destFilter && slug !== destFilter) continue;
-    // Already in the map — skip
-    if (content.includes(`'${slug}'`) || content.includes(`"${slug}"`)) continue;
+    // Already in the map — skip (check quoted and unquoted keys)
+    if (content.includes(`'${slug}'`) || content.includes(`"${slug}"`) || new RegExp(`^\\s*${slug}\\s*:`, 'm').test(content)) continue;
 
     // Prefer preview, fall back to hero
     const videoFile = previews[slug] || heroes[slug];
@@ -208,6 +233,7 @@ function wireInlineBreaks(breaks) {
 
         const bf = available[idx++];
         const webPath = `/videos/destinations/${bf}`;
+        const vtype = bf.endsWith('.mov') ? 'video/quicktime' : 'video/mp4';
 
         // Ensure preload="metadata" attribute
         let tag = openTag;
@@ -216,7 +242,7 @@ function wireInlineBreaks(breaks) {
         }
 
         wiredThis++;
-        return `${tag}\n    <source src="${webPath}" type="video/mp4" />\n  ${closeTag}`;
+        return `${tag}\n    <source src="${webPath}" type="${vtype}" />\n  ${closeTag}`;
       }
     );
 
@@ -229,9 +255,10 @@ function wireInlineBreaks(breaks) {
 
         const bf = available[idx++];
         const webPath = `/videos/destinations/${bf}`;
+        const vtype = bf.endsWith('.mov') ? 'video/quicktime' : 'video/mp4';
 
         wiredThis++;
-        return `<div class="immersive-break-inline">\n<video autoplay muted loop playsinline preload="metadata">\n    <source src="${webPath}" type="video/mp4" />\n  </video>\n<div class="break-overlay" style="background: ${gradient}">\n${innerContent.trim()}\n</div></div>`;
+        return `<div class="immersive-break-inline">\n<video autoplay muted loop playsinline preload="metadata">\n    <source src="${webPath}" type="${vtype}" />\n  </video>\n<div class="break-overlay" style="background: ${gradient}">\n${innerContent.trim()}\n</div></div>`;
       }
     );
 
@@ -458,7 +485,8 @@ function runAudit(heroes, previews, breaks) {
     // Breaks
     const breakFilesCount = (breaks[slug] || []).length;
     const breakDivs = (content.match(/immersive-break-inline/g) || []).length;
-    const wiredBreaks = (content.match(/<source\s+src="[^"]*break[^"]*\.mp4"/g) || []).length;
+    // Count breaks wired via <source src="...break..."> or <video src="...break...">
+    const wiredBreaks = (content.match(/src="[^"]*-break-[^"]*\.(mp4|mov)"/g) || []).length;
     const unwired = breakDivs - wiredBreaks;
 
     // Related videoSrc
@@ -549,7 +577,8 @@ function readVideoMapEntries() {
   if (!fs.existsSync(tsPath)) return entries;
 
   const content = fs.readFileSync(tsPath, 'utf8');
-  const re = /['"]([a-z][\w-]*)['"]:\s*['"]\/videos/g;
+  // Match both quoted ('slug':) and unquoted (slug:) keys pointing to /videos paths
+  const re = /^\s*['"]?([a-z][\w-]*)['"]?\s*:\s*['"]\/videos/gm;
   let m;
   while ((m = re.exec(content)) !== null) {
     entries.add(m[1]);
