@@ -446,7 +446,7 @@ export async function GET(context: APIContext): Promise<Response> {
   </div>
 
   <div style="text-align:center; padding: 24px; color: #484f58; font-size: 12px;">
-    Claude Haiku 4.5 &middot; Input $0.80/M &middot; Output $4.00/M &middot; <a href="?key=${key}&format=json" style="color:#0D7377">JSON</a>
+    Claude Haiku 4.5 &middot; Input $0.80/M &middot; Output $4.00/M &middot; <a href="javascript:void(0)" onclick="var u=new URL(window.location.href);u.searchParams.set('format','json');window.location.href=u.toString();" style="color:#0D7377">JSON</a>
   </div>
 
 </div>
