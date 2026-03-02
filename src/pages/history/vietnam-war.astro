@@ -1,0 +1,967 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'History & Heritage', url: '/history/' },
+  { name: 'The Vietnam War', url: '/history/vietnam-war/' },
+];
+
+const pageTitle = 'The Vietnam War — A Guide to War Sites in Vietnam';
+const pageDescription = 'From the Cu Chi Tunnels to the Hanoi Hilton — a comprehensive guide to Vietnam War sites across Vietnam, with visiting info, prices, and first-person perspective.';
+
+interface WarSite {
+  name: string;
+  location: string;
+  slug?: string;
+  era: 'north' | 'south' | 'central' | 'dmz';
+  entranceFee: string;
+  hours: string;
+  duration: string;
+  description: string;
+  whatToSee: string;
+  personalNote: string;
+}
+
+const warSites: WarSite[] = [
+  {
+    name: 'War Remnants Museum',
+    location: 'Ho Chi Minh City (District 3)',
+    slug: 'ho-chi-minh-city',
+    era: 'south',
+    entranceFee: '40,000 VND ($1.60)',
+    hours: 'Daily 7:30am–6pm',
+    duration: '2–3 hours',
+    description: 'The single most visited museum in Vietnam and one of the most powerful war museums anywhere in the world. Three floors of photographs, weapons, artifacts, and documentation cover the American War from the Vietnamese perspective — including a graphic third floor dedicated to Agent Orange\'s multigenerational legacy.',
+    whatToSee: 'The outdoor courtyard holds captured American military hardware: helicopters, tanks, fighter jets, howitzers. Inside, the Requiem Exhibition — photographs taken by war photographers who died during the conflict — is unlike anything else I\'ve encountered in a museum. The Agent Orange floor requires emotional preparation.',
+    personalNote: 'I went in expecting propaganda. I came out humbled. Yes, the framing is one-sided — this is a Vietnamese museum about a Vietnamese war. But the photographs are real, the weapons are real, and the human cost documented here is undeniable. Budget at least three hours. Don\'t rush it.',
+  },
+  {
+    name: 'Cu Chi Tunnels',
+    location: 'Cu Chi District, 70 km northwest of HCMC',
+    slug: 'ho-chi-minh-city',
+    era: 'south',
+    entranceFee: '110,000 VND ($4.40) — Ben Dinh; 90,000 VND ($3.60) — Ben Duoc',
+    hours: 'Daily 7am–5pm',
+    duration: '2–4 hours (half-day tour recommended)',
+    description: 'An extraordinary 250-kilometer network of underground tunnels stretching from Saigon to the Cambodian border. Viet Cong fighters — and entire communities — lived, slept, cooked, operated field hospitals, and launched attacks from this subterranean world for over a decade. American forces repeatedly failed to neutralize the tunnels despite B-52 bombing campaigns, chemical defoliants, and trained tunnel rat soldiers.',
+    whatToSee: 'Two sites are open to visitors: Ben Dinh (closer to HCMC, more touristic) and Ben Duoc (larger, more authentic, closer to the original tunnel network). At both sites you can: crawl through widened tunnel sections, see trapdoor entrances hidden in jungle floor, inspect booby trap replicas, watch a short documentary, and — at Ben Dinh — fire AK-47s and M16s at a shooting range.',
+    personalNote: 'I\'m 6 feet tall and I barely fit through the widened tourist section. The original tunnels were even smaller — some less than 60cm wide. Crawling through 50 meters of dark, hot tunnel gives you a visceral sense of how differently the war was experienced on either side. Go to Ben Duoc if you can — it\'s quieter and the surrounding jungle feels more authentic.',
+  },
+  {
+    name: 'Hoa Lo Prison — "Hanoi Hilton"',
+    location: 'Hoan Kiem District, Hanoi',
+    slug: 'hanoi',
+    era: 'north',
+    entranceFee: '30,000 VND ($1.20)',
+    hours: 'Daily 8am–5pm (closed Mon mornings)',
+    duration: '1–2 hours',
+    description: 'Built by the French in 1896 to imprison Vietnamese independence fighters, Hoa Lo Prison gained its bitter nickname from American POWs who were held here during the Vietnam War — including Senator John McCain, who spent 5.5 years in captivity after his A-4 Skyhawk was shot down over Hanoi in 1967. The irony is hard to miss: a prison built to crush Vietnamese resistance later held the Americans bombing Vietnam.',
+    whatToSee: 'The museum presents two distinct narratives across its wings. The French colonial section shows the brutal conditions Vietnamese political prisoners endured — guillotines, leg shackles, overcrowded cells. The American section, by contrast, presents a carefully curated version of POW life that emphasizes humane treatment — a depiction most former POWs have forcefully disputed. Both perspectives are worth examining.',
+    personalNote: 'The disconnect between the two wings is jarring and intentional. The French era exhibits are raw and unsanitized. The American POW exhibits feel stage-managed. Knowing this going in helps. There\'s a plaque and photos about McCain\'s capture and time here that American visitors tend to linger at for a long time. Bring your own context.',
+  },
+  {
+    name: 'DMZ Tour — Demilitarized Zone',
+    location: 'Quang Tri Province, ~2 hours north of Hue',
+    slug: 'hue',
+    era: 'dmz',
+    entranceFee: 'Included in tour (typically $40–60 USD for full-day guided tour from Hue)',
+    hours: 'Best visited on guided day tour departing Hue',
+    duration: 'Full day (8–10 hours)',
+    description: 'The 17th parallel once divided a nation. The Demilitarized Zone — ironically one of the most heavily bombed strips of land in history — ran along the Ben Hai River and marked the border between North and South Vietnam from 1954 until reunification in 1975. More ordnance was dropped on this narrow strip than on all of Europe during World War II. The landscape has largely recovered, but the human cost has not been forgotten.',
+    whatToSee: 'A full DMZ tour from Hue typically covers: the Hien Luong Bridge (repainted in national colors, the original iron bridge divided families for 21 years), Vinh Moc Tunnels (where 17 babies were born underground during bombing), Khe Sanh Combat Base (the American firebase that saw a 77-day siege in 1968), Doc Mieu Firebase ruins, and the Ben Hai River border crossing.',
+    personalNote: 'Khe Sanh hit me hardest. The base is mostly stripped and weathered — just a small museum, some aircraft, and craters in the red laterite soil. But standing where Marines held out for 77 days under constant artillery fire while surrounded on all sides — that\'s not something you get from a book. The DMZ tour is long and covers a lot of ground. Go with a good guide who can fill in what the signs don\'t say.',
+  },
+  {
+    name: 'Khe Sanh Combat Base',
+    location: 'Huong Hoa District, Quang Tri Province',
+    era: 'dmz',
+    entranceFee: '40,000 VND ($1.60) — usually included in DMZ tour',
+    hours: 'Daily 7am–5pm',
+    duration: '45–90 minutes',
+    description: 'From January 21 to July 9, 1968, approximately 6,000 US Marines and South Vietnamese Rangers held this remote hilltop firebase against an encircling force of 20,000–40,000 North Vietnamese Army troops. General Westmoreland feared a repeat of Dien Bien Phu. The 77-day siege became one of the most dramatic and debated engagements of the war — ending when North Vietnamese forces withdrew rather than assault the reinforced perimeter.',
+    whatToSee: 'The museum at Khe Sanh holds a C-130 aircraft, UH-1 Huey helicopter, artillery pieces, and US military equipment. The surrounding terrain — the red laterite hillsides, the jungle-covered hills where NVA artillery was positioned — gives you the geography of the siege. The fire support bases on surrounding hilltops (Hill 881, Hill 861) can be seen in the distance.',
+    personalNote: 'Most people spend 45 minutes here. I spent twice that, walking the perimeter and trying to understand the scale of what happened. The red dirt, the isolation, the surrounding hills — it\'s easy to see why both sides considered this position so strategically critical.',
+  },
+  {
+    name: 'My Lai Massacre Memorial',
+    location: 'Son My Village, Quang Ngai Province',
+    slug: 'da-nang',
+    era: 'central',
+    entranceFee: '30,000 VND ($1.20)',
+    hours: 'Daily 7am–5pm',
+    duration: '1–2 hours',
+    description: 'On March 16, 1968, US Army soldiers from Charlie Company killed between 347 and 504 unarmed Vietnamese civilians — women, children, and elderly men — in the hamlets of Son My. The massacre was covered up for over a year until journalist Seymour Hersh broke the story in November 1969. It became one of the defining atrocities of the war and a catalyst for the American anti-war movement.',
+    whatToSee: 'The memorial complex includes a museum documenting the events of March 16, 1968 in photographs and testimony, preserved ruins of homes, a memorial garden with a statue of a woman shielding her children, individual grave markers, and a reconstruction of the hamlet as it appeared on that morning. The site is deeply quiet and deeply serious.',
+    personalNote: 'This is the hardest site I\'ve visited in Vietnam. I went alone, early in the morning, before any tour groups arrived. The preserved ruins of family homes — stone foundations, household objects — are marked with the names of those killed inside. The museum is difficult but essential. Don\'t skip it because it\'s uncomfortable. That discomfort is the point.',
+  },
+  {
+    name: 'Reunification Palace',
+    location: 'District 1, Ho Chi Minh City',
+    slug: 'ho-chi-minh-city',
+    era: 'south',
+    entranceFee: '40,000 VND ($1.60)',
+    hours: 'Daily 7:30am–noon, 1pm–4pm',
+    duration: '1–2 hours',
+    description: 'At 10:45am on April 30, 1975, a North Vietnamese Army tank crashed through the gates of the Presidential Palace in Saigon. The image of Tank 843 breaking through the iron gates became the defining image of the war\'s end. Today the palace — renamed Reunification Palace — stands exactly as it did on that day. The communications bunkers, war rooms, and presidential suites are all preserved in their 1975 state.',
+    whatToSee: 'Four floors of period-furnished rooms: the president\'s reception chamber, the cabinet room, the map room, the card room, the screening room. The basement holds the original communications center — analog switchboards, cipher machines, telex equipment — all intact. The rooftop helicopter pad where Ambassador Martin oversaw the final embassy evacuation is visible from the grounds.',
+    personalNote: 'The palace has the uncanny feeling of a place that time stopped. The phones still sit on the desks, the maps still hang on the walls. It\'s one of the few places in the world where the exact moment history pivoted is physically preserved. Combined with the War Remnants Museum — five minutes away by taxi — this is a full morning of historical immersion.',
+  },
+];
+
+const eraGradients: Record<string, string> = {
+  north: 'linear-gradient(135deg, #B71C1C, #D32F2F)',
+  south: 'linear-gradient(135deg, #1565C0, #1976D2)',
+  central: 'linear-gradient(135deg, #2E7D32, #388E3C)',
+  dmz: 'linear-gradient(135deg, #4A148C, #6A1B9A)',
+};
+
+const eraLabels: Record<string, string> = {
+  north: 'North Vietnam Sites',
+  south: 'South Vietnam Sites',
+  central: 'Central Vietnam Sites',
+  dmz: 'DMZ & Border Region',
+};
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  pageType="destination"
+  schemaData={{ title: pageTitle, description: pageDescription }}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <header class="war-hero">
+    <video class="war-hero-video" autoplay muted loop playsinline preload="metadata">
+      <source src="/videos/pillar/vietnam-war-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="war-hero-gradient"></div>
+    <div class="war-hero-content">
+      <div class="war-hero-eyebrow">History & Heritage</div>
+      <h1 class="war-hero-title">The Vietnam War</h1>
+      <p class="war-hero-subtitle">1955–1975. Three million Vietnamese. 58,000 Americans. The places where the war can still be felt.</p>
+      <div class="war-hero-meta">
+        <div class="war-hero-meta-item">
+          <span class="war-hero-meta-label">Key Sites</span>
+          <span class="war-hero-meta-value">7</span>
+        </div>
+        <div class="war-hero-meta-item">
+          <span class="war-hero-meta-label">Span</span>
+          <span class="war-hero-meta-value">1955–1975</span>
+        </div>
+        <div class="war-hero-meta-item">
+          <span class="war-hero-meta-label">Regions</span>
+          <span class="war-hero-meta-value">North, Central, South</span>
+        </div>
+      </div>
+    </div>
+    <div class="war-scroll-hint">Scroll<br />&#8595;</div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container-content">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <!-- Historical Overview -->
+  <section class="war-overview reveal">
+    <div class="container-content">
+      <h2 class="war-section-title">Why the Vietnam War Still Matters to Travelers</h2>
+      <div class="war-overview-grid">
+        <div class="war-overview-text">
+          <p>Vietnam calls it the American War. Americans call it the Vietnam War. The Vietnamese perspective — that this was one chapter in a centuries-long struggle for independence against foreign powers — is the lens you need to carry with you through every site you visit.</p>
+          <p>The conflict as most travelers understand it ran from the Gulf of Tonkin Resolution in 1964 to the fall of Saigon in 1975. But its roots go back to 1945, when Ho Chi Minh declared independence from France and the First Indochina War began. By the time the last American helicopter lifted off the US Embassy roof on April 29, 1975, over 3 million Vietnamese — military and civilian, North and South — had died, along with 58,220 Americans.</p>
+          <p>What's remarkable about traveling Vietnam today is how openly the country has preserved these sites and how warmly Vietnamese people receive American visitors. The war is not hidden or minimized — it's examined, in Vietnamese terms, with the confidence of a country that considers itself to have won. Understanding that framing makes the museums and memorials far more meaningful.</p>
+          <p>I've spent weeks visiting war sites across Vietnam across multiple trips. What I've found is that the physical places — the tunnels you have to crouch through, the bombed hillsides, the palace where the war ended — create a kind of understanding that no book or documentary can replicate. This guide covers the essential sites, with honest advice about what to expect.</p>
+        </div>
+        <div class="war-overview-stats">
+          <div class="war-stat-card">
+            <div class="war-stat-number">3 million+</div>
+            <div class="war-stat-label">Vietnamese casualties (military & civilian)</div>
+          </div>
+          <div class="war-stat-card">
+            <div class="war-stat-number">58,220</div>
+            <div class="war-stat-label">American service members killed</div>
+          </div>
+          <div class="war-stat-card">
+            <div class="war-stat-number">7.7 million tons</div>
+            <div class="war-stat-label">Bombs dropped by US forces — more than WWII total</div>
+          </div>
+          <div class="war-stat-card">
+            <div class="war-stat-number">April 30, 1975</div>
+            <div class="war-stat-label">Reunification — the day the war ended</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scott's Personal Intro -->
+  <section class="war-personal reveal">
+    <div class="container-content">
+      <blockquote class="war-personal-quote">
+        <p>I walked the length of the Cu Chi Tunnels crouched at 90 degrees, sweating in 35-degree heat, trying to imagine doing this not for twenty minutes but for years. I stood at Khe Sanh where Marines held out for 77 days under constant artillery fire. I sat in the basement of the Reunification Palace where the communications equipment still sits on the desks, exactly as it was left on April 30, 1975. Each of these places changed how I understand the war — and how I understand Vietnam. If you're going to travel here, visit at least one war site. It will make every other experience in the country more meaningful.</p>
+        <cite>— Scott</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Quick Reference Bar -->
+  <section class="war-quickref reveal">
+    <div class="container-content">
+      <div class="war-quickref-grid">
+        <div class="war-quickref-item">
+          <span class="war-quickref-label">Best Base for South Sites</span>
+          <span class="war-quickref-value">Ho Chi Minh City</span>
+        </div>
+        <div class="war-quickref-item">
+          <span class="war-quickref-label">Best Base for DMZ</span>
+          <span class="war-quickref-value">Hue</span>
+        </div>
+        <div class="war-quickref-item">
+          <span class="war-quickref-label">Best Base for North Sites</span>
+          <span class="war-quickref-value">Hanoi</span>
+        </div>
+        <div class="war-quickref-item">
+          <span class="war-quickref-label">Avg Entrance Fee</span>
+          <span class="war-quickref-value">30,000–110,000 VND ($1.20–4.40)</span>
+        </div>
+        <div class="war-quickref-item">
+          <span class="war-quickref-label">Dress Code</span>
+          <span class="war-quickref-value">Modest; covered shoulders at memorials</span>
+        </div>
+        <div class="war-quickref-item">
+          <span class="war-quickref-label">Photography</span>
+          <span class="war-quickref-value">Allowed at all sites (no flash at museums)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site-by-Site Guide -->
+  <section class="war-sites-section">
+    <div class="container-content">
+      <h2 class="war-section-title reveal">Essential War Sites — Complete Visiting Guide</h2>
+      <p class="war-section-sub reveal">Seven sites across three regions. Each tells a different chapter of the same story.</p>
+
+      <div class="war-sites-list">
+        {warSites.map((site, idx) => (
+          <article class={`war-site-card reveal`}>
+            <div class="war-site-header" style={`background: ${eraGradients[site.era]};`}>
+              <div class="war-site-era-badge">{eraLabels[site.era]}</div>
+              <h3 class="war-site-name">{site.name}</h3>
+              <p class="war-site-location">{site.location}</p>
+            </div>
+            <div class="war-site-body">
+              <div class="war-site-logistics">
+                <div class="war-site-logistics-item">
+                  <span class="war-site-logistics-label">Entrance</span>
+                  <span class="war-site-logistics-value">{site.entranceFee}</span>
+                </div>
+                <div class="war-site-logistics-item">
+                  <span class="war-site-logistics-label">Hours</span>
+                  <span class="war-site-logistics-value">{site.hours}</span>
+                </div>
+                <div class="war-site-logistics-item">
+                  <span class="war-site-logistics-label">Allow</span>
+                  <span class="war-site-logistics-value">{site.duration}</span>
+                </div>
+              </div>
+              <p class="war-site-description">{site.description}</p>
+              <div class="war-site-see">
+                <h4 class="war-site-see-label">What to See</h4>
+                <p class="war-site-see-text">{site.whatToSee}</p>
+              </div>
+              <div class="war-site-personal">
+                <h4 class="war-site-personal-label">My Take</h4>
+                <p class="war-site-personal-text">{site.personalNote}</p>
+              </div>
+              {site.slug && (
+                <a href={`/destinations/${site.slug}/`} class="war-site-cta">
+                  Explore {site.location.split(',')[0]} &rarr;
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Visiting Guidance -->
+  <section class="war-guidance reveal">
+    <div class="container-content">
+      <h2 class="war-section-title">How to Visit Vietnam War Sites Respectfully</h2>
+      <div class="war-guidance-grid">
+        <div class="war-guidance-card">
+          <div class="war-guidance-icon">&#9998;</div>
+          <h3 class="war-guidance-title">Understand the Framing</h3>
+          <p>Every Vietnamese war museum presents events from the Vietnamese perspective. This is appropriate — these are Vietnamese museums about a Vietnamese war. Come prepared to hear a different narrative than the one you may know. Engage with it seriously rather than dismissing it.</p>
+        </div>
+        <div class="war-guidance-card">
+          <div class="war-guidance-icon">&#128247;</div>
+          <h3 class="war-guidance-title">Photography Etiquette</h3>
+          <p>Photography is generally permitted at all sites. At the War Remnants Museum, some visitors find certain sections too raw to photograph — trust your instincts. At memorial sites like My Lai, keep photography respectful and purposeful. Ask before photographing local Vietnamese people.</p>
+        </div>
+        <div class="war-guidance-card">
+          <div class="war-guidance-icon">&#128198;</div>
+          <h3 class="war-guidance-title">Dress Appropriately</h3>
+          <p>Memorial sites and museums throughout Vietnam request modest dress — covered shoulders and knees. The War Remnants Museum and Hoa Lo Prison don't enforce this strictly, but My Lai and the Reunification Palace appreciate the gesture. Pack a light scarf.</p>
+        </div>
+        <div class="war-guidance-card">
+          <div class="war-guidance-icon">&#10084;</div>
+          <h3 class="war-guidance-title">American Visitors</h3>
+          <p>American travelers are received with remarkable warmth at Vietnamese war sites — sometimes more warmly than you might expect. Vietnamese people largely distinguish between the American government's war policies and individual Americans. Don't be surprised if people want to talk, practice English, or share family stories.</p>
+        </div>
+        <div class="war-guidance-card">
+          <div class="war-guidance-icon">&#128697;</div>
+          <h3 class="war-guidance-title">Getting to Cu Chi</h3>
+          <p>Book a half-day tour from Ho Chi Minh City (roughly 200,000–500,000 VND / $8–20 USD) rather than going independently. Guides make an enormous difference at this site. Most tours depart at 7:30am and 1pm from District 1. Choose Ben Duoc over Ben Dinh if you prefer a less touristic experience.</p>
+        </div>
+        <div class="war-guidance-card">
+          <div class="war-guidance-icon">&#128652;</div>
+          <h3 class="war-guidance-title">DMZ Tour Logistics</h3>
+          <p>Book a full-day guided DMZ tour from Hue (approximately 900,000–1,400,000 VND / $36–56 USD). The tour covers Hien Luong Bridge, Vinh Moc Tunnels, Khe Sanh, and other sites in a single long day. It's a lot of driving and walking — start early and bring water.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Itinerary suggestions -->
+  <section class="war-itinerary reveal">
+    <div class="container-content">
+      <h2 class="war-section-title">How to Build a Vietnam War Heritage Itinerary</h2>
+      <div class="war-itinerary-grid">
+        <div class="war-itinerary-card">
+          <div class="war-itinerary-label">If You Have 2 Days in HCMC</div>
+          <ul class="war-itinerary-list">
+            <li><strong>Day 1 morning:</strong> Reunification Palace (2 hours)</li>
+            <li><strong>Day 1 afternoon:</strong> War Remnants Museum (3 hours)</li>
+            <li><strong>Day 2:</strong> Full half-day Cu Chi Tunnels tour</li>
+          </ul>
+        </div>
+        <div class="war-itinerary-card">
+          <div class="war-itinerary-label">If You're Based in Hue</div>
+          <ul class="war-itinerary-list">
+            <li><strong>Day 1:</strong> Full-day DMZ tour (Hien Luong Bridge, Vinh Moc, Khe Sanh)</li>
+            <li><strong>Day 2:</strong> Hue Citadel — see the Tet Offensive battle damage</li>
+            <li><strong>Add-on:</strong> Day trip south to My Lai (via Da Nang, 2.5 hrs)</li>
+          </ul>
+        </div>
+        <div class="war-itinerary-card">
+          <div class="war-itinerary-label">If You're in Hanoi</div>
+          <ul class="war-itinerary-list">
+            <li><strong>Morning:</strong> Hoa Lo Prison (Hanoi Hilton) — 2 hours</li>
+            <li><strong>Afternoon:</strong> Ho Chi Minh Mausoleum complex</li>
+            <li><strong>Optional:</strong> Vietnam Military History Museum</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="war-cta-section reveal">
+    <div class="container-content">
+      <div class="war-cta-card">
+        <h2 class="war-cta-heading">Plan a Heritage Trip to Vietnam</h2>
+        <p class="war-cta-text">Tell our AI planner you want to focus on war history and it will build a chronological itinerary connecting sites from Hanoi to Ho Chi Minh City.</p>
+        <a href="/plan/" class="war-cta-button">Start Planning &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQ items={[
+    {
+      question: "Is it safe and appropriate for Americans to visit Vietnam War sites?",
+      answer: "Absolutely. American visitors are welcomed warmly throughout Vietnam, including at war sites. Vietnamese people generally distinguish between the US government's war policies and individual Americans. At the War Remnants Museum, the Reunification Palace, and Hoa Lo Prison, I've found Vietnamese visitors and staff consistently friendly and often eager to engage in conversation. The war ended 50 years ago, and Vietnam's rapid economic development since then has given the country a forward-looking confidence. Visit respectfully and thoughtfully — you'll be welcomed."
+    },
+    {
+      question: "What is the Cu Chi Tunnels experience actually like?",
+      answer: "Physically demanding and genuinely eye-opening. You'll crawl through a widened (but still cramped) section of tunnel — typically 50–100 meters — in heat and darkness. Most people can complete it, but if you're claustrophobic or uncomfortable in tight spaces, you can skip the crawl and explore the surface exhibits instead. The outdoor areas show trapdoor entrances, booby trap displays, and cooking systems. A shooting range operates at Ben Dinh. Allow half a day including transport. Entrance is 90,000–110,000 VND ($3.60–4.40)."
+    },
+    {
+      question: "What is the DMZ tour from Hue?",
+      answer: "A full-day guided tour covering the former Demilitarized Zone along the 17th parallel — the border that divided North and South Vietnam from 1954 to 1975. Tours from Hue (about 900,000–1,400,000 VND / $36–56 USD) typically visit the Hien Luong Bridge, Vinh Moc Tunnels (where families lived underground during bombing), Khe Sanh Combat Base, and Doc Mieu Firebase. The drive is about 2 hours each way from Hue. It's a long day with a lot of driving, but Vinh Moc and Khe Sanh are genuinely extraordinary."
+    },
+    {
+      question: "How graphic is the War Remnants Museum?",
+      answer: "Significantly graphic. The ground and first floors contain disturbing photographs — combat casualties, napalm burns, torture — and the third floor documents the multigenerational effects of Agent Orange, including birth defects and current victims. This is not a museum to bring young children to. Emotionally sensitive visitors should be prepared. That said, I consider it essential viewing — the museum documents events that actually happened, and the photographs are the work of serious war photographers. Allow 2–3 hours and pace yourself."
+    },
+    {
+      question: "What happened at My Lai?",
+      answer: "On March 16, 1968, US Army soldiers from Charlie Company, 1st Battalion, 20th Infantry Regiment killed between 347 and 504 unarmed Vietnamese civilians — women, children, and elderly men — in the hamlet of My Lai 4, Son My Village, Quang Ngai Province. The massacre was covered up for over a year before journalist Seymour Hersh broke the story. Lieutenant William Calley was the only person convicted, serving three and a half years under house arrest. The site is now a memorial museum about 160 km south of Da Nang."
+    },
+    {
+      question: "What is the Hanoi Hilton and can you visit it?",
+      answer: "Hoa Lo Prison — nicknamed the Hanoi Hilton by American POWs — is open daily in central Hanoi (30,000 VND / $1.20 entrance). Built by the French in 1896, it held Vietnamese political prisoners before later housing American POWs including John McCain and other aviators shot down over North Vietnam. The museum is divided between the French colonial period (graphic and unsanitized) and the American POW period (carefully curated by Vietnamese authorities to emphasize humane treatment — a depiction most former POWs have disputed). Allow 1–2 hours."
+    },
+    {
+      question: "What was the Tet Offensive and where can I see evidence of it?",
+      answer: "The Tet Offensive began on January 30, 1968 — during the Vietnamese lunar new year — when North Vietnamese and Viet Cong forces launched coordinated attacks on more than 100 South Vietnamese cities and military bases simultaneously. It was a military failure for the North but a psychological turning point that shattered American public support for the war. In Hue, you can see battle damage on the walls of the Imperial Citadel, where NVA forces held out for 26 days against US and South Vietnamese forces. The fighting in Hue was the bloodiest of the entire offensive."
+    },
+    {
+      question: "How do I get from Ho Chi Minh City to the Cu Chi Tunnels?",
+      answer: "The easiest way is a half-day tour booked through your hotel or any tour agency in District 1 (typically 200,000–500,000 VND / $8–20 USD including transport and guide). Tours depart around 7:30am and 1pm. Alternatively, you can take a local bus from the Mien Tay bus station to Cu Chi town, then a xe om (motorbike taxi) to the site — this takes about 2 hours each way and is the budget option. The site is about 70 km northwest of the city center."
+    },
+  ]} />
+
+  <!-- Email Capture -->
+  <div class="container-content reveal" style="padding-bottom: var(--space-6);">
+    <EmailCapture
+      leadMagnet="Get My Free Vietnam War Heritage Trail Guide"
+      description="A PDF guide to Vietnam War sites — directions, logistics, prices, and the history behind each location. North, Central, and South."
+      bullets={[
+        'Complete logistics for all 7 major war sites',
+        'DMZ full-day tour itinerary from Hue',
+        'Cu Chi Tunnels — Ben Dinh vs Ben Duoc comparison',
+        'Suggested heritage itineraries for 2, 5, and 10-day trips',
+      ]}
+      guideTag="pillar-vietnam-war"
+    />
+  </div>
+
+  <!-- Cross-links -->
+  <section class="war-crosslinks reveal">
+    <div class="container-content">
+      <h3 class="war-crosslinks-heading">Continue Exploring Vietnam</h3>
+      <div class="war-crosslinks-grid">
+        <a href="/history/" class="war-crosslink-card">
+          <span class="war-crosslink-icon">&#9776;</span>
+          <span class="war-crosslink-label">Full History Timeline</span>
+          <span class="war-crosslink-desc">From ancient dynasties to reunification</span>
+        </a>
+        <a href="/destinations/ho-chi-minh-city/" class="war-crosslink-card">
+          <span class="war-crosslink-icon">&#127968;</span>
+          <span class="war-crosslink-label">Ho Chi Minh City</span>
+          <span class="war-crosslink-desc">War Remnants Museum, Cu Chi, Reunification Palace</span>
+        </a>
+        <a href="/destinations/hue/" class="war-crosslink-card">
+          <span class="war-crosslink-icon">&#127963;</span>
+          <span class="war-crosslink-label">Hue</span>
+          <span class="war-crosslink-desc">Imperial Citadel, DMZ gateway, Tet Offensive sites</span>
+        </a>
+        <a href="/destinations/hanoi/" class="war-crosslink-card">
+          <span class="war-crosslink-icon">&#127961;</span>
+          <span class="war-crosslink-label">Hanoi</span>
+          <span class="war-crosslink-desc">Hoa Lo Prison, Ho Chi Minh Mausoleum</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+
+<style>
+  /* Hero */
+  .war-hero {
+    position: relative;
+    height: 90vh;
+    min-height: 600px;
+    max-height: 900px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: #1A2332;
+  }
+  .war-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+  .war-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 35, 50, 0.2) 0%,
+      rgba(26, 35, 50, 0.4) 50%,
+      rgba(26, 35, 50, 0.85) 100%
+    );
+  }
+  .war-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-8) var(--space-6);
+    max-width: var(--content-width-lg);
+    margin: 0 auto;
+    width: 100%;
+  }
+  .war-hero-eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #E8654A;
+    margin-bottom: var(--space-2);
+  }
+  .war-hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.1;
+    margin: 0 0 var(--space-3);
+  }
+  .war-hero-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(16px, 2.2vw, 20px);
+    color: rgba(255,255,255,0.85);
+    max-width: 560px;
+    line-height: 1.5;
+    margin: 0 0 var(--space-5);
+  }
+  .war-hero-meta {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+  .war-hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .war-hero-meta-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .war-hero-meta-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .war-scroll-hint {
+    position: absolute;
+    bottom: var(--space-4);
+    right: var(--space-4);
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    z-index: 2;
+  }
+
+  /* Overview */
+  .war-overview { padding: var(--space-10) 0; }
+  .war-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 400;
+    color: #1A2332;
+    margin: 0 0 var(--space-5);
+  }
+  .war-section-sub {
+    font-family: 'Outfit', sans-serif;
+    font-size: 17px;
+    color: #4A5568;
+    max-width: 640px;
+    margin: 0 0 var(--space-8);
+    line-height: 1.65;
+  }
+  .war-overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .war-overview-grid { grid-template-columns: 1fr; }
+  }
+  .war-overview-text p {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    color: #4A5568;
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
+  }
+  .war-overview-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+  .war-stat-card {
+    background: #E8F4F5;
+    border-radius: 12px;
+    padding: var(--space-4);
+  }
+  .war-stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: #0D7377;
+    line-height: 1.2;
+    margin-bottom: var(--space-1);
+  }
+  .war-stat-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: #4A5568;
+    line-height: 1.4;
+  }
+
+  /* Personal quote */
+  .war-personal {
+    background: #1A2332;
+    padding: var(--space-10) 0;
+  }
+  .war-personal-quote {
+    border-left: 4px solid #E8654A;
+    padding-left: var(--space-6);
+    margin: 0;
+  }
+  .war-personal-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(17px, 2vw, 21px);
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.7;
+    margin: 0 0 var(--space-3);
+  }
+  .war-personal-quote cite {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    font-style: normal;
+  }
+
+  /* Quick ref */
+  .war-quickref {
+    background: #E8F4F5;
+    padding: var(--space-6) 0;
+  }
+  .war-quickref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+  .war-quickref-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .war-quickref-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0D7377;
+  }
+  .war-quickref-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1A2332;
+  }
+
+  /* Sites section */
+  .war-sites-section { padding: var(--space-10) 0; }
+  .war-sites-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+  }
+  .war-site-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    background: #fff;
+  }
+  .war-site-header {
+    padding: var(--space-5) var(--space-6);
+    position: relative;
+  }
+  .war-site-era-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: var(--space-2);
+  }
+  .war-site-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 var(--space-1);
+  }
+  .war-site-location {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    margin: 0;
+  }
+  .war-site-body {
+    padding: var(--space-6);
+  }
+  .war-site-logistics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    background: #F5F0E8;
+    border-radius: 10px;
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  @media (max-width: 600px) {
+    .war-site-logistics { grid-template-columns: 1fr; }
+  }
+  .war-site-logistics-label {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0D7377;
+    margin-bottom: 2px;
+  }
+  .war-site-logistics-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A2332;
+  }
+  .war-site-description {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    color: #4A5568;
+    line-height: 1.7;
+    margin: 0 0 var(--space-5);
+  }
+  .war-site-see, .war-site-personal {
+    background: #F5F0E8;
+    border-radius: 10px;
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .war-site-see-label, .war-site-personal-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0D7377;
+    margin: 0 0 var(--space-2);
+  }
+  .war-site-see-text, .war-site-personal-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    color: #4A5568;
+    line-height: 1.65;
+    margin: 0;
+  }
+  .war-site-personal { border-left: 3px solid #E8654A; }
+  .war-site-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0D7377;
+    text-decoration: none;
+    border: 2px solid #0D7377;
+    border-radius: 8px;
+    padding: var(--space-2) var(--space-4);
+    transition: all 0.25s ease;
+  }
+  .war-site-cta:hover {
+    background: #0D7377;
+    color: #fff;
+  }
+
+  /* Guidance */
+  .war-guidance {
+    background: #F5F0E8;
+    padding: var(--space-10) 0;
+  }
+  .war-guidance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .war-guidance-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: var(--space-5);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .war-guidance-icon {
+    font-size: 24px;
+    margin-bottom: var(--space-2);
+  }
+  .war-guidance-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A2332;
+    margin: 0 0 var(--space-2);
+  }
+  .war-guidance-card p {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* Itinerary */
+  .war-itinerary { padding: var(--space-10) 0; }
+  .war-itinerary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .war-itinerary-card {
+    background: #E8F4F5;
+    border-radius: 12px;
+    padding: var(--space-5);
+  }
+  .war-itinerary-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0D7377;
+    margin-bottom: var(--space-3);
+  }
+  .war-itinerary-list {
+    margin: 0;
+    padding: 0 0 0 var(--space-4);
+  }
+  .war-itinerary-list li {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  /* CTA */
+  .war-cta-section { padding: var(--space-8) 0; }
+  .war-cta-card {
+    background: linear-gradient(135deg, #1A2332, #0D3B3E);
+    border-radius: 16px;
+    padding: var(--space-8);
+    text-align: center;
+  }
+  .war-cta-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 var(--space-3);
+  }
+  .war-cta-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+    margin: 0 auto var(--space-5);
+    line-height: 1.6;
+  }
+  .war-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: #E8654A;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: var(--space-3) var(--space-6);
+    border-radius: 10px;
+    transition: background 0.25s ease;
+  }
+  .war-cta-button:hover { background: #D4553B; }
+
+  /* Crosslinks */
+  .war-crosslinks { padding: var(--space-8) 0 var(--space-10); }
+  .war-crosslinks-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #1A2332;
+    margin: 0 0 var(--space-5);
+  }
+  .war-crosslinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
+  .war-crosslink-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    background: #F5F0E8;
+    border-radius: 12px;
+    padding: var(--space-4);
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .war-crosslink-card:hover { background: #EBE4D8; }
+  .war-crosslink-icon { font-size: 24px; }
+  .war-crosslink-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1A2332;
+  }
+  .war-crosslink-desc {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: #4A5568;
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
