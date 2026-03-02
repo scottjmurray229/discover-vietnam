@@ -4,7 +4,7 @@ import type { APIContext } from 'astro';
 import { estimateCost, fmtCost, fmtNum, fmtTokens } from '../../../lib/stats-helpers';
 import { sendEmail } from '../../../lib/send-email';
 
-const ADMIN_EMAILS = ['scottjmurray@gmail.com'];
+const ADMIN_EMAILS = ['scottjmurray@gmail.com', 'murrayjenicesphr@gmail.com'];
 
 export async function GET(context: APIContext): Promise<Response> {
   const { locals, request } = context;
@@ -108,7 +108,7 @@ export async function GET(context: APIContext): Promise<Response> {
     const monthlyRate = (d30Cost / daysWithData) * 30;
     const allCost = estimateCost(allTime?.input_tokens ?? 0, allTime?.output_tokens ?? 0);
 
-    const subject = `DP Daily: ${calls} calls, ${fmtCost(cost)}, ${users} users`;
+    const subject = `VN Daily: ${calls} calls, ${fmtCost(cost)}, ${users} users`;
 
     // --- Shared inline styles ---
     const S = {

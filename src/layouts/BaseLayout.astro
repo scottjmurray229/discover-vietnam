@@ -15,7 +15,7 @@ interface Props {
   schemaData?: Record<string, any>;
   faqItems?: { question: string; answer: string }[];
   breadcrumbs?: { name: string; url: string }[];
-  locale?: 'en' | 'vi';
+  locale?: string;
 }
 
 const {
@@ -29,19 +29,11 @@ const {
   locale,
 } = Astro.props;
 
-// Detect locale from URL if not explicitly passed
-const detectedLocale = locale || (Astro.url.pathname.startsWith('/vi/') ? 'vi' : 'en');
-const htmlLang = detectedLocale === 'vi' ? 'vi' : 'en';
+const htmlLang = 'en';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://discovervietnam.info');
 
-// Build alternate language URLs for hreflang tags
 const siteBase = Astro.site || 'https://discovervietnam.info';
-const currentPath = Astro.url.pathname;
-const enPath = currentPath.startsWith('/vi/') ? currentPath.replace(/^\/vi\//, '/') : currentPath;
-const viPath = currentPath.startsWith('/vi/') ? currentPath : `/vi${currentPath}`;
-const enURL = new URL(enPath, siteBase);
-const viURL = new URL(viPath, siteBase);
 
 // Ensure OG image is an absolute URL for social platforms
 const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteBase).href;
@@ -54,9 +46,8 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
     <meta name="agd-partner-manual-verification" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" hreflang="en" href={enURL} />
-    <link rel="alternate" hreflang="vi" href={viURL} />
-    <link rel="alternate" hreflang="x-default" href={enURL} />
+    <link rel="alternate" hreflang="en" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
