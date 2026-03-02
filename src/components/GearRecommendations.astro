@@ -1,0 +1,174 @@
+---
+// GearRecommendations.astro — "Gear We Recommend" — replaces "Packing Essentials" on destination pages
+// Standalone, no deps. 4-6 curated items with destination-specific WHY + Amazon links.
+// Usage: <GearRecommendations destination="Siquijor" />
+// Falls back to Philippines defaults if no destination prop.
+
+import { PHILIPPINES_GEAR_RECOMMENDATIONS, PHILIPPINES_CONFIG } from '../data/packing-list';
+
+export interface Props {
+  destination?: string;
+  maxItems?: number;
+}
+
+const {
+  destination = PHILIPPINES_CONFIG.destination,
+  maxItems = 5,
+} = Astro.props;
+
+const items = PHILIPPINES_GEAR_RECOMMENDATIONS.slice(0, maxItems);
+const affiliateTag = PHILIPPINES_CONFIG.affiliateTag;
+---
+
+<div class="gear-rec">
+  <div class="gear-rec-header">
+    <h3 class="gear-rec-title">🎒 Gear We Recommend for {destination}</h3>
+  </div>
+
+  <div class="gear-rec-items">
+    {items.map((item) => {
+      const amazonUrl = item.amazonAsin
+        ? `https://www.amazon.com/dp/${item.amazonAsin}?tag=${affiliateTag}`
+        : `https://www.amazon.com/s?k=${item.amazonSearchFallback}&tag=${affiliateTag}`;
+      return (
+        <div class="gear-rec-item">
+          <div class="gear-rec-item-content">
+            <div class="gear-rec-item-name">{item.name}</div>
+            <p class="gear-rec-item-reason">{item.reason}</p>
+            <div class="gear-rec-item-footer">
+              <span class="gear-rec-price">{item.affiliatePrice}</span>
+              <a
+                href={amazonUrl}
+                class="gear-rec-link"
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+              >
+                See on Amazon →
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  <div class="gear-rec-cta">
+    <a href="/packing-list/" class="gear-rec-full-list">
+      📋 Build your full {destination} packing list →
+    </a>
+  </div>
+</div>
+
+<style>
+  .gear-rec {
+    background: var(--color-sand, #F5F0E8);
+    border-radius: 12px;
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-6) 0;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .gear-rec-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .gear-rec-title {
+    font-size: 1rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    margin: 0;
+  }
+
+  .gear-rec-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .gear-rec-item {
+    background: white;
+    border-radius: 8px;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.15s ease;
+  }
+
+  .gear-rec-item:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .gear-rec-item-name {
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-deep-night);
+    margin-bottom: var(--space-1);
+  }
+
+  .gear-rec-item-reason {
+    font-size: 0.82rem;
+    color: var(--color-slate);
+    line-height: 1.55;
+    margin: 0 0 var(--space-2);
+  }
+
+  .gear-rec-item-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .gear-rec-price {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    opacity: 0.7;
+  }
+
+  .gear-rec-link {
+    font-size: 0.82rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .gear-rec-link:hover {
+    color: var(--coral-hover, #D4553B);
+    text-decoration: underline;
+  }
+
+  .gear-rec-cta {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: var(--space-3);
+    text-align: center;
+  }
+
+  .gear-rec-full-list {
+    font-size: 0.88rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-ocean-teal);
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 1.5px solid var(--color-ocean-teal);
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .gear-rec-full-list:hover {
+    background: var(--color-ocean-teal);
+    color: white;
+  }
+
+  @media print {
+    .gear-rec {
+      break-inside: avoid;
+    }
+    .gear-rec-link,
+    .gear-rec-cta {
+      display: none;
+    }
+  }
+</style>

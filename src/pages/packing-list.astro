@@ -1,0 +1,207 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PackingList from '../components/PackingList.astro';
+import FAQ from '../components/FAQ.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import FTCDisclosure from '../components/FTCDisclosure.astro';
+import { VIETNAM_PACKING_FAQS, SITE_CONFIG } from '../data/packing-list';
+import { PACKING_BASE } from '../data/packing-base';
+
+const title = 'Vietnam Packing List 2026 — What to Pack for Hanoi, Hoi An, Sapa & Phu Quoc';
+const description = 'The complete Vietnam packing list: universal adapter, DEET repellent, rain jacket, and VND cash. Interactive checklist for every region from the highlands to the Mekong Delta.';
+const canonicalUrl = 'https://discovervietnam.info/packing-list/';
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to Pack for Vietnam',
+  description: 'A complete packing guide for Vietnam covering Hanoi, Hoi An, Ho Chi Minh City, Sapa, and the Mekong Delta.',
+  step: [
+    { '@type': 'HowToStep', name: 'Power Adapter', text: 'Vietnam uses 220V Type A/C/F — bring a universal adapter, especially for rural guesthouses.' },
+    { '@type': 'HowToStep', name: 'Mosquito Protection', text: 'DEET 30%+ is essential — dengue is endemic and transmitted by day-biting mosquitoes.' },
+    { '@type': 'HowToStep', name: 'Cash', text: 'Vietnam is cash-based — carry Vietnamese Dong for street food, markets, and local transport.' },
+    { '@type': 'HowToStep', name: 'Rain Gear', text: 'Pack a rain jacket — Vietnam has regional monsoons hitting different areas throughout the year.' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Vietnam Packing Essentials',
+  itemListElement: PACKING_BASE.slice(0, 8).map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.name,
+  })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: VIETNAM_PACKING_FAQS.map(f => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer },
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Discover Vietnam', item: 'https://discovervietnam.info/' },
+    { '@type': 'ListItem', position: 2, name: 'Packing List', item: canonicalUrl },
+  ],
+};
+
+const categoryLabels: Record<string, string> = {
+  'documents': 'Documents & Entry',
+  'clothing': 'Clothing & Layers',
+  'toiletries': 'Toiletries & Health',
+  'electronics': 'Electronics & Power',
+  'destination': 'Vietnam Essentials',
+  'money': 'Money & Cards',
+  'daypack': 'Day Pack Items',
+  'optional': 'Optional / Nice to Have',
+};
+---
+
+<BaseLayout {title} {description} {canonicalUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <!-- Hero -->
+  <section class="pl-hero">
+    <div class="pl-hero-inner container-content">
+      <nav class="pl-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Discover Vietnam</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Packing List</span>
+      </nav>
+      <h1 class="pl-hero-title">Vietnam Packing List 2026</h1>
+      <p class="pl-hero-subtitle">Interactive checklist for Hanoi, Ho Chi Minh City, Hoi An, Sapa, and Phu Quoc — with dengue protection essentials and regional monsoon packing tips.</p>
+      <div class="pl-chips">
+        <span class="pl-chip">🌿 Tropical / Temperate / Highland</span>
+        <span class="pl-chip">⚡ 220V / Type A/C/F</span>
+        <span class="pl-chip">💵 Vietnamese Dong (VND)</span>
+        <span class="pl-chip">🦟 DEET repellent: dengue is endemic</span>
+      </div>
+    </div>
+  </section>
+
+  <FTCDisclosure placement="inline" />
+
+  <!-- Laundry Strategy -->
+  <section class="laundry-section container-content">
+    <h2 class="laundry-title">Laundry Strategy for Vietnam</h2>
+    <p class="laundry-body">Pack for 5–6 days — laundry is abundant and cheap throughout Vietnam. Hanoi and Ho Chi Minh City have laundromats on every tourist-area street for ₫20,000–40,000 ($0.80–$1.60) per kilo. Hoi An's Ancient Town has same-day wash-and-fold services. Even in remote areas like Sapa, guesthouses typically offer laundry. Quick-dry fabrics are ideal for Vietnam's humidity.</p>
+  </section>
+
+  <!-- Interactive Packing List -->
+  <PackingList config={SITE_CONFIG} baseItems={PACKING_BASE} {categoryLabels} />
+
+  <!-- Gear Recommendations -->
+  <section class="gear-section container-content">
+    <h2 class="gear-title">Gear We Recommend for Vietnam</h2>
+    <p class="gear-subtitle">Tested in Vietnamese heat, humidity, and monsoon — from Hanoi street food to Sapa rice terraces.</p>
+    <div class="gear-grid">
+      {SITE_CONFIG.gearRecommendations.map(gear => (
+        <div class="gear-card">
+          <div class="gear-card-header">
+            <h3 class="gear-card-name">{gear.name}</h3>
+            {gear.affiliatePrice && <span class="gear-card-price">{gear.affiliatePrice}</span>}
+          </div>
+          <p class="gear-card-reason">{gear.reason}</p>
+          <a
+            href={`https://www.amazon.com/s?k=${gear.amazonSearchFallback}&tag=${SITE_CONFIG.affiliateTag}`}
+            target="_blank"
+            rel="noopener sponsored"
+            class="gear-card-link"
+          >
+            View on Amazon →
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section container-content">
+    <h2 class="faq-title">Vietnam Packing FAQ</h2>
+    <FAQ items={VIETNAM_PACKING_FAQS} />
+  </section>
+
+  <!-- Email Capture -->
+  <EmailCapture
+    leadMagnet="Get My Free Vietnam Packing Checklist PDF"
+    description="The complete printable packing list for Vietnam — from Hanoi to the Mekong — with dengue protection tips and regional monsoon guides."
+    bullets={[
+      'Printable checklist for every Vietnamese region',
+      'Dengue and health protection guide for Vietnam',
+      'Sapa trekking packing list (cold, wet, muddy)',
+      'Cash strategy and ATM tips for Vietnam',
+    ]}
+    guideTag="packing-vietnam"
+  />
+
+  <!-- Related Links -->
+  <section class="related-section container-content">
+    <h2 class="related-title">Plan Your Vietnam Trip</h2>
+    <div class="related-grid">
+      <a href="/plan/" class="related-card">
+        <span class="related-icon">🗺️</span>
+        <span class="related-label">AI Trip Planner</span>
+        <span class="related-desc">Build a custom Vietnam itinerary</span>
+      </a>
+      <a href="/practical/" class="related-card">
+        <span class="related-icon">🛠️</span>
+        <span class="related-label">Travel Tips</span>
+        <span class="related-desc">Visas, transport, money, safety</span>
+      </a>
+      <a href="/cuisine/" class="related-card">
+        <span class="related-icon">🍜</span>
+        <span class="related-label">Food &amp; Cuisine</span>
+        <span class="related-desc">Pho, banh mi, and what to eat where</span>
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .pl-hero { background: linear-gradient(135deg, #064E3B 0%, #065F46 50%, #059669 100%); color: white; padding: 80px 0 48px; margin-top: -1px; }
+  .pl-hero-inner { max-width: var(--content-width-lg); }
+  .pl-breadcrumb { font-size: 0.85rem; opacity: 0.8; margin-bottom: 16px; display: flex; gap: 8px; align-items: center; }
+  .pl-breadcrumb a { color: white; text-decoration: none; }
+  .pl-breadcrumb a:hover { text-decoration: underline; }
+  .pl-hero-title { font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: var(--weight-extrabold); margin: 0 0 12px; line-height: 1.15; }
+  .pl-hero-subtitle { font-size: 1.1rem; opacity: 0.92; max-width: 600px; margin: 0 0 24px; line-height: 1.6; }
+  .pl-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pl-chip { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 6px 14px; font-size: 0.85rem; font-weight: var(--weight-medium); }
+  .laundry-section { padding: 40px 0 0; max-width: var(--content-width-prose); }
+  .laundry-title { font-size: 1.35rem; font-weight: var(--weight-bold); color: var(--color-deep-night); margin: 0 0 12px; }
+  .laundry-body { color: var(--color-slate); line-height: 1.7; margin: 0; }
+  .gear-section { padding: 48px 0; }
+  .gear-title { font-size: 1.75rem; font-weight: var(--weight-bold); color: var(--color-deep-night); margin: 0 0 8px; }
+  .gear-subtitle { color: var(--color-slate); margin: 0 0 32px; }
+  .gear-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .gear-card { background: white; border: 1px solid var(--color-sand-dark, #EBE4D8); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .gear-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .gear-card-name { font-size: 1rem; font-weight: var(--weight-semibold); color: var(--color-deep-night); margin: 0; }
+  .gear-card-price { font-size: 0.85rem; font-weight: var(--weight-semibold); color: var(--color-ocean-teal); white-space: nowrap; }
+  .gear-card-reason { font-size: 0.9rem; color: var(--color-slate); line-height: 1.6; margin: 0; flex: 1; }
+  .gear-card-link { font-size: 0.85rem; font-weight: var(--weight-semibold); color: var(--color-ocean-teal); text-decoration: none; }
+  .gear-card-link:hover { text-decoration: underline; }
+  .faq-section { padding: 48px 0; max-width: var(--content-width-prose); }
+  .faq-title { font-size: 1.75rem; font-weight: var(--weight-bold); color: var(--color-deep-night); margin: 0 0 24px; }
+  .related-section { padding: 48px 0 64px; }
+  .related-title { font-size: 1.5rem; font-weight: var(--weight-bold); color: var(--color-deep-night); margin: 0 0 24px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .related-card { display: flex; flex-direction: column; gap: 6px; padding: 20px; background: white; border: 1px solid var(--color-sand-dark, #EBE4D8); border-radius: 12px; text-decoration: none; transition: box-shadow 0.2s, transform 0.2s; }
+  .related-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .related-icon { font-size: 1.5rem; }
+  .related-label { font-size: 0.95rem; font-weight: var(--weight-semibold); color: var(--color-deep-night); }
+  .related-desc { font-size: 0.82rem; color: var(--color-slate); }
+</style>

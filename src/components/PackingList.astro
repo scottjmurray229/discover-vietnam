@@ -1,0 +1,497 @@
+---
+// PackingList.astro — Main packing list orchestrator
+// Depends on: PackingItem, PackingProgress, PackingCategory, PackingFilters, PackingActions
+// Client-side JS handles: state cycling, localStorage persistence, URL param pre-population, progress calc
+
+import PackingProgress from './PackingProgress.astro';
+import PackingFilters from './PackingFilters.astro';
+import PackingCategory from './PackingCategory.astro';
+import PackingActions from './PackingActions.astro';
+
+import { PACKING_BASE } from '../data/packing-base';
+import { SITE_CONFIG } from '../data/packing-list';
+import type { PackingItem } from '../data/packing-base';
+
+const config = SITE_CONFIG;
+
+// Merge base + destination essentials
+const allItems: PackingItem[] = [
+  ...PACKING_BASE,
+  ...config.destinationEssentials,
+];
+
+// Filter out items that don't apply to this site's climate
+// Items with no climate restriction are always included (universal items)
+const siteClimates = new Set(config.climate);
+const climateFilteredItems = allItems.filter(item =>
+  !item.climate || item.climate.length === 0 || item.climate.some(c => siteClimates.has(c))
+);
+
+// Category definitions
+const CATEGORIES = [
+  { id: 'documents', label: 'Documents & Money', icon: '📋', color: '#1e3a5f' },
+  { id: 'clothing', label: 'Clothing', icon: '👕', color: '#0D7377' },
+  { id: 'toiletries', label: 'Toiletries & Health', icon: '🧴', color: '#38A169' },
+  { id: 'electronics', label: 'Electronics', icon: '🔋', color: '#6B46C1' },
+  { id: 'gear', label: 'Gear & Accessories', icon: '🎒', color: '#E8654A' },
+  { id: 'destination', label: `${config.destination} Essentials`, icon: '🇵🇭', color: '#D4A574' },
+  { id: 'activity', label: 'Activity Gear', icon: '🏄', color: '#0D7377' },
+];
+
+// Group items by category
+const byCategory = new Map<string, PackingItem[]>();
+CATEGORIES.forEach(cat => byCategory.set(cat.id, []));
+climateFilteredItems.forEach(item => {
+  const arr = byCategory.get(item.category);
+  if (arr) arr.push(item);
+});
+
+// Only show activity category if there are items
+const visibleCategories = CATEGORIES.filter(cat => {
+  const items = byCategory.get(cat.id) || [];
+  return items.length > 0;
+});
+
+const storageKey = `${config.sitePrefix}_packing_list`;
+const affiliateTag = config.affiliateTag;
+---
+
+<div
+  class="packing-list"
+  data-packing-list
+  data-storage-key={storageKey}
+  data-affiliate-tag={affiliateTag}
+>
+  <!-- Top progress bar -->
+  <PackingProgress variant="top" />
+
+  <!-- Filters -->
+  <PackingFilters />
+
+  <!-- Return visitor banner (hidden by default, shown by JS) -->
+  <div class="packing-welcome-back" id="welcome-back" hidden>
+    <span data-welcome-msg></span>
+    <button type="button" class="welcome-back-dismiss" data-dismiss-welcome>✕</button>
+  </div>
+
+  <!-- Categories -->
+  <div class="packing-categories">
+    {visibleCategories.map((cat) => {
+      const items = byCategory.get(cat.id) || [];
+      // Activity items hidden by default — JS shows them when activity selected
+      const isActivity = cat.id === 'activity';
+      return (
+        <div
+          data-category-wrapper={cat.id}
+          style={isActivity ? 'display:none' : ''}
+        >
+          <PackingCategory
+            id={cat.id}
+            label={cat.label}
+            icon={cat.icon}
+            accentColor={cat.color}
+            items={items}
+            affiliateTag={affiliateTag}
+            defaultOpen={!isActivity}
+          />
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- Bottom action bar -->
+  <PackingActions affiliateTag={affiliateTag} destination={config.destination} />
+
+  <!-- Bottom progress bar (sticky mobile) -->
+  <PackingProgress variant="bottom" />
+</div>
+
+<style>
+  .packing-list {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .packing-categories {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .packing-welcome-back {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    background: rgba(13, 115, 119, 0.08);
+    border-bottom: 1px solid rgba(13, 115, 119, 0.15);
+    font-size: 0.88rem;
+    color: var(--color-ocean-teal);
+    font-weight: var(--weight-medium);
+  }
+
+  .welcome-back-dismiss {
+    background: none;
+    border: none;
+    color: var(--color-ocean-teal);
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.6;
+    padding: 4px;
+    min-height: 32px;
+    min-width: 32px;
+  }
+
+  @media (min-width: 640px) {
+    .packing-categories {
+      padding: var(--space-6);
+      gap: var(--space-4);
+    }
+  }
+
+  @media print {
+    .packing-list {
+      max-width: none;
+    }
+    .packing-welcome-back {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // ─── State types ──────────────────────────────────────────────────────────
+  type ItemState = 'unchecked' | 'have';
+
+  interface PackingStorageState {
+    version: number;
+    lastUpdated: string;
+    filters: { duration: string; season: string; style: string; activities: string[] };
+    items: Record<string, ItemState>;
+    customItems: Array<{ id: string; name: string; category: string; state: ItemState }>;
+  }
+
+  const ICONS: Record<ItemState, string> = {
+    unchecked: '⬜',
+    have: '✅',
+  };
+
+  // ─── DOM refs ─────────────────────────────────────────────────────────────
+  const listEl = document.querySelector('[data-packing-list]') as HTMLElement | null;
+  if (!listEl) throw new Error('PackingList: no [data-packing-list] element');
+
+  const STORAGE_KEY = listEl.dataset.storageKey || 'dph_packing_list';
+
+  // ─── Load / save ──────────────────────────────────────────────────────────
+  function loadState(): PackingStorageState | null {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw) as PackingStorageState;
+    } catch { return null; }
+  }
+
+  function saveState(items: Record<string, ItemState>, filters: PackingStorageState['filters']) {
+    const state: PackingStorageState = {
+      version: 1,
+      lastUpdated: new Date().toISOString(),
+      filters,
+      items,
+      customItems: [],
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  // ─── Read URL params ──────────────────────────────────────────────────────
+  function getUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      duration: params.get('duration') || '',
+      season: params.get('season') || '',
+      style: params.get('style') || '',
+      activities: (params.get('activities') || '').split(',').filter(Boolean),
+    };
+  }
+
+  // ─── Get current filter state ─────────────────────────────────────────────
+  function getFilters(): PackingStorageState['filters'] {
+    const dur = (document.getElementById('filter-duration') as HTMLSelectElement)?.value || 'short';
+    const sea = (document.getElementById('filter-season') as HTMLSelectElement)?.value || 'dry';
+    const sty = (document.getElementById('filter-style') as HTMLSelectElement)?.value || 'midrange';
+    const acts = Array.from(document.querySelectorAll('.activity-chip.active'))
+      .map(el => (el as HTMLElement).dataset.activity || '');
+    return { duration: dur, season: sea, style: sty, activities: acts };
+  }
+
+  // ─── Apply filters to DOM ─────────────────────────────────────────────────
+  function applyFilters(filters: PackingStorageState['filters']) {
+    // Show/hide activity category wrapper
+    const hasActivities = filters.activities.length > 0;
+    const actWrapper = document.querySelector('[data-category-wrapper="activity"]') as HTMLElement | null;
+    if (actWrapper) actWrapper.style.display = hasActivities ? '' : 'none';
+
+    // Show/hide items with seasons data — items without seasons are always shown
+    document.querySelectorAll('[data-item-id]').forEach(el => {
+      const seasonsAttr = (el as HTMLElement).dataset.seasons;
+      if (!seasonsAttr) return; // no season restriction — always show
+      const itemSeasons = seasonsAttr.split(',').filter(Boolean);
+      if (itemSeasons.length === 0) return;
+      const visible = itemSeasons.includes(filters.season);
+      (el as HTMLElement).style.display = visible ? '' : 'none';
+    });
+
+    // Update visible item count on each category header
+    document.querySelectorAll('[data-category]').forEach(cat => {
+      const countEl = cat.querySelector('[data-cat-count]');
+      if (!countEl) return;
+      const visible = cat.querySelectorAll('[data-item-id]:not([style*="display: none"]):not([style*="display:none"])').length;
+      countEl.textContent = `${visible} item${visible !== 1 ? 's' : ''}`;
+    });
+
+    // Rainy season priority badges
+    const isRainy = filters.season === 'rainy' || filters.season === 'shoulder';
+
+    const rainyPriorityIds = ['gear-drybag', 'ph-drybag', 'toi-repellent', 'ph-seasick', 'cloth-rain'];
+    rainyPriorityIds.forEach(itemId => {
+      document.querySelectorAll(`[data-item-id="${itemId}"]`).forEach(el => {
+        const badge = el.querySelector('.packing-item-badge') as HTMLElement | null;
+        if (!badge) return;
+        if (isRainy) {
+          badge.textContent = 'Rainy Essential';
+          badge.style.background = 'rgba(13,115,119,0.1)';
+          badge.style.color = 'var(--color-ocean-teal)';
+        } else {
+          // Restore original badge text/style
+          badge.textContent = badge.dataset.originalText || 'Essential';
+          badge.style.background = '';
+          badge.style.color = '';
+        }
+      });
+    });
+  }
+
+  // ─── Calculate progress ───────────────────────────────────────────────────
+  function updateProgress() {
+    const allItems = document.querySelectorAll('[data-item-id]');
+    let ready = 0;
+    let total = 0;
+
+    allItems.forEach(el => {
+      const wrapper = el.closest('[data-category-wrapper]') as HTMLElement | null;
+      if (wrapper && wrapper.style.display === 'none') return; // skip hidden categories
+      total++;
+      const state = (el as HTMLElement).dataset.state as ItemState;
+      if (state === 'have') ready++;
+    });
+
+    const pct = total > 0 ? Math.round((ready / total) * 100) : 0;
+
+    document.querySelectorAll('[data-progress-bar]').forEach(bar => {
+      const pctEl = bar.querySelector('[data-progress-pct]');
+      const countEl = bar.querySelector('[data-progress-count]');
+      const fill = bar.querySelector('[data-progress-fill]') as HTMLElement | null;
+      const track = bar.querySelector('[data-progress-track]');
+
+      if (pctEl) pctEl.textContent = `${pct}% packed`;
+      if (countEl) countEl.textContent = `${ready} of ${total} items ready`;
+      if (fill) {
+        fill.style.width = `${pct}%`;
+        // Color: coral (0-39%) → gold (40-79%) → teal (80-100%)
+        if (pct >= 80) {
+          fill.dataset.pct = 'done';
+          fill.style.background = '#0D7377';
+        } else if (pct >= 40) {
+          fill.dataset.pct = 'mid';
+          fill.style.background = '#D4A574';
+        } else {
+          delete fill.dataset.pct;
+          fill.style.background = '#E8654A';
+        }
+      }
+      if (track) track.setAttribute('aria-valuenow', String(pct));
+    });
+  }
+
+  // ─── Toggle item state ────────────────────────────────────────────────────
+  function toggleItem(itemEl: HTMLElement) {
+    const current = (itemEl.dataset.state || 'unchecked') as ItemState;
+    const next: ItemState = current === 'unchecked' ? 'have' : 'unchecked';
+
+    itemEl.dataset.state = next;
+    const icon = itemEl.querySelector('[data-icon]');
+    if (icon) icon.textContent = ICONS[next];
+
+    updateProgress();
+    persistCurrentState();
+  }
+
+  // ─── Persist state ────────────────────────────────────────────────────────
+  function persistCurrentState() {
+    const items: Record<string, ItemState> = {};
+    document.querySelectorAll('[data-item-id]').forEach(el => {
+      const id = (el as HTMLElement).dataset.itemId!;
+      const state = (el as HTMLElement).dataset.state as ItemState;
+      if (state !== 'unchecked') items[id] = state;
+    });
+    saveState(items, getFilters());
+  }
+
+  // ─── Restore state ────────────────────────────────────────────────────────
+  function restoreState(saved: PackingStorageState) {
+    Object.entries(saved.items).forEach(([id, state]) => {
+      const itemEl = document.querySelector(`[data-item-id="${id}"]`) as HTMLElement | null;
+      if (!itemEl) return;
+      const validState: ItemState = state === 'have' ? 'have' : 'unchecked';
+      itemEl.dataset.state = validState;
+      const icon = itemEl.querySelector('[data-icon]');
+      if (icon) icon.textContent = ICONS[validState];
+    });
+
+    // Restore filters
+    if (saved.filters.duration) {
+      const el = document.getElementById('filter-duration') as HTMLSelectElement | null;
+      if (el) el.value = saved.filters.duration;
+    }
+    if (saved.filters.season) {
+      const el = document.getElementById('filter-season') as HTMLSelectElement | null;
+      if (el) el.value = saved.filters.season;
+    }
+    if (saved.filters.style) {
+      const el = document.getElementById('filter-style') as HTMLSelectElement | null;
+      if (el) el.value = saved.filters.style;
+    }
+    if (saved.filters.activities?.length) {
+      saved.filters.activities.forEach(act => {
+        const chip = document.querySelector(`[data-activity="${act}"]`) as HTMLElement | null;
+        if (chip) {
+          chip.classList.add('active');
+          chip.setAttribute('aria-pressed', 'true');
+        }
+      });
+    }
+  }
+
+  // ─── Apply URL params ─────────────────────────────────────────────────────
+  function applyUrlParams(params: ReturnType<typeof getUrlParams>) {
+    if (params.duration) {
+      const map: Record<string, string> = {
+        '2': 'weekend', '3': 'weekend',
+        '4': 'short', '5': 'short', '6': 'short', '7': 'short',
+        '8': 'extended', '9': 'extended', '10': 'extended', '14': 'extended',
+      };
+      const val = map[params.duration] || (parseInt(params.duration) >= 15 ? 'longstay' : 'short');
+      const el = document.getElementById('filter-duration') as HTMLSelectElement | null;
+      if (el) el.value = val;
+    }
+    if (params.season) {
+      const el = document.getElementById('filter-season') as HTMLSelectElement | null;
+      if (el) el.value = params.season;
+    }
+    if (params.style) {
+      const el = document.getElementById('filter-style') as HTMLSelectElement | null;
+      if (el) el.value = params.style;
+    }
+    params.activities.forEach(act => {
+      const chip = document.querySelector(`[data-activity="${act}"]`) as HTMLElement | null;
+      if (chip) {
+        chip.classList.add('active');
+        chip.setAttribute('aria-pressed', 'true');
+      }
+    });
+  }
+
+  // ─── Wire toggle clicks ───────────────────────────────────────────────────
+  function wireToggles() {
+    document.querySelectorAll('[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const itemEl = (e.currentTarget as HTMLElement).closest('[data-item-id]') as HTMLElement | null;
+        if (itemEl) toggleItem(itemEl);
+      });
+    });
+  }
+
+  // Custom item toggle event
+  document.addEventListener('packing:toggle', (e) => {
+    const { itemEl } = (e as CustomEvent).detail;
+    if (itemEl) toggleItem(itemEl);
+  });
+
+  document.addEventListener('packing:statechange', () => {
+    updateProgress();
+    persistCurrentState();
+  });
+
+  // ─── Wire filter changes ──────────────────────────────────────────────────
+  function wireFilters() {
+    document.querySelectorAll('[data-filter]').forEach(select => {
+      select.addEventListener('change', () => {
+        applyFilters(getFilters());
+        updateProgress();
+        persistCurrentState();
+      });
+    });
+
+    document.querySelectorAll('.activity-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const isActive = chip.classList.contains('active');
+        chip.classList.toggle('active', !isActive);
+        chip.setAttribute('aria-pressed', String(!isActive));
+        applyFilters(getFilters());
+        updateProgress();
+        persistCurrentState();
+      });
+    });
+  }
+
+  // ─── Welcome back banner ──────────────────────────────────────────────────
+  function showWelcomeBack(pct: number) {
+    const banner = document.getElementById('welcome-back');
+    const msg = banner?.querySelector('[data-welcome-msg]');
+    if (!banner || !msg) return;
+    msg.textContent = `Welcome back! You're ${pct}% packed for the Philippines.`;
+    banner.hidden = false;
+
+    document.querySelector('[data-dismiss-welcome]')?.addEventListener('click', () => {
+      banner.hidden = true;
+    });
+  }
+
+  // ─── Init ─────────────────────────────────────────────────────────────────
+  // Store original badge text for season-badge restore
+  document.querySelectorAll('.packing-item-badge').forEach(badge => {
+    (badge as HTMLElement).dataset.originalText = badge.textContent || '';
+  });
+
+  wireToggles();
+  wireFilters();
+
+  // Check for URL params first (trip planner handoff)
+  const urlParams = getUrlParams();
+  const hasUrlParams = urlParams.duration || urlParams.season || urlParams.style || urlParams.activities.length > 0;
+
+  if (hasUrlParams) {
+    applyUrlParams(urlParams);
+  } else {
+    // Check localStorage for returning users
+    const saved = loadState();
+    if (saved && Object.keys(saved.items).length > 0) {
+      restoreState(saved);
+    }
+  }
+
+  applyFilters(getFilters());
+  updateProgress();
+
+  // Show welcome back banner AFTER filters applied so % matches visible items
+  if (!hasUrlParams) {
+    const saved = loadState();
+    if (saved && Object.keys(saved.items).length > 0) {
+      const readyCount = Object.values(saved.items).filter(s => s === 'have').length;
+      const totalCount = document.querySelectorAll('[data-item-id]:not([style*="display: none"]):not([style*="display:none"])').length;
+      const pct = totalCount > 0 ? Math.round((readyCount / totalCount) * 100) : 0;
+      if (pct > 0) showWelcomeBack(pct);
+    }
+  }
+</script>

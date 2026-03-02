@@ -1,0 +1,460 @@
+---
+// PackingActions.astro — Download PDF / Print / Email / Send to Amazon action bar
+// No dependencies. Sticky bottom on mobile.
+
+export interface Props {
+  affiliateTag?: string;
+  destination?: string;
+}
+
+const { affiliateTag = 'discoverphili-20', destination = 'Philippines' } = Astro.props;
+---
+
+<div class="packing-actions" data-packing-actions>
+  <div class="packing-actions-inner">
+
+    <button class="packing-action-btn packing-action-btn--print" type="button" data-action="print">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="6" y="14" width="12" height="8" rx="1" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      <span>Print</span>
+    </button>
+
+    <button class="packing-action-btn packing-action-btn--pdf" type="button" data-action="pdf">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Save PDF</span>
+    </button>
+
+    <button class="packing-action-btn packing-action-btn--amazon" type="button" data-action="amazon" data-tag={affiliateTag}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="9" cy="21" r="1" stroke="currentColor" stroke-width="2"/>
+        <circle cx="20" cy="21" r="1" stroke="currentColor" stroke-width="2"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.9-1.44L23 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Shop "Need" Items</span>
+    </button>
+
+    <button class="packing-action-btn packing-action-btn--reset" type="button" data-action="reset">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Reset</span>
+    </button>
+
+  </div>
+
+  <!-- PDF email gate modal -->
+  <div class="pa-modal" id="pdf-gate" hidden>
+    <div class="pa-modal-backdrop" data-pdf-close></div>
+    <div class="pa-modal-box">
+      <button class="pa-modal-close" type="button" data-pdf-close aria-label="Close">&times;</button>
+      <h3>📥 Download Your Packing List</h3>
+      <p>Get a printable PDF of your personalized {destination} checklist — plus packing tips delivered before your trip.</p>
+      <form class="pdf-gate-form" data-pdf-form>
+        <input type="email" placeholder="your@email.com" required class="pdf-gate-input" />
+        <button type="submit" class="pdf-gate-submit">Download PDF</button>
+      </form>
+      <p class="pdf-gate-legal">No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <!-- Shopping list inline panel -->
+  <div class="shop-panel" id="shop-panel" hidden>
+    <div class="shop-panel-header">
+      <strong>🛒 Your "Need to Buy" List</strong>
+      <button class="shop-panel-close" type="button" data-shop-close aria-label="Close">&times;</button>
+    </div>
+    <p class="shop-panel-sub">Everything you haven't ticked off yet. Tap an item on the list to mark it ✅ once you have it.</p>
+    <div class="shop-panel-items" id="shop-panel-items"></div>
+    <p class="shop-panel-empty" id="shop-panel-empty" hidden>
+      You're all set — everything is packed. ✅
+    </p>
+  </div>
+</div>
+
+<style>
+  .packing-actions {
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-sand, #F5F0E8);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .packing-actions-inner {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .packing-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: var(--weight-semibold);
+    font-family: inherit;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .packing-action-btn--print {
+    background: white;
+    color: var(--color-slate);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+
+  .packing-action-btn--print:hover {
+    border-color: var(--color-ocean-teal);
+    color: var(--color-ocean-teal);
+  }
+
+  .packing-action-btn--pdf {
+    background: var(--color-ocean-teal);
+    color: white;
+  }
+
+  .packing-action-btn--pdf:hover {
+    background: var(--color-ocean-teal-dark, #095456);
+  }
+
+  .packing-action-btn--amazon {
+    background: #FF9900;
+    color: white;
+    border-color: #FF9900;
+  }
+
+  .packing-action-btn--amazon:hover {
+    background: #E88000;
+  }
+
+  .packing-action-btn--amazon[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .packing-action-btn--reset {
+    background: none;
+    color: var(--color-slate);
+    border-color: transparent;
+    opacity: 0.6;
+  }
+
+  .packing-action-btn--reset:hover {
+    opacity: 1;
+    color: var(--color-warm-coral);
+  }
+
+  /* PDF gate modal */
+  .pa-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+  }
+
+  .pa-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 35, 50, 0.6);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .pa-modal-box {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: var(--space-8);
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  }
+
+  .pa-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-slate);
+    cursor: pointer;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pa-modal-box h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--color-deep-night);
+    margin: 0 0 var(--space-2);
+  }
+
+  .pa-modal-box p {
+    font-size: 0.9rem;
+    color: var(--color-slate);
+    margin: 0 0 var(--space-4);
+    line-height: 1.6;
+  }
+
+  /* PDF gate form */
+  .pdf-gate-form {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .pdf-gate-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+
+  .pdf-gate-input:focus {
+    outline: none;
+    border-color: var(--color-ocean-teal);
+  }
+
+  .pdf-gate-submit {
+    padding: 10px 20px;
+    background: var(--color-ocean-teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .pdf-gate-submit:hover {
+    background: var(--color-ocean-teal-dark, #095456);
+  }
+
+  .pdf-gate-legal {
+    font-size: 0.72rem !important;
+    opacity: 0.5;
+    margin: var(--space-2) 0 0 !important;
+  }
+
+  /* Shopping list inline panel */
+  .shop-panel {
+    padding: var(--space-4) var(--space-5);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: white;
+  }
+
+  .shop-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    font-size: 0.92rem;
+    color: var(--color-deep-night);
+  }
+
+  .shop-panel-close {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--color-slate);
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 4px;
+    min-height: 32px;
+    min-width: 32px;
+  }
+
+  .shop-panel-close:hover { opacity: 1; }
+
+  .shop-panel-sub {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    margin: 0 0 var(--space-3);
+    opacity: 0.7;
+  }
+
+  .shop-panel-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .shop-panel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: 0.88rem;
+    color: var(--color-deep-night);
+  }
+
+  .shop-panel-item-name { flex: 1; }
+
+  .shop-panel-item-link {
+    font-size: 0.8rem;
+    font-weight: var(--weight-semibold);
+    color: #FF9900;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .shop-panel-item-link:hover { text-decoration: underline; }
+
+  .shop-panel-item-local {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
+  .shop-panel-empty {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  /* Print styles */
+  @media print {
+    .packing-actions {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const actionsEl = document.querySelector('[data-packing-actions]');
+  if (actionsEl) {
+    const pdfGate = document.getElementById('pdf-gate');
+
+    actionsEl.querySelector('[data-action="print"]')?.addEventListener('click', () => {
+      window.print();
+    });
+
+    actionsEl.querySelector('[data-action="pdf"]')?.addEventListener('click', () => {
+      if (pdfGate) pdfGate.hidden = false;
+    });
+
+    // Close PDF gate
+    actionsEl.querySelectorAll('[data-pdf-close]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (pdfGate) pdfGate.hidden = true;
+      });
+    });
+    pdfGate?.addEventListener('click', (e) => {
+      if (e.target === pdfGate) pdfGate.hidden = true;
+    });
+
+    // PDF form submission — just print (real email integration via Kit/ConvertKit)
+    actionsEl.querySelector('[data-pdf-form]')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (pdfGate) pdfGate.hidden = true;
+      setTimeout(() => window.print(), 100);
+    });
+
+    // Shop "Need Items" — toggle inline panel
+    const shopPanel = document.getElementById('shop-panel');
+    const shopItemsEl = document.getElementById('shop-panel-items');
+    const shopEmptyEl = document.getElementById('shop-panel-empty');
+
+    actionsEl.querySelector('[data-action="amazon"]')?.addEventListener('click', (e) => {
+      const btn = e.currentTarget as HTMLButtonElement;
+      const tag = btn.dataset.tag || 'discoverphili-20';
+
+      if (!shopPanel || !shopItemsEl || !shopEmptyEl) return;
+
+      // Toggle closed if already open
+      if (!shopPanel.hidden) { shopPanel.hidden = true; return; }
+
+      // All unchecked items with a real ASIN link (not search fallbacks)
+      const needItems = Array.from(
+        document.querySelectorAll('[data-item-id]')
+      ).filter(el => {
+        const h = el as HTMLElement;
+        if (h.dataset.state === 'have' || h.style.display === 'none') return false;
+        const link = el.querySelector('[data-amazon-link]') as HTMLAnchorElement | null;
+        return !!link && link.href.includes('amazon.com');
+      });
+
+      shopItemsEl.innerHTML = '';
+
+      if (needItems.length === 0) {
+        shopEmptyEl.hidden = false;
+      } else {
+        shopEmptyEl.hidden = true;
+        needItems.forEach(itemEl => {
+          const name = itemEl.querySelector('[data-name]')?.textContent?.trim() || '';
+          const buyLink = itemEl.querySelector('[data-amazon-link]') as HTMLAnchorElement | null;
+
+          const row = document.createElement('div');
+          row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.06);font-size:0.88rem;';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.style.cssText = 'flex:1;color:#1A2332;';
+          nameSpan.textContent = name;
+          row.appendChild(nameSpan);
+
+          if (buyLink) {
+            const link = document.createElement('a');
+            link.style.cssText = 'font-size:0.8rem;font-weight:600;color:#FF9900;text-decoration:none;white-space:nowrap;flex-shrink:0;';
+            link.href = buyLink.href;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer sponsored';
+            link.textContent = 'Buy →';
+            row.appendChild(link);
+          } else {
+            const local = document.createElement('span');
+            local.style.cssText = 'font-size:0.78rem;color:#4A5568;opacity:0.6;flex-shrink:0;';
+            local.textContent = 'Buy locally';
+            row.appendChild(local);
+          }
+
+          shopItemsEl.appendChild(row);
+        });
+      }
+
+      shopPanel.hidden = false;
+      shopPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    actionsEl.querySelectorAll('[data-shop-close]').forEach(el => {
+      el.addEventListener('click', () => { if (shopPanel) shopPanel.hidden = true; });
+    });
+
+    // Reset
+    actionsEl.querySelector('[data-action="reset"]')?.addEventListener('click', () => {
+      if (!confirm('Reset all packing list progress? This cannot be undone.')) return;
+      document.querySelectorAll('[data-item-id]').forEach(item => {
+        (item as HTMLElement).dataset.state = 'unchecked';
+        const icon = item.querySelector('[data-icon]');
+        if (icon) icon.textContent = '⬜';
+        const buyLink = item.querySelector('[data-amazon-link]') as HTMLElement | null;
+        if (buyLink) buyLink.style.display = 'none';
+      });
+      // Trigger progress update
+      document.dispatchEvent(new CustomEvent('packing:statechange'));
+      // Clear localStorage
+      const storageKey = document.querySelector('[data-packing-list]')?.getAttribute('data-storage-key');
+      if (storageKey) localStorage.removeItem(storageKey);
+    });
+  }
+</script>

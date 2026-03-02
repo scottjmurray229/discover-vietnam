@@ -1,0 +1,311 @@
+---
+// PackingCategory.astro — Collapsible category section with accent color
+// Depends on: PackingItem.astro
+
+import PackingItem from './PackingItem.astro';
+import type { PackingItem as PackingItemType } from '../data/packing-base';
+
+export interface Props {
+  id: string;
+  label: string;
+  icon: string;
+  accentColor: string;
+  items: PackingItemType[];
+  affiliateTag?: string;
+  defaultOpen?: boolean;
+}
+
+const {
+  id,
+  label,
+  icon,
+  accentColor,
+  items,
+  affiliateTag = 'discoverphili-20',
+  defaultOpen = true,
+} = Astro.props;
+---
+
+<div
+  class="packing-category"
+  data-category={id}
+  style={`--category-accent: ${accentColor};`}
+>
+  <button
+    class="packing-category-header"
+    type="button"
+    aria-expanded={defaultOpen ? 'true' : 'false'}
+    aria-controls={`cat-body-${id}`}
+  >
+    <span class="packing-category-icon">{icon}</span>
+    <span class="packing-category-label">{label}</span>
+    <span class="packing-category-meta" data-cat-meta>
+      <span class="packing-category-count" data-cat-count>{items.length} items</span>
+    </span>
+    <svg class="packing-category-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M3.5 5.5L7 9L10.5 5.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div
+    class="packing-category-body"
+    id={`cat-body-${id}`}
+    role="list"
+    hidden={!defaultOpen || undefined}
+  >
+    {items.map((item) => (
+      <PackingItem
+        id={item.id}
+        name={item.name}
+        description={item.description}
+        essential={item.essential}
+        affiliatePrice={item.affiliatePrice}
+        localAlternative={item.localAlternative}
+        affiliateTag={affiliateTag}
+        amazonAsin={item.amazonAsin}
+        amazonSearchFallback={item.amazonSearchFallback}
+        seasons={item.seasons}
+      />
+    ))}
+
+    <!-- Custom item input -->
+    <div class="packing-add-item" data-add-item={id}>
+      <button class="packing-add-trigger" type="button" data-add-trigger>
+        <span>➕ Add item...</span>
+      </button>
+      <form class="packing-add-form" data-add-form hidden>
+        <input
+          type="text"
+          class="packing-add-input"
+          placeholder="Item name..."
+          maxlength="80"
+        />
+        <button type="submit" class="packing-add-submit">Add</button>
+        <button type="button" class="packing-add-cancel" data-add-cancel>Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .packing-category {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .packing-category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    border-left: 4px solid var(--category-accent);
+    transition: background 0.15s ease;
+    min-height: 56px;
+  }
+
+  .packing-category-header:hover {
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .packing-category-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .packing-category-label {
+    font-size: 0.95rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.78rem;
+  }
+
+  .packing-category-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .packing-category-count {
+    font-size: 0.75rem;
+    color: var(--color-slate);
+    opacity: 0.6;
+  }
+
+  .packing-category-chevron {
+    flex-shrink: 0;
+    color: var(--color-slate);
+    opacity: 0.5;
+    transition: transform 0.2s ease;
+  }
+
+  .packing-category-header[aria-expanded="true"] .packing-category-chevron {
+    transform: rotate(180deg);
+  }
+
+  .packing-category-body {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  /* Add custom item */
+  .packing-add-item {
+    padding: var(--space-2) var(--space-4) var(--space-3);
+  }
+
+  .packing-add-trigger {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+    opacity: 0.5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: var(--space-1) 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .packing-add-trigger:hover {
+    opacity: 1;
+    color: var(--color-ocean-teal);
+  }
+
+  .packing-add-form {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .packing-add-input {
+    flex: 1;
+    padding: 7px 12px;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: inherit;
+  }
+
+  .packing-add-input:focus {
+    outline: none;
+    border-color: var(--color-ocean-teal);
+  }
+
+  .packing-add-submit {
+    padding: 7px 14px;
+    background: var(--color-ocean-teal);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: var(--weight-semibold);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .packing-add-cancel {
+    padding: 7px 10px;
+    background: none;
+    color: var(--color-slate);
+    border: none;
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  @media print {
+    .packing-category-header {
+      break-inside: avoid;
+    }
+    .packing-category-body {
+      display: block !important;
+    }
+    .packing-add-item {
+      display: none;
+    }
+    .packing-category-chevron {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Accordion toggle
+  document.querySelectorAll('.packing-category-header').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      const bodyId = btn.getAttribute('aria-controls');
+      const body = bodyId ? document.getElementById(bodyId) : null;
+      if (!body) return;
+      btn.setAttribute('aria-expanded', String(!expanded));
+      body.hidden = expanded;
+    });
+  });
+
+  // Custom item add
+  document.querySelectorAll('[data-add-item]').forEach(container => {
+    const catId = (container as HTMLElement).dataset.addItem!;
+    const trigger = container.querySelector('[data-add-trigger]');
+    const form = container.querySelector('[data-add-form]') as HTMLFormElement | null;
+    const input = container.querySelector('.packing-add-input') as HTMLInputElement | null;
+    const cancel = container.querySelector('[data-add-cancel]');
+
+    trigger?.addEventListener('click', () => {
+      if (form) form.hidden = false;
+      if (trigger) (trigger as HTMLElement).style.display = 'none';
+      input?.focus();
+    });
+
+    cancel?.addEventListener('click', () => {
+      if (form) form.hidden = true;
+      if (trigger) (trigger as HTMLElement).style.display = '';
+      if (input) input.value = '';
+    });
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = input?.value.trim();
+      if (!name) return;
+
+      // Create item element
+      const id = `custom-${catId}-${Date.now()}`;
+      const itemEl = document.createElement('div');
+      itemEl.className = 'packing-item';
+      itemEl.dataset.itemId = id;
+      itemEl.dataset.state = 'unchecked';
+      itemEl.setAttribute('role', 'listitem');
+      itemEl.innerHTML = `
+        <button class="packing-item-toggle" type="button" aria-label="Toggle ${name}" data-toggle>
+          <span class="packing-item-icon" aria-hidden="true" data-icon>⬜</span>
+          <span class="packing-item-name" data-name>${name}</span>
+          <span class="packing-item-badge" style="background:rgba(212,165,116,0.15);color:#D4A574">Custom</span>
+        </button>
+      `;
+
+      // Wire toggle
+      itemEl.querySelector('[data-toggle]')?.addEventListener('click', () => {
+        document.dispatchEvent(new CustomEvent('packing:toggle', { detail: { itemEl } }));
+      });
+
+      container.insertAdjacentElement('beforebegin', itemEl);
+
+      // Reset form
+      if (input) input.value = '';
+      if (form) form.hidden = true;
+      if (trigger) (trigger as HTMLElement).style.display = '';
+
+      // Trigger save
+      document.dispatchEvent(new CustomEvent('packing:statechange'));
+    });
+  });
+</script>

@@ -212,6 +212,17 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
     </div>
   </section>
 
+  <!-- Packing List CTA -->
+  <section class="packing-cta-section">
+    <div class="packing-cta-inner container-content">
+      <div class="packing-cta-text">
+        <h2 class="packing-cta-title">Pack Smart for Vietnam</h2>
+        <p class="packing-cta-desc">From dengue protection in the Mekong to cold-weather layers for Sapa to monsoon rain gear for Hoi An — our interactive checklist covers every Vietnamese region.</p>
+      </div>
+      <a href="/packing-list/" class="packing-cta-btn">View Packing List &rarr;</a>
+    </div>
+  </section>
+
   <!-- FTC Disclosure -->
   <div class="container-content">
     <FTCDisclosure placement="inline" />
@@ -1940,4 +1951,11 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
     .form-grid { grid-template-columns: 1fr; }
     .trust-inner { gap: var(--space-8); }
   }
+
+  .packing-cta-section { background: var(--color-sky, #E8F4F5); padding: var(--space-10) 0; margin: var(--space-12) 0 0; }
+  .packing-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap; }
+  .packing-cta-title { font-size: 1.5rem; font-weight: var(--weight-bold); color: var(--color-deep-night); margin: 0 0 var(--space-2); }
+  .packing-cta-desc { color: var(--color-slate); margin: 0; max-width: 560px; }
+  .packing-cta-btn { display: inline-block; padding: 12px 28px; background: var(--color-ocean-teal); color: white; font-weight: var(--weight-semibold); border-radius: 8px; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .packing-cta-btn:hover { background: var(--color-ocean-teal-dark, #095456); }
 </style>

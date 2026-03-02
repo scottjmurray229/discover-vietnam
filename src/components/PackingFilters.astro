@@ -1,0 +1,149 @@
+---
+// PackingFilters.astro — Duration / Season / Travel Style dropdowns
+// No dependencies. Emits change events for PackingList JS to handle.
+---
+
+<div class="packing-filters" data-filters>
+  <div class="packing-filters-inner">
+
+    <div class="packing-filter-group">
+      <label class="packing-filter-label" for="filter-duration">Duration</label>
+      <select class="packing-filter-select" id="filter-duration" data-filter="duration">
+        <option value="short">Short trip (4–7 days)</option>
+        <option value="weekend">Weekend (2–3 days)</option>
+        <option value="extended">Extended (8–14 days)</option>
+        <option value="longstay">Long stay (15+ days)</option>
+      </select>
+    </div>
+
+    <div class="packing-filter-group">
+      <label class="packing-filter-label" for="filter-season">Season</label>
+      <select class="packing-filter-select" id="filter-season" data-filter="season">
+        <option value="dry">Dry Season (Nov–May)</option>
+        <option value="rainy">Rainy / Typhoon (Jun–Oct)</option>
+        <option value="shoulder">Shoulder Season</option>
+      </select>
+    </div>
+
+    <div class="packing-filter-group">
+      <label class="packing-filter-label" for="filter-style">Travel Style</label>
+      <select class="packing-filter-select" id="filter-style" data-filter="style">
+        <option value="midrange">Mid-Range</option>
+        <option value="backpacker">Backpacker</option>
+        <option value="luxury">Luxury</option>
+        <option value="family">Family</option>
+        <option value="business">Business</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="packing-activity-filters">
+    <span class="packing-filter-label">Activities</span>
+    <div class="packing-activity-chips" data-activity-chips>
+      <button class="activity-chip" type="button" data-activity="snorkeling">🤿 Snorkeling</button>
+      <button class="activity-chip" type="button" data-activity="diving">🐟 Diving</button>
+      <button class="activity-chip" type="button" data-activity="hiking">🥾 Hiking</button>
+      <button class="activity-chip" type="button" data-activity="surfing">🏄 Surfing</button>
+      <button class="activity-chip" type="button" data-activity="temples">🛕 Temples</button>
+      <button class="activity-chip" type="button" data-activity="photography">📸 Photography</button>
+      <button class="activity-chip" type="button" data-activity="nightlife">🍹 Nightlife</button>
+      <button class="activity-chip" type="button" data-activity="camping">⛺ Camping</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .packing-filters {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .packing-filters-inner {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-3);
+  }
+
+  .packing-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 140px;
+    flex: 1;
+  }
+
+  .packing-filter-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-slate);
+    opacity: 0.7;
+  }
+
+  .packing-filter-select {
+    font-size: 0.88rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-deep-night);
+    font-family: inherit;
+    background: var(--color-sand, #F5F0E8);
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234A5568' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+    transition: border-color 0.15s ease;
+  }
+
+  .packing-filter-select:focus {
+    outline: none;
+    border-color: var(--color-ocean-teal);
+  }
+
+  /* Activity chips */
+  .packing-activity-filters {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .packing-activity-chips {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .activity-chip {
+    font-size: 0.78rem;
+    font-weight: var(--weight-medium);
+    font-family: inherit;
+    color: var(--color-slate);
+    background: var(--color-sand, #F5F0E8);
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .activity-chip:hover {
+    border-color: var(--color-ocean-teal);
+    color: var(--color-ocean-teal);
+  }
+
+  .activity-chip.active,
+  .activity-chip[aria-pressed="true"] {
+    background: var(--color-ocean-teal);
+    border-color: var(--color-ocean-teal);
+    color: white;
+  }
+</style>

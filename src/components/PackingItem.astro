@@ -1,0 +1,203 @@
+---
+// PackingItem.astro — Individual packing list item row
+// State cycles: unchecked → have → need → skip → unchecked
+// No dependencies
+
+export interface Props {
+  id: string;
+  name: string;
+  description?: string;
+  essential?: boolean;
+  affiliateUrl?: string;
+  affiliatePrice?: string;
+  localAlternative?: string;
+  affiliateTag?: string;
+  amazonAsin?: string;
+  amazonSearchFallback?: string;
+  seasons?: string[];
+}
+
+const {
+  id,
+  name,
+  description,
+  essential = false,
+  affiliatePrice,
+  localAlternative,
+  affiliateTag = 'discoverphili-20',
+  amazonAsin,
+  amazonSearchFallback,
+  seasons,
+} = Astro.props;
+
+const amazonUrl = amazonAsin
+  ? `https://www.amazon.com/dp/${amazonAsin}?tag=${affiliateTag}`
+  : amazonSearchFallback
+  ? `https://www.amazon.com/s?k=${amazonSearchFallback}&tag=${affiliateTag}`
+  : null;
+---
+
+<div
+  class="packing-item"
+  data-item-id={id}
+  data-state="unchecked"
+  data-seasons={seasons?.join(',') || ''}
+  role="listitem"
+>
+  <button
+    class="packing-item-toggle"
+    type="button"
+    aria-label={`Toggle ${name}`}
+    data-toggle
+  >
+    <span class="packing-item-icon" aria-hidden="true" data-icon>⬜</span>
+    <span class="packing-item-name" data-name>{name}</span>
+    {essential && <span class="packing-item-badge">Essential</span>}
+  </button>
+
+  {description && (
+    <p class="packing-item-desc" data-desc>{description}</p>
+  )}
+
+  {localAlternative && (
+    <p class="packing-item-local" data-local>💡 {localAlternative}</p>
+  )}
+
+  {amazonUrl && (
+    <a
+      href={amazonUrl}
+      class="packing-item-buy"
+      target="_blank"
+      rel="noopener noreferrer sponsored"
+      data-amazon-link
+      style="display:none"
+    >
+      {affiliatePrice && <span class="packing-item-price">{affiliatePrice}</span>}
+      Buy on Amazon →
+    </a>
+  )}
+</div>
+
+<style>
+  .packing-item {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background 0.15s ease;
+  }
+
+  .packing-item:last-child {
+    border-bottom: none;
+  }
+
+  .packing-item[data-state="have"] {
+    background: rgba(56, 161, 105, 0.04);
+  }
+
+  .packing-item[data-state="need"] {
+    background: rgba(232, 101, 74, 0.06);
+  }
+
+  .packing-item[data-state="skip"] {
+    opacity: 0.4;
+  }
+
+  .packing-item-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    font-family: inherit;
+    min-height: 44px;
+  }
+
+  .packing-item-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    transition: transform 0.15s ease;
+  }
+
+  .packing-item-toggle:active .packing-item-icon {
+    transform: scale(0.9);
+  }
+
+  .packing-item-name {
+    font-size: 0.95rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-deep-night);
+    flex: 1;
+    transition: color 0.15s ease;
+  }
+
+  [data-state="have"] .packing-item-name {
+    color: var(--color-slate);
+  }
+
+  [data-state="need"] .packing-item-name {
+    font-weight: var(--weight-semibold);
+    color: var(--color-deep-night);
+  }
+
+  [data-state="skip"] .packing-item-name {
+    text-decoration: line-through;
+  }
+
+  .packing-item-badge {
+    font-size: 0.65rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-warm-coral);
+    background: rgba(232, 101, 74, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .packing-item-desc {
+    font-size: 0.82rem;
+    color: var(--color-slate);
+    margin: var(--space-1) 0 0 calc(28px + var(--space-3));
+    line-height: 1.5;
+  }
+
+  .packing-item-local {
+    font-size: 0.78rem;
+    color: var(--color-ocean-teal);
+    margin: var(--space-1) 0 0 calc(28px + var(--space-3));
+  }
+
+  .packing-item-actions {
+    margin: var(--space-2) 0 0 calc(28px + var(--space-3));
+  }
+
+  .packing-item-buy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.82rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-warm-coral);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1.5px solid var(--color-warm-coral);
+    border-radius: 20px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .packing-item-buy:hover {
+    background: var(--color-warm-coral);
+    color: white;
+  }
+
+  .packing-item-price {
+    font-weight: var(--weight-regular);
+    opacity: 0.8;
+  }
+</style>

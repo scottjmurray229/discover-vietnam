@@ -1,0 +1,83 @@
+---
+// PackingProgress.astro — Progress bar: coral (0%) → gold (50%) → teal (100%)
+// No dependencies. Data driven by client-side JS via data attributes.
+
+export interface Props {
+  variant?: 'top' | 'bottom';
+}
+
+const { variant = 'top' } = Astro.props;
+---
+
+<div class:list={['packing-progress', `packing-progress--${variant}`]} data-progress-bar aria-live="polite">
+  <div class="packing-progress-label">
+    <span class="packing-progress-pct" data-progress-pct>0% packed</span>
+    <span class="packing-progress-count" data-progress-count>0 of 0 items ready</span>
+  </div>
+  <div class="packing-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-progress-track>
+    <div class="packing-progress-fill" data-progress-fill style="width: 0%"></div>
+  </div>
+</div>
+
+<style>
+  .packing-progress {
+    padding: var(--space-3) var(--space-5);
+    background: white;
+  }
+
+  .packing-progress--bottom {
+    position: sticky;
+    bottom: 60px; /* above mobile tab bar */
+    z-index: 20;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (min-width: 768px) {
+    .packing-progress--bottom {
+      bottom: 0;
+    }
+  }
+
+  .packing-progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-2);
+  }
+
+  .packing-progress-pct {
+    font-size: 0.9rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-deep-night);
+  }
+
+  .packing-progress-count {
+    font-size: 0.78rem;
+    color: var(--color-slate);
+  }
+
+  .packing-progress-track {
+    height: 10px;
+    background: var(--color-sand-dark, #EBE4D8);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .packing-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: var(--color-warm-coral);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+  }
+
+  /* Color shifts: coral (0%) → gold (50%) → teal (100%) via CSS custom property set by JS */
+  .packing-progress-fill[data-pct="mid"] {
+    background: var(--color-warm-gold, #D4A574);
+  }
+
+  .packing-progress-fill[data-pct="done"] {
+    background: var(--color-ocean-teal);
+  }
+</style>
