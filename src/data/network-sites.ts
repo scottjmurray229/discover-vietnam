@@ -5,21 +5,31 @@ export interface NetworkSite {
   domain: string;
   url: string;
   flag: string;
-  region: 'hub' | 'southeast-asia' | 'east-asia' | 'mexico' | 'us-west' | 'us-central' | 'us-east' | 'south-america' | 'caribbean' | 'europe';
+  region: 'hub' | 'south-asia' | 'southeast-asia' | 'east-asia' | 'north-america' | 'mexico' | 'us-west' | 'us-central' | 'us-east' | 'south-america' | 'caribbean' | 'europe' | 'africa';
   status: 'live' | 'coming-soon';
   tagline: string;
 }
 
 export const NETWORK_SITES: NetworkSite[] = [
   { id: 'hub', name: 'Discover More Travel', shortName: 'Hub', domain: 'discovermore.travel', url: 'https://discovermore.travel', flag: '\u{1F30D}', region: 'hub', status: 'live', tagline: 'Your gateway to authentic travel worldwide' },
+  // South Asia
+  { id: 'india', name: 'Discover India', shortName: 'India', domain: 'discoverindia.info', url: 'https://discoverindia.info', flag: '\u{1F1EE}\u{1F1F3}', region: 'south-asia', status: 'coming-soon', tagline: 'Temples, spice markets, and Himalayan landscapes' },
   // Southeast Asia
   { id: 'philippines', name: 'Discover Philippines', shortName: 'Philippines', domain: 'discoverphilippines.info', url: 'https://discoverphilippines.info', flag: '\u{1F1F5}\u{1F1ED}', region: 'southeast-asia', status: 'live', tagline: 'Immersive guides to 7,641 islands' },
   { id: 'thailand', name: 'Discover Thailand', shortName: 'Thailand', domain: 'discoverthailand.info', url: 'https://discoverthailand.info', flag: '\u{1F1F9}\u{1F1ED}', region: 'southeast-asia', status: 'coming-soon', tagline: 'Temples, street food, and tropical beaches' },
   { id: 'cambodia', name: 'Discover Cambodia', shortName: 'Cambodia', domain: 'discovercambodia.info', url: 'https://discovercambodia.info', flag: '\u{1F1F0}\u{1F1ED}', region: 'southeast-asia', status: 'coming-soon', tagline: 'Ancient temples and hidden coastlines' },
   { id: 'laos', name: 'Discover Laos', shortName: 'Laos', domain: 'discoverlaos.info', url: 'https://discoverlaos.info', flag: '\u{1F1F1}\u{1F1E6}', region: 'southeast-asia', status: 'coming-soon', tagline: 'Waterfalls, monks, and the Mekong' },
   { id: 'vietnam', name: 'Discover Vietnam', shortName: 'Vietnam', domain: 'discovervietnam.info', url: 'https://discovervietnam.info', flag: '\u{1F1FB}\u{1F1F3}', region: 'southeast-asia', status: 'coming-soon', tagline: 'From Ha Long Bay to the Mekong Delta' },
+  { id: 'indonesia', name: 'Discover Indonesia', shortName: 'Indonesia', domain: 'discoverindonesia.info', url: 'https://discoverindonesia.info', flag: '\u{1F1EE}\u{1F1E9}', region: 'southeast-asia', status: 'coming-soon', tagline: '17,000 islands of volcanoes, temples, and diving' },
+  { id: 'malaysia', name: 'Discover Malaysia', shortName: 'Malaysia', domain: 'discoveringmalaysia.info', url: 'https://discoveringmalaysia.info', flag: '\u{1F1F2}\u{1F1FE}', region: 'southeast-asia', status: 'coming-soon', tagline: 'Petronas towers, rainforests, and street food paradise' },
+  { id: 'singapore', name: 'Discover Singapore', shortName: 'Singapore', domain: 'discoversingapore.info', url: 'https://discoversingapore.info', flag: '\u{1F1F8}\u{1F1EC}', region: 'southeast-asia', status: 'coming-soon', tagline: 'Hawker feasts, futuristic gardens, and the Lion City' },
   // East Asia
   { id: 'japan', name: 'Discover Japan', shortName: 'Japan', domain: 'discoverjapan.info', url: 'https://discoverjapan.info', flag: '\u{1F1EF}\u{1F1F5}', region: 'east-asia', status: 'coming-soon', tagline: 'Cherry blossoms, shrines, and culinary mastery' },
+  { id: 'hong-kong', name: 'Discover Hong Kong', shortName: 'Hong Kong', domain: 'discoveringhongkong.info', url: 'https://discoveringhongkong.info', flag: '\u{1F1ED}\u{1F1F0}', region: 'east-asia', status: 'coming-soon', tagline: 'Neon skyline, dim sum, and harbor views' },
+  { id: 'korea', name: 'Discover Korea', shortName: 'South Korea', domain: 'discoverkorea.info', url: 'https://discoverkorea.info', flag: '\u{1F1F0}\u{1F1F7}', region: 'east-asia', status: 'coming-soon', tagline: 'K-pop, temple stays, and sizzling BBQ' },
+  { id: 'macau', name: 'Discover Macau', shortName: 'Macau', domain: 'discovermacau.info', url: 'https://discovermacau.info', flag: '\u{1F1F2}\u{1F1F4}', region: 'east-asia', status: 'coming-soon', tagline: 'Portuguese heritage, casinos, and UNESCO ruins' },
+  // North America
+  { id: 'canada', name: 'Discover Canada', shortName: 'Canada', domain: 'discoveringcanada.info', url: 'https://discoveringcanada.info', flag: '\u{1F1E8}\u{1F1E6}', region: 'north-america', status: 'coming-soon', tagline: 'Rocky Mountains, northern lights, and vast wilderness' },
   // Mexico
   { id: 'baja', name: 'Discover Baja', shortName: 'Baja', domain: 'discoverbaja.info', url: 'https://discoverbaja.info', flag: '\u{1F1F2}\u{1F1FD}', region: 'mexico', status: 'live', tagline: 'Tacos, surf breaks, and desert landscapes' },
   // US West
@@ -42,6 +52,7 @@ export const NETWORK_SITES: NetworkSite[] = [
   { id: 'colombia', name: 'Discovering Colombia', shortName: 'Colombia', domain: 'discoveringcolombia.info', url: 'https://discoveringcolombia.info', flag: '\u{1F1E8}\u{1F1F4}', region: 'south-america', status: 'coming-soon', tagline: "Colonial walls, mountain views, and South America's surprise" },
   { id: 'brazil', name: 'Discover Brazil', shortName: 'Brazil', domain: 'discoverbrazil.info', url: 'https://discoverbrazil.info', flag: '\u{1F1E7}\u{1F1F7}', region: 'south-america', status: 'coming-soon', tagline: 'Rhythm, rainforest, and endless coastline' },
   // Caribbean
+  { id: 'cuba', name: 'Discover Cuba', shortName: 'Cuba', domain: 'discovercuba.info', url: 'https://discovercuba.info', flag: '\u{1F1E8}\u{1F1FA}', region: 'caribbean', status: 'coming-soon', tagline: 'Havana grandeur, classic cars, and tobacco valleys' },
   { id: 'dr', name: 'Discover DR', shortName: 'Dominican Republic', domain: 'discoverdr.info', url: 'https://discoverdr.info', flag: '\u{1F1E9}\u{1F1F4}', region: 'caribbean', status: 'coming-soon', tagline: 'Turquoise waters and colonial history' },
   { id: 'puerto-rico', name: 'Discover Puerto Rico', shortName: 'Puerto Rico', domain: 'discoverpuertorico.info', url: 'https://discoverpuertorico.info', flag: '\u{1F1F5}\u{1F1F7}', region: 'caribbean', status: 'coming-soon', tagline: 'Old San Juan, bioluminescent bays, and El Yunque' },
   // Europe
@@ -50,13 +61,19 @@ export const NETWORK_SITES: NetworkSite[] = [
   { id: 'italy', name: 'Discovering Italy', shortName: 'Italy', domain: 'discoveringitaly.info', url: 'https://discoveringitaly.info', flag: '\u{1F1EE}\u{1F1F9}', region: 'europe', status: 'coming-soon', tagline: "Eternal streets and cliffside villages" },
   { id: 'eastern-europe', name: 'Discover Eastern Europe', shortName: 'Eastern Europe', domain: 'discovereasterneurope.info', url: 'https://discovereasterneurope.info', flag: '\u{1F1EA}\u{1F1FA}', region: 'europe', status: 'coming-soon', tagline: 'Capitals by rail — Istanbul to Prague and beyond' },
   { id: 'germany', name: 'Discover Germany', shortName: 'Germany', domain: 'discovergermany.info', url: 'https://discovergermany.info', flag: '\u{1F1E9}\u{1F1EA}', region: 'europe', status: 'coming-soon', tagline: 'Fairy-tale castles and world-class beer halls' },
+  { id: 'switzerland', name: 'Discover Switzerland', shortName: 'Switzerland', domain: 'discoverswitzerland.info', url: 'https://discoverswitzerland.info', flag: '\u{1F1E8}\u{1F1ED}', region: 'europe', status: 'coming-soon', tagline: 'Alpine rail journeys, chocolate villages, and glacial lakes' },
+  { id: 'turkey', name: 'Discovering Turkey', shortName: 'Turkey', domain: 'discoveringturkey.info', url: 'https://discoveringturkey.info', flag: '\u{1F1F9}\u{1F1F7}', region: 'europe', status: 'coming-soon', tagline: "Istanbul's minarets, Cappadocia, and Aegean coastlines" },
+  // Africa
+  { id: 'south-africa', name: 'Discover South Africa', shortName: 'South Africa', domain: 'discoversouthafrica.info', url: 'https://discoversouthafrica.info', flag: '\u{1F1FF}\u{1F1E6}', region: 'africa', status: 'coming-soon', tagline: 'Safari, Cape Town, and dramatic coastlines' },
 ];
 
 export const HUB_URL = 'https://discovermore.travel';
 
 export const NETWORK_REGIONS = [
+  { id: 'south-asia', label: 'South Asia' },
   { id: 'southeast-asia', label: 'Southeast Asia' },
   { id: 'east-asia', label: 'East Asia' },
+  { id: 'north-america', label: 'North America' },
   { id: 'mexico', label: 'Mexico' },
   { id: 'us-west', label: 'US West' },
   { id: 'us-central', label: 'US Central' },
@@ -64,6 +81,7 @@ export const NETWORK_REGIONS = [
   { id: 'south-america', label: 'South America' },
   { id: 'caribbean', label: 'Caribbean' },
   { id: 'europe', label: 'Europe' },
+  { id: 'africa', label: 'Africa' },
 ] as const;
 
 export const CURRENT_SITE_ID = 'vietnam';
