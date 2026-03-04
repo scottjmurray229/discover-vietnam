@@ -304,7 +304,7 @@ function wireRelatedVideoSrc(heroes, previews) {
 
     for (let i = 0; i < lines.length; i++) {
       // Detect "- slug: xxx"
-      const slugMatch = lines[i].match(/^\s+-\s+slug:\s+([\w-]+)/);
+      const slugMatch = lines[i].match(/^\s+-\s+slug:\s+["']?([\w-]+)["']?/);
       if (slugMatch) {
         currentRelSlug = slugMatch[1];
         continue;
@@ -380,6 +380,100 @@ function wireStaticPages(heroes) {
       const rel = path.relative(config.PROJECT_ROOT, filePath).replace(/\\/g, '/');
       console.log(`     ✅ ${rel} → fixed broken video ref`);
       updated++;
+    }
+  }
+
+  return updated;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PHASE 5.5 — Wire videos to pillar pages & blog posts
+// ═══════════════════════════════════════════════════════════════════
+
+// Pick best available hero video for a page based on preferred slugs
+function pickVideo(heroes, preferred) {
+  for (const slug of preferred) {
+    if (heroes[slug]) return `/videos/destinations/${heroes[slug]}`;
+  }
+  // Fallback to first available
+  const first = Object.keys(heroes).sort()[0];
+  return first ? `/videos/destinations/${heroes[first]}` : null;
+}
+
+function wirePillarPages(heroes) {
+  // Page config: file path (relative to PAGES_DIR), hero tag to inject into, preferred video slugs
+  const pillarPages = [
+    { rel: 'beaches/index.astro',      heroTag: 'menu-hero',  preferred: ['clearwater', 'pensacola', 'destin'] },
+    { rel: 'cuisine/index.astro',      heroTag: 'menu-hero',  preferred: ['miami', 'tampa', 'key-west'] },
+    { rel: 'finer-things/index.astro', heroTag: 'ft-hero',    preferred: ['palm-beach', 'miami', 'naples'] },
+    { rel: 'history/index.astro',      heroTag: 'menu-hero',  preferred: ['st-augustine', 'cape-canaveral', 'pensacola'] },
+    { rel: 'practical/index.astro',    heroTag: 'menu-hero',  preferred: ['orlando', 'miami', 'tampa'] },
+    { rel: 'theme-parks/index.astro',  heroTag: 'menu-hero',  preferred: ['orlando', 'tampa'] },
+    { rel: 'wildlife/index.astro',     heroTag: 'menu-hero',  preferred: ['everglades', 'clearwater', 'sanibel-island'] },
+    { rel: 'companion.astro',          heroTag: 'cp-hero',    preferred: ['miami', 'orlando', 'tampa'] },
+    { rel: 'about/index.astro',        heroTag: 'about-hero', preferred: ['clearwater', 'miami', 'sarasota'] },
+    { rel: 'festivals/index.astro',    heroTag: 'fest-hero',  preferred: ['tampa', 'miami', 'st-augustine'] },
+  ];
+
+  // Blog posts — wire heroVideo frontmatter field
+  const blogPosts = [];
+  if (fs.existsSync(BLOG_CONTENT)) {
+    const heroSlugs = Object.keys(heroes).sort();
+    let blogIdx = 0;
+    for (const file of fs.readdirSync(BLOG_CONTENT).filter(f => f.endsWith('.md'))) {
+      blogPosts.push({ file: path.join(BLOG_CONTENT, file), slug: heroSlugs[blogIdx % heroSlugs.length] });
+      blogIdx++;
+    }
+  }
+
+  let updated = 0;
+  const videoTag = (src) =>
+    `<video style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35;pointer-events:none;z-index:0;" autoplay muted loop playsinline preload="metadata"><source src="${src}" type="video/mp4" /></video>`;
+
+  for (const page of pillarPages) {
+    const filePath = path.join(PAGES_DIR, page.rel);
+    if (!fs.existsSync(filePath)) continue;
+
+    let content = fs.readFileSync(filePath, 'utf8');
+
+    // Check if this page already has a working video
+    const existingMatch = content.match(/<source\s+src="([^"]+\.mp4)"/);
+    if (existingMatch) {
+      const relPath = existingMatch[1].startsWith('/') ? existingMatch[1].slice(1) : existingMatch[1];
+      if (fs.existsSync(path.join(config.PROJECT_ROOT, 'public', relPath))) continue; // already wired and file exists
+    }
+
+    const videoSrc = pickVideo(heroes, page.preferred);
+    if (!videoSrc) continue;
+
+    // Inject video as first child of the hero section/header
+    // Handles: <header class="X-hero">, <section class="X-hero">, and partial class matches
+    const heroClassPattern = new RegExp(`(<(?:header|section)[^>]*class="[^"]*${page.heroTag}[^"]*"[^>]*>)`);
+    if (heroClassPattern.test(content)) {
+      if (existingMatch) {
+        // Replace broken video src
+        content = content.replace(/<source\s+src="[^"]+\.mp4"/, `<source src="${videoSrc}"`);
+      } else {
+        // Inject new video tag after the opening hero tag
+        content = content.replace(heroClassPattern, `$1\n  ${videoTag(videoSrc)}`);
+      }
+      if (!dryRun) fs.writeFileSync(filePath, content);
+      const rel = path.relative(config.PROJECT_ROOT, filePath).replace(/\\/g, '/');
+      console.log(`     ✅ ${rel} → ${videoSrc.split('/').pop()}`);
+      updated++;
+    }
+  }
+
+  // Wire blog posts heroVideo frontmatter
+  for (const { file, slug } of blogPosts) {
+    let content = fs.readFileSync(file, 'utf8');
+    const heroVideoSrc = `/videos/destinations/${heroes[slug]}`;
+    if (content.includes('heroVideo:')) {
+      if (content.match(/heroVideo:\s*['"]{2}|heroVideo:\s*$/m)) {
+        content = content.replace(/heroVideo:\s*(['"]?)(['"]?)/, `heroVideo: '${heroVideoSrc}'`);
+        if (!dryRun) fs.writeFileSync(file, content);
+        updated++;
+      }
     }
   }
 
@@ -533,6 +627,13 @@ function runAudit(heroes, previews, breaks) {
     { name: 'About/Scott',    p: path.join(PAGES_DIR, 'about', 'scott.astro') },
     { name: 'Cuisine',        p: path.join(PAGES_DIR, 'cuisine', 'index.astro') },
     { name: 'Festivals',      p: path.join(PAGES_DIR, 'festivals', 'index.astro') },
+    { name: 'Beaches',        p: path.join(PAGES_DIR, 'beaches', 'index.astro') },
+    { name: 'Finer Things',   p: path.join(PAGES_DIR, 'finer-things', 'index.astro') },
+    { name: 'History',        p: path.join(PAGES_DIR, 'history', 'index.astro') },
+    { name: 'Practical',      p: path.join(PAGES_DIR, 'practical', 'index.astro') },
+    { name: 'Theme Parks',    p: path.join(PAGES_DIR, 'theme-parks', 'index.astro') },
+    { name: 'Wildlife',       p: path.join(PAGES_DIR, 'wildlife', 'index.astro') },
+    { name: 'Companion',      p: path.join(PAGES_DIR, 'companion.astro') },
   ];
 
   for (const page of staticPages) {
@@ -649,6 +750,11 @@ function main() {
   console.log('  5. Fixing broken static page hero videos...');
   const staticCount = wireStaticPages(heroes);
   console.log(`     ${staticCount} pages fixed.\n`);
+
+  // Phase 5.5
+  console.log('  5.5. Wiring pillar page & blog post videos...');
+  const pillarCount = wirePillarPages(heroes);
+  console.log(`     ${pillarCount} pages/posts wired.\n`);
 
   // Phase 6
   console.log('  6. Updating video-inventory.yaml...');
