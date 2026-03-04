@@ -194,6 +194,10 @@ const isGuidesActive = (p: string) =>
         <span>{g.label}</span>
       </a>
     ))}
+    <a href="/blog/" class:list={['mobile-guides-link', { 'mobile-guides-link--active': currentPath.startsWith('/blog') }]}>
+      <span class="mobile-guides-icon">✍️</span>
+      <span>Blog</span>
+    </a>
     <a href="/companion/" class:list={['mobile-guides-link', { 'mobile-guides-link--active': currentPath.startsWith('/companion') }]}>
       <span class="mobile-guides-icon">🧭</span>
       <span>Trip Companion</span>
