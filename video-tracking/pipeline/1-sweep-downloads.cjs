@@ -80,10 +80,10 @@ function findNewClips() {
     .sort((a, b) => b.modified - a.modified);
 }
 
-// Detect Shutterstock clip — filename is purely numeric (e.g. 1234567890.mp4)
+// Detect Shutterstock clip — purely numeric ID (1234567890.mp4) or shutterstock_ prefix
 function isShutterstockId(filename) {
   const base = path.basename(filename, path.extname(filename));
-  return /^\d+$/.test(base);
+  return /^\d+$/.test(base) || /^shutterstock_/i.test(base);
 }
 
 // Try to auto-detect destination from filename
@@ -107,9 +107,11 @@ const HERO_KEYWORDS = [
   { words: ['sunset', 'sunrise', 'golden'], score: 2 },
 ];
 
-function heroScore(filename) {
+function heroScore(filename, dest) {
   const lower = filename.toLowerCase();
   let score = 0;
+  // Big bonus if filename contains the destination slug — prevents wrong-dest clips winning
+  if (dest && lower.includes(dest.replace(/-/g, ' ')) || lower.includes(dest)) score += 50;
   for (const { words, score: s } of HERO_KEYWORDS) {
     if (words.some(w => lower.includes(w))) score += s;
   }
@@ -119,9 +121,12 @@ function heroScore(filename) {
 // Pick the best Storyblocks clip to be hero (highest keyword score, largest file as tiebreaker)
 function pickHero(clips, heroIdOverride) {
   if (heroIdOverride) {
-    // User specified a Shutterstock ID — find that file
-    const base = path.basename(heroIdOverride, path.extname(heroIdOverride));
-    const match = clips.find(c => path.basename(c.filename, path.extname(c.filename)) === base);
+    // User specified a Shutterstock ID — match bare number or shutterstock_ prefix
+    const idNum = heroIdOverride.replace(/\D/g, '');
+    const match = clips.find(c => {
+      const base = path.basename(c.filename, path.extname(c.filename));
+      return base === idNum || base === `shutterstock_${idNum}` || base.endsWith(idNum);
+    });
     if (match) return match;
     console.log(`  Warning: --hero-id ${heroIdOverride} not found in Downloads. Falling back to auto-pick.`);
   }
@@ -132,7 +137,7 @@ function pickHero(clips, heroIdOverride) {
 
   const scored = storyblocks.map(c => ({
     clip: c,
-    score: heroScore(c.filename),
+    score: heroScore(c.filename, destFilter),
     sizeMB: parseFloat(c.sizeMB),
   }));
   scored.sort((a, b) => b.score - a.score || b.sizeMB - a.sizeMB);
