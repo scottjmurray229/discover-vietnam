@@ -61,7 +61,8 @@ fs.mkdirSync(config.PUBLIC_VIDEOS, { recursive: true });
 // Watermark drawtext filter — appended to -vf chain
 const FONT_PATH = '/Windows/Fonts/arialbd.ttf';
 function watermarkFilter(fontsize) {
-  return `drawtext=text='discoverphilippines.info':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
+  const text = config.WATERMARK_TEXT || 'discoverphilippines.info';
+  return `drawtext=text='${text}':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
 }
 
 // Video processing profiles

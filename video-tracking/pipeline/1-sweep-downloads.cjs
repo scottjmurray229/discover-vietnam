@@ -2,15 +2,21 @@
 /**
  * STEP 1: Sweep ~/Downloads/ for new video clips, rename & organize
  *
- * No API calls. User manually downloads clips from Shutterstock/Storyblocks,
+ * No API calls. User manually downloads clips from Storyblocks/Shutterstock,
  * then runs this script to sweep, rename, and organize into the pipeline.
  *
+ * Naming rules:
+ *   - Storyblocks clips (descriptive names): keep original filename for breaks
+ *   - Shutterstock clips (numeric IDs like 1234567890.mp4): rename to {dest}-break-N.mp4
+ *   - Hero (any source): always renamed to {dest}-hero.mp4
+ *
  * Usage:
- *   node video-tracking/pipeline/1-sweep-downloads.cjs                    # Interactive — scan & assign
- *   node video-tracking/pipeline/1-sweep-downloads.cjs --dest miami       # Assign all clips to one destination
- *   node video-tracking/pipeline/1-sweep-downloads.cjs --hours 2          # Only files from last 2 hours
- *   node video-tracking/pipeline/1-sweep-downloads.cjs --dry-run          # Preview without moving
- *   node video-tracking/pipeline/1-sweep-downloads.cjs --keep-originals   # Don't delete from Downloads
+ *   node video-tracking/pipeline/1-sweep-downloads.cjs                         # Interactive
+ *   node video-tracking/pipeline/1-sweep-downloads.cjs --dest miami            # Auto (picks hero from Storyblocks)
+ *   node video-tracking/pipeline/1-sweep-downloads.cjs --dest miami --hero-id 1234567890  # Shutterstock hero
+ *   node video-tracking/pipeline/1-sweep-downloads.cjs --hours 2               # Only files from last 2 hours
+ *   node video-tracking/pipeline/1-sweep-downloads.cjs --dry-run               # Preview without moving
+ *   node video-tracking/pipeline/1-sweep-downloads.cjs --keep-originals        # Don't delete from Downloads
  */
 
 const fs = require('fs');
@@ -24,9 +30,11 @@ const config = loadConfig();
 // Parse CLI args
 const args = process.argv.slice(2);
 const destFilter = args.includes('--dest') ? args[args.indexOf('--dest') + 1] : null;
+const heroId = args.includes('--hero-id') ? args[args.indexOf('--hero-id') + 1] : null; // Shutterstock ID to use as hero
 const hoursBack = args.includes('--hours') ? parseFloat(args[args.indexOf('--hours') + 1]) : 24;
 const dryRun = args.includes('--dry-run');
 const keepOriginals = args.includes('--keep-originals');
+const autoMode = !!destFilter; // Non-interactive when --dest is specified
 
 const DOWNLOADS_DIR = path.join(require('os').homedir(), 'Downloads');
 
@@ -72,6 +80,12 @@ function findNewClips() {
     .sort((a, b) => b.modified - a.modified);
 }
 
+// Detect Shutterstock clip — filename is purely numeric (e.g. 1234567890.mp4)
+function isShutterstockId(filename) {
+  const base = path.basename(filename, path.extname(filename));
+  return /^\d+$/.test(base);
+}
+
 // Try to auto-detect destination from filename
 function guessDestination(filename, knownDests) {
   const lower = filename.toLowerCase().replace(/[-_\.]/g, ' ');
@@ -84,12 +98,45 @@ function guessDestination(filename, knownDests) {
   return null;
 }
 
-// Guess clip type from filename
-function guessType(filename) {
+// Hero keyword scoring — higher = better hero candidate
+const HERO_KEYWORDS = [
+  { words: ['aerial', 'drone'], score: 10 },
+  { words: ['establishing', 'overview', 'panorama', 'panoramic'], score: 8 },
+  { words: ['skyline', 'coastline', 'shoreline'], score: 6 },
+  { words: ['island', 'beach', 'ocean', 'bay', 'harbor'], score: 4 },
+  { words: ['sunset', 'sunrise', 'golden'], score: 2 },
+];
+
+function heroScore(filename) {
   const lower = filename.toLowerCase();
-  if (lower.includes('hero') || lower.includes('aerial') || lower.includes('drone')) return 'hero';
-  if (lower.includes('preview') || lower.includes('thumb') || lower.includes('card')) return 'preview';
-  return 'break';
+  let score = 0;
+  for (const { words, score: s } of HERO_KEYWORDS) {
+    if (words.some(w => lower.includes(w))) score += s;
+  }
+  return score;
+}
+
+// Pick the best Storyblocks clip to be hero (highest keyword score, largest file as tiebreaker)
+function pickHero(clips, heroIdOverride) {
+  if (heroIdOverride) {
+    // User specified a Shutterstock ID — find that file
+    const base = path.basename(heroIdOverride, path.extname(heroIdOverride));
+    const match = clips.find(c => path.basename(c.filename, path.extname(c.filename)) === base);
+    if (match) return match;
+    console.log(`  Warning: --hero-id ${heroIdOverride} not found in Downloads. Falling back to auto-pick.`);
+  }
+
+  // Only consider Storyblocks clips (descriptive names) for auto-pick
+  const storyblocks = clips.filter(c => !isShutterstockId(c.filename));
+  if (storyblocks.length === 0) return null; // All Shutterstock — no auto hero
+
+  const scored = storyblocks.map(c => ({
+    clip: c,
+    score: heroScore(c.filename),
+    sizeMB: parseFloat(c.sizeMB),
+  }));
+  scored.sort((a, b) => b.score - a.score || b.sizeMB - a.sizeMB);
+  return scored[0].clip;
 }
 
 function getOutputDir(clipType) {
@@ -98,18 +145,31 @@ function getOutputDir(clipType) {
   return path.join(config.RAW_DOWNLOADS, 'breaks');
 }
 
-function getOutputFilename(dest, clipType, descriptor) {
+// Naming rules:
+//   hero            → {dest}-hero.mp4
+//   break, Storyblocks → keep original filename
+//   break, Shutterstock → {dest}-break-N.mp4
+function getOutputFilename(dest, clipType, originalFilename, breakNum) {
   if (clipType === 'hero') return `${dest}-hero.mp4`;
   if (clipType === 'preview') return `${dest}-preview.mp4`;
-  return descriptor ? `${dest}-break-${descriptor}.mp4` : `${dest}-break-1.mp4`;
+  if (isShutterstockId(originalFilename)) return `${dest}-break-${breakNum}.mp4`;
+  return originalFilename; // Storyblocks — keep descriptive name
 }
 
-// Count existing breaks for a destination to auto-number
+// Count existing Shutterstock-style numbered breaks for a destination
 function countExistingBreaks(dest) {
   const breaksDir = path.join(config.RAW_DOWNLOADS, 'breaks');
   if (!fs.existsSync(breaksDir)) return 0;
   return fs.readdirSync(breaksDir)
-    .filter(f => f.startsWith(`${dest}-break-`)).length;
+    .filter(f => f.startsWith(`${dest}-break-`) && /\d+\.mp4$/.test(f)).length;
+}
+
+// Guess clip type from filename (interactive fallback)
+function guessType(filename) {
+  const lower = filename.toLowerCase();
+  if (lower.includes('hero') || lower.includes('aerial') || lower.includes('drone')) return 'hero';
+  if (lower.includes('preview') || lower.includes('thumb') || lower.includes('card')) return 'preview';
+  return 'break';
 }
 
 // Main
@@ -125,8 +185,10 @@ async function main() {
   console.log(`  Scanning: ${DOWNLOADS_DIR}`);
   console.log(`  Looking back: ${hoursBack} hours`);
   if (destFilter) console.log(`  Auto-assign to: ${destFilter}`);
-  if (dryRun) console.log('  Mode: DRY RUN');
-  if (keepOriginals) console.log('  Keeping originals in Downloads');
+  if (heroId) console.log(`  Hero override (Shutterstock): ${heroId}`);
+  if (autoMode) console.log(`  Mode: AUTO (non-interactive)`);
+  if (dryRun) console.log(`  Mode: DRY RUN`);
+  if (keepOriginals) console.log(`  Keeping originals in Downloads`);
   console.log();
 
   const clips = findNewClips();
@@ -142,12 +204,13 @@ async function main() {
   console.log(`  Found ${clips.length} video file(s):\n`);
   clips.forEach((c, i) => {
     const age = ((Date.now() - c.modified.getTime()) / 3600000).toFixed(1);
-    console.log(`    [${i + 1}] ${c.filename}  (${c.sizeMB} MB, ${age}h ago)`);
+    const tag = isShutterstockId(c.filename) ? '[SS]' : '[SB]';
+    console.log(`    [${i + 1}] ${tag} ${c.filename}  (${c.sizeMB} MB, ${age}h ago)`);
   });
   console.log();
 
-  // Show known destinations for reference
-  if (!destFilter && knownDests.length > 0) {
+  // Show known destinations for reference (interactive only)
+  if (!autoMode && knownDests.length > 0) {
     console.log('  Known destinations:');
     const cols = 4;
     for (let i = 0; i < knownDests.length; i += cols) {
@@ -157,144 +220,134 @@ async function main() {
     console.log();
   }
 
-  // Process each clip
   const results = { moved: 0, skipped: 0 };
   const inventory = loadInventory();
 
-  for (let i = 0; i < clips.length; i++) {
-    const clip = clips[i];
-    console.log(`\n${'─'.repeat(60)}`);
-    console.log(`  [${i + 1}/${clips.length}] ${clip.filename}  (${clip.sizeMB} MB)`);
-    console.log(`${'─'.repeat(60)}`);
+  if (autoMode) {
+    // ── AUTO MODE ────────────────────────────────────────────────────────────
+    const dest = destFilter.trim().toLowerCase();
 
-    // Determine destination
-    let dest = destFilter;
-    if (!dest) {
-      const guess = guessDestination(clip.filename, knownDests);
-      if (guess) {
-        const confirm = await ask(`  Auto-detected destination: ${guess}. Correct? (y/n/other slug): `);
-        if (confirm === 'y' || confirm === 'Y' || confirm === '') {
-          dest = guess;
-        } else if (confirm === 'n' || confirm === 'N') {
-          dest = await ask('  Enter destination slug: ');
-        } else if (confirm === 'skip' || confirm === 's') {
-          console.log('  Skipped.');
-          results.skipped++;
-          continue;
-        } else {
-          dest = confirm.trim();
-        }
-      } else {
-        dest = await ask('  Destination slug (or "skip"): ');
-      }
-    }
-
-    dest = dest.trim().toLowerCase();
-    if (dest === 'skip' || dest === 's' || !dest) {
-      console.log('  Skipped.');
-      results.skipped++;
-      continue;
-    }
-
-    // Determine clip type
-    const guessedType = guessType(clip.filename);
-    const typeInput = await ask(`  Type? [h]ero / [b]reak / [p]review (default: ${guessedType[0]}): `);
-    let clipType;
-    if (!typeInput || typeInput === guessedType[0]) {
-      clipType = guessedType;
-    } else if (typeInput === 'h' || typeInput === 'hero') {
-      clipType = 'hero';
-    } else if (typeInput === 'p' || typeInput === 'preview') {
-      clipType = 'preview';
+    // Pick hero
+    const heroClip = pickHero(clips, heroId);
+    if (heroClip) {
+      console.log(`  Hero: ${heroClip.filename}`);
     } else {
-      clipType = 'break';
+      console.log(`  Hero: none auto-selected (all Shutterstock, no --hero-id given — first clip becomes break-1)`);
     }
 
-    // For breaks, get descriptor
-    let descriptor = '';
-    if (clipType === 'break') {
-      const existingCount = countExistingBreaks(dest);
-      const defaultNum = existingCount + 1;
-      descriptor = await ask(`  Break descriptor (e.g., "sunset", "beach") or enter for auto-number [${defaultNum}]: `);
-      if (!descriptor.trim()) {
-        descriptor = String(defaultNum);
-      }
-      descriptor = descriptor.trim().toLowerCase().replace(/\s+/g, '-');
-    }
+    let ssBreakNum = countExistingBreaks(dest);
 
-    // Build paths
-    const outputDir = getOutputDir(clipType);
-    const outputFilename = getOutputFilename(dest, clipType, descriptor);
-    const outputPath = path.join(outputDir, outputFilename);
-    const ytDir = config.YOUTUBE_RAW;
-    const ytFilename = outputFilename.replace('.mp4', '-full.mp4');
-    const ytPath = path.join(ytDir, ytFilename);
+    for (const clip of clips) {
+      const isHero = heroClip && clip.filename === heroClip.filename;
+      const clipType = isHero ? 'hero' : 'break';
+      if (!isHero && isShutterstockId(clip.filename)) ssBreakNum++;
 
-    console.log(`\n  → ${path.relative(config.PROJECT_ROOT, outputPath)}`);
-    console.log(`  → youtube/raw/${ytFilename}`);
+      const outputFilename = getOutputFilename(dest, clipType, clip.filename, ssBreakNum);
+      const outputDir = getOutputDir(clipType);
+      const outputPath = path.join(outputDir, outputFilename);
+      const ytPath = path.join(config.YOUTUBE_RAW, outputFilename);
 
-    if (dryRun) {
-      console.log('  [DRY RUN] Would move file.');
+      console.log(`\n  ${clip.filename}`);
+      console.log(`    type    : ${clipType}${isShutterstockId(clip.filename) ? ' (Shutterstock)' : ' (Storyblocks)'}`);
+      console.log(`    → raw   : raw-downloads/${clipType === 'hero' ? 'heroes' : 'breaks'}/${outputFilename}`);
+      console.log(`    → yt    : youtube/raw/${outputFilename}`);
+
+      if (dryRun) { results.moved++; continue; }
+
+      fs.mkdirSync(outputDir, { recursive: true });
+      fs.mkdirSync(config.YOUTUBE_RAW, { recursive: true });
+
+      fs.copyFileSync(clip.fullPath, outputPath);
+      fs.copyFileSync(clip.fullPath, ytPath);
+      if (!keepOriginals) fs.unlinkSync(clip.fullPath);
+
+      updateInventory(inventory, dest, clipType, outputFilename, outputPath);
       results.moved++;
-      continue;
     }
 
-    // Create directories
-    fs.mkdirSync(outputDir, { recursive: true });
-    fs.mkdirSync(ytDir, { recursive: true });
+  } else {
+    // ── INTERACTIVE MODE ─────────────────────────────────────────────────────
+    let ssBreakNum = 0;
 
-    // Copy to youtube/raw (full quality backup)
-    fs.copyFileSync(clip.fullPath, ytPath);
-    console.log(`  Copied to youtube/raw/`);
+    for (let i = 0; i < clips.length; i++) {
+      const clip = clips[i];
+      console.log(`\n${'─'.repeat(60)}`);
+      console.log(`  [${i + 1}/${clips.length}] ${isShutterstockId(clip.filename) ? '[SS]' : '[SB]'} ${clip.filename}  (${clip.sizeMB} MB)`);
+      console.log(`${'─'.repeat(60)}`);
 
-    // Move to raw-downloads (for pipeline processing)
-    fs.copyFileSync(clip.fullPath, outputPath);
-    console.log(`  Copied to raw-downloads/`);
-
-    // Remove original from Downloads (avoid duplicate large files)
-    if (!keepOriginals) {
-      fs.unlinkSync(clip.fullPath);
-      console.log(`  Removed from Downloads`);
-    }
-
-    // Update inventory if it exists
-    if (inventory) {
-      const entryId = `${dest}-${clipType === 'break' ? `break-${descriptor}` : clipType}`;
-      const existing = inventory.entries.find(e => e.id === entryId || (e.page === dest && e.slot === clipType));
-      if (existing) {
-        existing.stock_status = 'downloaded';
-        existing.file_path = path.relative(config.PROJECT_ROOT, outputPath);
-        existing.notes = `Swept from Downloads ${new Date().toISOString().split('T')[0]}. ${existing.notes || ''}`.trim();
-        console.log(`  Updated inventory: ${existing.id}`);
-      } else {
-        // Add new entry
-        inventory.entries.push({
-          id: entryId,
-          page: dest,
-          page_type: 'destination',
-          section: clipType === 'hero' ? 'hero' : (clipType === 'preview' ? 'preview' : descriptor),
-          slot: clipType === 'break' ? 'immersive_break' : clipType,
-          description: `${dest} ${clipType}${descriptor ? ' - ' + descriptor : ''}`,
-          search_terms: '',
-          alt_search: '',
-          duration_sec: '15-20',
-          resolution: clipType === 'preview' ? '1080p' : '4K',
-          looping: true,
-          audio: false,
-          source: 'stock',
-          own_footage_status: 'n/a',
-          stock_status: 'downloaded',
-          priority: clipType === 'hero' ? 'p0' : (clipType === 'break' ? 'p1' : 'p2'),
-          shutterstock_url: '',
-          file_path: path.relative(config.PROJECT_ROOT, outputPath),
-          notes: `Swept from Downloads ${new Date().toISOString().split('T')[0]}`,
-        });
-        console.log(`  Added to inventory: ${entryId}`);
+      // Determine destination
+      let dest = destFilter;
+      if (!dest) {
+        const guess = guessDestination(clip.filename, knownDests);
+        if (guess) {
+          const confirm = await ask(`  Auto-detected destination: ${guess}. Correct? (y/n/other slug): `);
+          if (confirm === 'y' || confirm === 'Y' || confirm === '') {
+            dest = guess;
+          } else if (confirm === 'n' || confirm === 'N') {
+            dest = await ask('  Enter destination slug: ');
+          } else if (confirm === 'skip' || confirm === 's') {
+            console.log('  Skipped.');
+            results.skipped++;
+            continue;
+          } else {
+            dest = confirm.trim();
+          }
+        } else {
+          dest = await ask('  Destination slug (or "skip"): ');
+        }
       }
-    }
 
-    console.log(`  ✅ Done`);
-    results.moved++;
+      dest = dest.trim().toLowerCase();
+      if (dest === 'skip' || dest === 's' || !dest) {
+        console.log('  Skipped.');
+        results.skipped++;
+        continue;
+      }
+
+      // Determine clip type
+      const guessedType = guessType(clip.filename);
+      const typeInput = await ask(`  Type? [h]ero / [b]reak / [p]review (default: ${guessedType[0]}): `);
+      let clipType;
+      if (!typeInput || typeInput === guessedType[0]) {
+        clipType = guessedType;
+      } else if (typeInput === 'h' || typeInput === 'hero') {
+        clipType = 'hero';
+      } else if (typeInput === 'p' || typeInput === 'preview') {
+        clipType = 'preview';
+      } else {
+        clipType = 'break';
+      }
+
+      // For Shutterstock breaks, auto-number; for Storyblocks breaks, keep name
+      if (clipType === 'break' && isShutterstockId(clip.filename)) {
+        ssBreakNum = countExistingBreaks(dest) + (ssBreakNum || 0) + 1;
+      }
+
+      const outputFilename = getOutputFilename(dest, clipType, clip.filename, ssBreakNum);
+      const outputDir = getOutputDir(clipType);
+      const outputPath = path.join(outputDir, outputFilename);
+      const ytPath = path.join(config.YOUTUBE_RAW, outputFilename);
+
+      console.log(`\n  → raw-downloads/${clipType === 'hero' ? 'heroes' : clipType === 'preview' ? 'thumbnails' : 'breaks'}/${outputFilename}`);
+      console.log(`  → youtube/raw/${outputFilename}`);
+
+      if (dryRun) {
+        console.log('  [DRY RUN] Would move file.');
+        results.moved++;
+        continue;
+      }
+
+      fs.mkdirSync(outputDir, { recursive: true });
+      fs.mkdirSync(config.YOUTUBE_RAW, { recursive: true });
+
+      fs.copyFileSync(clip.fullPath, outputPath);
+      fs.copyFileSync(clip.fullPath, ytPath);
+      if (!keepOriginals) fs.unlinkSync(clip.fullPath);
+
+      updateInventory(inventory, dest, clipType, outputFilename, outputPath);
+      console.log(`  ✅ Done`);
+      results.moved++;
+    }
   }
 
   // Save inventory
@@ -309,23 +362,42 @@ async function main() {
 
   console.log(`\n${'═'.repeat(60)}`);
   console.log('  SWEEP COMPLETE');
-  console.log(`  Moved: ${results.moved}`);
-  console.log(`  Skipped: ${results.skipped}`);
-  if (!keepOriginals && results.moved > 0) {
-    console.log(`  Originals removed from Downloads ✓`);
-  }
-  console.log(`${'═'.repeat(60)}`);
-  console.log();
+  console.log(`  Moved: ${results.moved}  |  Skipped: ${results.skipped}`);
+  if (!keepOriginals && results.moved > 0) console.log(`  Originals removed from Downloads ✓`);
+  console.log(`${'═'.repeat(60)}\n`);
+
   if (results.moved > 0) {
-    console.log('  Next: Run step 2 to compress for web:');
-    console.log('    node video-tracking/pipeline/2-batch-process.cjs');
+    console.log('  Next: node video-tracking/pipeline/2-batch-process.cjs --dest ' + (destFilter || '<dest>'));
     console.log();
-    console.log('  Or run the full pipeline from step 2:');
-    console.log('    node video-tracking/pipeline/run-pipeline.cjs --from 2');
   }
-  console.log();
 
   rl.close();
+}
+
+function updateInventory(inventory, dest, clipType, outputFilename, outputPath) {
+  if (!inventory) return;
+  const entryId = `${dest}-${clipType === 'break' ? path.basename(outputFilename, '.mp4') : clipType}`;
+  const existing = inventory.entries.find(e => e.id === entryId || (e.page === dest && e.slot === clipType && clipType === 'hero'));
+  if (existing) {
+    existing.stock_status = 'downloaded';
+    existing.file_path = path.relative(config.PROJECT_ROOT, outputPath);
+    existing.notes = `Swept ${new Date().toISOString().split('T')[0]}. ${existing.notes || ''}`.trim();
+  } else {
+    inventory.entries.push({
+      id: entryId,
+      page: dest,
+      page_type: 'destination',
+      section: clipType === 'hero' ? 'hero' : clipType === 'preview' ? 'preview' : path.basename(outputFilename, '.mp4'),
+      slot: clipType === 'break' ? 'immersive_break' : clipType,
+      description: `${dest} ${clipType} — ${path.basename(outputFilename, '.mp4')}`,
+      source: 'stock',
+      own_footage_status: 'n/a',
+      stock_status: 'downloaded',
+      priority: clipType === 'hero' ? 'p0' : 'p1',
+      file_path: path.relative(config.PROJECT_ROOT, outputPath),
+      notes: `Swept ${new Date().toISOString().split('T')[0]}`,
+    });
+  }
 }
 
 function loadInventory() {
