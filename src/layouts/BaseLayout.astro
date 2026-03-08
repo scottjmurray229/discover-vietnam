@@ -56,11 +56,15 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
     <title>{title} | Discover Vietnam</title>
     <meta name="description" content={description} />
 
+    
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Discover Vietnam" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={`${title} | Discover Vietnam`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | Discover Vietnam`} />
