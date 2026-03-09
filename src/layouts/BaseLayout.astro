@@ -72,6 +72,32 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
     <meta name="twitter:image" content={ogImageAbsolute} />
 
     <SchemaMarkup pageType={pageType} data={schemaData} faqItems={faqItems} breadcrumbs={breadcrumbs} />
+
+  <!-- E-E-A-T Person Entity -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Scott James Murray",
+    "jobTitle": "Travel Writer & Photographer",
+    "description": "Founder of the Discover More Travel Network. 42+ destinations documented across 15 countries with immersive photography and video.",
+    "knowsAbout": [
+      "Travel Photography",
+      "Southeast Asia Travel",
+      "Budget Travel Planning",
+      "Adventure Travel",
+      "Cultural Tourism"
+    ],
+    "sameAs": [
+      "https://discovermore.travel/about/",
+      "https://discoverphilippines.info/about/scott/",
+      "https://github.com/scottjmurray229"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Discover More Travel Network",
+      "url": "https://discovermore.travel"
+    }
+  })} />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
