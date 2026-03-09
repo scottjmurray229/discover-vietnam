@@ -22,7 +22,7 @@ export const VIETNAM_CONFIG: PackingConfig = {
   currency: 'VND',
   plugType: 'Type A/C/F',
   plugVoltage: '220V',
-  affiliateTag: 'discoverviet-20',
+  affiliateTag: 'discoverphili-20',
   destinationEssentials: VIETNAM_ESSENTIALS,
   gearRecommendations: VIETNAM_GEAR_RECOMMENDATIONS,
 };
