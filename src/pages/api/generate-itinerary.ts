@@ -8,6 +8,14 @@ import { LANDMARK_COORDS } from '../../data/landmark-coords';
 import { logUsage } from '../../lib/usage-tracking';
 import { checkAndAlertAbuse, alertRateLimitHit } from '../../lib/abuse-alerts';
 
+async function hashIP(ip: string, secret: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(ip + secret);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+}
+
 // --- Types ---
 
 interface RequestBody {
@@ -547,8 +555,9 @@ export async function POST(context: APIContext): Promise<Response> {
     const exactMatch = await exactCacheLookup(db, queryHash);
     if (exactMatch) {
       const ip = getClientIP(request);
-      const rateInfo = await checkRateLimit(db, ip, hasEmail);
-      logUsage(db, { eventType: 'cache_hit', ip, hasEmail, destinations: normalizedDests, duration, budgetLevel, cacheHit: true, queryHash });
+      const ipHash = await hashIP(ip, env.COOKIE_SECRET || 'fallback-salt');
+      const rateInfo = await checkRateLimit(db, ipHash, hasEmail);
+      logUsage(db, { eventType: 'cache_hit', ip: ipHash, hasEmail, destinations: normalizedDests, duration, budgetLevel, cacheHit: true, queryHash });
       return new Response(JSON.stringify({
         success: true,
         source: 'cache',
@@ -566,8 +575,9 @@ export async function POST(context: APIContext): Promise<Response> {
     const similarMatch = await similarCacheLookup(db, normalizedDests, duration, budgetLevel);
     if (similarMatch) {
       const ip = getClientIP(request);
-      const rateInfo = await checkRateLimit(db, ip, hasEmail);
-      logUsage(db, { eventType: 'cache_hit', ip, hasEmail, destinations: normalizedDests, duration, budgetLevel, cacheHit: true, queryHash });
+      const ipHash = await hashIP(ip, env.COOKIE_SECRET || 'fallback-salt');
+      const rateInfo = await checkRateLimit(db, ipHash, hasEmail);
+      logUsage(db, { eventType: 'cache_hit', ip: ipHash, hasEmail, destinations: normalizedDests, duration, budgetLevel, cacheHit: true, queryHash });
       return new Response(JSON.stringify({
         success: true,
         source: 'cache',
@@ -586,10 +596,11 @@ export async function POST(context: APIContext): Promise<Response> {
 
   // --- Rate limit check (only for AI calls) ---
   const ip = getClientIP(request);
-  const rateLimit = await checkRateLimit(db, ip, hasEmail);
+  const ipHash = await hashIP(ip, env.COOKIE_SECRET || 'fallback-salt');
+  const rateLimit = await checkRateLimit(db, ipHash, hasEmail);
   if (!rateLimit.allowed) {
     if (env.RESEND_API_KEY) {
-      alertRateLimitHit(env.RESEND_API_KEY, ip, hasEmail);
+      alertRateLimitHit(env.RESEND_API_KEY, ipHash, hasEmail);
     }
     return new Response(JSON.stringify({
       success: false,
@@ -619,14 +630,14 @@ export async function POST(context: APIContext): Promise<Response> {
     resolveCoordinates(itinerary);
 
     // Record the API call for rate limiting
-    await recordAPICall(db, ip, hasEmail);
+    await recordAPICall(db, ipHash, hasEmail);
 
     // Log usage for cost monitoring
-    logUsage(db, { eventType: 'generate', ip, hasEmail, inputTokens, outputTokens, model: 'claude-haiku-4-5-20251001', destinations: normalizedDests, duration, budgetLevel, queryHash });
+    logUsage(db, { eventType: 'generate', ip: ipHash, hasEmail, inputTokens, outputTokens, model: 'claude-haiku-4-5-20251001', destinations: normalizedDests, duration, budgetLevel, queryHash });
 
     // Abuse detection (fire-and-forget)
     if (env.RESEND_API_KEY) {
-      checkAndAlertAbuse(db, env.RESEND_API_KEY, ip, 'generate');
+      checkAndAlertAbuse(db, env.RESEND_API_KEY, ipHash, 'generate');
     }
 
     // Cache the response
