@@ -107,6 +107,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/phu-quoc-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">White sand, fish sauce factories, UNESCO-protected jungle, and sunsets over the Gulf of Thailand — Vietnam's largest island is bigger and wilder than you expect.</p>
+  </div>
+</div>
+
 ## Why Is Phu Quoc Called Vietnam's Island Paradise?
 
 Phu Quoc earned its reputation as Vietnam's island paradise because it genuinely delivers on the tropical fantasy — powdery white sand, water that shifts between jade and sapphire depending on the hour, jungle-cloaked mountains, and a seafood culture rooted in centuries of fishing tradition. I flew in from Ho Chi Minh City expecting a touristy beach resort island and found something far more layered and interesting than the brochures suggested.
@@ -126,6 +134,14 @@ Phu Quoc is distinguished by its sheer scale and ecological diversity. Unlike Co
 The other key differentiator is the island's culinary identity. Phu Quoc's fish sauce industry dates back over a century, and the island produces roughly one-third of all nuoc mam consumed in Vietnam. Visiting a working fish sauce factory — where enormous wooden vats of anchovies and sea salt undergo a year-long fermentation — is a sensory experience unlike anything else in the country. The smell is powerful, but understanding how this cornerstone of Vietnamese cuisine is made adds genuine depth to your appreciation of every meal that follows.
 
 Finally, the visa exemption makes Phu Quoc uniquely accessible. If you fly directly to the island, you can stay up to 30 days without any visa paperwork regardless of your nationality. That policy makes Phu Quoc one of the easiest entry points into Vietnam and a particularly attractive option for travelers who want a taste of the country without navigating the visa process.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Dinh Cau Night Market, pepper farm trails, cable car to An Thoi Islands, and empty northern beaches where you walk a kilometer without seeing another person.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do on Phu Quoc?
 
@@ -191,6 +207,14 @@ Secret Garden is tucked down a dirt lane off the main road in Ham Ninh and feels
 
 Located within La Veranda resort, Pepper Tree is the fine-dining option on Phu Quoc. The menu leans French-Vietnamese with dishes like seared tuna with Phu Quoc pepper crust (380,000 VND / $15.20 USD) and duck confit with tamarind glaze. The colonial-era setting with ceiling fans and rattan furniture is gorgeous. Main courses range from 280,000–550,000 VND ($11.20–$22 USD). Worth the splurge for a special evening.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Long Beach resorts, north island eco-stays, and the Six Senses for when only perfection will do — Phu Quoc's accommodation scene spans every point on the spectrum.</p>
+  </div>
+</div>
+
 ## Where Should I Stay on Phu Quoc?
 
 ### Budget: Phu Quoc Hostel (from 200,000 VND / $8 USD per night)
@@ -212,6 +236,14 @@ La Veranda is a colonial-style boutique resort that channels old Indochine glamo
 ### Luxury: InterContinental Phu Quoc Long Beach Resort (from 4,250,000 VND / $170 USD per night)
 
 The InterContinental is the premier luxury resort on Phu Quoc, with terracotta-roofed villas, a vast lagoon-style pool, and a private stretch of Long Beach. The design draws on Vietnamese village architecture and the attention to detail is impeccable. The INK 360 sky bar, perched atop the resort's iconic tower, offers the best sunset cocktail on the island. [Reserve on Booking.com](https://www.booking.com/hotel/vn/intercontinental-phu-quoc-long-beach-resort.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Rent a motorbike for the north, visit Dinh Cau market at night, and taste the fish sauce at the source — it genuinely tastes different here than anything you can buy in a store.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Phu Quoc
 

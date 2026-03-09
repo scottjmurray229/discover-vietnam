@@ -117,7 +117,15 @@ draft: false
 
 # Hanoi: The Soul of the North
 
-I stepped out of Noi Bai airport at six in the morning, climbed into a taxi, and within thirty minutes I was sitting on a tiny plastic stool on a Hanoi sidewalk, eating a bowl of pho that cost less than two dollars and tasted better than anything I had ever tried to recreate at home. That single moment—steam rising from the bowl, motorbikes weaving past my knees, the sky shifting from grey to gold over the rooftops of the Old Quarter—told me everything I needed to know about this city. Hanoi does not wait for you to be ready. It grabs you by the senses and pulls you in.
+I stepped out of Noi Bai airport at six in the morning, climbed into a taxi, and within thirty minutes I was sitting on a tiny plastic stool on a Hanoi sidewalk, eating a bowl of pho that cost less than two dollars and tasted better than anything I had ever tried to recreate at home.
+
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Landing in Hanoi is landing in a city that has been the heart of Vietnamese civilization for over a thousand years — and it will make sure you feel every one of those years within the first hour.</p>
+  </div>
+</div> That single moment—steam rising from the bowl, motorbikes weaving past my knees, the sky shifting from grey to gold over the rooftops of the Old Quarter—told me everything I needed to know about this city. Hanoi does not wait for you to be ready. It grabs you by the senses and pulls you in.
 
 Hanoi is the kind of city that rewards curiosity over planning. I spent my first day wandering with no map and no agenda, ducking into alleyways that opened onto hidden temples, pausing to watch an old man practice tai chi beside Hoan Kiem Lake, and accidentally discovering a cafe that served coffee with a raw egg whipped into it. That egg coffee, by the way, became a daily ritual I maintained for the entire two weeks I spent in the north. The city has been Vietnam's capital for over a thousand years, and that history is not locked behind museum glass—it is alive in the architecture, the food, the rhythm of daily life.
 
@@ -126,6 +134,14 @@ What struck me most about Hanoi was the layering. French colonial villas sit nex
 The food alone is reason enough to come. Hanoi is where pho was born, where bun cha became legend after a certain American president sat on a plastic stool and ate it on camera, where banh mi vendors on every corner prove that the best sandwiches in the world cost about 25,000 VND ($1). I ate four meals a day in Hanoi and regretted nothing. The city has a way of making you hungry again just when you think you could not possibly eat another bite—there is always one more stall, one more dish you have not tried, one more grandmother ladling broth from a pot she has been tending since dawn.
 
 Beyond the food, Hanoi is a city of lakes and trees, of early-morning energy and late-night conversation. I sat by Hoan Kiem Lake at sunrise watching hundreds of locals exercise, dance, and play badminton. I explored the Temple of Literature, Vietnam's first university, where stone turtles carry the names of scholars who passed imperial exams centuries ago. I stood in the somber quiet of Ho Chi Minh's Mausoleum and felt the weight of modern Vietnamese history. And every evening, I returned to the Old Quarter's Weekend Night Market, where the streets close to traffic and the entire neighborhood becomes a walking festival of food, music, and life.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Thirty-six ancient streets, a lake with a turtle legend, the best pho on earth — Hanoi rewards every hour you give it.</p>
+  </div>
+</div>
 
 ## What Makes Hanoi Different
 
@@ -159,6 +175,14 @@ Several excellent schools offer half-day classes starting with a market tour and
 ### Explore the Vietnam Museum of Ethnology
 Located slightly outside the center, this museum is the best place to understand Vietnam's 54 ethnic groups. The outdoor exhibit features full-scale traditional houses from different communities. Entry is 40,000 VND ($1.60). I spent three hours here and could have stayed longer—it provides essential context for trips to Sapa and the northern highlands.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">The Old Quarter puts everything within walking distance — find a rooftop, a plastic stool, and call it home.</p>
+  </div>
+</div>
+
 ## Where to Eat in Hanoi
 
 ### Pho Thin (13 Lo Duc Street)
@@ -189,6 +213,14 @@ My favorite mid-range option in the city. The rooms are elegant, the rooftop bar
 
 ### Luxury: Sofitel Legend Metropole Hanoi ($200-$500/night)
 This is one of the most famous hotels in Southeast Asia, and it earns the reputation. The French colonial architecture is stunning, the service is impeccable, and the spa is world-class. Graham Greene reportedly wrote parts of "The Quiet American" here. If you splurge anywhere in Vietnam, this is a worthy choice. The on-site restaurant, Spices Garden, serves exceptional Vietnamese cuisine.
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Everything you need to know before your first Hanoi morning — from the airport to the Old Quarter to that first bowl of pho.</p>
+  </div>
+</div>
 
 <div class="scotts-pro-tips">
 

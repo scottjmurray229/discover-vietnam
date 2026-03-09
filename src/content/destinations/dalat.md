@@ -107,6 +107,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/dalat-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Pine trees, flower farms, French villas, and coffee that rivals Bali — stepping off the bus into Da Lat feels like arriving in a Vietnam nobody told you about.</p>
+  </div>
+</div>
+
 ## Why Is Da Lat Vietnam's Most Surprising Destination?
 
 Da Lat is the Vietnamese destination that surprised me the most because it shatters every expectation of what Southeast Asia feels like. I stepped off the bus from Nha Trang into air that was cool and pine-scented, looked around at hillsides covered in flower farms and French colonial villas, and genuinely questioned whether the seven-hour mountain road had delivered me to a different country entirely. At 1,500 meters above sea level, Da Lat occupies its own climate zone — one that feels more like southern France than tropical Vietnam.
@@ -126,6 +134,14 @@ Da Lat is different because it offers a climatic and cultural experience that ex
 The French colonial legacy adds another dimension. While Hanoi and Ho Chi Minh City have French architectural elements, Da Lat was purpose-built as a hill station — a retreat from the tropical heat for French colonists. The result is a city with an unusually cohesive aesthetic identity: art deco villas, pine-lined boulevards, a train station that looks transplanted from the French countryside, and a culture of leisurely promenading that feels distinctly European.
 
 There is also the creative energy. Da Lat has become a magnet for Vietnamese artists, musicians, and entrepreneurs, drawn by the affordable living costs, the inspiring landscape, and the cool climate that makes working comfortable year-round. The café scene is a direct product of this creative migration — you will find more innovative, beautifully designed coffee shops per square kilometer here than anywhere else in Vietnam, each one competing to offer the most original concept and the best single-origin beans.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Canyoning down waterfalls, coffee plantation tours, the Crazy House, flower markets, and lakeside cafes — Da Lat fits more experiences into a highland town than most cities twice its size.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Da Lat?
 
@@ -183,6 +199,14 @@ Lien Hoa has been a Da Lat institution since 1975, and the bakery displays a sta
 
 An Café is more than a coffee shop — it serves a small but excellent menu of Vietnamese comfort food alongside some of the best drip coffee in the city. The com tam (broken rice with grilled pork chop) costs 55,000 VND ($2.20 USD) and is perfectly executed. The setting, in a renovated house with a leafy courtyard, embodies the Da Lat café aesthetic at its best. I came for coffee and stayed for lunch on three separate occasions.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">French colonial guesthouses, lakeside boutique hotels, and highland eco-lodges — Da Lat's cool evenings make accommodation worth investing in.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Da Lat?
 
 ### Budget: Da Lat Cozy Nook Hostel (from 150,000 VND / $6 USD per night)
@@ -200,6 +224,14 @@ Terracotta is a hillside resort with lake views, spacious rooms, and a charming 
 ### Luxury: Ana Mandara Villas Dalat (from 3,000,000 VND / $120 USD per night)
 
 Ana Mandara occupies 17 meticulously restored French colonial villas spread across a pine-forested hillside. Each villa has been converted into boutique suites with period furnishings, fireplaces, and private gardens. The restaurant serves excellent French-Vietnamese cuisine, and the spa uses local flower and coffee-based treatments. This is the most atmospheric luxury property in Da Lat and one of the most beautiful hotels I have stayed in anywhere in Vietnam. [Reserve on Booking.com](https://www.booking.com/hotel/vn/ana-mandara-villas-dalat-resort-spa.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Pack a jacket, book a coffee plantation tour on day one, and allow at least three days for a highland town that consistently delivers more than expected.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Da Lat
 

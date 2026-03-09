@@ -116,7 +116,15 @@ draft: false
 
 # Sapa: Terraces in the Clouds
 
-I stepped off the overnight train in Lao Cai at 5:30 AM, groggy and disoriented, and boarded a minibus that immediately began climbing. Within thirty minutes, the flat rice paddies of the lowlands gave way to mountain valleys, and then the clouds came. We drove through them, around them, and eventually above them, and when the bus finally stopped in Sapa town and I stepped outside, I looked down and saw clouds filling the valley below like a white ocean, with the peaks of the Hoang Lien Mountains rising like islands. The temperature had dropped fifteen degrees from Hanoi. The air smelled like pine. I zipped up my jacket and grinned, because I knew I had arrived somewhere extraordinary.
+I stepped off the overnight train in Lao Cai at 5:30 AM
+
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">The overnight train from Hanoi deposits you in a different Vietnam entirely — pine-scented mountain air, terraces vanishing into clouds, and the sound of a world that has barely changed in centuries.</p>
+  </div>
+</div>, groggy and disoriented, and boarded a minibus that immediately began climbing. Within thirty minutes, the flat rice paddies of the lowlands gave way to mountain valleys, and then the clouds came. We drove through them, around them, and eventually above them, and when the bus finally stopped in Sapa town and I stepped outside, I looked down and saw clouds filling the valley below like a white ocean, with the peaks of the Hoang Lien Mountains rising like islands. The temperature had dropped fifteen degrees from Hanoi. The air smelled like pine. I zipped up my jacket and grinned, because I knew I had arrived somewhere extraordinary.
 
 Sapa is Vietnam's mountain heartland, a town at 1,500 meters elevation in the far northwest, surrounded by some of the most breathtaking terraced landscapes on the planet. The rice terraces here are not a backdrop—they are the reason the region exists. For centuries, ethnic minority communities—primarily the Black Hmong, Red Dao, and Tay people—have carved these terraces into the mountainsides, creating flowing stairways of green and gold that follow the contours of the land with an artistry that defies the word "agriculture." I have seen terraced rice paddies in Bali, the Philippines, and China, and the ones around Sapa are in the top tier.
 
@@ -125,6 +133,14 @@ I spent four days in the Sapa region, and the two-day trek with a Hmong guide wa
 The morning was even better. I woke to the sound of a rooster, walked outside, and found myself looking across a valley of terraces gilded by sunrise. Mist curled through the paddies. Children were walking to school in brightly embroidered clothes. It was, without exaggeration, one of the most beautiful things I have ever seen. The second day of trekking took us through Ta Phin village, a Red Dao community known for its herbal baths and intricate textile work, and then back up to Sapa town, where a hot shower and a cold beer had never felt more earned.
 
 Sapa town itself has changed dramatically in recent years—new hotels, tourist shops, and a cable car to Fansipan have transformed what was once a sleepy hill station into a busy destination. I had mixed feelings about the development, but the surrounding countryside remains astonishingly beautiful and authentically lived-in. The key is to get out of town quickly and spend your time in the valleys and villages, where the terraces and the culture are the attraction.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Rice terraces, Hmong villages, Fansipan's summit, and homestay dinners by firelight — Sapa rewards those who leave town and walk into the valleys.</p>
+  </div>
+</div>
 
 ## What Makes Sapa Different
 
@@ -169,6 +185,14 @@ The best meals I had in Sapa were at homestays. The home-cooked dinners—rice, 
 ### A Phu Restaurant (Sapa Town Center)
 A local favorite serving hot pot, perfect for cool Sapa evenings. A hot pot for two costs 200,000-300,000 VND ($8-$12).
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">From hilltop eco-lodges with valley views to Hmong family homestays — where you sleep in Sapa shapes the entire experience.</p>
+  </div>
+</div>
+
 ## Where to Stay in Sapa
 
 ### Budget: Sapa Hostels ($5-$15/night)
@@ -179,6 +203,14 @@ Valley-facing rooms with views that justify the name. Rooms are warm and comfort
 
 ### Luxury: Topas Ecolodge ($100-$180/night)
 Perched on a hilltop 18km from Sapa town, this eco-lodge has the most spectacular location of any accommodation I used in Vietnam. Granite bungalows with private balconies overlook the valley, and the infinity pool seems to float above the terraces.
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">What to pack for mountain weather, when to visit for golden terraces, and how to book a homestay that goes directly to the community.</p>
+  </div>
+</div>
 
 <div class="scotts-pro-tips">
 

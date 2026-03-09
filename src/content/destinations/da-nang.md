@@ -107,6 +107,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/da-nang-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Eight minutes from the airport to My Khe Beach — Da Nang is the most efficient city in Vietnam and one of the most underrated beach destinations in all of Southeast Asia.</p>
+  </div>
+</div>
+
 ## Why Is Da Nang Central Vietnam's Rising Star?
 
 Da Nang snuck up on me. I had planned it as a transit stop — a place to fly into before heading to Hoi An — and ended up staying four days. The city has undergone a transformation in the past decade that borders on miraculous. What was once a sleepy coastal town is now a modern, clean, ambitious city with world-class beaches, a growing food scene, and infrastructure that puts many Western cities to shame.
@@ -124,6 +132,14 @@ Da Nang refuses to be just a beach town. While the coastline alone would justify
 The city also serves as the gateway to Ba Na Hills, a French colonial hill station turned theme park that houses the now-famous Golden Bridge — a pedestrian walkway cradled in two enormous stone hands emerging from the mountainside. Love it or hate it, it's one of the most photographed structures in Southeast Asia, and the engineering required to build it is impressive regardless of your aesthetic opinions.
 
 What I appreciate most about Da Nang is its livability. The city consistently ranks as one of the best places to live in Vietnam. The streets are cleaner, the air is fresher (no Hanoi smog here), and the cost of living is lower than either Hanoi or Ho Chi Minh City. This livability translates into a more relaxed, less hustled tourist experience. Nobody is trying to overcharge you here. The prices are the prices.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Marble Mountains, My Khe Beach, the Golden Bridge at Ba Na Hills, and a Dragon Bridge that breathes actual fire on Saturday nights.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Da Nang?
 
@@ -189,6 +205,14 @@ When you want a seafood feast by the ocean, Be Man delivers enormous plates of g
 
 Hoi An gets most of the chicken rice fame, but Da Nang's version holds its own. A Hai serves fragrant rice cooked in chicken stock, topped with shredded chicken, crispy shallots, and a side of papaya salad. A plate costs 35,000 VND ($1.40). The simplicity is the point — every element is perfectly calibrated.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Beachfront resorts, My Khe guesthouses, and city center hotels — Da Nang's accommodation choices are excellent at every budget.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Da Nang?
 
 ### Budget: Memory Hostel Da Nang
@@ -206,6 +230,14 @@ Designed by Bill Bensley and carved into the mountain at Son Tra Peninsula, this
 ### Mid-Range Alternative: Novotel Da Nang Premier Han River
 
 City-center hotel with river views, rooftop pool, and rooms from 1,300,000 VND ($52). Walking distance to the Dragon Bridge and the best restaurants in the city center. Professional service and consistently reliable. [Book on Booking.com](https://www.booking.com/hotel/vn/novotel-danang-premier-han-river.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">When the Dragon Bridge breathes fire, how to day-trip to Hoi An and Hue, and why Da Nang works as a central Vietnam base camp.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Da Nang
 

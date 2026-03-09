@@ -108,6 +108,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/ninh-binh-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Limestone karsts erupting from flooded rice paddies, bamboo boats threading through cave tunnels — Ninh Binh puts you inside the landscape instead of just looking at it.</p>
+  </div>
+</div>
+
 ## Why Do Travelers Call Ninh Binh "Ha Long Bay on Land"?
 
 Ninh Binh earns the title "Ha Long Bay on Land" because it shares the same dramatic limestone karst geology as Vietnam's famous bay, but here the towering stone pillars erupt from an emerald carpet of rice paddies instead of seawater. The effect is arguably more dramatic — instead of watching karst formations from the deck of a cruise ship, you glide through them in a small bamboo boat while a rower navigates cave tunnels and waterways so narrow the limestone walls brush your shoulders.
@@ -127,6 +135,14 @@ The fundamental difference is perspective. At Ha Long Bay, you observe karst for
 There is also the practical advantage of accessibility and cost. Ha Long Bay requires a cruise (minimum one night, typically starting at 2,000,000 VND / $80 USD per person), while Ninh Binh can be explored independently on a bicycle with a boat ride costing 150,000–250,000 VND ($6–$10 USD). You can reach Ninh Binh from Hanoi in under two hours by train and spend a total of 500,000 VND ($20 USD) for a full day of activities. The value proposition is extraordinary.
 
 The cultural depth is the final differentiator. Ninh Binh was the first capital of the Vietnamese Dai Co Viet kingdom in the 10th century, and that historical significance is embedded in the landscape — the ancient capital of Hoa Lu, the Bai Dinh Pagoda complex, the temples along the Trang An boat route. You are not just looking at pretty rocks; you are moving through a thousand years of Vietnamese history and spirituality.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Rowing boats through Tam Coc, climbing 500 steps to a valley panorama at Mua Cave, cycling through ancient Hoa Lu — this landscape rewards every mode of slow travel.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Ninh Binh?
 
@@ -194,6 +210,14 @@ Tam Coc Garden is attached to the boutique resort of the same name and serves el
 
 The area around Tam Coc boat pier has a cluster of street food stalls serving pho (40,000 VND / $1.60 USD), banh mi (25,000 VND / $1 USD), and fresh sugarcane juice (10,000 VND / $0.40 USD). The quality varies, but the pho stall closest to the parking lot entrance is consistently good. For the cheapest and most authentic meal in the area, look for the mobile cart selling xoi (sticky rice) with various toppings for 15,000–20,000 VND ($0.60–$0.80 USD) in the early morning.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Guesthouses at the base of karst cliffs, eco-lodges in the rice paddies, boutique hotels with valley-view balconies — location matters enormously in Ninh Binh.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Ninh Binh?
 
 ### Budget: Tam Coc Banana Bungalow (from 200,000 VND / $8 USD per night)
@@ -215,6 +239,14 @@ Located in Ninh Binh city rather than Tam Coc village, Hidden Charm is a well-ap
 ### Luxury: Emeralda Resort Ninh Binh (from 2,750,000 VND / $110 USD per night)
 
 Emeralda is the luxury option in Ninh Binh — a sprawling lakeside resort built in traditional Vietnamese architectural style with dark wood pavilions, tiled roofs, and landscaped gardens. The rooms are spacious and elegantly furnished, the spa is excellent, and the setting beside Van Long Nature Reserve provides genuine seclusion. It is about 20 minutes from Tam Coc by car. [Reserve on Booking.com](https://www.booking.com/hotel/vn/emeralda-resort-ninh-binh.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">When to visit for golden harvest terraces, how to rent a bicycle at 30,000 VND, and why a second day in Ninh Binh is always better than the first.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Ninh Binh
 

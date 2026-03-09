@@ -88,14 +88,93 @@ draft: false
 fmContentType: destination
 ---
 
-Quy Nhon is Vietnam's best-kept secret among Vietnamese travellers — the city that food writers from Ho Chi Minh City quietly route their holidays through, specifically to eat seafood on Dong Da Street and sit at the edge of the South China Sea without a tourist in sight.
+Quy Nhon is Vietnam's best-kept secret among Vietnamese travellers — the city that food writers from Ho Chi Minh City quietly route their holidays through, specifically to eat seafood on Dong Da Street and sit at the edge of the South China Sea without a tourist in sight. I arrived on the Reunification Express from Da Nang in the late afternoon, stepped off at Dieu Tri station into air that smelled of salt and fish sauce, and took a taxi six kilometres down to the waterfront. My first view of the bay — a broad crescent flanked by mountains, lit by late sun, empty of the resort infrastructure that scars every other Vietnamese coastal city I'd visited — confirmed the rumours.
 
-Getting here from Da Nang on the Reunification Express is an experience in itself. The train hugs the coast through some of the most dramatic scenery in Southeast Asia — the tracks cut into cliff faces above the sea, and the coastal villages below look exactly as they did fifty years ago. You arrive at Dieu Tri station in the late afternoon and take a cab the six kilometres into town.
+Getting here on the Reunification Express is an experience in itself. The track south of Da Nang hugs the coast through some of the most dramatic scenery in Southeast Asia — cliff faces above the sea, coastal villages below that look exactly as they did fifty years ago, rice paddies framed by limestone mountains. I pressed my face to the window for two hours and didn't pick up my phone once.
 
-The bay at Quy Nhon is naturally beautiful in a way that more famous Vietnamese beach cities have lost — a broad crescent with mountains on both sides, a long public beach that fills with local families at sunset, and enough gentle fishing harbour activity to remind you that this is still primarily a working city rather than a tourist resort.
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">A working bay city with no interest in being a tourist resort, excellent seafood, Cham towers that almost nobody visits, and a secret beach accessible only by boat — Quy Nhon is the real Vietnam coast.</p>
+  </div>
+</div>
 
-Ky Co Beach is the discovery that makes people glad they came. You hire a boat from the fishing village north of town, putter forty minutes through open water and around a headland, and arrive at a bay so turquoise and so empty it looks digitally enhanced. The cliffs above it are rust-coloured limestone. There are no sunbed operators, no jet ski rentals — just the water, the rocks, and the sound of the boat engine cutting out.
+## Why Quy Nhon deserves two nights minimum
 
-The Cham towers are an unexpected bonus. Vietnam's Cham kingdom built in brick rather than stone, and the Banh It complex — four towers on a hilltop 20km north of town — has survived 1,000 years in remarkable condition. There are almost never other tourists here. You walk around the towers reading the carved bas-reliefs in complete silence, which is the way these places deserve to be experienced.
+The bay at Quy Nhon is naturally beautiful in a way that more famous Vietnamese beach cities have lost — a broad crescent with mountains on both sides, a long public beach that fills with local families at sunset, and enough fishing harbour activity to remind you this is still primarily a working city rather than a tourist resort. The Long Beach promenade buzzes every evening with locals buying grilled corn, drinking iced coffee at plastic tables, and watching the sun set behind the hills across the bay. It is the kind of scene that has been smoothed out of Nha Trang and Da Nang.
 
-Come at least twice to Dong Da Street. The first evening to orient yourself and try the nem nuong. The second evening to eat everything else.
+Ky Co Beach is the discovery that makes people glad they came. You hire a boat from the fishing village north of town (about 120,000 VND / $5 per person each way, departures informal), putter forty minutes through open water and around a limestone headland, and arrive at a bay so turquoise and so empty it looks digitally enhanced. The cliffs above are rust-coloured sandstone streaked with mineral deposits. There are no sunbed operators, no jet ski rentals, no beach bars — just the water, the rocks, and the sound of the boat engine cutting out as you drift into the shallows. I sat there for four hours and did not want to leave.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Ky Co Beach by boat, the Banh It Cham towers with no crowds, Eo Gio clifftop pass, and the most honest seafood street in central Vietnam.</p>
+  </div>
+</div>
+
+## What should you do in Quy Nhon?
+
+**Ky Co Beach** — Accessible by boat only (hire from the fishing village of Cu Lao Xanh or from vendors at the north end of Quy Nhon's main beach). The boat ride takes 35–45 minutes. Arrive before 10:00 AM for the emptiest conditions. Cost: approximately 100,000–150,000 VND ($4–$6) per person each way, negotiated at the pier.
+
+**Banh It Cham Towers** — A complex of four Cham brick towers on a hilltop 20km north of town, dated to the 11th–12th centuries. Better preserved than many better-known Cham sites, and visited by almost no international tourists. You walk around the towers reading carved bas-reliefs in complete silence. A motorbike from town takes about 30 minutes. Entry 30,000 VND ($1.20).
+
+**Eo Gio Wind Pass** — A clifftop lookout about 25km north of town where the road crests a headland above the sea. The wind is constant and fierce, the views over the rocky coast are dramatic, and there is a trail along the clifftops that takes about 45 minutes round trip. Bring a windbreaker.
+
+**Twin Cham Towers (Thap Doi)** — In Quy Nhon city itself, two well-preserved 12th-century Cham towers rise from a small park near the waterfront. These towers are more accessible than Banh It and less visited than the more famous towers in Nha Trang. Entry free.
+
+**Bai Xep Fishing Village** — A tiny fishing village 30km south of Quy Nhon with a beautiful crescent beach and a handful of simple guesthouses. The fishing boats go out at night and return at dawn; sitting on the beach at sunrise watching the fleet come in is one of those rare simple pleasures. Reachable by motorbike in 40 minutes.
+
+**Dong Da Street Seafood** — Every evening, this street near the waterfront transforms into Quy Nhon's open-air seafood hall. Stalls lay out the day's catch — crab, lobster, squid, clams, sea snails — and grill it to order. A full seafood dinner for two runs 250,000–600,000 VND ($10–$24) depending on what you order.
+
+<div class="scott-tips">
+  <div class="scott-tips-header">&#9992;&#65039; Scott's Quy Nhon Tips</div>
+  <ul>
+    <li><strong>Getting There:</strong> The Reunification Express from Da Nang to Dieu Tri station is the most scenic approach (3.5 hours, 100,000–200,000 VND / $4–$8). Limousine buses also run from Da Nang and Nha Trang. The local airport (UIH) has limited flights from Hanoi and HCMC.</li>
+    <li><strong>Best Time:</strong> February through August is dry season with calm seas ideal for Ky Co Beach boat trips. September through November brings heavy rain and rough seas — Ky Co becomes inaccessible.</li>
+    <li><strong>Money:</strong> ATMs on the main waterfront boulevard. Most restaurants and the main market are cash-only. Budget 400,000–700,000 VND ($16–$28) per day including accommodation, food, and motorbike rental.</li>
+    <li><strong>Don't Miss:</strong> Ky Co Beach — it is genuinely one of the most beautiful spots in central Vietnam, and its inaccessibility is what keeps it undeveloped.</li>
+    <li><strong>Avoid:</strong> The touristy restaurants on the main beach promenade — walk two blocks inland and the quality and value both improve immediately.</li>
+    <li><strong>Local Phrase:</strong> "Nem nuong ngon lắm!" (The grilled pork rolls are delicious!) — Quy Nhon's signature dish will earn you enthusiastic agreement from any local.</li>
+  </ul>
+</div>
+
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Beachfront bungalows, boutique bay-view hotels, and budget guesthouses near the fishing harbour — Quy Nhon offers solid value at every price point.</p>
+  </div>
+</div>
+
+## Where should you stay in Quy Nhon?
+
+**Budget:** Guesthouses on Nguyen Hue and Le Hong Phong streets (one block from the beach) run 250,000–500,000 VND ($10–$20) per night. Clean, simple, and within walking distance of Dong Da Street. This is where I stayed on my first visit and had no complaints.
+
+**Mid-range:** The Life Resort Quy Nhon sits on the bay with direct beach access and bungalows overlooking the South China Sea at 1,500,000–3,000,000 VND ($60–$120) per night. The restaurant serves outstanding local seafood. The best mid-range property on the bay.
+
+**Luxury:** Avani Quy Nhon Resort occupies a clifftop position with its own private beach at approximately 3,000,000–6,000,000 VND ($120–$240) per night. The pool perches above the sea and the seafood restaurant is excellent.
+
+## Where should you eat in Quy Nhon?
+
+- **Dong Da Street** — The city's seafood street, busy every evening. Order grilled squid (muc nuong, 80,000–150,000 VND / $3.20–$6), steamed clams with lemongrass (ngheu hap sa, 60,000 VND / $2.40), and whatever the catch of the day is. Pay roughly what you expect — prices here are honest.
+- **Nem nuong Thanh Thanh** — Quy Nhon's signature dish: grilled pork sausage wrapped in rice paper with green banana, starfruit, pickled vegetables, and herbs, dipped in a peanut-tamarind sauce. Try it at 109 Nguyen Hue for 60,000–90,000 VND ($2.40–$3.60) per order.
+- **Banh can stalls** — Tiny crispy rice cakes cooked in clay molds and served with a variety of toppings (minced shrimp, quail egg). A Quy Nhon specialty found at stalls near the central market for 30,000–50,000 VND ($1.20–$2).
+- **Bun ca Quy Nhon** — The local fish noodle soup, distinct from Nha Trang's version: a clear broth with fresh fish, tomato, and dill, served with rice noodles. Morning only, at local breakfast stalls, 30,000–45,000 VND ($1.20–$1.80).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">The best seasonal window for Ky Co Beach, how to reach the Cham towers by motorbike, and why routing through Quy Nhon between Da Nang and Nha Trang is always the right call.</p>
+  </div>
+</div>
+
+## When is the best time to visit Quy Nhon?
+
+**February through August** is ideal — the South China Sea calms down, Ky Co Beach boat trips are reliable, and the beaches are at their best. March through May is the sweet spot: dry, warm but not brutal, and quiet enough that you can have Ky Co Beach to yourself on a weekday.
+
+**September through November** brings the central Vietnam rainy season — heavy downpours, rough seas, and boat trips to Ky Co will be cancelled. The Cham towers and city exploration are still worthwhile, but the coast becomes weather-dependent.
+
+Quy Nhon is one of Vietnam's most honest destinations — a city that has not yet fully committed to being a tourist resort, which means it still functions primarily for the people who live in it. The seafood is excellent because locals demand it. The beach is beautiful because nobody has built on it. Two nights minimum; three is better. Check our [central Vietnam destinations guide](/destinations/) and plan your full [Vietnam itinerary](/plan/).

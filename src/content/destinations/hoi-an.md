@@ -110,7 +110,15 @@ fmContentType: "destination"
 
 ## Why Is Hoi An Vietnam's Most Magical Town?
 
-Hoi An cast its spell on me within the first ten minutes. I arrived by Grab from Da Nang in the late afternoon, checked into my hotel, and walked toward the Ancient Town as the sun was beginning its descent. The narrow streets were draped with silk lanterns — hundreds of them, in every shade of pink, yellow, blue, and green — suspended between the mustard-yellow buildings like a canopy of captured fireflies. The Thu Bon River reflected the colors back, doubling the spectacle. I stood on the Japanese Covered Bridge and watched the light change for twenty minutes, and I understood immediately why people come here and refuse to leave.
+Hoi An cast its spell on me within the first ten minutes.
+
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Lanterns, ancient shophouses, the smell of cao lau drifting over the river — Hoi An announces itself the moment you step into the old town.</p>
+  </div>
+</div> I arrived by Grab from Da Nang in the late afternoon, checked into my hotel, and walked toward the Ancient Town as the sun was beginning its descent. The narrow streets were draped with silk lanterns — hundreds of them, in every shade of pink, yellow, blue, and green — suspended between the mustard-yellow buildings like a canopy of captured fireflies. The Thu Bon River reflected the colors back, doubling the spectacle. I stood on the Japanese Covered Bridge and watched the light change for twenty minutes, and I understood immediately why people come here and refuse to leave.
 
 Hoi An is a former trading port that peaked between the 15th and 19th centuries, when it served as the most important commercial hub in Southeast Asia. Japanese, Chinese, Indian, Dutch, French, and Portuguese merchants all maintained a presence here, and their architectural legacy survives in an Ancient Town that UNESCO inscribed as a World Heritage Site in 1999. Unlike many UNESCO sites, Hoi An's old town is not a museum — people live here, eat here, worship in these temples, and run businesses from these centuries-old shophouses.
 
@@ -127,6 +135,14 @@ Hoi An occupies a unique position in Vietnam's travel landscape. It is both deep
 The tailoring industry sets Hoi An apart from any other destination I've visited anywhere. The town has over 400 tailoring shops, many staffed by artisans whose skills have been passed down through generations. You can walk in on Monday morning with a photo from a magazine, get measured, and pick up a finished custom suit on Tuesday afternoon. The quality ranges from mediocre to genuinely world-class, and even the high-end shops charge a fraction of what you'd pay in London or New York.
 
 Then there's the food. Hoi An has three signature dishes found nowhere else in Vietnam — cao lau (thick noodles with pork, herbs, and crispy croutons), white rose dumplings (delicate shrimp dumplings steamed in rice paper), and com ga (Hoi An-style chicken rice with turmeric). Add to this one of Vietnam's best cooking class scenes, and Hoi An becomes a serious culinary destination in its own right. The cooking classes here are not just tourist activities — they're genuine education in Vietnamese cuisine, often including a market visit and a boat ride to an herb garden.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Ancient town tickets, custom tailoring, cooking classes, lantern festivals, and a beach twenty minutes away by bicycle — Hoi An has more layers than almost anywhere in Vietnam.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Hoi An?
 
@@ -210,6 +226,14 @@ If Banh Mi Phuong has the Bourdain endorsement, Madam Khanh has the local loyalt
 
 For a more upscale meal with a river view, Cargo Club delivers excellent Vietnamese and French fusion cuisine on a balcony overlooking the Thu Bon. The grilled seafood platter is outstanding, and the patisserie section serves the best pastries in town. Mains run 150,000-300,000 VND ($6-12). Come for sunset — the view of the river and Ancient Town from the upper floor is one of Hoi An's best.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Rice paddy eco-lodges, riverfront resorts, and boutique guesthouses — Hoi An accommodates every budget and every travel style.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Hoi An?
 
 ### Budget: Tribee Bana Hostel
@@ -231,6 +255,14 @@ A charming boutique property with a pool, free bicycle rental, and rooms from 1,
 ### Beach Option: An Bang Seaside Village
 
 If you prioritize beach access over Ancient Town proximity, this An Bang Beach property offers rooms from 1,400,000 VND ($56) per night with direct beach access. The Ancient Town is a 20-minute bicycle ride away. Morning yoga sessions on the beach are included. [Book on Booking.com](https://www.booking.com/hotel/vn/an-bang-seaside-village.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Timing your visit around the lantern festival, what to bring for tailoring, and why you should always allow more days than you plan.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Hoi An
 

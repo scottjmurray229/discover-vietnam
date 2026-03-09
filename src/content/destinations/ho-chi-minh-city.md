@@ -117,7 +117,15 @@ draft: false
 
 # Ho Chi Minh City: The City That Never Sleeps
 
-I landed in Saigon at midnight, and the city was wide awake. The taxi from Tan Son Nhat airport dove straight into a river of motorbikes, their headlights streaking through humid air like fireflies. By the time I reached my hotel in District 1, I could hear music from three different bars, smell pho simmering at a street stall that had no intention of closing, and see groups of friends gathered on tiny plastic chairs around portable tables, laughing and toasting with cans of Saigon beer. I dropped my bags, walked outside, and did not go to sleep until 3:00 AM. That was my introduction to Ho Chi Minh City, and it set the tone for everything that followed.
+I landed in Saigon at midnight, and the city was wide awake.
+
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Nine million people, nine million motorbikes, and a street food scene that operates around the clock — Saigon doesn't wait for you to be ready.</p>
+  </div>
+</div> The taxi from Tan Son Nhat airport dove straight into a river of motorbikes, their headlights streaking through humid air like fireflies. By the time I reached my hotel in District 1, I could hear music from three different bars, smell pho simmering at a street stall that had no intention of closing, and see groups of friends gathered on tiny plastic chairs around portable tables, laughing and toasting with cans of Saigon beer. I dropped my bags, walked outside, and did not go to sleep until 3:00 AM. That was my introduction to Ho Chi Minh City, and it set the tone for everything that followed.
 
 This city is velocity. It is nine million people compressed into an urban space that throbs with ambition, appetite, and noise. Motorbikes carry entire families, towering loads of goods, cages of live chickens, and improbably long pieces of furniture. Vendors push carts loaded with tropical fruit down streets lined with French colonial architecture. Glass skyscrapers rise behind century-old pagodas. The contradictions are not jarring—they are the point. Ho Chi Minh City does not choose between old and new. It stacks them on top of each other and dares you to keep up.
 
@@ -126,6 +134,14 @@ I have been to many cities that claim to have the best street food, but Saigon m
 What surprised me most was the city's emotional depth. The War Remnants Museum is one of the most powerful places I have ever visited—it presents the Vietnam War (which Vietnamese call the American War) with unflinching honesty and left me sitting on a bench outside, processing, for twenty minutes afterward. The Cu Chi Tunnels, a short drive north, bring history to life in a way that is both fascinating and deeply humbling. And then, within the same afternoon, I was drinking a cocktail on a rooftop bar watching the sunset turn the Saigon River gold, and the juxtaposition of horror and beauty felt like the city's central truth.
 
 Saigon is not a city you admire from a distance. It demands participation. You will eat on the sidewalk, you will ride on the back of a motorbike, you will bargain in markets, you will sweat through your shirt, and you will love every minute of it. By my third day, I understood why so many travelers who come for a week end up staying for a month. The city gets under your skin, and it does not let go.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">War history, Chinatown, rooftop bars, Cu Chi Tunnels, night markets — Saigon packs more into a square kilometer than most cities manage in an entire district.</p>
+  </div>
+</div>
 
 ## What Makes Ho Chi Minh City Different
 
@@ -152,6 +168,14 @@ The Bitexco Financial Tower's observation deck on the 49th floor offers 360-degr
 
 ### Catch Sunset at a Rooftop Bar
 Saigon has one of the best rooftop bar scenes in Asia. The Chill Skybar on the 26th floor of AB Tower and Saigon Saigon Bar atop the Caravelle Hotel are my favorites. Cocktails run 200,000-350,000 VND ($8-$14), which is the one area where Saigon approaches Western prices. Worth it for the views.
+
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">From $8 hostel pods to five-star extravagance — District 1 keeps everything within reach of the city's best experiences.</p>
+  </div>
+</div>
 
 ## Where to Eat in Ho Chi Minh City
 
@@ -180,6 +204,14 @@ My preferred District 1 base. The rooftop pool is a lifesaver after long days wa
 
 ### Luxury: The Reverie Saigon ($180-$400/night)
 This hotel is extravagant in a way that feels distinctly Saigon—bold, glamorous, and unapologetic. The lobby alone is worth seeing, with Italian marble and Venetian chandeliers. The spa is exceptional, and the Italian restaurant on the ground floor serves the best pasta I have had in Southeast Asia.
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">How to navigate Saigon's traffic, where to get the best exchange rates, and the one mistake every first-timer makes on arrival.</p>
+  </div>
+</div>
 
 <div class="scotts-pro-tips">
 

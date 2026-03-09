@@ -110,6 +110,14 @@ draft: false
 
 <ImmersiveBreak videoSrc="/videos/destinations/nha-trang-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Turquoise bay, islands on the horizon, grilled shrimp for $2.40 — Nha Trang delivers the beach fantasy with zero pretension and maximum flavor.</p>
+  </div>
+</div>
+
 # Nha Trang: Vietnam's Riviera
 
 I arrived in Nha Trang from Da Lat—dropping from cool mountain air to coastal heat in a three-hour bus ride—and the first thing I did was walk straight to the beach. The sand stretched for what looked like forever, curving along a bay fringed with islands, and the water was the kind of turquoise you assume is Photoshopped until you see it in person. I swam for thirty minutes, dried off in the sun, and ordered a plate of grilled shrimp and a beer from a beachfront vendor. The shrimp cost 60,000 VND ($2.40), the beer cost 15,000 VND ($0.60), and the combination of salt water, sunshine, and fresh seafood produced a feeling of contentment so deep it bordered on philosophical. Nha Trang is not a complicated city. It delivers exactly what it promises: beach, sun, sea, and pleasure.
@@ -127,6 +135,14 @@ The islands offshore are the other major draw. I joined a day trip that visited 
 Nha Trang is the most straightforwardly fun destination on this list. While other Vietnamese cities demand cultural engagement and emotional energy, Nha Trang asks only that you show up, swim, eat, and enjoy yourself. After the intensity of Hue's imperial history or the physical demands of Sapa's treks, Nha Trang's uncomplicated pleasures feel earned and necessary.
 
 The city also offers the most accessible marine experiences in Vietnam. The diving, snorkeling, and island-hopping here are well-organized and affordable. I met backpackers who got their diving certification for $300 and luxury travelers who chartered private boats to remote islands. Nha Trang accommodates both with equal ease.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Island hopping, Po Nagar Cham towers, the Long Son Pagoda white Buddha, and diving the marine reserve at Mun Island — Nha Trang's depth goes far beyond the beach.</p>
+  </div>
+</div>
 
 ## Things to Do in Nha Trang
 
@@ -165,6 +181,14 @@ Tiny savory pancakes cooked in clay molds, filled with egg, shrimp, or squid. A 
 ### Louisiane Brewhouse (Tran Phu Beach Road)
 House-brewed craft beer, international food, a swimming pool, and live music. A burger and a pint costs about 250,000 VND ($10).
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Beachfront tower hotels, boutique guesthouses one block from the sand, and splurge resorts on the private islands — Nha Trang's accommodation range is genuinely impressive.</p>
+  </div>
+</div>
+
 ## Where to Stay in Nha Trang
 
 ### Budget: Mojzo Dorm ($6-$12/night)
@@ -177,6 +201,14 @@ Beachfront location, rooftop pool, modern rooms. The beach is across the road. B
 Reachable only by speedboat, this resort occupies its own dramatic bay backed by boulders and jungle. The villas are extraordinary and the isolation is total.
 
 <div class="scotts-pro-tips">
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Walk ten minutes from the beach to eat like a local, book island tours through your hotel not the beach touts, and don't miss banh can — Nha Trang's best-kept culinary secret.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Nha Trang
 

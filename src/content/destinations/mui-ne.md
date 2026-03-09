@@ -108,6 +108,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/mui-ne-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">A fishing town bookended by sand dunes, swept by reliable trade winds, surrounded by dragon fruit farms — Mui Ne is the coastal Vietnam that the resort brochures never show.</p>
+  </div>
+</div>
+
 ## Why Should You Visit Mui Ne Instead of Vietnam's More Famous Beaches?
 
 Mui Ne offers something no other Vietnamese beach destination can — a landscape that blends coastal beauty with genuine geological drama. I drove into town on a tourist bus from Ho Chi Minh City, half-asleep after 4.5 hours on the highway, and woke to the sight of towering red sand dunes rising from the roadside like a misplaced slice of the Sahara. Within an hour, I was standing barefoot on those dunes watching the sun drop into a fishing village dotted with round basket boats. No other beach in Vietnam delivers that kind of visual impact.
@@ -127,6 +135,14 @@ Mui Ne's defining characteristic is wind. The consistent northeast trade winds t
 The geological variety is the other differentiator. Within a radius of 15 kilometers, you have towering sand dunes (both red and white), the multicolored sedimentary canyon of Fairy Stream, a traditional fishing harbor, and inland dragon fruit plantations stretching to the horizon. This geological diversity exists because Mui Ne sits at the intersection of several climatic and geographical zones — the arid conditions that produce the dunes are unique to this specific stretch of coast and do not occur anywhere else in Vietnam.
 
 The fishing village at the eastern end of the bay provides cultural grounding that pure resort destinations lack. The round basket boats (thung chai) that crowd the harbor are not props — they are working vessels that head out before dawn and return loaded with the day's catch. Walking through the village at 6:00 AM, watching the morning auction as fishermen sell their haul directly on the beach, is a reminder that Mui Ne's economy was built on the sea long before it was built on tourism.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">White dunes at sunrise, red dunes at sunset, the Fairy Stream canyon, kitesurfing on consistent wind, and the fishing village coracle boats at dawn.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Mui Ne?
 
@@ -192,6 +208,14 @@ Sindbad is a long-running Vietnamese-Indian restaurant that serves genuinely goo
 
 Sandals at Coco Beach Resort serves elevated beach cuisine with Vietnamese and Western options. The seafood curry (180,000 VND / $7.20 USD) is fragrant and generous, and the wood-fired pizzas (150,000–200,000 VND / $6–$8 USD) are the best in town. The beachfront setting with toes-in-the-sand dining makes it a lovely splurge spot. Main courses range from 120,000–280,000 VND ($4.80–$11.20 USD).
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #4A1D96 0%, #6D28D9 35%, #C084FC 65%, #4A1D96 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Beachfront bungalows on the fishing village end, kite school resorts in the wind corridor, or budget guesthouses behind the strip — where you stay in Mui Ne defines what kind of trip you have.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Mui Ne?
 
 ### Budget: Mui Ne Backpacker Village (from 150,000 VND / $6 USD per night)
@@ -213,6 +237,14 @@ Mia is a stylish boutique resort with a stunning beachfront pool, well-designed 
 ### Luxury: Anantara Mui Ne Resort (from 3,000,000 VND / $120 USD per night)
 
 Anantara is the luxury benchmark in Mui Ne — a manicured beachfront property with a lagoon pool, spa, two restaurants, and the kind of seamless service that international luxury brands deliver. The rooms are spacious with private balconies or terraces. The wine-and-cheese sunset experience on the beach is a decadent touch. This is where you come when you want the sand dunes and the pampering in equal measure. [Reserve on Booking.com](https://www.booking.com/hotel/vn/anantara-mui-ne-resort.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Set your alarm for the white dunes at 4:30 AM, stay three days minimum, and rent a motorbike for the morning — Mui Ne rewards early risers with scenes no afternoon visitor ever sees.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Mui Ne
 

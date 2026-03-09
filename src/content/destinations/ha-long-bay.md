@@ -117,7 +117,15 @@ fmContentType: "destination"
 
 # Ha Long Bay: Where Dragons Descended
 
-I woke at 5:30 AM on the deck of a wooden junk boat, wrapped in a blanket against the cool October air, and watched the sun rise over Ha Long Bay. The limestone karsts emerged from the mist one by one, dozens and then hundreds and then what seemed like thousands of them, rising from water so still it looked like green glass. A fishing boat glided between the pillars of rock in perfect silence. Somewhere in the distance, a rooster crowed from a floating village. I sat there for an hour without reaching for my camera, because some moments demand that you simply be present. That sunrise remains one of the most profound travel experiences of my life.
+I woke at 5:30 AM on the deck of a wooden junk boat
+
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Nearly 2,000 limestone karsts rising from emerald water — Ha Long Bay announces itself with an authority that no photograph has ever fully captured.</p>
+  </div>
+</div>, wrapped in a blanket against the cool October air, and watched the sun rise over Ha Long Bay. The limestone karsts emerged from the mist one by one, dozens and then hundreds and then what seemed like thousands of them, rising from water so still it looked like green glass. A fishing boat glided between the pillars of rock in perfect silence. Somewhere in the distance, a rooster crowed from a floating village. I sat there for an hour without reaching for my camera, because some moments demand that you simply be present. That sunrise remains one of the most profound travel experiences of my life.
 
 Ha Long Bay is Vietnam's natural masterpiece. Nearly 2,000 limestone karsts and islands rise from the Gulf of Tonkin in a seascape that defies adequate description. The name translates to "Descending Dragon"—legend says a family of dragons was sent by the gods to defend Vietnam from invaders, and the jewels they spat into the sea became the islands. Standing on the deck of a boat, watching these formations materialize from the fog, the legend does not feel far-fetched. The geology is equally dramatic in scientific terms: these karsts were shaped over 500 million years by tectonic shifts, erosion, and rising seas, creating a landscape that UNESCO recognized as a World Heritage Site in 1994.
 
@@ -126,6 +134,14 @@ I have to be honest: Ha Long Bay can be done badly. A rushed day trip from Hanoi
 My cruise left from Tuan Chau Marina and headed southeast into the bay's central area before turning north toward Bai Tu Long Bay, the less-visited extension that offers the same geological drama with a fraction of the boat traffic. We kayaked through an arch in a karst wall and emerged into a hidden lagoon completely enclosed by limestone walls, the water turquoise and warm, the silence broken only by birdsong. I swam in the lagoon while my kayak partner explored the edges, and for twenty minutes we were the only humans in a space that felt prehistoric. That was the moment that justified the entire trip.
 
 The floating villages are another dimension of Ha Long Bay that most day-trippers miss. Families have lived on the water here for generations, their houses built on rafts, their children paddling to school in small boats. The villages are shrinking as the government encourages relocation to land, and visiting them felt like witnessing a way of life in its final chapter. Our guide, who grew up in one of these villages, spoke about his childhood on the water with a mixture of pride and melancholy that gave the visit an emotional weight I did not expect.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Kayak through limestone arches, swim in hidden lagoons, watch the sunrise from the deck — overnight is the only way to truly know this bay.</p>
+  </div>
+</div>
 
 ## What Makes Ha Long Bay Different
 
@@ -169,6 +185,14 @@ If exploring Bai Tu Long Bay independently, Cai Rong has several local restauran
 ### Cat Ba Island
 If your itinerary includes Cat Ba Island, the waterfront restaurants in Cat Ba Town serve excellent seafood. I had a whole steamed grouper for 250,000 VND ($10) that was caught that morning. The town is small and walkable, and the food is consistently better and cheaper than in Ha Long City proper.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Budget junk boats, mid-range overnight cruises, or floating luxury — your accommodation here is also your transport and your entire Ha Long Bay experience.</p>
+  </div>
+</div>
+
 ## Where to Stay in Ha Long Bay
 
 ### Budget: Cat Ba Island Hostels ($10–$25/night)
@@ -179,6 +203,14 @@ For most travelers, the cruise is both the activity and the accommodation. Mid-r
 
 ### Luxury: Heritage Cruises or Orchid Cruises ($250–$500/person)
 The luxury cruise operators offer private balconies, jacuzzis on deck, spa services, gourmet dining, and itineraries that avoid the most crowded areas. Heritage Cruises operates beautifully restored colonial-style boats that feel like floating boutique hotels. If you are celebrating a special occasion, this is a once-in-a-lifetime splurge.
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">How to choose the right cruise, when to go for clear skies, and what separates a life-changing Ha Long Bay experience from a disappointing one.</p>
+  </div>
+</div>
 
 <div class="scotts-pro-tips">
 

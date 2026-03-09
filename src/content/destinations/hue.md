@@ -107,6 +107,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/hue-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #D97706 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">The Perfume River, imperial citadel walls, and the scent of bun bo Hue on every corner — this city earns its reputation as Vietnam's most layered destination.</p>
+  </div>
+</div>
+
 ## Why Is Hue Vietnam's Most Emotionally Complex City?
 
 Hue is the Vietnam that most travelers don't expect. I arrived from Hoi An on a gray morning, crossing the Hai Van Pass in a light rain that turned the mountains into watercolor paintings. The city revealed itself slowly — the Perfume River flowing dark and wide, the Citadel walls rising like a stone fortress from the mist, the frangipani trees dropping white flowers onto empty sidewalks. Hue felt quiet. Contemplative. Almost melancholy.
@@ -124,6 +132,14 @@ Hue is Vietnam's cultural and spiritual capital in a way that transcends its pol
 The cuisine alone justifies a visit. Hue food is Vietnam's most distinct regional style — spicier, more complex, and more elaborately presented than northern or southern cooking. Bun bo Hue (spicy beef noodle soup) is arguably Vietnam's greatest noodle soup — richer than Hanoi pho, more aromatic than anything in the south. The city's "royal cuisine" tradition means restaurants serve multi-course meals of bite-sized dishes on elaborate platters, a practice dating back to the imperial kitchen's requirement that the emperor eat 50 different dishes at each meal.
 
 The landscape sets Hue apart too. Unlike Vietnam's other major cities, Hue's key sights are spread across a river valley surrounded by pine-covered hills. The royal tombs sit scattered through the countryside like hidden temples, each reflecting the personality of the emperor who built it. Visiting them requires a motorbike or driver, and the journey itself — through rice paddies, past incense-making villages, along river roads — is as rewarding as the destinations.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #7C2D12 0%, #B45309 35%, #F59E0B 65%, #7C2D12 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">Imperial citadels, royal tombs, a hundred Buddhist pagodas, and the most sophisticated regional cuisine in all of Vietnam.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Hue?
 
@@ -197,6 +213,14 @@ This family-run institution, operated by three deaf sisters, has been a Hue land
 
 When I wanted a proper sit-down dinner with wine, La Carambole delivered French-Vietnamese fusion cuisine in a restored colonial villa with garden seating. The duck with star anise and the grilled river fish were outstanding. Mains run 200,000-400,000 VND ($8-16). The wine list is respectable — rare for Hue — and the ambiance is romantic without being stuffy.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Riverside boutique hotels, colonial-era properties, and guesthouses in the quiet streets south of the Citadel — Hue rewards those who stay slowly.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Hue?
 
 ### Budget: Hue Nino Hotel
@@ -214,6 +238,14 @@ Occupying a stunning 1930s art deco building on the Perfume River's south bank, 
 ### Mid-Range Alternative: Moonlight Hotel Hue
 
 A modern, well-located hotel on Le Loi Street with river views and rooms from 900,000 VND ($36) per night. The rooftop restaurant has panoramic Citadel views, and the breakfast buffet includes a pho station. Excellent value for the location. [Book on Booking.com](https://www.booking.com/hotel/vn/moonlight-hue.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Budget for multiple Citadel days, rent a bicycle for the tombs, and book bun bo Hue at a place that doesn't cater exclusively to tourists.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Hue
 

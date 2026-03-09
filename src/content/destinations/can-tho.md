@@ -107,6 +107,14 @@ fmContentType: "destination"
 
 <ImmersiveBreak videoSrc="/videos/destinations/can-tho-hero.mp4" />
 
+<div class="immersive-break-inline" id="arrival">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #064E3B 0%, #065F46 35%, #10B981 65%, #064E3B 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">The Arrival</h2>
+    <p class="ib-text">Flat green delta, sampan boats threading through mango groves, the Cai Rang Floating Market materializing from the morning mist — the Mekong Delta rewards those who sleep here rather than day-trip.</p>
+  </div>
+</div>
+
 ## Why Is Can Tho the Best Gateway to the Mekong Delta?
 
 Can Tho is the best gateway to the Mekong Delta because it is the largest city in the region while still delivering the authentic waterway culture, floating markets, and tropical orchard experiences that define delta life. I arrived by bus from Ho Chi Minh City in under four hours and within twelve hours of checking into my riverside guesthouse, I was sitting in a wooden sampan at 5:00 AM watching the Cai Rang Floating Market come to life around me. No other Mekong Delta town offers that combination of accessibility and immersion.
@@ -126,6 +134,14 @@ The fundamental difference is time. Day trips from Ho Chi Minh City to the Mekon
 Cai Rang Floating Market is the other critical difference. Unlike the smaller, increasingly tourist-oriented markets closer to Ho Chi Minh City, Cai Rang is a genuine wholesale market where delta farmers have been trading for generations. The scale is impressive — hundreds of boats gathering before dawn in a choreographed chaos of commerce that has not fundamentally changed in decades. Tour boats are present, but they are vastly outnumbered by working vessels. What you see here is real.
 
 Can Tho also functions as a base for deeper delta exploration. From here, you can reach fruit orchards, rice paddies, traditional craft villages, and rural canal communities that see very few tourists. The homestay options along the canals offer a level of cultural immersion that is simply not available on a day trip. If you want to understand the Mekong Delta rather than just photograph it, Can Tho is where you need to be.
+
+<div class="immersive-break-inline" id="explore">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #14532D 0%, #15803D 35%, #84CC16 65%, #14532D 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">What To Explore</h2>
+    <p class="ib-text">The Cai Rang Floating Market at dawn, canal tours through fruit orchards, banh xeo cooking classes, and the delta's extraordinary tropical fruit markets.</p>
+  </div>
+</div>
 
 ## What Are the Best Things to Do in Can Tho?
 
@@ -191,6 +207,14 @@ Banh xeo — the crispy, turmeric-yellow Vietnamese pancake — reaches its apex
 
 The street food stalls along Ninh Kieu Wharf and the surrounding streets offer the cheapest and often the best eating in Can Tho. The hu tieu stalls (Can Tho's signature noodle soup) serve bowls for 25,000–35,000 VND ($1–$1.40 USD). Grilled seafood skewers run 10,000–20,000 VND ($0.40–$0.80 USD) each. Che (sweet Vietnamese dessert soups) in a dizzying array of flavors cost 15,000–20,000 VND ($0.60–$0.80 USD). Budget 100,000–200,000 VND ($4–$8 USD) for a thorough evening graze through the market.
 
+<div class="immersive-break-inline" id="stay">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #0E4D5C 0%, #0369A1 35%, #38BDF8 65%, #0E4D5C 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Where to Stay</h2>
+    <p class="ib-text">Riverside guesthouses in the city center, floating bungalows on the Hau River, and boutique hotels with early morning boat access to the floating market.</p>
+  </div>
+</div>
+
 ## Where Should I Stay in Can Tho?
 
 ### Budget: Mekong My Tho Hostel (from 130,000 VND / $5 USD per night)
@@ -212,6 +236,14 @@ Victoria is a colonial-style riverside resort on the outskirts of the city, set 
 ### Luxury: Azerai Can Tho (from 2,500,000 VND / $100 USD per night)
 
 Azerai is the luxury benchmark in the Mekong Delta — a minimalist, design-forward resort on a private island in the Hau River. The architecture is contemporary Vietnamese, all clean lines and natural materials, with rooms opening onto private gardens or river views. The pool is stunning, the spa is serene, and the restaurant serves refined interpretations of Mekong Delta cuisine. A free boat shuttle connects the island to the city. [Reserve on Booking.com](https://www.booking.com/hotel/vn/azerai-can-tho.html?aid=2778866).
+
+<div class="immersive-break-inline" id="essentials">
+  <div class="ib-gradient" style="background: linear-gradient(160deg, #78350F 0%, #92400E 35%, #F59E0B 65%, #78350F 100%);"></div>
+  <div class="ib-content">
+    <h2 class="ib-title">Before You Go</h2>
+    <p class="ib-text">Wake before 5 AM for the floating market, hire a boat through your guesthouse not the pier touts, and plan at least two nights — the delta gives up its best moments only to those who stay.</p>
+  </div>
+</div>
 
 ## Scott's Pro Tips for Visiting Can Tho
 
