@@ -59,12 +59,44 @@ faqItems:
     answer: "Phu Quoc is excellent for families. The calm, shallow waters along Long Beach are safe for children, and attractions like Vinpearl Safari, the Sun World cable car, and the Aquatopia water park provide structured entertainment. Many resorts offer family rooms, kids clubs, and babysitting services."
   - question: "What is the local food specialty on Phu Quoc?"
     answer: "Phu Quoc is famous for its fish sauce (nuoc mam), considered the finest in Vietnam, and fresh seafood — particularly herring salad (goi ca trich), grilled sea urchin, and raw crab in fish sauce. The Dinh Cau Night Market is the best place to sample the island's seafood traditions."
-affiliatePicks: []
+  - question: "Is Phu Quoc safe for tourists?"
+    answer: "Phu Quoc is very safe. Crime against tourists is minimal. Main practical concerns: motorbike safety (roads are good but watch for sand on bends), ocean swimming (rip currents during wet season — observe flags), jellyfish (occasional in certain months — check with locals before swimming). The island has a modern hospital in Duong Dong town."
+  - question: "How much does Phu Quoc cost per day?"
+    answer: "Budget travelers: $25–35/day staying in guesthouses and eating at the night market. Mid-range: $65–100/day with a decent hotel, snorkeling tour, and restaurant meals. Resorts add significantly — expect $150–300/night for the top properties. The island is 20–30% pricier than mainland Vietnam but excellent value vs. similar tropical islands elsewhere in Asia."
+scottTips:
+  - topic: "Logistics"
+    tip: "Fly direct from HCMC (1 hour, from 600,000 VND/$24). The airport is near Duong Dong town — taxi to Long Beach is ~100,000 VND ($4). Rent a motorbike ($5–8/day) to explore beyond the resort area. Grab works on the island."
+  - topic: "Best Time"
+    tip: "November through April is prime — dry skies, calm seas for snorkeling. December–February has the best overall conditions. Wet season (May–October) brings heavy rains, rough seas, and occasional resort closures, but prices drop 30–50%."
+  - topic: "Getting Around"
+    tip: "Motorbike is the best way to explore — the national park, Sao Beach, and the fish sauce factories are spread across the island. The Sun World cable car to Hon Thom island (world's longest over water) is worth the trip."
+  - topic: "Money & Safety"
+    tip: "Phu Quoc is slightly pricier than mainland Vietnam — budget $25–65/day. Fish sauce at the factory costs a fraction of souvenir shop prices. Special visa exemption: all nationalities can stay 30 days without a visa if flying directly into Phu Quoc airport."
+  - topic: "Local Culture"
+    tip: "Phu Quoc's most famous export is nuoc mam (fish sauce) — the island produces some of Vietnam's finest. The Dinh Cau Night Market is the real heart of local evening life: fresh seafood on ice, point-and-choose, grilled to order. Arrive by 6 PM before the best fish sells out."
+affiliatePicks:
+  - name: "Premier Residences Phu Quoc"
+    type: "hotel"
+    price: "$80–180/night"
+    personalNote: "Long Beach resort with multiple pools, direct beach access, and comfortable rooms at sensible prices for the location. The pool bar at sunset is hard to beat."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=phu+quoc"
+  - name: "An Thoi Islands Snorkeling Tour"
+    type: "tour"
+    price: "$20–35/person"
+    personalNote: "A full-day boat trip to the An Thoi Archipelago south of Phu Quoc — some of the clearest water and healthiest coral in Vietnam. The floating lunch on the boat is part of the experience. Book only in dry season (Nov–Apr)."
+    affiliateUrl: "https://www.getyourguide.com/phu-quoc?partner_id=IVN6IQ3"
+  - name: "Phu Quoc National Park Trekking Tour"
+    type: "tour"
+    price: "$25–40/person"
+    personalNote: "Half or full day in the northern part of the island — primary rainforest, bird watching, and rivers. Most visitors never leave the beach strip, making the park remarkably peaceful. Best in the dry season when trails are accessible."
+    affiliateUrl: "https://www.viator.com/phu-quoc?pid=P00290009"
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/phu-quoc-hero.mp4" />
 
 ## Why Is Phu Quoc Called Vietnam's Island Paradise?
 

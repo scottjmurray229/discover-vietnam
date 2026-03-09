@@ -44,6 +44,17 @@ highlights:
   - "Dive or snorkel in some of Vietnam's clearest waters"
   - "Experience the lively waterfront promenade at night"
   - "Eat the freshest seafood at beachfront restaurants"
+scottTips:
+  - topic: "Logistics"
+    tip: "Cam Ranh Airport is 35 km south — take the shuttle bus (65,000 VND/$2.60) rather than a taxi. Nha Trang city is walkable along the beachfront; use Grab for the Po Nagar Towers and Thap Ba Hot Springs."
+  - topic: "Best Time"
+    tip: "January through August is reliable and dry. September through December is rainy season with occasional rough seas — not ideal for diving or island hopping. March–May is the sweet spot: dry, not yet peak-season busy."
+  - topic: "Getting Around"
+    tip: "The 6 km beach and main city are walkable. Island-hopping tours depart from the Cau Da pier or the main wharf (book through your hotel or directly at the pier). For the mud baths, Thap Ba is 6 km north — Grab there."
+  - topic: "Money & Safety"
+    tip: "$15–50/day covers Nha Trang comfortably. Safe city with beach-area lifeguards during the day. The main risk is unlicensed taxis from the airport — use Grab or the official shuttle. Watch for riptides near the non-lifeguarded beach sections."
+  - topic: "Local Culture"
+    tip: "Nha Trang has significant Russian tourism influence — Cyrillic menus and Russian restaurants are common on the beachfront. The local food is completely different and excellent: bun ca (fish noodle soup), banh can (clay-mold pancakes). Walk 3 blocks inland for the real deal at half the price."
 gradientColors: "from-sky-400 to-blue-600"
 relatedDestinations:
   - "dalat"
@@ -61,6 +72,12 @@ faqItems:
     answer: "The main beach is generally safe with lifeguards on duty during the day. Riptides can occur during the rainy season (October-December). Follow flag warnings and stay within designated swimming areas."
   - question: "How is the nightlife?"
     answer: "Nha Trang has the most active nightlife scene outside of Ho Chi Minh City. The Sailing Club on the beach is the iconic spot. Drinks are cheap: beer from 15,000 VND ($0.60), cocktails from 80,000 VND ($3.20)."
+  - question: "Is Nha Trang worth visiting?"
+    answer: "Nha Trang is Vietnam's most straightforwardly enjoyable beach destination — a 6 km crescent of sand, good diving, offshore islands, mud baths, and a lively waterfront. If you want beach time in Vietnam, this is the best-developed option. It's unabashedly a resort city, which is either a pro or a con depending on what you're looking for."
+  - question: "What is Nha Trang famous for?"
+    answer: "Nha Trang is famous for its 6 km main beach, island-hopping tours to the snorkeling sites around Mun Island Marine Reserve, the 7th-century Po Nagar Cham Towers, the Thap Ba Hot Springs mineral mud baths, PADI scuba diving courses (one of Asia's cheapest), and its active waterfront nightlife."
+  - question: "How do I get from Nha Trang to Da Lat?"
+    answer: "Bus takes 3 hours and costs 120,000–160,000 VND ($5–6.50) — the mountain climb through coffee plantations and pine forests is one of Vietnam's most scenic road journeys. The dramatic elevation change from sea level to 1,500 m happens in about 90 minutes. Book Phuong Trang (FUTA) for the most reliable departures."
 affiliatePicks:
   - name: "Nha Trang Island Hopping Tour"
     type: "tour"
@@ -81,6 +98,8 @@ lastVerified: 2026-02-27
 contentStatus: 'published'
 draft: false
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/nha-trang-hero.mp4" />
 
 # Nha Trang: Vietnam's Riviera
 

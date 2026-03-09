@@ -59,12 +59,44 @@ faqItems:
     answer: "Can Tho is extremely safe. It is a university city with a friendly, welcoming population. There is virtually no crime targeting tourists. The biggest concerns are sun exposure during boat rides, motorbike traffic in the city center, and occasional stomach issues from adventurous eating. Exercise normal food hygiene precautions and you will be fine."
   - question: "What food is Can Tho famous for?"
     answer: "Can Tho and the Mekong Delta region are famous for hu tieu (pork and prawn noodle soup), banh xeo (crispy Vietnamese pancakes), lau mam (fermented fish hot pot), grilled snakehead fish, and an extraordinary variety of tropical fruits including mangosteen, rambutan, durian, dragon fruit, and jackfruit. The region's cuisine is sweeter and more fruit-influenced than northern or central Vietnamese cooking."
-affiliatePicks: []
+  - question: "What is the Cai Rang Floating Market like?"
+    answer: "Cai Rang is the Mekong Delta's largest wholesale floating market, operating from 5:00–8:00 AM on the Can Tho River about 6 km from town. Hundreds of boats converge before dawn, each flying its cargo on a bamboo pole so buyers can identify what's on offer. Smaller boats weave through selling pho and coffee. This is a genuine trading market — mostly wholesale — not a tourist performance."
+  - question: "Do I need a guide in Can Tho?"
+    answer: "Not strictly required, but a local guide is worth it for the canal networks and floating market. A guide from a community guesthouse (as opposed to a street tout) will know which narrow waterways to access and which farmers have fruit orchards open to visitors. Boat tours from guesthouses include a navigator who doubles as informal guide."
+scottTips:
+  - topic: "Logistics"
+    tip: "Bus from HCMC takes 3–3.5 hours with Phuong Trang (FUTA) for ~120,000 VND ($5). Book the 6 AM departure if you want to catch the floating market the next morning without wasting a day."
+  - topic: "Best Time"
+    tip: "November through April is ideal — the Cai Rang market is active year-round but the dry season means calmer waterways, clearer skies, and more comfortable early-morning boat rides. Avoid May–October if you can."
+  - topic: "Getting Around"
+    tip: "Grab works fine in the city center. For waterway exploration, book boats through your guesthouse rather than touts at the dock — you'll pay 150,000–250,000 VND ($6–$10) per person in a shared boat vs. being overcharged solo."
+  - topic: "Money & Safety"
+    tip: "Can Tho is very affordable — $15–40/day covers guesthouse, food, and boat tours. ATMs are plentiful on Hai Ba Trung street. No significant safety concerns; this is a university city with zero tourist-crime reputation."
+  - topic: "Local Culture"
+    tip: "The Mekong Delta has its own dialect and food culture — sweeter, fruitier, more laid-back than Hanoi. Try hu tieu (noodle soup), banh xeo (crispy pancakes), and fresh tropical fruit at the market. $0.80 breakfasts are genuinely the best meals here."
+affiliatePicks:
+  - name: "Ninh Kieu Riverside Hotel"
+    type: "hotel"
+    price: "$30–60/night"
+    personalNote: "The best-located mid-range hotel in Can Tho — on the river promenade, walking distance to the night market, and some rooms have Mekong views. Great value for this part of Vietnam."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=can+tho"
+  - name: "Cai Rang Floating Market Boat Tour"
+    type: "tour"
+    price: "$6–10/person (shared boat)"
+    personalNote: "Wake at 4:30 AM, board a sampan at 5:00 AM, and arrive at Cai Rang as the produce boats gather in the pre-dawn mist. The most authentic floating market experience in Vietnam — reserve through your guesthouse the night before."
+    affiliateUrl: "https://www.getyourguide.com/can-tho-l3532/?partner_id=IVN6IQ3"
+  - name: "Mekong Delta Full-Day Canal Tour"
+    type: "tour"
+    price: "$20–35/person"
+    personalNote: "After the floating market, a full-day canal tour takes you deep into waterways the day-trippers never reach — rice paddies, fruit orchards, noodle-making villages. The sampan captain earns her $2 tip."
+    affiliateUrl: "https://www.viator.com/can-tho?pid=P00290009"
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/can-tho-hero.mp4" />
 
 ## Why Is Can Tho the Best Gateway to the Mekong Delta?
 

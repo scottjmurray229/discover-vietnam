@@ -46,7 +46,33 @@ gradientColors: "from-violet-600 via-purple-700 to-indigo-900"
 relatedDestinations:
   - "hoi-an"
   - "da-nang"
-affiliatePicks: []
+scottTips:
+  - topic: "Logistics"
+    tip: "Fly into Phu Bai Airport (15 km south, taxi 200,000 VND/$8) or arrive by train on the Reunification Express — the Hue station is central. From Da Nang, the train takes 2.5 hours and the Hai Van Pass scenery is spectacular."
+  - topic: "Best Time"
+    tip: "February through July is driest and best. Hue gets more rain than anywhere else in Vietnam — the mountains trap clouds. October and November can be very wet with flooding. I'd prioritize dry months if flexible."
+  - topic: "Getting Around"
+    tip: "Rent a motorbike for the royal tombs south of the city — they're spread out and public transport is poor. The Perfume River cruise is the best way to reach Thien Mu Pagoda (hire a dragon boat from the wharf). The Citadel is walkable."
+  - topic: "Money & Safety"
+    tip: "Hue is affordable at $18–45/day. Safe city with minimal tourist crime. Royal tombs charge 150,000 VND ($6) each. Citadel costs 200,000 VND ($8). Budget 500,000 VND ($20) for a full day of sightseeing entrance fees."
+  - topic: "Local Culture"
+    tip: "Hue's royal cuisine is an event — try bun bo Hue (spicy beef noodle soup, more complex than pho), banh beo (tiny steamed rice cakes with shrimp), and com hen (tiny clams on rice). Locals are proud of their food tradition and rightly so."
+affiliatePicks:
+  - name: "La Residence Hotel & Spa"
+    type: "hotel"
+    price: "$90–180/night"
+    personalNote: "Former governor's residence on the Perfume River — the most atmospheric stay in Hue. The pool overlooks the river, the restaurant serves excellent Vietnamese and French cuisine, and the history embedded in the walls adds to every moment."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=hue"
+  - name: "Imperial City & Royal Tombs Day Tour"
+    type: "tour"
+    price: "$25–40/person"
+    personalNote: "A guided day covering the Citadel, two or three royal tombs, and the Thien Mu Pagoda by river. The guide context for the Nguyen Dynasty history makes all the difference — without it, you're just looking at stones."
+    affiliateUrl: "https://www.getyourguide.com/hue?partner_id=IVN6IQ3"
+  - name: "Hue Royal Cuisine Cooking Class"
+    type: "tour"
+    price: "$30–45/person"
+    personalNote: "Learn to make banh beo, banh nam, and bun bo Hue in a setting that explains the elaborate presentation culture of imperial court cooking. Hue's cuisine is the most distinct regional food tradition in Vietnam."
+    affiliateUrl: "https://www.viator.com/hue?pid=P00290009"
 faqItems:
   - question: "How many days do I need in Hue?"
     answer: "Two full days covers the Citadel, key royal tombs, Thien Mu Pagoda, and the city's food scene. Three days allows for the Perfume River cruise, additional tombs, the DMZ, and deeper cultural immersion. One day is too rushed for a city this layered."
@@ -58,11 +84,19 @@ faqItems:
     answer: "Rent a motorbike or hire a driver for a half-day tomb tour. The tombs are spread across the countryside south of the city. Start with Tu Duc (the most atmospheric), visit Minh Mang (the most architecturally impressive), and finish at Khai Dinh (the most ornate). Each charges 150,000 VND ($6) entrance."
   - question: "Is the DMZ tour from Hue worth it?"
     answer: "The DMZ (Demilitarized Zone) tour is a powerful day trip for anyone interested in the American War. Sites include the Vinh Moc tunnels, Khe Sanh combat base, and the former border at the Ben Hai River. Tours run 8-10 hours and cost 500,000-800,000 VND ($20-32). It's somber and moving, not recreational."
+  - question: "Is Hue safe for tourists?"
+    answer: "Hue is very safe. It's smaller and quieter than Hanoi or HCMC, with a population that's proud of their city and welcoming to visitors. The main practical concern is rain — Hue is the wettest city in Vietnam. Bring a rain jacket if visiting outside the February-July dry season."
+  - question: "What is Hue famous for?"
+    answer: "Hue is famous for the UNESCO-listed Imperial Citadel (Vietnam's version of the Forbidden City), the elaborate royal tombs of the Nguyen emperors scattered across pine-forested hills, the Perfume River, Thien Mu Pagoda, and Vietnam's most refined regional cuisine. It was the country's capital from 1802 to 1945."
+  - question: "How much does Hue cost per day?"
+    answer: "Hue is one of Vietnam's most affordable cities. Budget travelers can get by on $18–25/day. Mid-range comfort — decent hotel, restaurant meals, day of sightseeing — runs $40–60/day. The main expense is entrance fees: Citadel ($8), each royal tomb ($6). Budget $20–30 for a full heritage day."
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/hue-hero.mp4" />
 
 ## Why Is Hue Vietnam's Most Emotionally Complex City?
 

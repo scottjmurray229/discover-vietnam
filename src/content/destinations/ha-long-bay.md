@@ -44,6 +44,17 @@ highlights:
   - "Watch sunrise from the deck of a traditional junk boat"
   - "Visit a floating fishing village"
   - "Take a seaplane for aerial views of the bay"
+scottTips:
+  - topic: "Logistics"
+    tip: "Most cruises include round-trip transport from Hanoi (3.5 hours each way). Book through reputable operators rather than the cheapest option — cruise quality varies enormously. Depart from Tuan Chau Marina (better organized) rather than Ha Long City pier."
+  - topic: "Best Time"
+    tip: "October–November and March–May are ideal — cooler, calmer seas, and clear skies. June–August is peak season with weather but maximum crowds. December–February can be cold and foggy (mystical but overcast). Typhoon risk July–September."
+  - topic: "Getting Around"
+    tip: "You're on a boat — no decisions needed. The key is choosing the right cruise: overnight beats day trip, smaller boat beats large vessel, Bai Tu Long Bay or Lan Ha Bay beats the main crowded areas near Sung Sot Cave."
+  - topic: "Money & Safety"
+    tip: "Budget cruises: $60–80/person. Mid-range: $120–200/person. Luxury: $300–500+/person. All meals and activities typically included. Bring seasickness medication just in case — the bay is sheltered but December–February winds can create chop."
+  - topic: "Local Culture"
+    tip: "The floating fishing villages are shrinking as government encourages relocation to land — visiting them now, while families still live there, has increasing historical value. Kayaking is the best way to access hidden lagoons that motorized boats can't reach. Sunrise from the deck at 5:30 AM is non-negotiable."
 gradientColors: "from-emerald-600 to-teal-800"
 relatedDestinations:
   - "hanoi"
@@ -60,6 +71,12 @@ faqItems:
     answer: "The most popular areas around Sung Sot Cave and Ti Top Island can get very busy, especially from June through August. Cruises that venture to Bai Tu Long Bay or Lan Ha Bay encounter far fewer boats. I went in October and the main areas were manageable while the outer reaches were nearly empty."
   - question: "What about seasickness?"
     answer: "The bay is sheltered, so the water is usually calm. I did not experience any rough conditions on my cruise. If you are prone to motion sickness, the larger boats (junk-style) tend to be more stable than smaller vessels. Bring medication just in case, especially during the winter months when winds can pick up."
+  - question: "Is Ha Long Bay worth visiting?"
+    answer: "Ha Long Bay is genuinely one of Asia's great natural spectacles — nearly 2,000 limestone karsts rising from emerald water, UNESCO-listed since 1994, with an overnight cruise delivering one of the most memorable mornings in travel. The key is doing it right: overnight not day trip, reputable small-group cruise not the cheap party boats."
+  - question: "What is Ha Long Bay famous for?"
+    answer: "Ha Long Bay is famous for its nearly 2,000 limestone karst islands and pillars rising from the Gulf of Tonkin — a UNESCO World Heritage Site since 1994. Top experiences include Sung Sot Cave (Surprise Cave), kayaking through hidden lagoons, floating fishing villages, sunrise from the deck of a traditional junk, and the ethereal mist-shrouded mornings."
+  - question: "How much does a Ha Long Bay cruise cost?"
+    answer: "Budget 2-day/1-night cruise: $60–100/person. Mid-range: $120–200/person. Luxury: $300–600/person. All meals and activities (kayaking, cave tours) are typically included. Don't choose purely on price — the cheapest cruises serve pre-packaged food and crowd 40+ guests onto one boat. Read recent reviews carefully before booking."
 affiliatePicks:
   - name: "Indochina Junk 2-Day/1-Night Cruise"
     type: "tour"
@@ -86,6 +103,8 @@ contentStatus: 'published'
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/ha-long-bay-hero.mp4" />
 
 # Ha Long Bay: Where Dragons Descended
 

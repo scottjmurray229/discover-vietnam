@@ -44,6 +44,17 @@ highlights:
   - "Explore the Temple of Literature, Vietnam's first university"
   - "Sip egg coffee at a hidden lakeside cafe"
   - "Discover Ho Chi Minh Mausoleum and the Presidential Palace"
+scottTips:
+  - topic: "Logistics"
+    tip: "Noi Bai Airport is 25 km north. Take the 86 Express bus (45,000 VND/$2) or a Grab (250,000–350,000 VND/$10–14). Avoid airport taxis — they're unmetered and routinely overcharge. The Old Quarter is your base: everything within a 20-minute walk."
+  - topic: "Best Time"
+    tip: "October and November are ideal — cool, dry, and beautiful. March and April are also excellent. Avoid June–August (35°C+ humidity and monsoon rains). December–February can be surprisingly grey and cold — pack a light jacket."
+  - topic: "Getting Around"
+    tip: "Walk the Old Quarter. Use Grab for anything beyond walking distance ($1–2 across town). Cyclos are fun for a 30-minute Old Quarter tour (negotiate 100,000–150,000 VND before climbing in). Skip the motorbike rental in Hanoi — the traffic is genuinely chaotic."
+  - topic: "Money & Safety"
+    tip: "ATMs everywhere; withdraw VND for best rates. $1 = ~25,000 VND. Budget $30–60/day for solid comfort. Very safe city — main risks are motorbike traffic and pickpockets in crowded areas. Keep phone in front pocket."
+  - topic: "Local Culture"
+    tip: "Pho for breakfast is not a tourist thing — locals eat it at 6 AM. Egg coffee (ca phe trung) at Cafe Giang is a Hanoi institution since 1946. Hoan Kiem Lake at sunrise: hundreds of locals doing tai chi, jogging, and badminton. Dress modestly at temples and the Ho Chi Minh Mausoleum."
 gradientColors: "from-amber-600 to-red-800"
 relatedDestinations:
   - "ha-long-bay"
@@ -61,6 +72,12 @@ faqItems:
     answer: "June through August brings intense heat and humidity (35C+) plus heavy monsoon rains. January and February can be surprisingly cold and drizzly - I packed a light jacket on my winter visit and was grateful for it."
   - question: "Can I drink the tap water in Hanoi?"
     answer: "No. Always drink bottled or filtered water. Most hotels provide complimentary bottles, and refill stations are common. A 1.5L bottle costs about 10,000 VND ($0.40) at any convenience store."
+  - question: "Is Hanoi worth visiting?"
+    answer: "Hanoi is one of Southeast Asia's most rewarding capitals. It's the cultural and historical heart of Vietnam — the Old Quarter, the temples, the French colonial boulevards, and the street food scene are all world-class. Three days minimum; a week is better."
+  - question: "What is Hanoi famous for?"
+    answer: "Hanoi is famous for pho (the original — this is where it was born), the 36-street Old Quarter, Hoan Kiem Lake and Ngoc Son Temple, the Ho Chi Minh Mausoleum complex, the Temple of Literature (Vietnam's first university), water puppet theater, and egg coffee. It's also the base for day trips to Ha Long Bay, Ninh Binh, and Sapa."
+  - question: "How much does Hanoi cost per day?"
+    answer: "Budget travelers can get by on $20–30/day — guesthouses from $10–15, pho for $1–2, Grab rides for $1–2. Mid-range comfort runs $50–80/day with a good hotel and restaurant meals. ATMs are everywhere. $1 = approximately 25,000 VND."
 affiliatePicks:
   - name: "Hanoi La Siesta Hotel & Spa"
     type: "hotel"
@@ -86,6 +103,8 @@ lastVerified: 2026-02-27
 contentStatus: 'published'
 draft: false
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/hanoi-hero.mp4" />
 
 # Hanoi: The Soul of the North
 

@@ -57,12 +57,46 @@ faqItems:
     answer: "Two to three days is ideal for covering the main attractions — Crazy House, a waterfall, a coffee plantation tour, the night market, and Xuan Huong Lake. Add an extra day for canyoning, mountain biking, or exploring the countryside. I find three days to be the sweet spot before heading to the coast."
   - question: "Is Da Lat good for coffee lovers?"
     answer: "Da Lat is arguably the best destination in Vietnam for coffee lovers. The Lam Dong province surrounding the city produces a significant portion of Vietnam's robusta and arabica beans. You can tour working plantations, participate in cupping sessions, and visit roasteries where single-origin beans are processed. The café scene in the city center is exceptional."
-affiliatePicks: []
+  - question: "Is Da Lat safe for tourists?"
+    answer: "Da Lat is one of Vietnam's safest cities. It has a large university population, a strong local tourism culture, and essentially zero tourist crime reputation. The main practical concern is motorbike safety on mountain roads — some switchbacks can be slippery in the rain. Visibility can drop fast in highland mist; ride cautiously at night."
+  - question: "What is Da Lat famous for?"
+    answer: "Da Lat is famous for its cool highland climate (1,500m elevation), French colonial architecture, the surrealist Hang Nga Crazy House designed by a Vietnamese architect trained in Moscow, world-class coffee plantations, waterfalls, flower gardens, and strawberry farms. It's often called Vietnam's 'City of Eternal Spring.'"
+  - question: "Is Da Lat worth visiting?"
+    answer: "Absolutely — Da Lat is one of Vietnam's most distinctive destinations precisely because it feels nothing like the rest of the country. The cool air, the pine forests, the café culture, and the highland produce (strawberries, artichokes, avocados) create an experience that stands completely apart from the beach and city destinations. Plan at least 2–3 days."
+scottTips:
+  - topic: "Logistics"
+    tip: "Fly Lien Khuong Airport (30 km south, taxi 150,000 VND/$6) or bus from HCMC (6–7 hours, from 200,000 VND/$8). Most attractions are spread around the city — rent a motorbike ($5–8/day) or hire a local 'Easy Rider' guide who drives while you ride pillion."
+  - topic: "Best Time"
+    tip: "Da Lat is pleasant year-round (15–25°C). November through March is the coolest and driest. The flower festival happens every 2 years in December. Rainy season (May–October) brings afternoon showers but lush landscapes and fewer tourists."
+  - topic: "Getting Around"
+    tip: "The city center is hilly and not great for walking between sights. Grab works well. 'Easy Rider' motorbike guides ($20–30/day) are excellent — they drive you to all the highland sights while explaining the agriculture, coffee culture, and history. Best way to see the countryside."
+  - topic: "Money & Safety"
+    tip: "Da Lat is one of Vietnam's most affordable highland destinations — $18–45/day for comfort. Very safe, with a large student population and minimal tourist crime. ATMs in the central market area. Most coffee shops accept card."
+  - topic: "Local Culture"
+    tip: "Da Lat is Vietnam's strawberry capital — eat them fresh at the market (5,000 VND/$0.20/100g). The coffee culture here is exceptional: try single-origin arabica from the Cau Dat plantation. The night market is the social hub — go hungry."
+affiliatePicks:
+  - name: "Dalat Palace Heritage Hotel"
+    type: "hotel"
+    price: "$80–150/night"
+    personalNote: "A 1922 French colonial hotel overlooking Xuan Huong Lake — the most atmospheric stay in Da Lat. The grounds, the vintage interiors, and the lake views justify the price. Request a lake-facing room."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=dalat"
+  - name: "Da Lat Easy Rider Highland Tour"
+    type: "tour"
+    price: "$20–35/day"
+    personalNote: "A local Easy Rider guide on a motorbike — you ride pillion while they take you to Elephant Falls, the Crazy House, a coffee plantation, a silk worm farm, and whatever else you want. The best way to see the countryside and get honest local context."
+    affiliateUrl: "https://www.getyourguide.com/dalat?partner_id=IVN6IQ3"
+  - name: "Da Lat Canyoning Adventure"
+    type: "activity"
+    price: "$35–50/person"
+    personalNote: "Rappelling down waterfalls in the pine forests outside Da Lat — one of the most popular adventure activities in Vietnam. Suitable for beginners with the right guide. The Datanla waterfall canyoning is the classic choice."
+    affiliateUrl: "https://www.viator.com/dalat?pid=P00290009"
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/dalat-hero.mp4" />
 
 ## Why Is Da Lat Vietnam's Most Surprising Destination?
 

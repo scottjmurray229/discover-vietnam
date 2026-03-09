@@ -44,6 +44,17 @@ highlights:
   - "Eat your weight in banh mi and com tam"
   - "Explore Cho Lon, the largest Chinatown in Southeast Asia"
   - "People-watch from a sidewalk cafe on Bui Vien"
+scottTips:
+  - topic: "Logistics"
+    tip: "Tan Son Nhat Airport is 7 km from District 1. Take the 109 bus (20,000 VND/$0.80) or Grab (80,000–150,000 VND/$3–6). Avoid the metered taxi queue outside arrivals — Grab is cheaper and transparent. Download Grab before landing."
+  - topic: "Best Time"
+    tip: "December through March is the dry season and ideal. April and May are hot and dry. June through November brings afternoon thunderstorms daily — not a deal-breaker but plan outdoor activities for mornings."
+  - topic: "Getting Around"
+    tip: "Grab everywhere in HCMC — safe, cheap, and the driver already knows the address. Walking is fine in District 1's core. If you want the authentic experience, hire a Grab Bike (motorbike) — faster and cheaper for short hops. Learn to cross roads: walk slowly and steadily, let traffic flow around you."
+  - topic: "Money & Safety"
+    tip: "$1 = ~25,000 VND. Budget $30–60/day comfortably. Very safe for a city this size — petty theft exists (phone snatching from motorbikes, so keep bags on your inside shoulder). Safe at night; just use common sense. ATMs everywhere in District 1."
+  - topic: "Local Culture"
+    tip: "Locals call it Saigon, not HCMC — either is fine. Com tam (broken rice) is the quintessential local breakfast. Ben Thanh Market is touristy but the surrounding streets have real local food stalls. Bui Vien (Backpacker Street) is worth one night of chaotic fun."
 gradientColors: "from-orange-500 to-rose-600"
 relatedDestinations:
   - "can-tho"
@@ -61,6 +72,12 @@ faqItems:
     answer: "Absolutely essential. I booked a half-day tour and it was one of the most impactful experiences of my entire trip. Crawling through the tunnels (widened for tourists but still claustrophobic) gives you a visceral understanding of the war that no museum can match. Book a small-group tour for a better experience."
   - question: "What is the best area to stay in?"
     answer: "District 1 is the most convenient for first-time visitors - walkable, packed with restaurants and sights, and well-connected by Grab. District 3 is my personal favorite for a more local, less touristy feel with excellent street food. Thao Dien (District 2) is great for a modern, expat-friendly vibe."
+  - question: "Is Ho Chi Minh City safe for tourists?"
+    answer: "HCMC is generally very safe. The primary risk is motorbike snatch-theft — keep bags on your inside shoulder when walking on busy streets, and don't use your phone while standing near the road. Violent crime against tourists is rare. The city is well-lit and busy until late in the main tourist areas."
+  - question: "What is Ho Chi Minh City famous for?"
+    answer: "HCMC (Saigon) is famous for the Cu Chi Tunnels (the underground network used during the Vietnam War), the War Remnants Museum, Ben Thanh Market, the French colonial Central Post Office and Notre-Dame Cathedral, the rooftop bar scene, and its extraordinary street food — especially com tam (broken rice) and banh mi."
+  - question: "How much does Ho Chi Minh City cost per day?"
+    answer: "Budget travelers: $15–25/day in guesthouses and street food. Mid-range: $40–70/day with a hotel, restaurant meals, and a day tour. The city is extremely affordable — pho costs $1–2, a Grab ride across the city costs $2–4, and a rooftop cocktail rarely exceeds $5–8."
 affiliatePicks:
   - name: "Liberty Central Saigon Citypoint"
     type: "hotel"
@@ -86,6 +103,8 @@ lastVerified: 2026-02-27
 contentStatus: 'published'
 draft: false
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/ho-chi-minh-city-hero.mp4" />
 
 # Ho Chi Minh City: The City That Never Sleeps
 

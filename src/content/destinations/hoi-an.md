@@ -47,7 +47,33 @@ relatedDestinations:
   - "da-nang"
   - "hue"
   - "ho-chi-minh-city"
-affiliatePicks: []
+scottTips:
+  - topic: "Logistics"
+    tip: "Fly into Da Nang (30 min Grab, ~200,000 VND/$8). The Ancient Town itself is walkable — rent a bicycle ($1.20/day) to reach An Bang Beach and the surrounding villages. No Grab inside the ancient core; on foot is the rule."
+  - topic: "Best Time"
+    tip: "February through August is ideal. October and November bring serious flooding risk — the Ancient Town can flood knee-to-waist deep during typhoon season. If you're here in October, elevate your bags and embrace it."
+  - topic: "Tailoring"
+    tip: "Budget 2 days minimum for tailoring turnaround. Reputable shops: Yaly Couture, A Dong Silk, Bebe. Bring detailed reference photos. Always insist on two fittings — never one. Custom suit from $100, dress from $40."
+  - topic: "Money & Safety"
+    tip: "Hoi An is extremely safe. ATMs on the main tourist streets. Many shops accept card; street food is cash only. Budget $25–55/day for comfort. Ancient Town ticket: 120,000 VND ($4.80) for 5 heritage site entries."
+  - topic: "Local Culture"
+    tip: "Full moon nights (14th of lunar month) the Ancient Town goes lantern-only — electric lights off, candles everywhere, floating lanterns on the river. One of the most beautiful events in Southeast Asia. Check a lunar calendar before booking your dates."
+affiliatePicks:
+  - name: "Hoi An Eco Lodge"
+    type: "hotel"
+    price: "$48–90/night"
+    personalNote: "Rooms in rice-paddy surroundings with a pool overlooking the fields and free bicycle rental. 10 minutes by bike to the Ancient Town — close enough, far enough from the tourist density. My personal favorite stay in Hoi An."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=hoi+an"
+  - name: "Hoi An Cooking Class with Market Tour"
+    type: "tour"
+    price: "$24–40/person"
+    personalNote: "Half-day class starting with a boat to Tra Que herb village, then an outdoor kitchen session making cao lau, white rose dumplings, and banh xeo. The cooking class I did here was the best in Vietnam — and I did several."
+    affiliateUrl: "https://www.getyourguide.com/hoi-an-l551/?partner_id=IVN6IQ3"
+  - name: "Cham Islands Snorkeling Day Trip"
+    type: "tour"
+    price: "$30–50/person"
+    personalNote: "The Cham Islands are a 15-minute speedboat from Hoi An — clear water, good coral, and far fewer people than you'd expect. Available May through August when the weather cooperates. A perfect addition to a 4+ day stay."
+    affiliateUrl: "https://www.viator.com/hoi-an?pid=P00290009"
 faqItems:
   - question: "How many days do I need in Hoi An?"
     answer: "Three days is the sweet spot. Day one for the Ancient Town and tailoring orders, day two for a cooking class and beach time, day three for exploring by bicycle and picking up your finished clothes. Four to five days allows for deeper exploration, day trips, and a more relaxed pace."
@@ -61,11 +87,17 @@ faqItems:
     answer: "Private car transfer takes about 3 hours via the scenic Hai Van Pass and costs 800,000-1,200,000 VND ($32-48). Buses run regularly for about 120,000 VND ($5). The train from Da Nang (30 minutes from Hoi An) to Hue is scenic and costs 70,000-200,000 VND ($3-8)."
   - question: "Should I get clothes tailored in Hoi An?"
     answer: "Absolutely. Hoi An is world-famous for its tailoring shops, with hundreds of tailors able to produce custom suits, dresses, and coats in 24-48 hours. Quality varies widely — stick to reputable shops, do your research, and always get at least two fittings. A custom suit starts around 2,500,000 VND ($100)."
+  - question: "Is Hoi An safe?"
+    answer: "Hoi An is extremely safe. Violent crime is essentially nonexistent. The main concerns are flood risk during typhoon season (October-November), sunburn at An Bang Beach, and light-fingered pickpockets in the night market crowd. Keep your phone in a front pocket and you'll be fine."
+  - question: "What is Hoi An famous for?"
+    answer: "Hoi An is famous for its UNESCO-listed Ancient Town of yellow-painted shophouses and lantern-draped streets, its world-class tailoring industry (400+ shops offering 24-hour custom clothing), its distinct local cuisine (cao lau, white rose dumplings, com ga), and the monthly Full Moon Lantern Festival."
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/hoi-an-hero.mp4" />
 
 ## Why Is Hoi An Vietnam's Most Magical Town?
 

@@ -46,7 +46,33 @@ gradientColors: "from-cyan-500 via-blue-600 to-indigo-800"
 relatedDestinations:
   - "hoi-an"
   - "hue"
-affiliatePicks: []
+scottTips:
+  - topic: "Logistics"
+    tip: "Da Nang airport is 3 km from the city center — a Grab ride costs 50,000–80,000 VND ($2–3). The city is a great hub: Hoi An is 30 min south, Hue is 2 hours north. Rent a motorbike ($5–8/day) or use Grab for maximum flexibility."
+  - topic: "Best Time"
+    tip: "March through August is prime — warm, dry, great for beaches. September through November is typhoon season with genuine flood risk. December through February is cooler and drizzly but still fine for non-beach activities."
+  - topic: "Getting Around"
+    tip: "Grab is cheap and reliable throughout the city. For the Marble Mountains and Ba Na Hills, join a day tour or hire a driver (~400,000 VND/$16 half-day). Dragon Bridge fire show is Saturdays and Sundays at 9 PM — walk or Grab to the bridge."
+  - topic: "Money & Safety"
+    tip: "Da Nang is very affordable ($20–50/day mid-range). ATMs on every main street. One of Vietnam's safest cities — minimal crime, good infrastructure, English spoken at most restaurants and hotels near My Khe Beach."
+  - topic: "Local Culture"
+    tip: "Central Vietnam food is distinct from north and south — banh mi here has fluffier bread, mi quang is the local noodle dish (turmeric broth, thick noodles, peanuts), and bun cha ca (fish cake noodle soup) is a morning staple. My Khe locals are up exercising at 5 AM."
+affiliatePicks:
+  - name: "Pullman Da Nang Beach Resort"
+    type: "hotel"
+    price: "$80–150/night"
+    personalNote: "Beachfront on My Khe with a spectacular pool right on the sand. If you're splurging anywhere in Da Nang, this is where. The beach access alone is worth it."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=da+nang"
+  - name: "Marble Mountains & Hoi An Day Tour"
+    type: "tour"
+    price: "$25–40/person"
+    personalNote: "The classic Da Nang combo — Marble Mountains in the morning, Hoi An Ancient Town in the afternoon. Efficient and well worth the guided context for both sites."
+    affiliateUrl: "https://www.getyourguide.com/da-nang?partner_id=IVN6IQ3"
+  - name: "Ba Na Hills Full Day Tour"
+    type: "tour"
+    price: "$30–50/person including cable car"
+    personalNote: "The Golden Bridge held by giant stone hands is genuinely surreal and photogenic. Ba Na Hills is unashamedly touristy but the cable car ride and the views make it worth one day. Book ahead in peak season."
+    affiliateUrl: "https://www.viator.com/da-nang?pid=P00290009"
 faqItems:
   - question: "Is Da Nang worth visiting or should I just go to Hoi An?"
     answer: "Da Nang absolutely deserves its own time. The city offers world-class beaches, the Marble Mountains, the Dragon Bridge, and Ba Na Hills — none of which are in Hoi An. Ideally, split your time: 2-3 days in Da Nang, 2-3 days in Hoi An. They're only 30 minutes apart."
@@ -58,11 +84,19 @@ faqItems:
     answer: "Excellent. My Khe Beach has gentle waves and lifeguards, the city is clean and well-organized, Ba Na Hills is essentially a family theme park, and the food scene is approachable even for picky eaters. It's one of Vietnam's most family-friendly destinations."
   - question: "Can I use Da Nang as a base for visiting Hue?"
     answer: "Yes. Hue is about 2 hours north by car or train. The drive over the Hai Van Pass is one of Vietnam's most scenic routes. Day trips work but are long — consider an overnight in Hue instead."
+  - question: "Is Da Nang safe for solo travelers?"
+    answer: "Da Nang is one of Vietnam's safest cities for solo travel. The beach area is well-lit and busy until late, traffic is far more manageable than Hanoi or HCMC, and the local population is generally helpful. Standard precautions apply — use Grab rather than unlicensed taxis, keep valuables secure."
+  - question: "What is Da Nang famous for?"
+    answer: "Da Nang is famous for My Khe Beach, the Dragon Bridge (which breathes fire on weekend nights), the Marble Mountains with their cave temples and panoramic views, and the Golden Bridge at Ba Na Hills. It's also the gateway to Hoi An (30 minutes south) and Hue (2 hours north)."
+  - question: "How much does Da Nang cost per day?"
+    answer: "Da Nang is very affordable. Budget travelers can manage $20–25/day in a guesthouse near the beach eating local food. Mid-range comfort — beach hotel, restaurant meals, a day tour — runs $50–80/day. Ba Na Hills adds $30–50 if you go."
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/da-nang-hero.mp4" />
 
 ## Why Is Da Nang Central Vietnam's Rising Star?
 

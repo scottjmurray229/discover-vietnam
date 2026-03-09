@@ -60,12 +60,44 @@ faqItems:
     answer: "Mui Ne has a split personality. The main resort strip along Nguyen Dinh Chieu road is heavily developed with hotels and restaurants catering primarily to Russian and Asian tourists. However, the fishing village, the sand dunes, the Fairy Stream, and the surrounding countryside remain authentic and unhurried. Venturing beyond the resort strip reveals a Mui Ne that is still very much a working coastal town."
   - question: "Can I combine Mui Ne with Da Lat?"
     answer: "Absolutely — Mui Ne to Da Lat is one of Vietnam's most popular travel connections. The mountain road between the two takes about 4 hours by bus and climbs from sea level to 1,500 meters through dramatic scenery. Phuong Trang buses run this route multiple times daily for about 120,000–160,000 VND ($5–$6.50 USD). Many travelers visit Mui Ne for the beach and dunes, then head to Da Lat for the highland cool."
-affiliatePicks: []
+  - question: "Is Mui Ne safe for solo travelers?"
+    answer: "Mui Ne is safe. The resort strip is well-lit and busy, the local community is friendly, and there's essentially no tourist-crime reputation. Main practical concerns: motorbike caution (sand drifts on the road near dunes), beach swimming (no lifeguards outside resort areas, surf can be rough), and standard food hygiene at street stalls."
+  - question: "What is Mui Ne famous for?"
+    answer: "Mui Ne is famous for its dramatic red and white sand dunes (Vietnam's only desert-like landscape), world-class kitesurfing conditions from November through March, the Fairy Stream canyon, the traditional fishing village with its distinctive round coracle boats, and dragon fruit farms that line the main road into town."
+scottTips:
+  - topic: "Logistics"
+    tip: "Bus from HCMC takes 4.5 hours with Phuong Trang. No airport — nearest is Cam Ranh (Nha Trang), 4 hours north. The resort strip is 10 km long; rent a motorbike ($5–8/day) or use Grab to get between the dunes, fishing village, and beach."
+  - topic: "Best Time"
+    tip: "November through April is the sweet spot — dry, warm, and windy enough for kitesurfing. The red dunes at sunrise and white dunes at dusk are the signature experiences. Avoid visiting the dunes midday — sand temperature exceeds 60°C."
+  - topic: "Getting Around"
+    tip: "The entire strip runs along a single road (Nguyen Dinh Chieu). Motorbike is best for the dunes (25 min to white dunes). Grab works but can be slow — book in advance. Taxis are plentiful but negotiate fares before getting in."
+  - topic: "Money & Safety"
+    tip: "Budget $18–45/day. Mui Ne is safe but the Russian-heavy resort strip means some overpricing in tourist areas. Eat at local restaurants off the main strip for half the price. ATMs near the main market intersection."
+  - topic: "Local Culture"
+    tip: "The Mui Ne fishing village is an authentic working community — visit at dawn when the basket boats return with the catch. Dragon fruit grows everywhere here — buy from roadside stands for 10,000–20,000 VND. The Fairy Stream walk is genuinely surreal."
+affiliatePicks:
+  - name: "Mia Resort Mui Ne"
+    type: "hotel"
+    price: "$60–120/night"
+    personalNote: "Excellent beachfront resort with a large pool, comfortable bungalows, and one of the best restaurant/bar setups on the strip. Quieter end of the beach, which is a plus."
+    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=mui+ne"
+  - name: "Mui Ne Sand Dunes Sunrise Jeep Tour"
+    type: "tour"
+    price: "$15–25/person"
+    personalNote: "Jeep to the white dunes for sunrise, then the red dunes, Fairy Stream, and fishing village in one morning. The jeep ride across the dunes is half the fun. Book through your hotel the night before."
+    affiliateUrl: "https://www.getyourguide.com/mui-ne?partner_id=IVN6IQ3"
+  - name: "Kitesurfing Beginner Course"
+    type: "activity"
+    price: "$120–150 for 6-hour course"
+    personalNote: "Mui Ne is one of Asia's best kitesurf learning spots — consistent side-onshore wind, warm water, shallow sandy beach. IKO-certified instruction from multiple schools along the strip. November through March is the best wind window."
+    affiliateUrl: "https://www.viator.com/mui-ne?pid=P00290009"
 lastVerified: 2026-02-27
 contentStatus: "published"
 draft: false
 fmContentType: "destination"
 ---
+
+<ImmersiveBreak videoSrc="/videos/destinations/mui-ne-hero.mp4" />
 
 ## Why Should You Visit Mui Ne Instead of Vietnam's More Famous Beaches?
 
