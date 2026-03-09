@@ -7,6 +7,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import scottImg from '../../images/scott-murray.jpg';
+import jeniceImg from '../../images/jenice-murray.jpg';
 ---
 
 <BaseLayout
@@ -93,7 +94,7 @@ import scottImg from '../../images/scott-murray.jpg';
     <div class="section-eyebrow">Meet the Team</div>
     <h2 class="section-title">The People Behind the Pages</h2>
   </div>
-  <div class="profiles-grid profiles-grid--single">
+  <div class="profiles-grid">
     <div class="profile-card reveal">
       <div class="profile-banner scott"><div class="profile-banner-bg"></div></div>
       <Image src={scottImg} alt="Scott Murray" class="profile-avatar scott-av" width={96} height={96} format="webp" loading="lazy" />
@@ -105,6 +106,20 @@ import scottImg from '../../images/scott-murray.jpg';
           <div class="profile-stat"><div class="profile-stat-num">20+</div><div class="profile-stat-label">Years visiting VN</div></div>
           <div class="profile-stat"><div class="profile-stat-num">20+</div><div class="profile-stat-label">Trips &amp; counting</div></div>
           <div class="profile-stat"><div class="profile-stat-num">40+</div><div class="profile-stat-label">Countries traveled</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-card reveal">
+      <div class="profile-banner jenice"><div class="profile-banner-bg"></div></div>
+      <Image src={jeniceImg} alt="Jenice Murray" class="profile-avatar jenice-av" width={96} height={96} format="webp" loading="lazy" />
+      <div class="profile-body">
+        <div class="profile-name">Jenice</div>
+        <div class="profile-role">Co-author &middot; Travel Photographer &middot; The Local Perspective</div>
+        <p class="profile-bio">Filipina from Angeles City, Pampanga &mdash; grew up travelling within Southeast Asia, and the region has always felt like home. Has visited Vietnam 12+ times and considers Hoi An her favourite city in the entire region. Speaks enough Vietnamese to navigate Hanoi's markets and taxis, which she considers her superpower. Her grandmother's cooking used many of the same herbs found in Vietnamese cuisine &mdash; coriander, mint, fish sauce &mdash; which made Vietnam feel like coming home the first time she visited. Prefers the north for the food and the culture. Known for finding the best street food in any city within 30 minutes of arrival.</p>
+        <div class="profile-stats">
+          <div class="profile-stat"><div class="profile-stat-num">12+</div><div class="profile-stat-label">Vietnam visits</div></div>
+          <div class="profile-stat"><div class="profile-stat-num">Hoi An</div><div class="profile-stat-label">Favourite city</div></div>
+          <div class="profile-stat"><div class="profile-stat-num">Pampanga</div><div class="profile-stat-label">Hometown</div></div>
         </div>
       </div>
     </div>
@@ -447,7 +462,9 @@ import scottImg from '../../images/scott-murray.jpg';
   .profile-banner.scott {
     background: linear-gradient(135deg, #0c3547 0%, #0D7377 40%, #14B8A6 70%, #38D9A9 100%);
   }
-  /* reserve for future team member banner */
+  .profile-banner.jenice {
+    background: linear-gradient(135deg, #78350F 0%, #D4A574 40%, #FBBF24 70%, #FDE68A 100%);
+  }
   .profile-banner::after {
     content: '';
     position: absolute;
@@ -471,7 +488,7 @@ import scottImg from '../../images/scott-murray.jpg';
   }
   .profile-card:hover .profile-avatar { transform: scale(1.08); }
   .profile-avatar.scott-av { background: linear-gradient(135deg, #0D7377, #14B8A6); }
-  /* reserve for future team member avatar */
+  .profile-avatar.jenice-av { background: linear-gradient(135deg, #D4A574, #FBBF24); }
   .profile-body { padding: 20px 32px 32px; text-align: center; }
   .profile-name {
     font-family: var(--font-serif);
