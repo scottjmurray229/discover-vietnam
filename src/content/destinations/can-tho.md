@@ -3,6 +3,7 @@ title: "Can Tho"
 description: "Experience Can Tho's Cai Rang floating market, Mekong Delta boat rides, fruit orchards, and riverside culture in Vietnam's largest delta city."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Cai Rang floating market vendors on the Mekong at dawn, Can Tho, Vietnam"
 tagline: "Heartbeat of the Mekong Delta"
 region: "south"
 bestMonths: ["November", "December", "January", "February", "March", "April"]

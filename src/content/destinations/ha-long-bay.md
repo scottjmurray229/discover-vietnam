@@ -3,6 +3,7 @@ title: "Ha Long Bay"
 description: "A complete travel guide to Ha Long Bay, Vietnam's crown jewel of natural beauty where thousands of limestone karsts rise from emerald waters, creating one of the most awe-inspiring seascapes on Earth."
 heroVideo: ''
 heroImage: ''
+heroAlt: "Limestone karst islands and emerald water of Ha Long Bay at sunrise, Vietnam"
 tagline: "Where Dragons Descended"
 region: 'north'
 bestMonths: ['October', 'November', 'March', 'April', 'May']

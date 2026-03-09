@@ -15,6 +15,7 @@ interface Props {
     description?: string;
     heroVideo?: string;
     heroImage?: string;
+    heroAlt?: string;
     tagline?: string;
     region: string;
     bestMonths?: string[];
@@ -162,6 +163,7 @@ const gradientVar = `var(--gradient-${gradientKey}, var(--gradient-homepage))`;
         playsinline
         preload="metadata"
         poster={frontmatter.heroImage || undefined}
+        aria-label={frontmatter.heroAlt || `${frontmatter.title} travel video`}
       >
         <source src={frontmatter.heroVideo} type="video/mp4" />
       </video>

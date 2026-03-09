@@ -3,6 +3,7 @@ title: "Ho Chi Minh City"
 description: "A complete travel guide to Ho Chi Minh City (Saigon), Vietnam's electric southern metropolis where skyscrapers tower over ancient pagodas, street food sizzles on every corner, and the energy never stops."
 heroVideo: ''
 heroImage: ''
+heroAlt: "Ben Thanh Market clock facade and Reunification Palace, Ho Chi Minh City, Vietnam"
 tagline: "The City That Never Sleeps"
 region: 'south'
 bestMonths: ['December', 'January', 'February', 'March']

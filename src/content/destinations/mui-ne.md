@@ -3,6 +3,7 @@ title: "Mui Ne"
 description: "Discover Mui Ne's red and white sand dunes, kitesurfing scene, Fairy Stream, fishing village, and dragon fruit farms in this southern Vietnam beach town."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Red sand dunes and kite surfers on Mui Ne beach, Vietnam"
 tagline: "Dunes, Wind, and Golden Light"
 region: "south"
 bestMonths: ["November", "December", "January", "February", "March", "April"]

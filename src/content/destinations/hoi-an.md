@@ -3,6 +3,7 @@ title: "Hoi An"
 description: "Discover Hoi An's lantern-lit Ancient Town, world-class tailoring, and golden beaches. A complete guide to Vietnam's most enchanting UNESCO city."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Japanese Covered Bridge lanterns reflected in Thu Bon River at night, Hoi An, Vietnam"
 tagline: "Lanterns Painting the River Gold"
 region: "central"
 bestMonths: ["February", "March", "April", "May", "June", "July", "August"]

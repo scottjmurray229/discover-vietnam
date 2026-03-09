@@ -3,6 +3,7 @@ title: "Con Dao"
 description: "Vietnam's most pristine island archipelago — sixteen islands where sea turtles still nest on undeveloped beaches, coral reefs teem with marine life, and the haunting colonial prison complex offers one of Southeast Asia's most moving historical experiences. Con Dao was Vietnam's Devil's Island for nearly a century under both French and American-backed regimes, and the prison history is genuinely sobering. Today the islands are a national park with some of the best diving in Vietnam, empty white-sand beaches, and the kind of natural beauty that's already disappearing elsewhere."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Con Son Bay mangrove-lined beach and tiger cage prison history, Con Dao, Vietnam"
 tagline: "Vietnam's Last Pristine Archipelago"
 region: "south"
 bestMonths:

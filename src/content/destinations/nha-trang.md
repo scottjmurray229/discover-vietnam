@@ -3,6 +3,7 @@ title: "Nha Trang"
 description: "A complete travel guide to Nha Trang, Vietnam's premier beach resort city where turquoise waters meet a bustling waterfront, island-hopping tours depart daily, and the nightlife pulses until dawn."
 heroVideo: ''
 heroImage: ''
+heroAlt: "Hon Chong rock formations and turquoise Nha Trang Bay, Vietnam"
 tagline: "Vietnam's Riviera"
 region: 'south'
 bestMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']

@@ -3,6 +3,7 @@ title: "Ha Giang"
 description: "The most dramatic landscape in Vietnam — limestone karst peaks, terraced rice paddies carved into near-vertical slopes, and a winding mountain loop that has no equal in Southeast Asia. Ha Giang is where Vietnam's extreme north reveals itself in full, with Hmong and Dao hill tribe villages perched above cloud-level valleys. The Dong Van Karst Plateau is a UNESCO Global Geopark, and the Mã Pí Lèng Pass drops 1,000 meters to the turquoise Nho Que River in a single vertiginous cliff road."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Ma Pi Leng Pass serpentine road above the Nho Que River gorge, Ha Giang, Vietnam"
 tagline: "Vietnam's Last Great Frontier"
 region: "north"
 bestMonths:

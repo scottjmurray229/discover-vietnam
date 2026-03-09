@@ -3,6 +3,7 @@ title: "Ninh Binh"
 description: "Plan your Ninh Binh trip with tips on Trang An UNESCO site, Tam Coc boat rides, Bai Dinh Pagoda, and Vietnam's stunning limestone karst landscapes."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Trang An limestone karst boat tour weaving through rice paddies, Ninh Binh, Vietnam"
 tagline: "Ha Long Bay on Land"
 region: "north"
 bestMonths: ["September", "October", "November", "March", "April", "May"]

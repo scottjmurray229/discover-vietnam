@@ -3,6 +3,7 @@ title: "Da Lat"
 description: "Explore Da Lat's cool highlands with tips on Crazy House, coffee plantations, flower gardens, waterfalls, and the best of Vietnam's mountain retreat."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Crazy House Hằng Nga guesthouse tree-shaped rooms and Valley of Love, Dalat, Vietnam"
 tagline: "Cool Air and Eternal Spring"
 region: "south"
 bestMonths: ["November", "December", "January", "February", "March"]

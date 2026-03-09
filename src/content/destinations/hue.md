@@ -3,6 +3,7 @@ title: "Hue"
 description: "Explore Hue's Imperial Citadel, royal tombs, and refined cuisine along the Perfume River. A complete guide to Vietnam's ancient imperial capital."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Thien Mu Pagoda seven-story tower reflected on the Perfume River, Hue, Vietnam"
 tagline: "Echoes of Emperors and Empires"
 region: "central"
 bestMonths: ["February", "March", "April", "May", "June", "July"]

@@ -3,6 +3,7 @@ title: "Sapa"
 description: "A complete travel guide to Sapa, the misty mountain town in Vietnam's far north where terraced rice paddies cascade down valleys, ethnic minority villages dot the hillsides, and the air is cool and clean."
 heroVideo: ''
 heroImage: ''
+heroAlt: "Fansipan cable car and Muong Hoa Valley terraced rice fields in fog, Sapa, Vietnam"
 tagline: "Terraces in the Clouds"
 region: 'north'
 bestMonths: ['March', 'April', 'May', 'September', 'October']

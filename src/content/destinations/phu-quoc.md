@@ -3,6 +3,7 @@ title: "Phu Quoc"
 description: "Discover Phu Quoc Island with tips on Long Beach, national park treks, night markets, snorkeling, and fish sauce factories in Vietnam's island paradise."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Sao Beach powder sand and fishing village at dusk, Phu Quoc Island, Vietnam"
 tagline: "Vietnam's Emerald Island Escape"
 region: "south"
 bestMonths: ["November", "December", "January", "February", "March", "April"]

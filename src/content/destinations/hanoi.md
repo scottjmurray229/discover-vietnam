@@ -3,6 +3,7 @@ title: "Hanoi"
 description: "A comprehensive travel guide to Hanoi, Vietnam's ancient capital where centuries-old temples stand alongside French colonial boulevards and the aroma of pho drifts through narrow Old Quarter alleyways."
 heroVideo: ''
 heroImage: ''
+heroAlt: "Hoan Kiem Lake turtle tower and willow trees at the heart of Hanoi, Vietnam"
 tagline: "The Soul of the North"
 region: 'north'
 bestMonths: ['October', 'November', 'March', 'April']

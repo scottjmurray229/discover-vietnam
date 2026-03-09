@@ -3,6 +3,7 @@ title: "Da Nang"
 description: "Explore Da Nang's Dragon Bridge, Marble Mountains, and golden beaches. A complete guide to central Vietnam's most modern coastal city."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Dragon Bridge breathing fire at night along the Han River, Da Nang, Vietnam"
 tagline: "Where Mountains Meet the Sea"
 region: "central"
 bestMonths: ["March", "April", "May", "June", "July", "August"]

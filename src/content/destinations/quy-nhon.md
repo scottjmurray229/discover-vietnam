@@ -3,6 +3,7 @@ title: "Quy Nhon"
 description: "Vietnam's most underrated beach city — where empty white-sand bays meet ancient Cham tower ruins and a seafood culture so good that Vietnamese food lovers travel here specifically to eat. Quy Nhon sits on a natural bay on the South Central Coast, far enough off the tourist trail that you'll share beaches with local families rather than backpacker crowds. The towers of Banh It and Twin Towers are some of the finest surviving Cham architecture in Vietnam, and the ghost town islands of Ky Co Beach are a forty-minute boat ride from town."
 heroVideo: ""
 heroImage: ""
+heroAlt: "Cham Towers of Banh It and pristine white sand beach, Quy Nhon, Vietnam"
 tagline: "Vietnam's Secret Coast"
 region: "central"
 bestMonths:
