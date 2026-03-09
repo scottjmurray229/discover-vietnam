@@ -252,7 +252,7 @@ export async function GET(context: APIContext): Promise<Response> {
 
   </div>
   <div style="padding:12px 24px;text-align:center;font-size:11px;color:#484f58;border-top:1px solid #21262d;">
-    Claude Haiku 4.5 &middot; <a href="https://discovervietnam.info/api/admin/stats?key=${key}" style="color:#0D7377;text-decoration:none;">Full Dashboard</a>
+    Claude Haiku 4.5 &middot; <span>Full Dashboard: discovervietnam.info/api/admin/stats</span>
   </div>
 </div>
 </body></html>`;
