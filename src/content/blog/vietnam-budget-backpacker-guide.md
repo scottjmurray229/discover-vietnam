@@ -2,6 +2,7 @@
 title: "Vietnam Budget Backpacker Guide 2026: $30/Day Is Very Comfortable"
 description: "Real costs, honest advice, and a tested route for backpacking Vietnam on a budget — from Hanoi's Old Quarter to the Mekong Delta."
 pubDate: 2026-03-08
+dateModified: 2026-03-08
 category: "practical"
 author: "Scott Murray"
 tags: ["budget", "practical", "vietnam", "backpacking"]

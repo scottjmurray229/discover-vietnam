@@ -2,6 +2,7 @@
 title: "Hoi An Tailor Guide 2026: What to Buy, What to Avoid, and Which Shops to Trust"
 description: "A practical guide to getting clothes tailored in Hoi An — how to choose a shop, what to order, how many fittings you need, and what the real prices are."
 pubDate: 2026-03-08
+dateModified: 2026-03-08
 category: "practical"
 author: "Scott Murray"
 tags: ["hoi-an", "shopping", "practical", "vietnam"]

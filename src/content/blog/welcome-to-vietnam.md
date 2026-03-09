@@ -2,6 +2,7 @@
 title: "Welcome to Discover Vietnam"
 description: "Introducing Discover Vietnam — honest travel guides with real prices, tested itineraries, and local tips from an American exploring Vietnam."
 pubDate: 2026-02-27
+dateModified: 2026-03-08
 category: "practical"
 author: "Scott Murray"
 draft: false

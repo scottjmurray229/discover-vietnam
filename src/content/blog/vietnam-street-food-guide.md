@@ -2,6 +2,7 @@
 title: "Vietnam Street Food Guide: 15 Dishes You Must Eat and Where to Find Them"
 description: "The essential guide to Vietnamese street food — what each dish is, what it costs, and where in Vietnam to find the best version."
 pubDate: 2026-03-08
+dateModified: 2026-03-08
 category: "food"
 author: "Scott Murray"
 tags: ["food", "vietnam", "street-food", "practical"]

@@ -16,6 +16,7 @@ interface Props {
     category?: string;
     relatedDestinations?: string[];
     readingTime?: number;
+    dateModified?: Date;
   };
   locale?: 'en' | 'vi';
 }
@@ -113,6 +114,34 @@ const pubDateFormatted = new Date(frontmatter.pubDate).toLocaleDateString('en-US
   <div class="container-content">
     <FTCDisclosure placement="inline" />
   </div>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": frontmatter.title,
+  "description": frontmatter.description,
+  "datePublished": frontmatter.pubDate instanceof Date ? frontmatter.pubDate.toISOString().split("T")[0] : String(frontmatter.pubDate),
+  "dateModified": frontmatter.dateModified instanceof Date ? frontmatter.dateModified.toISOString().split("T")[0] : (frontmatter.pubDate instanceof Date ? frontmatter.pubDate.toISOString().split("T")[0] : String(frontmatter.pubDate)),
+  "author": {
+    "@type": "Person",
+    "name": frontmatter.author === "Jenice" ? "Jenice Murray" : "Scott James Murray",
+    "url": "https://discovermore.travel"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Discover More Travel",
+    "url": "https://discovermore.travel",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${Astro.site}favicon.svg`
+    }
+  },
+  "image": frontmatter.heroImage ? new URL(frontmatter.heroImage, Astro.site).href : `${Astro.site}og-default.jpg`,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": new URL(Astro.url.pathname, Astro.site).href
+  }
+})} />
 </BaseLayout>
 
 <!-- Scroll Reveal -->

@@ -2,6 +2,7 @@
 title: "North vs South Vietnam: Which Half Should You Visit First?"
 description: "An honest comparison of Hanoi vs Ho Chi Minh City, northern vs southern travel culture, and how to decide where to start your Vietnam trip."
 pubDate: 2026-03-08
+dateModified: 2026-03-08
 category: "planning"
 author: "Scott Murray"
 tags: ["planning", "vietnam", "hanoi", "ho-chi-minh-city"]
