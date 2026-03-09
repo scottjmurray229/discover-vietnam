@@ -1,6 +1,8 @@
 ---
 // PackingFilters.astro — Duration / Season / Travel Style dropdowns
 // No dependencies. Emits change events for PackingList JS to handle.
+import { SITE_CONFIG } from '../data/packing-list';
+const { seasons, activities } = SITE_CONFIG;
 ---
 
 <div class="packing-filters" data-filters>
@@ -19,9 +21,7 @@
     <div class="packing-filter-group">
       <label class="packing-filter-label" for="filter-season">Season</label>
       <select class="packing-filter-select" id="filter-season" data-filter="season">
-        <option value="dry">Dry Season (Nov–May)</option>
-        <option value="rainy">Rainy / Typhoon (Jun–Oct)</option>
-        <option value="shoulder">Shoulder Season</option>
+        {seasons.map(s => <option value={s.value}>{s.label}</option>)}
       </select>
     </div>
 
@@ -41,14 +41,9 @@
   <div class="packing-activity-filters">
     <span class="packing-filter-label">Activities</span>
     <div class="packing-activity-chips" data-activity-chips>
-      <button class="activity-chip" type="button" data-activity="snorkeling">🤿 Snorkeling</button>
-      <button class="activity-chip" type="button" data-activity="diving">🐟 Diving</button>
-      <button class="activity-chip" type="button" data-activity="hiking">🥾 Hiking</button>
-      <button class="activity-chip" type="button" data-activity="surfing">🏄 Surfing</button>
-      <button class="activity-chip" type="button" data-activity="temples">🛕 Temples</button>
-      <button class="activity-chip" type="button" data-activity="photography">📸 Photography</button>
-      <button class="activity-chip" type="button" data-activity="nightlife">🍹 Nightlife</button>
-      <button class="activity-chip" type="button" data-activity="camping">⛺ Camping</button>
+      {activities.map(a => (
+        <button class="activity-chip" type="button" data-activity={a.value}>{a.icon} {a.label}</button>
+      ))}
     </div>
   </div>
 </div>
