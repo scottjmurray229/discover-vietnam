@@ -1,0 +1,81 @@
+---
+interface Props {
+  destinationName: string;
+  currency: string;
+  plugType: string;
+  language: string;
+  bestTime: string;
+  visaInfo?: string;
+  timeZone?: string;
+  emergencyNumber?: string;
+}
+
+const { destinationName, currency, plugType, language, bestTime, visaInfo, timeZone, emergencyNumber } = Astro.props;
+
+const facts = [
+  { label: 'Currency', value: currency },
+  { label: 'Power Plugs', value: plugType },
+  { label: 'Primary Language', value: language },
+  { label: 'Best Time to Visit', value: bestTime },
+  ...(visaInfo ? [{ label: 'Visa', value: visaInfo }] : []),
+  ...(timeZone ? [{ label: 'Time Zone', value: timeZone }] : []),
+  ...(emergencyNumber ? [{ label: 'Emergency', value: emergencyNumber }] : []),
+];
+---
+
+<section class="aeo-facts" aria-label={`${destinationName} travel facts`}>
+  <h3 class="aeo-facts-heading">What should you know before visiting {destinationName}?</h3>
+  <dl class="aeo-facts-grid">
+    {facts.map(({ label, value }) => (
+      <div class="aeo-facts-item">
+        <dt class="aeo-facts-label">{label}</dt>
+        <dd class="aeo-facts-value">{value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "TouristDestination",
+  "name": destinationName,
+  "description": `Essential travel facts for ${destinationName}`,
+  "touristType": "Leisure traveler",
+})} />
+
+<style>
+  .aeo-facts {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  .aeo-facts-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: rgba(255,255,255,0.9);
+  }
+  .aeo-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+  .aeo-facts-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .aeo-facts-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+  }
+  .aeo-facts-value {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+</style>

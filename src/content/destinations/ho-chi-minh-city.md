@@ -3,6 +3,14 @@ title: "Ho Chi Minh City"
 description: "A complete travel guide to Ho Chi Minh City (Saigon), Vietnam's electric southern metropolis where skyscrapers tower over ancient pagodas, street food sizzles on every corner, and the energy never stops."
 heroVideo: ''
 heroImage: ''
+aeoFacts:
+  currency: "VND (Vietnamese Dong)"
+  plugType: "A/C, 220V"
+  language: "Vietnamese (English in tourist areas)"
+  bestTime: "November–April (south) or April–June, Sep–Dec (north)"
+  visaInfo: "30–45 day e-Visa for most nationalities"
+  timeZone: "UTC+7 (Indochina Time)"
+  emergencyNumber: "113 (police), 114 (fire), 115 (ambulance)"
 heroAlt: "Ben Thanh Market clock facade and Reunification Palace, Ho Chi Minh City, Vietnam"
 tagline: "The City That Never Sleeps"
 region: 'south'

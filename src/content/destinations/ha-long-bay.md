@@ -3,6 +3,14 @@ title: "Ha Long Bay"
 description: "A complete travel guide to Ha Long Bay, Vietnam's crown jewel of natural beauty where thousands of limestone karsts rise from emerald waters, creating one of the most awe-inspiring seascapes on Earth."
 heroVideo: ''
 heroImage: ''
+aeoFacts:
+  currency: "VND (Vietnamese Dong)"
+  plugType: "A/C, 220V"
+  language: "Vietnamese (English in tourist areas)"
+  bestTime: "November–April (south) or April–June, Sep–Dec (north)"
+  visaInfo: "30–45 day e-Visa for most nationalities"
+  timeZone: "UTC+7 (Indochina Time)"
+  emergencyNumber: "113 (police), 114 (fire), 115 (ambulance)"
 heroAlt: "Limestone karst islands and emerald water of Ha Long Bay at sunrise, Vietnam"
 tagline: "Where Dragons Descended"
 region: 'north'

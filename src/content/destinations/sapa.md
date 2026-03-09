@@ -3,6 +3,14 @@ title: "Sapa"
 description: "A complete travel guide to Sapa, the misty mountain town in Vietnam's far north where terraced rice paddies cascade down valleys, ethnic minority villages dot the hillsides, and the air is cool and clean."
 heroVideo: ''
 heroImage: ''
+aeoFacts:
+  currency: "VND (Vietnamese Dong)"
+  plugType: "A/C, 220V"
+  language: "Vietnamese (English in tourist areas)"
+  bestTime: "November–April (south) or April–June, Sep–Dec (north)"
+  visaInfo: "30–45 day e-Visa for most nationalities"
+  timeZone: "UTC+7 (Indochina Time)"
+  emergencyNumber: "113 (police), 114 (fire), 115 (ambulance)"
 heroAlt: "Fansipan cable car and Muong Hoa Valley terraced rice fields in fog, Sapa, Vietnam"
 tagline: "Terraces in the Clouds"
 region: 'north'
