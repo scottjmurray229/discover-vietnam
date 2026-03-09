@@ -135,6 +135,22 @@ const gradientVar = `var(--gradient-${gradientKey}, var(--gradient-homepage))`;
   breadcrumbs={breadcrumbs}
   locale={locale}
 >
+  {frontmatter.heroVideo && (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": `${frontmatter.title} Travel Guide`,
+      "description": frontmatter.description || `Explore ${frontmatter.title} with immersive video from the Discover More Travel Network`,
+      "thumbnailUrl": frontmatter.heroImage ? new URL(frontmatter.heroImage, Astro.site).href : new URL('og-default.jpg', Astro.site).href,
+      "uploadDate": "2026-01-01",
+      "contentUrl": new URL(frontmatter.heroVideo, Astro.site).href,
+      "publisher": {
+        "@type": "Organization",
+        "name": "Discover More Travel",
+        "url": "https://discovermore.travel"
+      }
+    })} />
+  )}
   <!-- Hero Section — 100vh cinematic -->
   <header class="dest-hero">
     {frontmatter.heroVideo ? (
