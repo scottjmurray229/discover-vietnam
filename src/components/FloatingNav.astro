@@ -1,5 +1,4 @@
 ---
-import LanguageSwitcher from './LanguageSwitcher.astro';
 
 const currentPath = Astro.url.pathname;
 
@@ -76,8 +75,6 @@ const isGuidesActive = (p: string) =>
       </svg>
     </button>
 
-    <!-- Language Switcher (desktop) -->
-    <LanguageSwitcher />
 
     <!-- Trip Companion CTA (desktop ≥1024px) -->
     <a href="/companion/" class="companion-cta">Trip Companion</a>
@@ -121,9 +118,6 @@ const isGuidesActive = (p: string) =>
     >
       Trip Companion
     </a>
-    <div class="dropdown-lang-row">
-      <LanguageSwitcher />
-    </div>
     <div class="dropdown-divider"></div>
     <div class="dropdown-section-label">Discover</div>
     {guideLinks.map((g) => (
@@ -196,9 +190,6 @@ const isGuidesActive = (p: string) =>
       <span class="mobile-guides-icon">🧭</span>
       <span>Trip Companion</span>
     </a>
-    <div class="mobile-guides-lang">
-      <LanguageSwitcher />
-    </div>
   </div>
 </nav>
 
