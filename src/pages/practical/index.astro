@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import FAQ from '../../components/FAQ.astro';
+import GearRecommendations from '../../components/GearRecommendations.astro';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -247,6 +248,13 @@ const topics: TopicSection[] = [
   </div>
 
   <!-- Bottom CTA -->
+
+  <section class="prac-gear-section reveal">
+    <div class="container-content">
+      <h2 class="prac-gear-heading">Gear We Recommend</h2>
+      <GearRecommendations />
+    </div>
+  </section>
   <section class="prac-cta-section reveal">
     <div class="container-content">
       <div class="prac-cta-card">

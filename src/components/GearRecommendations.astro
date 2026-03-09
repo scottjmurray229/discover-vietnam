@@ -4,7 +4,7 @@
 // Usage: <GearRecommendations destination="Siquijor" />
 // Falls back to Philippines defaults if no destination prop.
 
-import { PHILIPPINES_GEAR_RECOMMENDATIONS, PHILIPPINES_CONFIG } from '../data/packing-list';
+import { SITE_CONFIG } from '../data/packing-list';
 
 export interface Props {
   destination?: string;
@@ -12,12 +12,12 @@ export interface Props {
 }
 
 const {
-  destination = PHILIPPINES_CONFIG.destination,
+  destination = SITE_CONFIG.destination,
   maxItems = 5,
 } = Astro.props;
 
-const items = PHILIPPINES_GEAR_RECOMMENDATIONS.slice(0, maxItems);
-const affiliateTag = PHILIPPINES_CONFIG.affiliateTag;
+const items = SITE_CONFIG.gearRecommendations.slice(0, maxItems);
+const affiliateTag = SITE_CONFIG.affiliateTag;
 ---
 
 <div class="gear-rec">
