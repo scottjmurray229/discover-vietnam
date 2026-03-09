@@ -51,7 +51,7 @@ const gmapMarkers = geoMarkers.map(m => {
   };
 });
 // Show all destinations that exist in the collection
-const featuredSlugs = ['hanoi', 'ho-chi-minh-city', 'da-nang', 'hoi-an', 'hue', 'ha-long-bay', 'sapa', 'nha-trang', 'phu-quoc', 'dalat', 'ninh-binh', 'mui-ne', 'can-tho'];
+const featuredSlugs = ['hanoi', 'ho-chi-minh-city', 'da-nang', 'hoi-an', 'hue', 'ha-long-bay', 'sapa', 'nha-trang', 'phu-quoc', 'dalat', 'ninh-binh', 'mui-ne', 'can-tho', 'ha-giang', 'quy-nhon', 'con-dao'];
 
 // Content pillar links
 const pillarLinks = [
@@ -161,26 +161,28 @@ import NetworkCrossLinks from '../components/NetworkCrossLinks.astro';
         <!-- REGION CARDS -->
         <div class="hp-region-cards">
           <div class="hp-region-card" data-region="north">
-            <div class="hp-region-card-header"><div class="hp-region-card-name">Northern Vietnam</div><div class="hp-region-card-count">4 destinations</div></div>
+            <div class="hp-region-card-header"><div class="hp-region-card-name">Northern Vietnam</div><div class="hp-region-card-count">5 destinations</div></div>
             <p class="hp-region-card-desc">Ancient capital, misty mountains, and dramatic karst landscapes. Hanoi's street food alone is worth the flight.</p>
             <div class="hp-region-tags">
               <a class="hp-dest-chip" href="/destinations/hanoi/">Hanoi</a>
               <a class="hp-dest-chip" href="/destinations/ha-long-bay/">Ha Long Bay</a>
               <a class="hp-dest-chip" href="/destinations/sapa/">Sapa</a>
               <a class="hp-dest-chip" href="/destinations/ninh-binh/">Ninh Binh</a>
+              <a class="hp-dest-chip" href="/destinations/ha-giang/">Ha Giang</a>
             </div>
           </div>
           <div class="hp-region-card" data-region="central">
-            <div class="hp-region-card-header"><div class="hp-region-card-name">Central Vietnam</div><div class="hp-region-card-count">3 destinations</div></div>
+            <div class="hp-region-card-header"><div class="hp-region-card-name">Central Vietnam</div><div class="hp-region-card-count">4 destinations</div></div>
             <p class="hp-region-card-desc">Imperial citadels, lantern-lit ancient towns, and golden beaches. The cultural heart of Vietnam.</p>
             <div class="hp-region-tags">
               <a class="hp-dest-chip" href="/destinations/hue/">Hue</a>
               <a class="hp-dest-chip" href="/destinations/da-nang/">Da Nang</a>
               <a class="hp-dest-chip" href="/destinations/hoi-an/">Hoi An</a>
+              <a class="hp-dest-chip" href="/destinations/quy-nhon/">Quy Nhon</a>
             </div>
           </div>
           <div class="hp-region-card" data-region="south">
-            <div class="hp-region-card-header"><div class="hp-region-card-name">Southern Vietnam</div><div class="hp-region-card-count">6 destinations</div></div>
+            <div class="hp-region-card-header"><div class="hp-region-card-name">Southern Vietnam</div><div class="hp-region-card-count">7 destinations</div></div>
             <p class="hp-region-card-desc">Buzzing megacity, floating markets, highland retreats, and island beaches. Where Vietnam's energy is most electric.</p>
             <div class="hp-region-tags">
               <a class="hp-dest-chip" href="/destinations/ho-chi-minh-city/">Ho Chi Minh City</a>
@@ -189,6 +191,7 @@ import NetworkCrossLinks from '../components/NetworkCrossLinks.astro';
               <a class="hp-dest-chip" href="/destinations/phu-quoc/">Phu Quoc</a>
               <a class="hp-dest-chip" href="/destinations/mui-ne/">Mui Ne</a>
               <a class="hp-dest-chip" href="/destinations/can-tho/">Can Tho</a>
+              <a class="hp-dest-chip" href="/destinations/con-dao/">Con Dao</a>
             </div>
           </div>
         </div>
