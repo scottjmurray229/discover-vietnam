@@ -66,7 +66,7 @@ export default function MapTab({ tripData, selectedDay, onSelectDay }: MapTabPro
     if (!mapInstance.current) {
       mapInstance.current = new google.maps.Map(mapRef.current, {
         zoom: 7,
-        center: { lat: 11.0, lng: 122.0 },
+        center: { lat: 16.0, lng: 107.0 },
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: false,
