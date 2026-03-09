@@ -245,6 +245,19 @@ const gradientVar = `var(--gradient-${gradientKey}, var(--gradient-homepage))`;
     <slot />
   </article>
 
+  {frontmatter.aeoFacts && (
+    <AEOQuickFacts
+      destinationName={frontmatter.title}
+      currency={frontmatter.aeoFacts.currency}
+      plugType={frontmatter.aeoFacts.plugType}
+      language={frontmatter.aeoFacts.language}
+      bestTime={frontmatter.aeoFacts.bestTime}
+      visaInfo={frontmatter.aeoFacts.visaInfo}
+      timeZone={frontmatter.aeoFacts.timeZone}
+      emergencyNumber={frontmatter.aeoFacts.emergencyNumber}
+    />
+  )}
+
   <!-- Inline Affiliate Picks Data (for client-side injection) -->
   {frontmatter.affiliatePicks && frontmatter.affiliatePicks.length > 0 && (
     <script type="application/json" id="inlinePicksData" set:html={JSON.stringify(
