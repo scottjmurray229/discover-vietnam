@@ -19,8 +19,7 @@ ${withVideo.map(d => `  <url>
       <video:description>${escapeXml(d.data.description || `Explore ${d.data.title}`)}</video:description>
       <video:content_loc>${siteUrl}${d.data.heroVideo.replace(/^\//, '')}</video:content_loc>
     </video:video>
-  </url>`).join('
-')}
+  </url>`).join('\n')}
 </urlset>`;
 
   return new Response(xml, {
