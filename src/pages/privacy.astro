@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How we collect, use, and protect your data."
+>
+  <main class="legal-page">
+    <div class="legal-container">
+      <h1>Privacy Policy</h1>
+      <p class="last-updated">Last updated: March 9, 2026</p>
+      <h2>What Data We Collect</h2>
+      <p>When you use this site, we may collect:</p>
+      <ul>
+        <li><strong>Email address</strong> — only if you voluntarily subscribe to our newsletter or use the AI Trip Planner with email verification</li>
+        <li><strong>Usage analytics</strong> — pages visited, AI Trip Planner queries (with IP addresses hashed for privacy)</li>
+        <li><strong>Cookies</strong> — only after you consent via our cookie banner. We use Google Analytics (GA4) for understanding traffic patterns. Cloudflare Web Analytics runs without cookies.</li>
+      </ul>
+      <h2>How We Use Your Data</h2>
+      <ul>
+        <li>Email addresses: to send travel content you requested. We never sell or share your email.</li>
+        <li>Usage analytics: to improve our content and understand which destinations are most helpful</li>
+        <li>AI Trip Planner data: to generate your custom itinerary. Your queries are not stored long-term.</li>
+      </ul>
+      <h2>Data Retention</h2>
+      <ul>
+        <li>Email addresses: retained until you unsubscribe</li>
+        <li>Usage analytics: automatically purged after 90 days</li>
+        <li>IP addresses: hashed before storage — we never store raw IP addresses</li>
+      </ul>
+      <h2>Your Rights</h2>
+      <p>You have the right to request a copy of your data, request deletion, unsubscribe from emails at any time, or decline cookies. Email <strong>scottjmurray@gmail.com</strong> to exercise these rights.</p>
+      <h2>Third-Party Services</h2>
+      <ul>
+        <li><strong>Cloudflare</strong> — hosting and CDN (<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">their privacy policy</a>)</li>
+        <li><strong>Google Analytics</strong> — traffic analytics, consent-gated (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">their privacy policy</a>)</li>
+        <li><strong>Resend</strong> — email delivery (<a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">their privacy policy</a>)</li>
+        <li><strong>Anthropic (Claude)</strong> — AI Trip Planner (<a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">their privacy policy</a>)</li>
+      </ul>
+      <h2>Affiliate Links</h2>
+      <p>This site contains affiliate links. See our <a href="/disclosure/">Affiliate Disclosure</a> for details.</p>
+      <h2>Contact</h2>
+      <p>Scott Murray — <strong>scottjmurray@gmail.com</strong></p>
+    </div>
+  </main>
+</BaseLayout>
+<style>
+  .legal-page { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .legal-container h1 { margin-bottom: 0.5rem; }
+  .last-updated { color: var(--text-mid, #888); font-size: 0.9rem; margin-bottom: 2rem; }
+  .legal-container h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .legal-container ul { margin-bottom: 1rem; padding-left: 1.5rem; }
+  .legal-container li { margin-bottom: 0.5rem; line-height: 1.6; }
+  .legal-container p { line-height: 1.6; margin-bottom: 1rem; }
+  .legal-container a { color: var(--teal, #0D7377); }
+</style>
