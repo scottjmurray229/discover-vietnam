@@ -96,7 +96,7 @@ affiliatePicks:
     type: "hotel"
     price: "$100-$180/night"
     personalNote: "Perched on a hilltop with panoramic views of the Hoang Lien mountain range, this eco-lodge is the most spectacularly located accommodation I stayed at in Vietnam. The infinity pool overlooking the valley is unreal."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=sapa"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=sapa"
   - name: "Fansipan Cable Car & Summit Experience"
     type: "activity"
     price: "$35-$45/person"

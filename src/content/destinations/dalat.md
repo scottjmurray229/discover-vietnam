@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 18
   midRange: 45
   luxury: 120
-gettingThere: "Lien Khuong Airport (DLI) is 30 kilometers south of Da Lat with daily domestic flights from Hanoi and Ho Chi Minh City, or reach the city by scenic mountain bus from the coast."
+gettingThere: "Lien Khuong Airport (DLI) is 30 kilometers south of Da Lat with daily domestic flights from Hanoi and Ho Chi Minh City, or reach the city by scenic mountain bus from the coast. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "🌡️"
     label: "Climate"
@@ -88,7 +88,7 @@ affiliatePicks:
     type: "hotel"
     price: "$80–150/night"
     personalNote: "A 1922 French colonial hotel overlooking Xuan Huong Lake — the most atmospheric stay in Da Lat. The grounds, the vintage interiors, and the lake views justify the price. Request a lake-facing room."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=dalat"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=dalat"
   - name: "Da Lat Easy Rider Highland Tour"
     type: "tour"
     price: "$20–35/day"

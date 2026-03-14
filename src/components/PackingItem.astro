@@ -27,14 +27,19 @@ const {
   affiliateTag = 'discoverphili-20',
   amazonAsin,
   amazonSearchFallback,
+  affiliateUrl,
+  affiliatePartner,
   seasons,
 } = Astro.props;
 
-const amazonUrl = amazonAsin
+const linkUrl = affiliateUrl
+  ? affiliateUrl
+  : amazonAsin
   ? `https://www.amazon.com/dp/${amazonAsin}?tag=${affiliateTag}`
   : amazonSearchFallback
   ? `https://www.amazon.com/s?k=${amazonSearchFallback}&tag=${affiliateTag}`
   : null;
+const linkText = affiliatePartner ? `Buy on ${affiliatePartner} →` : 'Buy on Amazon →';
 ---
 
 <div
@@ -63,9 +68,9 @@ const amazonUrl = amazonAsin
     <p class="packing-item-local" data-local>💡 {localAlternative}</p>
   )}
 
-  {amazonUrl && (
+  {linkUrl && (
     <a
-      href={amazonUrl}
+      href={linkUrl}
       class="packing-item-buy"
       target="_blank"
       rel="noopener noreferrer sponsored"
@@ -73,7 +78,7 @@ const amazonUrl = amazonAsin
       style="display:none"
     >
       {affiliatePrice && <span class="packing-item-price">{affiliatePrice}</span>}
-      Buy on Amazon →
+      {linkText}
     </a>
   )}
 </div>

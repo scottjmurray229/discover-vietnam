@@ -379,12 +379,10 @@ const gradientVar = `var(--gradient-${gradientKey}, var(--gradient-homepage))`;
   </div>
 
   <!-- Affiliate Picks — Book Your Trip -->
-  {frontmatter.affiliatePicks && frontmatter.affiliatePicks.length > 0 && (
-    <CompleteTripFooter
+  <CompleteTripFooter
       destination={frontmatter.title}
-      picks={frontmatter.affiliatePicks}
+      slug={destSlug}
     />
-  )}
 
   <!-- Explore More Guides — Content Pillar Cross-Links -->
   <section class="dest-pillars reveal">

@@ -89,7 +89,7 @@ affiliatePicks:
     type: "hotel"
     price: "$40–80/night"
     personalNote: "The best-located mid-range option in Tam Coc — rooms with rice paddy and karst views, a pool, bicycle rentals, and a breakfast that makes you want to stay longer. Walking distance to the Tam Coc boat wharf."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=ninh+binh"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=ninh+binh"
   - name: "Trang An UNESCO Boat Tour"
     type: "tour"
     price: "$8/person (official ticket)"

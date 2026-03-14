@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 20
   midRange: 50
   luxury: 130
-gettingThere: "Da Nang International Airport (DAD) is just 3 km from the city center, with taxis costing around 80,000 VND ($3.20) or Grab rides for as little as 50,000 VND ($2)."
+gettingThere: "Da Nang International Airport (DAD) is just 3 km from the city center, with taxis costing around 80,000 VND ($3.20) or Grab rides for as little as 50,000 VND ($2). <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "💰"
     label: "Currency"
@@ -71,7 +71,7 @@ affiliatePicks:
     type: "hotel"
     price: "$80–150/night"
     personalNote: "Beachfront on My Khe with a spectacular pool right on the sand. If you're splurging anywhere in Da Nang, this is where. The beach access alone is worth it."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=da+nang"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=da+nang"
   - name: "Marble Mountains & Hoi An Day Tour"
     type: "tour"
     price: "$25–40/person"

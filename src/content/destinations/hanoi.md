@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 15
   midRange: 50
   luxury: 200
-gettingThere: "Noi Bai International Airport (HAN) is the main gateway, located 25km north of the city center. Airport buses (86 Express) run every 30 minutes for 45,000 VND ($2). Grab rides cost around 250,000-350,000 VND ($10-$14). The city is also a hub for trains connecting to Sapa, Hue, and Ho Chi Minh City via the Reunification Express."
+gettingThere: "Noi Bai International Airport (HAN) is the main gateway, located 25km north of the city center. Airport buses (86 Express) run every 30 minutes for 45,000 VND ($2). Grab rides cost around 250,000-350,000 VND ($10-$14). The city is also a hub for trains connecting to Sapa, Hue, and Ho Chi Minh City via the Reunification Express. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "clock"
     label: "Best Time to Visit"
@@ -92,7 +92,7 @@ affiliatePicks:
     type: "hotel"
     price: "$80-$140/night"
     personalNote: "My go-to mid-range pick in the Old Quarter. The rooftop bar has stunning views over the city, and the breakfast spread features both Vietnamese and Western options. Staff went above and beyond every single time."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=hanoi"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=hanoi"
   - name: "Hanoi Street Food Tour"
     type: "tour"
     price: "$25-$35/person"

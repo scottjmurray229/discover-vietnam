@@ -24,7 +24,7 @@ budgetPerDay:
   backpacker: 15
   midRange: 40
   luxury: 120
-gettingThere: "Phu Cat Airport (UIH) is 30km from Quy Nhon and has direct flights from Hanoi and Ho Chi Minh City on Vietnam Airlines and VietJet. The train from Danang takes 3.5 hours on the Reunification Express — one of the finest coastal train routes in Asia."
+gettingThere: "Phu Cat Airport (UIH) is 30km from Quy Nhon and has direct flights from Hanoi and Ho Chi Minh City on Vietnam Airlines and VietJet. The train from Danang takes 3.5 hours on the Reunification Express — one of the finest coastal train routes in Asia. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "✈️"
     label: "Getting There"
@@ -76,7 +76,7 @@ affiliatePicks:
     type: hotel
     price: "$60-120/night"
     personalNote: "The best hotel on the bay — bungalows on the water with direct beach access and a pool that looks out over the South China Sea. The restaurant does outstanding local seafood. A genuinely special property in a city that still has fair prices."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=quy+nhon"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=quy%20nhon"
   - name: "Motorbike Day Tour — Cham Towers and Eo Gio"
     type: tour
     price: "$15-25/person"

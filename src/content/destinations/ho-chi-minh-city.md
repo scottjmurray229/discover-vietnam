@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 15
   midRange: 50
   luxury: 180
-gettingThere: "Tan Son Nhat International Airport (SGN) is Vietnam's busiest, located just 7km from the city center. Grab rides to District 1 cost 80,000-150,000 VND ($3-$6). Bus 109 runs to the center for 20,000 VND ($0.80). The city is the southern terminus of the Reunification Express train and a hub for buses to the Mekong Delta, Mui Ne, and Da Lat."
+gettingThere: "Tan Son Nhat International Airport (SGN) is Vietnam's busiest, located just 7km from the city center. Grab rides to District 1 cost 80,000-150,000 VND ($3-$6). Bus 109 runs to the center for 20,000 VND ($0.80). The city is the southern terminus of the Reunification Express train and a hub for buses to the Mekong Delta, Mui Ne, and Da Lat. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "clock"
     label: "Best Time to Visit"
@@ -92,7 +92,7 @@ affiliatePicks:
     type: "hotel"
     price: "$60-$100/night"
     personalNote: "Central District 1 location, rooftop pool with views of the city, solid breakfast buffet. I used this as my base for a week and the location alone made it worth every dong."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=ho-chi-minh-city"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=ho-chi-minh-city"
   - name: "Cu Chi Tunnels Small Group Tour"
     type: "tour"
     price: "$30-$50/person"

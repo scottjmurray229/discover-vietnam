@@ -5,6 +5,36 @@ export const VIETNAM_ESSENTIALS: PackingItem[] = [
   { id: 'vn-rain', name: 'Lightweight Rain Jacket', category: 'destination', description: 'Vietnam has two monsoon seasons depending on region. The north (Hanoi, Sapa) gets rain May–September; the south (Ho Chi Minh City, Mekong) gets rain June–November; central Vietnam (Hoi An) gets heavy rain October–December. A packable rain jacket is essential year-round somewhere in Vietnam.', essential: true, amazonSearchFallback: 'packable+rain+jacket+lightweight+travel', affiliatePrice: '$35–75' },
   { id: 'vn-cash', name: 'Vietnamese Dong (VND) Cash', category: 'destination', description: 'Vietnam is still largely cash-based outside major hotels. Street food, markets, motorbike rentals, and rural guesthouses are cash-only. Vietcombank and BIDV ATMs have the best rates. Withdraw large amounts — fees apply per transaction. Carry small denominations for street food (₫20,000–50,000).', essential: true, amazonSearchFallback: 'travel+money+belt+rfid+slim', affiliatePrice: '$15–25' },
   { id: 'vn-mosquito', name: 'DEET Mosquito Repellent', category: 'destination', description: 'Dengue fever is endemic in Vietnam and transmitted by day-biting mosquitoes. The Mekong Delta, Phu Quoc, and rural areas have the highest risk. DEET 30%+ is recommended. Apply before outdoor activities — not just at night. Vietnamese brands exist but quality varies; bring a reliable brand from home.', essential: true, amazonSearchFallback: 'deet+mosquito+repellent+30+percent+travel', affiliatePrice: '$8–18' },
+  {
+    id: 'vpn-subscription',
+    name: 'VPN Subscription',
+    category: 'electronics',
+    description: 'Secure your data on public WiFi — essential for hotel, airport, and cafe networks abroad.',
+    essential: false,
+    affiliateUrl: 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=142311&url_id=902',
+    affiliatePrice: '~$3/month',
+    affiliatePartner: 'NordVPN',
+  },
+  {
+    id: 'action-camera',
+    name: 'Waterproof Action Camera',
+    category: 'gear',
+    description: 'Capture snorkeling, diving, and beach adventures hands-free.',
+    essential: false,
+    affiliateUrl: 'https://www.insta360.com/sal/go-ultra?utm_source=AffiliateCenter&utm_medium=copylink&utm_term=INRSG7H5RTR',
+    affiliatePrice: '~$299',
+    affiliatePartner: 'Insta360',
+  },
+  {
+    id: 'phone-gimbal',
+    name: 'Phone Gimbal for Travel Vlogging',
+    category: 'electronics',
+    description: 'Stabilized video from your phone — no editing needed.',
+    essential: false,
+    affiliateUrl: 'https://www.insta360.com/sal/flow-2-pro?utm_source=AffiliateCenter&utm_medium=copylink&utm_term=INRSG7H5RTR',
+    affiliatePrice: '~$149',
+    affiliatePartner: 'Insta360',
+  },
 ];
 
 export const VIETNAM_GEAR_RECOMMENDATIONS: GearRecommendation[] = [

@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 18
   midRange: 45
   luxury: 120
-gettingThere: "Phu Bai International Airport (HUI) is 15 km south of the city, with taxis costing around 200,000 VND ($8) or hotel shuttles available for 100,000 VND ($4)."
+gettingThere: "Phu Bai International Airport (HUI) is 15 km south of the city, with taxis costing around 200,000 VND ($8) or hotel shuttles available for 100,000 VND ($4). <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "💰"
     label: "Currency"
@@ -71,7 +71,7 @@ affiliatePicks:
     type: "hotel"
     price: "$90–180/night"
     personalNote: "Former governor's residence on the Perfume River — the most atmospheric stay in Hue. The pool overlooks the river, the restaurant serves excellent Vietnamese and French cuisine, and the history embedded in the walls adds to every moment."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=hue"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=hue"
   - name: "Imperial City & Royal Tombs Day Tour"
     type: "tour"
     price: "$25–40/person"

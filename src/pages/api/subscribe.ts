@@ -46,6 +46,19 @@ function buildWelcomeEmail(guideName: string): string {
         <p style="color:#4A5568;font-size:15px;line-height:1.65;margin:0 0 24px;">
           In the meantime, start exploring:
         </p>
+        <h3 style="margin-top:24px;margin-bottom:8px;font-size:16px;">&#127968; Where to Stay</h3>
+        <p style="color:#4a4a5e;margin-bottom:12px;font-size:15px;">
+          I use Hotels.com for Vietnam &#8212; earn a free night after every 10 stays.
+          The rewards add up fast if you travel even a couple times a year.
+        </p>
+        <div style="text-align:center;margin-bottom:20px;">
+          <a href="https://hotels.com/affiliate?camref=1101l5Eohj&creativeref=1011l66481&adref=welcome-email"
+             style="display:inline-block;padding:10px 24px;background:#d32f2f;color:white;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;"
+             target="_blank" rel="noopener sponsored">
+            Browse Vietnam Hotels &rarr;
+          </a>
+        </div>
+
         <div style="text-align:center;margin-bottom:24px;">
           <a href="https://discovervietnam.info/destinations/" style="display:inline-block;background:#0D7377;color:white;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">Browse All Destinations</a>
         </div>

@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 20
   midRange: 55
   luxury: 140
-gettingThere: "Fly into Da Nang International Airport (DAD), then take a 30-minute Grab or taxi to Hoi An for around 200,000-250,000 VND ($8-10)."
+gettingThere: "Fly into Da Nang International Airport (DAD), then take a 30-minute Grab or taxi to Hoi An for around 200,000-250,000 VND ($8-10). <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "💰"
     label: "Currency"
@@ -72,7 +72,7 @@ affiliatePicks:
     type: "hotel"
     price: "$48–90/night"
     personalNote: "Rooms in rice-paddy surroundings with a pool overlooking the fields and free bicycle rental. 10 minutes by bike to the Ancient Town — close enough, far enough from the tourist density. My personal favorite stay in Hoi An."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=hoi+an"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=hoi+an"
   - name: "Hoi An Cooking Class with Market Tour"
     type: "tour"
     price: "$24–40/person"

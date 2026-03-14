@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 18
   midRange: 45
   luxury: 120
-gettingThere: "Mui Ne is a 4.5-hour drive east of Ho Chi Minh City by bus or private car, with no airport — most visitors arrive by tourist bus, sleeper bus, or private transfer from Saigon."
+gettingThere: "Mui Ne is a 4.5-hour drive east of Ho Chi Minh City by bus or private car, with no airport — most visitors arrive by tourist bus, sleeper bus, or private transfer from Saigon. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "🌡️"
     label: "Best Season"
@@ -89,7 +89,7 @@ affiliatePicks:
     type: "hotel"
     price: "$60–120/night"
     personalNote: "Excellent beachfront resort with a large pool, comfortable bungalows, and one of the best restaurant/bar setups on the strip. Quieter end of the beach, which is a plus."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=mui+ne"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=mui+ne"
   - name: "Mui Ne Sand Dunes Sunrise Jeep Tour"
     type: "tour"
     price: "$15–25/person"

@@ -24,6 +24,8 @@ export interface PackingItem {
   amazonSearchFallback?: string;
   affiliatePrice?: string;
   localAlternative?: string;
+  affiliateUrl?: string;
+  affiliatePartner?: string;
 }
 
 export interface GearRecommendation {

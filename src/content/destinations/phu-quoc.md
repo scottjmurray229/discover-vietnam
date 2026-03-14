@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 25
   midRange: 65
   luxury: 170
-gettingThere: "Phu Quoc International Airport (PQC) receives direct domestic flights from Hanoi and Ho Chi Minh City plus seasonal international routes from several Asian cities."
+gettingThere: "Phu Quoc International Airport (PQC) receives direct domestic flights from Hanoi and Ho Chi Minh City plus seasonal international routes from several Asian cities. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "🌡️"
     label: "Best Season"
@@ -88,7 +88,7 @@ affiliatePicks:
     type: "hotel"
     price: "$80–180/night"
     personalNote: "Long Beach resort with multiple pools, direct beach access, and comfortable rooms at sensible prices for the location. The pool bar at sunset is hard to beat."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=phu+quoc"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=phu+quoc"
   - name: "An Thoi Islands Snorkeling Tour"
     type: "tour"
     price: "$20–35/person"

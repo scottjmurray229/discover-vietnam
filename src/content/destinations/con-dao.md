@@ -24,7 +24,7 @@ budgetPerDay:
   backpacker: 40
   midRange: 100
   luxury: 300
-gettingThere: "Vietnam Airlines and Bamboo Airways fly direct to Con Son (VCS) from Ho Chi Minh City (40 minutes) and Hanoi (2 hours). Flights are the only practical option — ferry from Vung Tau takes 12 hours and is not recommended for tourists."
+gettingThere: "Vietnam Airlines and Bamboo Airways fly direct to Con Son (VCS) from Ho Chi Minh City (40 minutes) and Hanoi (2 hours). Flights are the only practical option — ferry from Vung Tau takes 12 hours and is not recommended for tourists. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "✈️"
     label: "Getting There"
@@ -77,7 +77,7 @@ affiliatePicks:
     price: "$500-1,200/night"
     personalNote: "One of the finest resort properties in Vietnam — beach villas directly on Dam Tre Bay, an extraordinary spa, and service that genuinely earns the price. The kind of place you plan a trip specifically around. Book 3-6 months ahead."
     badge: "Bucket List Stay"
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=six+senses+con+dao"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=six%20senses%20con%20dao"
   - name: "Con Dao National Park Diving Day Trip"
     type: tour
     price: "$70-100/person"

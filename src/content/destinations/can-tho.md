@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 15
   midRange: 40
   luxury: 100
-gettingThere: "Can Tho International Airport (VCA) receives domestic flights from Hanoi and other cities, or reach Can Tho by bus from Ho Chi Minh City in 3 to 3.5 hours."
+gettingThere: "Can Tho International Airport (VCA) receives domestic flights from Hanoi and other cities, or reach Can Tho by bus from Ho Chi Minh City in 3 to 3.5 hours. <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "🌡️"
     label: "Best Season"
@@ -88,7 +88,7 @@ affiliatePicks:
     type: "hotel"
     price: "$30–60/night"
     personalNote: "The best-located mid-range hotel in Can Tho — on the river promenade, walking distance to the night market, and some rooms have Mekong views. Great value for this part of Vietnam."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=can+tho"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=can+tho"
   - name: "Cai Rang Floating Market Boat Tour"
     type: "tour"
     price: "$6–10/person (shared boat)"

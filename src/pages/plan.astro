@@ -454,12 +454,8 @@ const MAPS_KEY = 'AIzaSyDH8mQKwqzyfCrgGZVDdP1-E-346QUiods';
 
     if (type === 'hotel') {
       const hotelName = description.split(/\s+or\s+similar|[.,—]/)[0].replace(/^check\s*into\s*/i, '').trim();
-      const query = hotelName ? hotelName + ' ' + destName : destName + ' Vietnam';
-      let url = `https://www.booking.com/searchresults.html?ss=${enc(query)}&aid=2778866&label=discovervietnam`;
-      if (bp.checkin) url += `&checkin=${bp.checkin}&checkout=${bp.checkout}`;
-      url += `&group_adults=${bp.adults}&no_rooms=1`;
-      if (bp.children > 0) url += `&group_children=${bp.children}`;
-      return url;
+      const query = hotelName ? hotelName + ' ' + destName : destName;
+      return `https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=${encodeURIComponent(query)}`;
     }
     if (type === 'tour') {
       const query = destName + ' ' + description.split(/[.,—]/)[0].trim().slice(0, 40);

@@ -23,7 +23,7 @@ budgetPerDay:
   backpacker: 20
   midRange: 50
   luxury: 100
-gettingThere: "Overnight bus or sleeper from Hanoi to Ha Giang city takes 5-6 hours. Most travellers then rent a motorbike or join an Easy Rider tour for the 4-day Dong Van Loop. No flights — this is a land journey."
+gettingThere: "Overnight bus or sleeper from Hanoi to Ha Giang city takes 5-6 hours. Most travellers then rent a motorbike or join an Easy Rider tour for the 4-day Dong Van Loop. No flights — this is a land journey. [AirAsia](https://airasia.prf.hn/click/camref:1101l5F4ob): AirAsia connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "🛵"
     label: "Getting Around"

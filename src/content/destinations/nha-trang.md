@@ -19,7 +19,7 @@ budgetPerDay:
   backpacker: 15
   midRange: 50
   luxury: 180
-gettingThere: "Cam Ranh International Airport (CXR) is located 35km south of Nha Trang. Airport shuttle buses cost 65,000 VND ($2.60). Grab rides cost 250,000-350,000 VND ($10-$14). Nha Trang is on the Reunification Express train line and connected by bus to Da Lat (3 hours), Ho Chi Minh City (8 hours), and Hoi An (10 hours)."
+gettingThere: "Cam Ranh International Airport (CXR) is located 35km south of Nha Trang. Airport shuttle buses cost 65,000 VND ($2.60). Grab rides cost 250,000-350,000 VND ($10-$14). Nha Trang is on the Reunification Express train line and connected by bus to Da Lat (3 hours), Ho Chi Minh City (8 hours), and Hoi An (10 hours). <a href='https://airasia.prf.hn/click/camref:1101l5F4ob'>AirAsia</a> connects Vietnam with Bangkok and KL — fares from $30."
 essentials:
   - icon: "clock"
     label: "Best Time to Visit"
@@ -97,7 +97,7 @@ affiliatePicks:
     type: "hotel"
     price: "$60-$110/night"
     personalNote: "Beachfront location, reliable quality, and a rooftop pool that overlooks the bay. The breakfast buffet was strong, and the beach is literally across the road."
-    affiliateUrl: "https://www.booking.com/searchresults.html?aid=2778866&label=discovervietnam&ss=nha-trang"
+    affiliateUrl: "https://www.agoda.com/partners/partnersearch.aspx?pcs=1&cid=1959462&hl=en-us&textToSearch=nha-trang"
   - name: "PADI Open Water Diving Course"
     type: "activity"
     price: "$250-$350/person"
