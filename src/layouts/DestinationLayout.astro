@@ -108,6 +108,34 @@ const relatedData = (frontmatter.relatedDestinations || [])
   })
   .filter(Boolean);
 
+// Auto-computed same-region related destinations (fallback when relatedDestinations not set in frontmatter)
+const autoRelatedData = allDestinations
+  .filter((d: any) => !d.id.startsWith('tl/') && d.slug !== Astro.url.pathname.replace(/^\/destinations\//, '').replace(/\/$/, ''))
+  .sort((a: any, b: any) => {
+    const aScore = a.data.region === frontmatter.region ? 0 : 1;
+    const bScore = b.data.region === frontmatter.region ? 0 : 1;
+    return aScore - bScore;
+  })
+  .slice(0, 4)
+  .map((entry: any) => ({
+    slug: entry.slug,
+    title: entry.data.title,
+    tagline: (entry.data.tagline || '') as string,
+    hook: '',
+    videoSrc: (entry.data.heroVideo || '') as string,
+    gradientVar: `var(--gradient-${entry.slug}, var(--gradient-homepage))`,
+    region: entry.data.region
+      ? (entry.data.region as string).charAt(0).toUpperCase() + (entry.data.region as string).slice(1)
+      : '',
+    highlights: ((entry.data.highlights || []) as any[]).slice(0, 3).map((h: any) =>
+      typeof h === 'string' ? h : h.title
+    ),
+    budget: entry.data.budgetPerDay
+      ? `$${(entry.data.budgetPerDay as any).backpacker}–$${(entry.data.budgetPerDay as any).luxury}/day`
+      : '',
+  }));
+const displayRelated = relatedData.length > 0 ? relatedData : autoRelatedData;
+
 // Budget display text
 const budgetText = frontmatter.budgetPerDay
   ? `$${frontmatter.budgetPerDay.backpacker}–$${frontmatter.budgetPerDay.luxury}/day`
@@ -291,13 +319,13 @@ const gradientVar = `var(--gradient-${gradientKey}, var(--gradient-homepage))`;
   )}
 
   <!-- Related Destinations -->
-  {relatedData.length > 0 && (
+  {displayRelated.length > 0 && (
     <section class="dest-related">
       <div class="dest-related-inner">
         <h2>Continue the Journey</h2>
         <p class="dest-related-subtitle">Travelers who love {frontmatter.title} also visit these destinations</p>
         <div class="dest-related-grid">
-          {relatedData.map((dest: any) => (
+          {displayRelated.map((dest: any) => (
             <a class="dest-related-card reveal" href={`/destinations/${dest.slug}/`}>
               <div class="dest-related-card-img" style={`background: ${dest.gradientVar};`}>
                 {dest.videoSrc && (
