@@ -121,7 +121,7 @@ export async function renderDestination(dest, options) {
     slug: dest.slug,
     title: dest.title,
     tagline: dest.tagline || '',
-    region: dest.region || 'Philippines',
+    region: dest.region || 'Vietnam',
     bestMonths: dest.bestMonths || [],
     budgetPerDay: dest.budgetPerDay || { backpacker: 30, midRange: 80, luxury: 200 },
     highlights: (dest.highlights || []).slice(0, 3),

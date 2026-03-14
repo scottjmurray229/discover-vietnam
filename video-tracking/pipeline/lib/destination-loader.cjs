@@ -27,7 +27,7 @@ function loadDestination(projectRoot, slug) {
     title: fm.title || slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
     tagline: fm.tagline || '',
     description: fm.description || '',
-    region: fm.region || 'philippines',
+    region: fm.region || 'vietnam',
     bestMonths: fm.bestMonths || [],
     budgetPerDay: fm.budgetPerDay || { backpacker: 30, midRange: 80, luxury: 200 },
     gettingThere: fm.gettingThere || '',

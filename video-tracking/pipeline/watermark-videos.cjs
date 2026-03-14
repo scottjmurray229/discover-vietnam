@@ -2,7 +2,7 @@
 /**
  * Batch watermark all existing videos in public/videos/
  *
- * Re-encodes each .mp4 with a "discoverphilippines.info" drawtext overlay
+ * Re-encodes each .mp4 with a "discovervietnam.info" drawtext overlay
  * in the bottom-right corner. Writes to a temp file, then replaces the original.
  *
  * Usage:
@@ -84,7 +84,7 @@ function getResolution(filePath) {
 
 // Watermark drawtext filter
 function watermarkFilter(fontsize) {
-  return `drawtext=text='discoverphilippines.info':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
+  return `drawtext=text='discovervietnam.info':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
 }
 
 // Find all mp4 files
@@ -187,7 +187,7 @@ function formatSize(bytes) {
 // Main
 function main() {
   console.log('╔══════════════════════════════════════════════════════════╗');
-  console.log('║   BATCH VIDEO WATERMARK — DISCOVER PHILIPPINES          ║');
+  console.log('║   BATCH VIDEO WATERMARK — DISCOVER MORE TRAVEL          ║');
   console.log('╚══════════════════════════════════════════════════════════╝\n');
 
   const state = loadState();

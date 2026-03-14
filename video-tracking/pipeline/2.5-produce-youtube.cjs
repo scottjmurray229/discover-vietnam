@@ -54,7 +54,7 @@ const ELEVENLABS_API_KEY = config.ELEVENLABS_API_KEY;
 const ELEVENLABS_VOICE_ID = config.ELEVENLABS_VOICE_ID;
 
 console.log('╔══════════════════════════════════════════════════════════╗');
-console.log('║   STEP 2.5: PRODUCE YOUTUBE VIDEOS — DISCOVER PH        ║');
+console.log('║   STEP 2.5: PRODUCE YOUTUBE VIDEOS — VIETNAM            ║');
 console.log('╚══════════════════════════════════════════════════════════╝\n');
 
 // Validate API keys (unless dry run)

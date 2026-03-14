@@ -2,7 +2,7 @@
 /**
  * Batch watermark all existing images in public/images/
  *
- * Uses FFmpeg drawtext to overlay "discoverphilippines.info" on all JPG/PNG images.
+ * Uses FFmpeg drawtext to overlay "discovervietnam.info" on all JPG/PNG images.
  * Skips logo, favicon, and OG default image.
  *
  * Usage:
@@ -89,7 +89,7 @@ function getImageHeight(filePath) {
 
 // Watermark drawtext filter
 function watermarkFilter(fontsize) {
-  return `drawtext=text='discoverphilippines.info':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
+  return `drawtext=text='discovervietnam.info':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
 }
 
 // Recursively find all image files
@@ -178,7 +178,7 @@ function formatSize(bytes) {
 // Main
 function main() {
   console.log('╔══════════════════════════════════════════════════════════╗');
-  console.log('║   BATCH IMAGE WATERMARK — DISCOVER PHILIPPINES          ║');
+  console.log('║   BATCH IMAGE WATERMARK — DISCOVER MORE TRAVEL          ║');
   console.log('╚══════════════════════════════════════════════════════════╝\n');
 
   const state = loadState();

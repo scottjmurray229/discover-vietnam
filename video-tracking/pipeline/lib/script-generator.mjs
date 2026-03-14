@@ -29,7 +29,7 @@ export async function generateScript(dest, { apiKey, outputDir, force = false })
   const highlightNames = dest.highlights.slice(0, 3).map(h => h.title).join(', ');
   const budget = `$${dest.budgetPerDay.backpacker}–$${dest.budgetPerDay.luxury}/day`;
 
-  const prompt = `Write a 60-word narration script for a 30-second YouTube Short about ${dest.title}, Philippines.
+  const prompt = `Write a 60-word narration script for a 30-second YouTube Short about ${dest.title}, Vietnam.
 
 Destination data:
 - Tagline: "${dest.tagline}"
@@ -40,12 +40,12 @@ Destination data:
 Script requirements:
 1. Hook (1 sentence) — grab attention, mention the destination name
 2. Highlights (2-3 sentences) — mention the top activities/attractions by name
-3. CTA (1 sentence) — direct viewers to discoverphilippines.info and subscribe
+3. CTA (1 sentence) — direct viewers to discovervietnam.info and subscribe
 
 Voice: Warm, enthusiastic, conversational. First-person plural ("we discovered..."). No filler words.
 Format: Plain text, no headings or labels. Just the narration script as spoken words.
 IMPORTANT: Keep it under 60 words — this is a 30-second Short.
-IMPORTANT: Write ALL numbers and dollar amounts as full words for text-to-speech. Say "thirty dollars" not "$30". Say "one hundred fifty dollars" not "$150". Say "discover philippines dot info" not "discoverphilippines.info".`;
+IMPORTANT: Write ALL numbers and dollar amounts as full words for text-to-speech. Say "thirty dollars" not "$30". Say "one hundred fifty dollars" not "$150". Say "discover vietnam dot info" not "discovervietnam.info".`;
 
   const client = new Anthropic({ apiKey });
 
