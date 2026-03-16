@@ -62,7 +62,7 @@ fs.mkdirSync(config.PUBLIC_VIDEOS, { recursive: true });
 const FONT_PATH = '/Windows/Fonts/arialbd.ttf';
 function watermarkFilter(fontsize) {
   const text = config.WATERMARK_TEXT || 'discoverflorida.info';
-  return `drawtext=text='${text}':fontsize=${fontsize}:fontcolor=white@0.8:shadowcolor=black@0.6:shadowx=2:shadowy=2:x=w-tw-20:y=h-th-20:fontfile='${FONT_PATH}'`;
+  return `drawtext=text='${text}':fontsize=${fontsize}:fontcolor=white:box=1:boxcolor=black@0.45:boxborderw=10:x=w-tw-30:y=h-th-20:fontfile='${FONT_PATH}'`;
 }
 
 // Video processing profiles
